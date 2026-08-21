@@ -1,14 +1,36 @@
-\documentclass{article}
-\usepackage{graphicx} % Required for inserting images
+\documentclass[11pt,a4paper,twocolumn]{article}
 
-\title{ESA}
-\author{Davide Staub}
-\date{August 2026}
+\input{preamble}
 
 \begin{document}
 
-\maketitle
+\twocolumn[
+\begin{@twocolumnfalse}
+  \begin{center}
+    {\LARGE\bfseries Toward Robust Detector-Level Inference for
+    JWST/NIRISS SOSS Transmission Spectroscopy\par}
+    \vspace{0.8em}
+    {\large Davide Staub\par}
+    \vspace{0.25em}
+    {\normalsize Early Stage Assessment --- August 2026\par}
+  \end{center}
+  \input{sections/00_abstract}
+  \vspace{1.2em}
+\end{@twocolumnfalse}
+]
 
-\section{Introduction}
+\input{sections/01_introduction}
+\input{sections/02_methods}
+\input{sections/03_results}
+\input{sections/04_discussion_future}
+\input{sections/05_conclusions}
+
+\clearpage
+\bibliographystyle{aasjournal}
+\bibliography{references}
+
+\appendix
+\input{appendices/appendix_nova}
+\input{appendices/appendix_benchmarking}
 
 \end{document}
