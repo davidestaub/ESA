@@ -13,12 +13,20 @@
 \usepackage{enumitem}
 \usepackage{placeins}
 \usepackage{balance}
+\usepackage{titlesec}
 \usepackage[colorlinks=true,allcolors=blue!55!black]{hyperref}
 \usepackage[nameinlink,capitalise]{cleveref}
 
 \setlength{\parindent}{1em}
 \setlength{\parskip}{0pt}
 \setlist{nosep,leftmargin=*}
+
+\titleformat{\section}
+  {\normalfont\Large\bfseries\raggedright}
+  {\thesection}{1em}{}
+\titleformat{\subsection}
+  {\normalfont\large\bfseries\raggedright}
+  {\thesubsection}{1em}{}
 
 \newcommand{\nova}{NOVA}
 \newcommand{\jwst}{\textit{JWST}}

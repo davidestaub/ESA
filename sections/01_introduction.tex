@@ -1,28 +1,326 @@
 \section{Introduction}
 \label{sec:introduction}
 
-% Planned narrative:
-% 1. Exoplanet atmospheres and the role of transmission spectroscopy.
-% 2. The precision and interpretive opportunity introduced by JWST.
-% 3. NIRISS/SOSS as a time-series spectroscopic instrument.
-% 4. From detector calibration to extracted spectra and light curves.
-% 5. Evidence that reduction and extraction choices alter inferred spectra.
-% 6. Motivation for detector-level nonlinear inference and fair benchmarks.
-% 7. Research question, objectives, hypotheses, and scope of this ESA.
+\subsection{Exoplanets and atmospheric targets}
+\label{sec:exoplanets-targets}
 
-% This will be the longest section. Synthesise the literature rather than
-% listing pipelines or individual planet analyses.
+% Question: What are exoplanets, and why do we study them?
+% Answer: Exoplanets reveal the diversity of planetary systems and constrain
+% planet formation, migration, evolution, and the conditions associated with
+% potentially habitable environments.
+% Evidence: Foundational discovery papers, occurrence studies, population
+% reviews, and planet-formation literature.
 
-\subsection{Scientific context}
+% Question: What kinds of exoplanets have been discovered?
+% Answer: Exoplanets span a wide range of masses, radii, temperatures, orbital
+% architectures, and bulk compositions, including populations that are not
+% represented in the Solar System.
+% Evidence: Mass-radius distributions, period-radius distributions, and
+% occurrence-rate studies from radial-velocity and transit surveys.
 
-\subsection{JWST time-series spectroscopy}
+% Question: Which planets are most accessible to atmospheric characterisation?
+% Answer: Large and highly irradiated planets generally produce the strongest
+% transmission signals. Hot Jupiters therefore provide useful initial targets
+% for developing and testing atmospheric methods, while smaller and cooler
+% planets remain important longer-term targets.
+% Evidence: Transmission-signal scaling, atmospheric scale-height relations,
+% and the target populations observed with Hubble and JWST.
 
-\subsection{The reduction-dependence problem}
+Exoplanets are planets that orbit stars other than the Sun. Their known
+population spans a wide range of masses, radii, temperatures, and orbital
+architectures, including classes of planet with no direct Solar System
+counterpart. This diversity provides empirical tests of planet formation and
+evolution and places the Solar System in a broader planetary context. Large,
+highly irradiated planets currently provide some of the strongest atmospheric
+signals, making hot Jupiters useful initial targets for developing and testing
+spectroscopic methods.
 
-\subsection{Motivation for detector-level inference}
+\subsection{Atmospheres as probes of planets}
+\label{sec:atmospheres}
+
+% Question: What can an atmosphere reveal about a planet?
+% Answer: Atmospheric composition, temperature, clouds, hazes, chemistry, and
+% escape connect present-day observations to formation history, elemental
+% inventories, climate, and long-term evolution.
+% Evidence: Comparative-planetology reviews, atmospheric retrieval studies,
+% chemical-equilibrium and disequilibrium studies, and escape measurements.
+
+% Question: Why is atmospheric characterisation difficult?
+% Answer: Atmospheric signals are small relative to the stellar and
+% instrumental signals. Their interpretation is also affected by degeneracies
+% between composition, temperature, clouds, stellar contamination, and
+% instrumental systematics.
+% Evidence: Retrieval-degeneracy studies, stellar-contamination literature,
+% instrument-systematics studies, and precision analyses.
+
+A planetary atmosphere contains information that cannot be recovered from mass
+and radius alone. Its composition, temperature, clouds, hazes, chemistry, and
+escape reflect the planet's present environment and its formation and
+evolutionary history. Measuring those properties is difficult because the
+atmospheric contribution is small compared with the stellar and instrumental
+signals, while several atmospheric and stellar effects can produce similar
+spectral signatures.
+
+\subsection{Observing exoplanet atmospheres}
+\label{sec:observing-atmospheres}
+
+% Question: How can the atmosphere of an unresolved exoplanet be observed?
+% Answer: Transit, eclipse, and phase-curve observations isolate
+% wavelength-dependent changes associated with the planet and its atmosphere.
+% Evidence: Foundational transmission, emission, and phase-curve papers.
+
+% Question: How does transmission spectroscopy probe an atmosphere?
+% Answer: Atmospheric opacity changes the effective planetary radius with
+% wavelength. The resulting wavelength-dependent transit depth forms a
+% transmission spectrum.
+% Evidence: Transmission-spectroscopy theory, early atmospheric detections,
+% and standard radiative-transfer treatments.
+
+% Question: What is inferred at each stage of the analysis?
+% Answer: Detector measurements are used to infer a transmission spectrum, and
+% the transmission spectrum is then used to infer atmospheric properties. The
+% spectrum and the atmospheric retrieval are separate inference products.
+% Evidence: Published reduction, light-curve fitting, and atmospheric-retrieval
+% workflows.
+
+Exoplanet atmospheres can be investigated through transmission, emission, and
+phase-curve spectroscopy. This work focuses on transmission spectroscopy, in
+which wavelength-dependent atmospheric opacity changes the effective planetary
+radius measured during transit. The resulting transmission spectrum is an
+inferred data product that can subsequently be interpreted with an atmospheric
+retrieval. Recovering the spectrum and interpreting the atmosphere are separate
+inference problems.
+
+\subsection{From Arecibo to JWST}
+\label{sec:arecibo-to-jwst}
+
+% Question: When were the first confirmed exoplanets discovered?
+% Answer: Pulsar-timing observations made with the Arecibo radio telescope
+% revealed planets orbiting the millisecond pulsar PSR B1257+12 in 1992.
+% Evidence: Wolszczan and Frail (1992).
+
+% Question: Why was the ELODIE discovery of 51 Pegasi b a separate milestone?
+% Answer: It was the first confirmed planet found around a solar-type star and
+% revealed the unexpected hot-Jupiter population.
+% Evidence: Mayor and Queloz (1995).
+
+% Question: What did Hubble add?
+% Answer: Hubble demonstrated that atmospheric absorption could be detected
+% during exoplanet transits and established space-based transmission
+% spectroscopy as a practical method.
+% Evidence: Early Hubble transmission-spectroscopy detections and subsequent
+% atmospheric surveys.
+
+% Question: What did Kepler add?
+% Answer: Kepler transformed individual discoveries into population science by
+% measuring the occurrence and diversity of planetary systems.
+% Evidence: Kepler mission papers and occurrence-rate studies.
+
+% Question: What did TESS add?
+% Answer: TESS identified transiting planets around bright and nearby stars
+% that are suitable for detailed atmospheric follow-up.
+% Evidence: TESS mission papers, target catalogues, and follow-up studies.
+
+% Question: What changed with JWST?
+% Answer: JWST provides high infrared sensitivity, broad wavelength coverage,
+% high throughput, and dedicated time-series modes that support detailed
+% atmospheric characterisation.
+% Evidence: JWST and instrument papers, commissioning results, and
+% representative comparisons with pre-JWST observations. Quantify precision
+% using specific targets and wavelength bins rather than one universal factor.
+
+The observational history of exoplanets progressed from detection to population
+science and atmospheric characterisation. Pulsar timing with the Arecibo radio
+telescope revealed the first confirmed exoplanets around PSR B1257+12. ELODIE
+then detected 51 Pegasi b, the first confirmed planet around a solar-type star
+and an early example of a hot Jupiter. Hubble demonstrated that atmospheric
+absorption could be detected during transit. Kepler established the frequency
+and diversity of planetary systems, while TESS identified nearby transiting
+systems around bright stars. JWST now provides the infrared sensitivity,
+wavelength coverage, throughput, and time-series observing modes needed for
+more detailed atmospheric characterisation.
+
+\subsection{NIRISS/SOSS and the initial WASP-17 b case study}
+\label{sec:soss-wasp17}
+
+% Question: Why is NIRISS/SOSS useful for transmission spectroscopy?
+% Answer: NIRISS/SOSS provides high-throughput slitless time-series
+% spectroscopy with multiple spectral orders and broad wavelength coverage.
+% Evidence: NIRISS/SOSS instrument, commissioning, and calibration papers.
+
+% Question: Why begin with WASP-17 b?
+% Answer: Its atmospheric signal, existing NIRISS/SOSS observation, and
+% published analyses make it a useful initial case for method development and
+% controlled comparison.
+% Evidence: WASP-17 system studies, the JWST observing programme, and published
+% NIRISS/SOSS analyses.
+
+% Question: Does WASP-17 b define the complete scope of the project?
+% Answer: No. It is the initial development and validation case. The planned
+% benchmark will include additional planets and injected atmospheric scenarios.
+% Evidence: The future-work design and target-selection criteria developed in
+% this assessment.
+
+The Single Object Slitless Spectroscopy mode of NIRISS provides high-throughput
+time-series spectroscopy across multiple spectral orders. Its broad wavelength
+coverage makes it well suited to transmission spectroscopy, but its slitless
+detector geometry also makes background treatment, order overlap, wavelength
+mapping, and extraction important parts of the analysis. WASP-17 b is the
+initial development case because it has a strong atmospheric signal, an
+existing NIRISS/SOSS observation, and published analyses suitable for
+comparison. It does not define the eventual scope of the benchmark, which will
+include additional planets and injected atmospheric scenarios.
+
+\subsection{From detector integrations to a transmission spectrum}
+\label{sec:detector-to-spectrum}
+
+% Question: Is a transmission spectrum measured directly by JWST?
+% Answer: No. Detector integrations are calibrated, backgrounds are treated,
+% spectra are extracted, spectral light curves are constructed, and transit
+% models are fitted before a transmission spectrum is obtained.
+% Evidence: JWST calibration documentation and published analysis workflows.
+
+% Question: How do existing pipelines perform this analysis?
+% Answer: Ahsoka, Eureka!, supreme-SPOON, and related approaches implement
+% different combinations of detector calibration, background treatment,
+% extraction, outlier handling, light-curve modelling, and spectral inference.
+% Evidence: Pipeline papers, software documentation, and published applications,
+% with the scope of each pipeline stated because they do not all cover the same
+% stages of the analysis.
+
+JWST does not measure a transmission spectrum directly. It records a time
+series of two-dimensional detector integrations. These measurements are
+calibrated, corrected for background and detector effects, converted into
+one-dimensional spectra, divided into spectral light curves, and fitted with
+transit and systematic models. Pipelines such as Ahsoka, Eureka!, and
+supreme-SPOON implement different parts of this chain and make different choices
+about calibration, extraction, outlier treatment, and light-curve inference.
+
+\subsection{The validation problem}
+\label{sec:validation-problem}
+
+% Question: What does it mean when pipelines disagree?
+% Answer: The recovered spectrum is sensitive to methodological choices or
+% unrepresented uncertainties. The disagreement reveals a robustness problem
+% but does not identify which result is more accurate.
+% Evidence: Published multi-pipeline comparisons and reanalyses of common data.
+
+% Question: What does it mean when pipelines agree?
+% Answer: Agreement increases confidence but does not establish accuracy.
+% Pipelines can share calibration products, masks, assumptions, extraction
+% strategies, or systematic models and can therefore share a bias.
+% Evidence: Common dependencies and assumptions documented across pipelines.
+
+% Question: Why can neither agreement nor disagreement determine absolute
+% accuracy?
+% Answer: The exact transmission spectrum of a real planet is unknown.
+% Evidence: This follows from the absence of an external truth spectrum for a
+% real observation.
+
+When independent analyses disagree, the difference demonstrates sensitivity to
+methodological choices but does not identify which spectrum is more accurate.
+Agreement is also insufficient to establish accuracy because analyses can share
+calibration products, masks, extraction assumptions, or systematic models. In
+both cases the central difficulty is the same: the exact transmission spectrum
+of a real planet is unknown.
+
+\subsection{Structural limitations of extraction-first analyses}
+\label{sec:structural-limitations}
+
+% Question: What is the potential limitation of estimating or subtracting the
+% background before the transit fit?
+% Answer: Uncertainty and degeneracy in the background estimate may not be
+% propagated fully into the recovered transmission spectrum.
+% Evidence: Pipeline methods, background-sensitivity studies, and detector
+% diagnostics.
+
+% Question: Why can background misallocation matter?
+% Answer: It can alter transit depths, spectral offsets, slopes, features, and
+% reported uncertainties.
+% Evidence: Injection tests, reduction comparisons, and background perturbation
+% studies.
+
+% Question: What is the potential limitation of collapsing detector pixels into
+% spectral light curves before fitting the transit?
+% Answer: Extraction compresses the two-dimensional detector measurements and
+% fixes some instrumental assumptions before the astrophysical model is fitted.
+% Evidence: Extraction equations and published pipeline workflows.
+
+% Question: Why can this compression matter?
+% Answer: Spatial information relevant to background separation, bad pixels,
+% overlapping orders, wavelength mixing, and the line-spread function can be
+% discarded or fixed too early.
+% Evidence: Optimal-extraction theory, spectro-perfectionism, detector
+% simulations, and extraction-sensitivity studies.
+
+% Question: What would an alternative analysis need to do?
+% Answer: It would retain detector-level information, model the stellar and
+% background signals jointly, and postpone irreversible compression until after
+% the transmission spectrum has been inferred.
+% Evidence: Inverse-problem literature and the design principles of NOVA.
+
+Two common analysis choices deserve particular attention. First, the background
+is often estimated or subtracted before the transit model is fitted. Uncertainty
+or degeneracy in that estimate may then be propagated incompletely into the
+transmission spectrum. Second, extraction collapses two-dimensional detector
+measurements into one-dimensional spectral light curves before the astrophysical
+fit. This compression can fix or discard information relevant to background
+separation, bad pixels, overlapping orders, wavelength mixing, and the
+line-spread function.
+
+\subsection{A controlled benchmark and detector-level inference}
+\label{sec:benchmark-and-nova}
+
+% Question: How can absolute recovery accuracy be measured?
+% Answer: Construct realistic detector-level observations with a known injected
+% spectrum and analyse the identical data with independent recovery methods.
+% Evidence: Benchmark-design principles and existing injection-recovery studies.
+
+% Question: How can early background subtraction and detector compression be
+% avoided?
+% Answer: Infer the transmission spectrum directly from the detector time series
+% while jointly modelling the stellar signal, background, instrument response,
+% transit, and relevant nuisance components.
+% Evidence: The NOVA model and related detector-level inverse methods.
+
+% Question: Why are both responses required?
+% Answer: The benchmark measures whether a recovery method is accurate. NOVA is
+% the proposed recovery method and cannot validate itself.
+% Evidence: The separation between the injector, recovery methods, and scoring
+% procedure described in the Methods section.
+
+These limitations motivate two complementary developments. A controlled
+detector-level benchmark provides synthetic observations with a known injected
+transmission spectrum, allowing absolute recovery accuracy to be measured.
+NOVA provides an alternative recovery strategy that infers the transmission
+spectrum directly from the detector time series while jointly modelling the
+stellar signal, additive background, instrument response, transit, and nuisance
+components. The benchmark evaluates the method; NOVA cannot validate itself.
 
 \subsection{Research question and objectives}
 \label{sec:research-question}
 
-% State one central research question, followed by a small number of testable
-% objectives and hypotheses.
+% Question: What is the central research question?
+% Answer: How accurately and robustly can JWST/NIRISS SOSS transmission spectra
+% be recovered from detector-level time-series observations, and can joint
+% detector-level inference reduce biases associated with background treatment
+% and extraction-first analysis?
+% Evidence: The validation problem and structural limitations established above.
+
+% Question: What objectives make the research question testable?
+% Answer: Develop an independent detector-level benchmark with known injected
+% spectra; develop NOVA as a joint detector-level inference method; compare NOVA
+% with extraction-based analyses under controlled conditions; and identify the
+% detector, calibration, and modelling assumptions that limit recovery accuracy.
+% Evidence: The experimental design and evaluation metrics defined in the
+% Methods section.
+
+This project asks how accurately and robustly JWST/NIRISS SOSS transmission
+spectra can be recovered from detector-level time-series observations, and
+whether joint detector-level inference can reduce biases associated with
+background treatment and extraction-first analysis. The work has four
+objectives: to develop an independent detector-level benchmark with known
+injected spectra; to develop NOVA as a joint detector-level inference method; to
+compare NOVA with extraction-based analyses under controlled conditions; and to
+identify the detector, calibration, and modelling assumptions that limit
+recovery accuracy.
