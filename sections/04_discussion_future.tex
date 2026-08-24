@@ -1,21 +1,247 @@
-\section{Discussion and Future Work}
-\label{sec:discussion-future}
+\section{Research Plan and Future Timeline}
+\label{sec:research-plan}
 
-\subsection{Interpretation of the current evidence}
-\mbox{}\par
+The remainder of the PhD will turn the current development system into a tested
+scientific method, determine where reduction choices change atmospheric
+interpretation, and then combine validated observations across visits,
+instruments, and observing geometries. The programme is organised into five work
+packages. The timeline begins with the remaining part of 2026 Q3 and contains
+future work only.
 
-\subsection{NIRISS/SOSS benchmark programme}
-\mbox{}\par
+\subsection{WP1: Strict NOVA and injector closure}
 
-\subsection{Robustness and sensitivity experiments}
-\mbox{}\par
+The first priority, to be completed by 30 September 2026, is to finish the
+response-consistent injector, obtain strict multistart convergence for NOVA, and
+close the initial WASP-17 b benchmark. The stellar continuum will be refitted
+with the same generator response used to construct each synthetic cube. The cube
+will then be delivered unchanged to the frozen recovery methods. Response
+support, masks, time sampling, and auxiliary information will be checked before
+any recovery is scored.
 
-\subsection{Extension to additional observations and instruments}
-\mbox{}\par
+The benchmark will be expanded from the current opened case to a preregistered
+matrix. At minimum, it will include a featureless spectrum, broad molecular
+structure, localised features, several signal amplitudes, multiple noise
+realisations, background amplitudes and morphologies, and controlled response
+mismatch. Injector-only checks will test pixel identity, flux accounting,
+fold-held-out prediction, exposure integration, and mask symmetry. Recovery
+success will require strict convergence, agreement between deterministic starts,
+valid nuisance rank and physics, and fixed-prediction scoring.
 
-\subsection{Planned publications and PhD milestones}
-\mbox{}\par
+The deliverable is a versioned benchmark package with documented inputs,
+comparison grids, metrics, and provenance. Its primary scientific result will be
+a map of recovery error as a function of injected and detector condition, not a
+single favourable spectrum.
 
-% Define concrete experiments, success criteria, dependencies, risks, and
-% deliverables. Distinguish near-term validation from longer-term scientific
-% applications.
+\subsection{WP2: Robustness, pipeline benchmark, and methods paper}
+
+NOVA will next be run on out-of-transit data from additional visits. This tests
+whether the inferred spatial response and additive background model are robust
+to changes in pointing, background morphology, detector state, and illumination
+history. Synthetic small problems will continue to test the profiled Jacobian
+against a dense reference, while visit-scale runs will test numerical stability,
+checkpoint reproducibility, and computational scaling.
+
+The expanded comparison will include Ahsoka, Eureka!, exoTEDRF, formerly
+supreme-SPOON, transitspectroscopy, and the official JWST calibration pipeline
+with ATOCA extraction \citep{BellEtAl2022,DarveauBernierEtAl2022,
+Radica2024,LouieEtAl2025}. The official pipeline is a calibration and extraction
+baseline rather than a complete atmospheric analysis, so its extracted time
+series will be passed to a declared light-curve model. Two comparison tracks will
+be reported. The first will preserve each pipeline's normal end-to-end analysis.
+The second will pass the extracted products to a common light-curve fitter to
+separate detector and extraction effects from differences in transit modelling.
+
+Ablation experiments will fix or jointly fit the background, replace the
+response-aware source with simpler profiles, remove robust weighting, alter the
+spectral basis resolution, fit orders separately, and reproduce selected
+extraction-first compressions. Each ablation will use the same injected cube and
+scoring protocol. This will distinguish the effect of joint detector modelling
+from the effect of a particular nuisance basis or optimiser.
+
+The principal deliverable from WP1 and WP2 is the NOVA and benchmark methods
+paper, targeted for submission in 2027 Q1. The associated software release will
+contain the minimum reproducible injector, recovery configurations, closed
+predictions, and score tables required to reproduce the paper figures.
+
+\subsection{WP3: Multi-target NIRISS/SOSS validation}
+
+After the method passes the synthetic benchmark, it will be applied to additional
+public NIRISS/SOSS transmission observations. Targets will be selected to span
+stellar brightness, background conditions, transit depth, atmospheric signal
+amplitude, and known reduction challenges. Priority will be given to observations
+with at least two published reductions or publicly reproducible pipelines because
+they provide an external reproducibility baseline.
+
+For real observations, the unknown planetary spectrum prevents an absolute
+score. Validation will therefore combine detector-domain predictive checks,
+order-overlap consistency, independent reductions, injection into observation
+residuals, and sensitivity to the source and background bases. The scientific
+question will be whether NOVA changes repeatable atmospheric features or mainly
+changes offsets and uncertainties. Atmospheric retrievals will be performed only
+after the spectral recovery is fixed, so that detector-model uncertainty can be
+traced into abundance and cloud constraints.
+
+The SOSS analysis will be frozen by 30 June 2027. A fixed number of papers is not
+promised in advance because the publication decision is itself scientific. A
+target-specific paper will be prepared only when the recovered spectrum changes
+repeatably and the change materially alters an atmospheric inference. This avoids
+dividing null results into artificial papers while allowing several focused
+papers if several planets show consequential differences. The analysis freeze,
+rather than journal acceptance, is the controllable mid-2027 milestone;
+target-paper submission can continue into 2027 Q3 while the next work package
+begins.
+
+\subsection{WP4: Emission, phase curves, and other instruments}
+
+After the SOSS transmission programme, the temporal model will be extended first
+to secondary-eclipse emission and then to phase curves. Remaining initially with
+NIRISS/SOSS isolates the change in observing geometry from the change in
+instrument. The next step will adapt the validated strategy to NIRSpec and MIRI,
+with a benchmark specific to each detector and observing mode rather than an
+assumption that a SOSS response model transfers directly.
+
+This extension is supported by existing same-planet observations. WASP-17 b has
+separate NIRISS/SOSS transmission and eclipse measurements, together with
+consecutive NIRSpec transit and eclipse observations
+\citep{LouieEtAl2025,GressierEtAl2024,LustigYaegerEtAl2025}. WASP-121 b has
+published NIRSpec and NIRISS phase curves as well as a NIRSpec transmission
+analysis \citep{MikalEvansEtAl2023,GappEtAl2025,SplinterEtAl2025}. GJ 1214 b
+provides a contrasting sub-Neptune case with a MIRI phase curve and a
+panchromatic HST, NIRSpec, and MIRI transmission analysis
+\citep{KemptonEtAl2023,OhnoEtAl2025}. A systematic literature and archive review
+will distinguish repeated visits in one mode, different instruments measuring
+the same geometry, and genuinely complementary transmission, eclipse, and
+phase-resolved emission observations.
+
+The final scientific objective is a joint analysis of selected planets across
+instruments and geometries. The goal is not simply to concatenate published
+spectra. Reduction uncertainty, visit variability, shared planetary parameters,
+and geometry-specific atmospheric weighting must be represented explicitly so
+that the joint retrieval can test whether the combined data tighten atmospheric
+constraints without hiding inconsistencies.
+
+\subsection{WP5: Synthesis and thesis writing}
+
+The thesis will integrate the literature review, benchmark design, NOVA method,
+controlled comparisons, multi-target SOSS results, cross-instrument extensions,
+and joint atmospheric analysis. Writing will proceed alongside the papers so that
+methods, assumptions, negative results, and provenance are captured while the
+analyses are active. The 3.5-year research phase ends on approximately 27 April
+2029 after accounting for the one-month interruption. The formal writing-up
+period then runs to 28 October 2029 and is reserved for thesis completion,
+submission, corrections, and viva preparation rather than new method
+development.
+
+\subsection{Timeline, milestones, and dependencies}
+
+\begin{figure*}[t]
+\centering
+\resizebox{\textwidth}{!}{%
+\begin{ganttchart}[
+  hgrid,
+  vgrid,
+  x unit=0.78cm,
+  y unit title=0.55cm,
+  y unit chart=0.52cm,
+  title/.style={fill=black!6,draw=black!25},
+  title label font=\bfseries\scriptsize,
+  bar label font=\scriptsize,
+  group label font=\bfseries\scriptsize,
+  milestone label font=\scriptsize,
+  bar height=0.55,
+  group height=0.34,
+  group peaks height=0.16,
+  milestone height=0.45
+]{1}{14}
+\gantttitle{2026}{2}\gantttitle{2027}{4}\gantttitle{2028}{4}\gantttitle{2029}{4}\\
+\gantttitle{Q3}{1}\gantttitle{Q4}{1}
+\gantttitle{Q1}{1}\gantttitle{Q2}{1}\gantttitle{Q3}{1}\gantttitle{Q4}{1}
+\gantttitle{Q1}{1}\gantttitle{Q2}{1}\gantttitle{Q3}{1}\gantttitle{Q4}{1}
+\gantttitle{Q1}{1}\gantttitle{Q2}{1}\gantttitle{Q3}{1}\gantttitle{Q4}{1}\\
+\ganttgroup[group/.append style={fill=ganttsoss!35,draw=ganttsoss}]
+  {SOSS method and benchmark}{1}{4}\\
+\ganttbar[bar/.append style={fill=ganttsoss!70,draw=ganttsoss}]
+  {Injector and strict NOVA}{1}{1}\\
+\ganttbar[bar/.append style={fill=ganttsoss!70,draw=ganttsoss}]
+  {Multi-visit OOT robustness}{1}{2}\\
+\ganttbar[bar/.append style={fill=ganttsoss!70,draw=ganttsoss}]
+  {Expanded pipeline benchmark}{1}{2}\\
+\ganttbar[bar/.append style={fill=ganttsoss!70,draw=ganttsoss}]
+  {NOVA and benchmark paper}{2}{3}\\
+\ganttbar[bar/.append style={fill=ganttsoss!70,draw=ganttsoss}]
+  {SOSS target survey}{3}{4}\\
+\ganttbar[bar/.append style={fill=ganttsoss!70,draw=ganttsoss}]
+  {Conditional target papers}{4}{5}\\
+\ganttmilestone[milestone/.append style={fill=ganttsoss,draw=ganttsoss}]
+  {SOSS analysis freeze}{4}\\
+\ganttgroup[group/.append style={fill=ganttgeneral!35,draw=ganttgeneral}]
+  {Geometry and instrument generalisation}{5}{10}\\
+\ganttbar[bar/.append style={fill=ganttgeneral!70,draw=ganttgeneral}]
+  {Emission and phase curves}{5}{7}\\
+\ganttbar[bar/.append style={fill=ganttgeneral!70,draw=ganttgeneral}]
+  {Same-planet data audit}{5}{6}\\
+\ganttbar[bar/.append style={fill=ganttgeneral!70,draw=ganttgeneral}]
+  {NIRSpec extension}{7}{9}\\
+\ganttbar[bar/.append style={fill=ganttgeneral!70,draw=ganttgeneral}]
+  {MIRI extension}{8}{10}\\
+\ganttgroup[group/.append style={fill=ganttsynthesis!35,draw=ganttsynthesis}]
+  {Joint atmospheric inference}{9}{12}\\
+\ganttbar[bar/.append style={fill=ganttsynthesis!70,draw=ganttsynthesis}]
+  {Cross-geometry joint retrieval}{9}{12}\\
+\ganttbar[bar/.append style={fill=ganttsynthesis!70,draw=ganttsynthesis}]
+  {Synthesis paper}{11}{12}\\
+\ganttmilestone[milestone/.append style={fill=ganttsynthesis,draw=ganttsynthesis}]
+  {Science freeze}{12}\\
+\ganttgroup[group/.append style={fill=ganttwrite!35,draw=ganttwrite}]
+  {Thesis}{5}{14}\\
+\ganttbar[bar/.append style={fill=ganttwrite!70,draw=ganttwrite}]
+  {Thesis integration}{5}{12}\\
+\ganttbar[bar/.append style={fill=ganttwrite!70,draw=ganttwrite}]
+  {Formal writing-up period}{12}{14}\\
+\ganttmilestone[milestone/.append style={fill=ganttwrite,draw=ganttwrite}]
+  {Thesis submission}{14}
+\end{ganttchart}%
+}
+\caption{Future-only PhD plan in quarters. The first column covers the remaining
+part of 2026 Q3. The SOSS analysis is frozen by 30 June 2027; conditional target
+manuscripts may continue into Q3. The formal writing-up period runs from
+approximately 27 April to 28 October 2029.}
+\label{fig:gantt}
+\end{figure*}
+
+The dependency structure is shown in Figure~\ref{fig:gantt}. The
+response-consistent injector and strict NOVA convergence precede the headline
+comparison. Multi-visit testing and the expanded pipeline benchmark can proceed
+in parallel once the recovery interfaces are frozen. Target selection can begin
+while the methods paper is written, but atmospheric claims are made only after
+the benchmark gates are passed. Emission and phase-curve work begins after the
+SOSS analysis freeze, while the literature and archive audit can start in
+parallel. Instrument-specific extensions precede the joint retrieval.
+
+Progress will be reviewed quarterly against closed deliverables rather than
+software activity. A milestone is complete only when its data products,
+configuration, diagnostics, and written interpretation are archived together.
+
+\subsection{Risks and contingency plan}
+
+The main technical risk is that the instrument response remains insufficiently
+accurate for strict end-to-end recovery. This will be addressed with held-out
+response validation, wavelength-local diagnostics, independent calibration
+routes, and simulations in which the response is exactly known. If real-response
+uncertainty remains dominant, the thesis can still quantify the required response
+accuracy and show how it propagates into the recovered spectrum.
+
+The second risk is computational cost. Variable projection, streamed derivatives,
+checkpointed robust cycles, and staged benchmark grids reduce this risk. Small
+diagnostic cases will be required before full visit-scale runs. The third risk is
+that NOVA does not outperform extraction-based analyses. That outcome remains
+scientifically useful if tested fairly: the project would establish the conditions
+under which extraction is sufficient and place an empirical upper bound on the
+benefit of joint detector inference.
+
+The final scope risk is overextension. Cross-instrument and cross-geometry
+inference is the central long-term objective, but its breadth is adjustable. If
+time is constrained, the synthesis can focus on one well-observed planet and two
+complementary instruments rather than an incomplete survey of many systems. The
+scientific requirement is a defensible joint inference with propagated reduction
+uncertainty, not a predetermined number of targets or papers.

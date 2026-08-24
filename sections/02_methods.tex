@@ -1,81 +1,207 @@
 \section{Methods and Benchmark Design}
 \label{sec:methods}
 
-\subsection{Experimental design and data scope}
+\subsection{Experimental design and scope}
 
-The initial benchmark is based on the JWST/NIRISS SOSS observation of
-WASP-17 b. Method development uses detector-level products derived from this
-observation together with controlled synthetic transit signals. Later benchmark
-stages will expand the atmospheric inputs and observing conditions while
-preserving a common comparison protocol.
+The project uses a controlled recovery experiment. A detector-level injector
+generates a synthetic SOSS time series with a known transmission spectrum. NOVA
+and one or more extraction-based analyses receive the same detector cube, time
+grid, uncertainty array, data-quality information, and declared calibration
+products. Each method produces a fixed spectral prediction before the injected
+spectrum is made available for scoring. The experiment therefore separates model
+development from absolute evaluation.
 
-% Describe the WASP-17 b NIRISS/SOSS observation, the detector-level inputs, and
-% the separation between method-development cases and future benchmark cases.
+The initial geometry is based on the JWST/NIRISS SOSS transit of WASP-17 b. This
+provides realistic trace positions, wavelength coverage, time sampling, detector
+uncertainties, masks, background structure, and overlapping-order geometry. The
+atmospheric spectrum is synthetic and is not inferred from the real observation.
+The first benchmark contains a zero-feature control and structured spectra with
+broad and localised features. Later experiments will vary source brightness,
+background amplitude and morphology, detector defects, spectral morphology, and
+response mismatch. This staged design isolates failure modes before combining
+them in a larger factorial benchmark.
+
+The unit of the NOVA likelihood is one retained physical detector pixel in one
+integration. The union of the useful order masks defines the pixel set. If more
+than one order contributes to the same pixel, those predicted contributions are
+summed before the single observed value is evaluated. Non-finite measurements,
+non-positive uncertainties, and pixels carrying the JWST \texttt{DO\_NOT\_USE}
+flag are excluded by a fixed mask.
 
 \subsection{Ground-truth detector-level injector}
 
-The injector constructs a time-dependent stellar contribution on the detector,
-applies a known transmission spectrum through the transit model, and combines
-the result with additive background and the required detector information. The
-same synthetic detector cube is supplied to every recovery method. Injector and
-recovery components are kept separate so that the known spectrum is not used by
-the fit.
+The injector begins with an out-of-transit stellar source and a separately
+estimated additive background. A known wavelength-dependent transit is applied
+only to the stellar component. The attenuated source is projected through a
+generator response for each order and the order contributions are added in
+overlap pixels. The background, noise, masks, and required detector metadata are
+then combined with the source to produce a calibrated detector-rate cube.
 
-% Describe the stellar source, instrument response, transit injection,
-% background, noise, DQ flags, and detector effects. Explain the separation
-% between injection and recovery here rather than in a standalone subsection.
+The source and background are estimated jointly from out-of-transit integrations
+using separate spatial and temporal components. The currently selected source
+solution uses a shared stellar continuum and a four-mode additive background
+model. Temporal fold separation is used when estimating source wings and response
+components: a component fitted on one subset is tested on the held-out subset
+before it can enter the injector. This is intended to prevent the injector from
+reproducing arbitrary in-sample structure.
+
+Injector and recovery products are separated by construction. Recovery code can
+read only the delivered cube and the preregistered auxiliary products. It cannot
+read the atmospheric spectrum, generator-only response products, or scoring
+code. Hashes identify the delivered arrays, configuration, masks, and response
+products. The injected spectrum is loaded only after the prediction and its
+provenance record have been closed. This procedure belongs to the benchmark
+construction because it defines what counts as a valid ground-truth experiment.
 
 \subsection{The \nova{} detector-level forward model}
 
-NOVA models the calibrated detector time series directly. A shared
-wavelength-dependent transmission spectrum is projected through the instrument
-response into both spectral orders and combined with a time-dependent stellar
-model. The astrophysical and detector components are therefore fitted before
-the detector measurements are collapsed into spectral light curves.
+NOVA models the calibrated detector time series directly. For integration $t$
+and physical detector pixel $p$, the current response-aware mean model is
+\begin{equation}
+ \widehat y_{tp} = B_{tp}(\bm{\alpha}) +
+ \sum_o \left[\bm{R}^{\mathrm{rec}}_o
+ \left\{\bm{S}_t(\bm{\beta}) \odot
+ \bm{T}_{o,t}(\bm{\theta})\right\}\right]_p ,
+ \label{eq:nova-forward}
+\end{equation}
+where $B_{tp}$ is additive background, $\bm{R}^{\mathrm{rec}}_o$ maps the
+fine wavelength grid of order $o$ to detector pixels, $\bm{S}_t$ is the shared
+stellar source, and $\bm{T}_{o,t}$ is the exposure-integrated transit. The symbol
+$\odot$ denotes element-wise multiplication on the wavelength grid. The
+instrument response includes trace geometry, throughput, wavelength mapping,
+line-spread information, and the mixing of wavelengths within each pixel.
 
-% Present the scientific forward equation and the shared transmission-spectrum
-% parameterisation. Keep derivations and implementation details in the appendix.
+The transmission spectrum is represented by $K=160$ shared coefficients,
+\begin{equation}
+  D(\lambda)=\sum_{j=1}^{K} B_j(\lambda)D_j,
+  \label{eq:depth-basis}
+\end{equation}
+with positive depths enforced by a smooth bounded coordinate transformation.
+Both orders evaluate the same physical spectrum on their own wavelength grids.
+Any order-discrepancy term is restricted to a diagnostic branch and is not part
+of the primary shared-spectrum model. This allows overlapping orders to constrain
+the same atmospheric quantity without treating repeated detector measurements as
+independent copies.
+
+For depth $D$ in parts per million, the radius ratio is
+$k=\sqrt{D\times10^{-6}}$. NOVA evaluates an exact Keplerian transit with
+wavelength-dependent quadratic limb darkening. Each detector integration is
+modelled as a Gauss-Legendre average across its finite exposure rather than at a
+single mid-exposure time. A convergence test selected 21 quadrature points, for
+which the maximum difference relative to a 61-point reference was below
+$0.01$ ppm across the tested depths and limb-darkening locations.
 
 \subsection{Background and nuisance model}
 
-The background remains additive in the detector model and is fitted jointly
-with the stellar transit signal. Linear nuisance components describe the
-stellar continuum and structured background, while the nonlinear parameters
-describe the transmission spectrum, limb darkening, and other astrophysical
-quantities required by the transit model.
+The stellar continuum and background coefficients are linear conditional on the
+nonlinear transit state. The current response-aware stellar model is shared in
+physical wavelength space and is propagated separately through each order
+response. Earlier development branches tested order-tagged and column-local
+continua; those branches remain useful controls but are not the current primary
+model.
 
-% Explain the joint additive background, per-order stellar continua, limb
-% darkening, and other linear and nonlinear nuisance parameters.
+The additive background uses eight spatial modes crossed with two temporal
+modes, giving 16 fitted coefficients. Off-trace pixels provide an external
+anchor on these modes. The background is never multiplied by the transit.
+Consequently, a change in transit depth cannot be compensated by attenuating the
+background in the same way as the star. Source and background are nevertheless
+partly degenerate, so the fit records nuisance rank, singular values,
+conditioning, source positivity, and held-out background diagnostics.
+
+Quadratic limb darkening is parameterised using physically bounded coordinates,
+\begin{equation}
+ u_1=2\sqrt{q_1}q_2, \qquad
+ u_2=\sqrt{q_1}(1-2q_2).
+ \label{eq:kipping-coordinates}
+\end{equation}
+Smooth wavelength-dependent deviations are represented by six knots per order
+around stellar-atmosphere predictions. Separate residual blocks constrain the
+deviation from theory and excessive wavelength curvature. These constraints are
+reported separately from the detector likelihood.
 
 \subsection{Profiled optimisation and robust fitting}
 
-At fixed nonlinear parameters, NOVA eliminates the linear nuisance parameters
-through variable projection. The remaining nonlinear problem is solved with
-bounded optimisation inside a robust iteratively reweighted fit. Independent
-deterministic starts and fixed prediction records are used to distinguish
-optimisation behaviour from later evaluation against the injected spectrum.
+Let $\bm{\theta}$ contain the nonlinear depth and limb-darkening parameters and
+$\bm{\eta}$ the linear stellar and background coefficients. At fixed
+$\bm{\theta}$, NOVA solves
+\begin{equation}
+ \widehat{\bm{\eta}}(\bm{\theta})=
+ \arg\min_{\bm{\eta}}
+ \frac{1}{2}\left\|\bm{W}
+ [\bm{y}-\bm{A}(\bm{\theta})\bm{\eta}]\right\|_2^2
+ +\frac{1}{2}\left\|\bm{L}\bm{\eta}\right\|_2^2 .
+ \label{eq:varpro}
+\end{equation}
+This variable-projection step removes the linear variables from the nonlinear
+search while retaining their exact response to $\bm{\theta}$. The profiled
+Jacobian includes movement of the fitted stellar and background coefficients.
+The production implementation streams detector rows into sparse factors and a
+small background Schur complement, avoiding a visit-sized dense Jacobian.
 
-% Explain variable projection, bounded nonlinear optimisation, robust fitting,
-% deterministic starts, and prediction closure at the level required to assess
-% the method.
+The nonlinear profiled problem is solved with bounded trust-region reflective
+least squares. Robustness is provided by Huber iteratively reweighted least
+squares with threshold 1.345. Each robust cycle recomputes detector weights from
+standardised residuals, refits the model, and stores an immutable prediction and
+diagnostic record. The standard policy permits 25 cycles before a soft limit and
+50 before a hard stop. A final fit using the recomputed terminal weights is
+required before a start can be accepted.
+
+Two deterministic starts are fitted independently. Convergence is not assigned
+from an optimiser return flag alone. It requires stable nuisance rank, valid
+physics, successful bounded optimisation, small weight and objective changes,
+small spectral changes, first-order criteria, and agreement between starts.
+Current multistart tolerances are below $0.1$ ppm on the common-40 spectrum,
+below $0.5$ ppm on the F2 report grid, and below $10^{-8}$ in relative robust
+objective. Failure of any required gate is retained and reported.
 
 \subsection{Extraction-based comparison analyses}
 
-Extraction-based analyses receive the same detector cube used by NOVA. Their
-calibration, background, extraction, and light-curve modelling stages are
-documented separately so that differences in the recovered spectra can be
-related to specific analysis choices.
+The first external comparison uses an authentic Ahsoka reduction of the same
+delivered cube. It follows the analysis topology used for the published
+WASP-17 b spectrum, including detector preparation, spectral extraction,
+spectroscopic light curves, and channel-level transit inference
+\citep{LouieEtAl2025}. The diagnostic comparison uses 200 walkers, 1,000 steps,
+and a 500-step burn-in, with the squared posterior-median radius ratio reported
+as transit depth.
 
-% Define which pipelines or forward models receive the identical detector cube,
-% which stages each approach covers, and which settings are held common.
+Fairness is defined at delivery rather than by forcing the two methods to use the
+same internal representation. The pixel values, uncertainties, flags, time grid,
+and declared wavelength support are identical. Unsupported bins are excluded
+symmetrically. Each method retains its own intended nuisance model and inference
+strategy. Later benchmark rounds will include Eureka!, exoTEDRF,
+transitspectroscopy, and the official JWST pipeline with ATOCA extraction
+\citep{BellEtAl2022,Radica2024,DarveauBernierEtAl2022,LouieEtAl2025}. Results
+will be reported both for each normal end-to-end analysis and with a common
+downstream light-curve fitter. The first comparison measures the spectra that a
+user would obtain in practice; the second isolates differences introduced before
+the light-curve model. Controlled variants of background and extraction choices
+will distinguish a NOVA-specific comparison from a broader claim about
+detector-level and extraction-first analysis.
 
 \subsection{Evaluation metrics}
 
-Recovery performance is evaluated using absolute and shape-sensitive spectral
-errors, order-specific diagnostics, uncertainty calibration, and detector-domain
-fit statistics. Comparisons are made only after each recovery has produced a
-fixed prediction.
+Let $\widehat D_i$ and $D_i^{\mathrm{true}}$ be the recovered and injected
+depths on a common reporting grid and $e_i=\widehat D_i-D_i^{\mathrm{true}}$.
+The absolute recovery error is
+\begin{equation}
+ \mathrm{RMSE}_{\mathrm{abs}}=
+ \left(\frac{1}{N}\sum_i e_i^2\right)^{1/2}.
+ \label{eq:absolute-rmse}
+\end{equation}
+The morphology error removes the mean residual,
+\begin{equation}
+ \mathrm{RMSE}_{\mathrm{morph}}=
+ \left[\frac{1}{N}\sum_i(e_i-\bar e)^2\right]^{1/2},
+ \label{eq:morphology-rmse}
+\end{equation}
+so that a constant offset can be distinguished from incorrect spectral shape.
+Mean and median bias, feature-amplitude error, order-overlap consistency, and
+order-specific residuals are also reported. The primary comparison grid is a
+common $R=100$ grid, with common-40 and F2 grids retained for regression and
+diagnostic reporting.
 
-% Define absolute recovery error, morphology error, order-specific diagnostics,
-% uncertainty calibration, and detector-domain fit diagnostics. Explain that the
-% injected spectrum is loaded only after a recovery prediction has been fixed.
+Uncertainty calibration will be evaluated through standardised residuals,
+empirical coverage of injected depths, and repeated noise realisations. Detector
+residuals, robust weights, rank, conditioning, boundary activity, and convergence
+diagnostics are evaluated alongside the spectral scores. A low RMSE is not
+sufficient if a fit fails its preregistered numerical or physical validity gates.

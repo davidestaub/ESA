@@ -1,6 +1,29 @@
 \section{Conclusions}
 \label{sec:conclusions}
-\mbox{}\par
 
-% Provide a short answer to the research question at the present stage. State
-% what has been established and what remains to be demonstrated.
+This project addresses a validation problem created by high-precision JWST
+transmission spectroscopy. Different reductions can reveal sensitivity to
+analysis choices, and agreement can establish reproducibility, but real
+observations do not provide the known spectrum required to measure absolute
+recovery error. The proposed solution combines a realistic detector-level
+injector with NOVA, a joint detector-level forward model for the stellar transit,
+overlapping SOSS orders, instrument response, and additive background.
+
+At the present stage, the benchmark can deliver identical synthetic detector data
+to NOVA and an authentic extraction-based analysis, keep the injected spectrum
+outside the recovery, and score fixed predictions afterwards. The initial opened
+case shows that the methods can produce measurably different absolute and
+morphology errors. It also shows why strict numerical and physical gates are
+needed: the lower NOVA error was obtained by a fit that did not satisfy all
+convergence requirements. Response support and source-background allocation,
+rather than statistical noise alone, are the main current limitations.
+
+The research question is therefore only partly answered. Detector-level recovery
+is feasible and has diagnostic value, but improved accuracy and robustness have
+not yet been demonstrated across a fair preregistered ensemble. The remaining PhD
+programme will complete that test, identify the conditions under which NOVA helps,
+apply the validated framework to additional SOSS observations, and propagate
+spectral-recovery differences into atmospheric interpretation. The subsequent
+programme will extend the validated strategy to emission, phase curves, and
+other JWST instruments, with the final aim of combining complementary
+observations of the same planets into more reliable atmospheric constraints.
