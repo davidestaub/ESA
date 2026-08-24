@@ -1,101 +1,92 @@
 \section{Introduction and Literature Review}
 \label{sec:introduction}
 
-\subsection{Exoplanets and atmospheric targets}
+\subsection{From planetary diversity to atmospheric characterisation}
 \label{sec:exoplanets-targets}
 
-% Question: What are exoplanets, and why do we study them?
-% Answer: Exoplanets are planets orbiting stars other than our Sun. They allow
-% the formation, composition, evolution, and possible habitability of planets
-% to be studied across a population rather than through the Solar System alone.
-% Evidence: Winn and Fabrycky (2015), Fulton et al. (2017), and Madhusudhan
-% (2019).
-Exoplanets are planets that orbit stars other than our Sun. Studying them
-extends planetary science beyond the single example of the Solar System. It
-allows us to ask how common planetary systems are, how planets form and
-migrate, what they are made of, how they change over time, and how other worlds
-compare with Earth and the neighbouring planets. The diversity of known orbital
-architectures, including close-in giant planets and tightly packed systems,
-shows that the Solar System does not represent the full range of possible
-planetary systems \citep{WinnFabrycky2015}. Transit surveys also reveal
-population-level structure, such as the deficit of planets between the
-super-Earth and sub-Neptune radius regimes \citep{FultonEtAl2017}. Such
-patterns provide empirical constraints on planet formation and atmospheric
-evolution. A longer-term motivation is to determine which planetary conditions
-can support habitable environments and whether life may exist beyond Earth.
-This assessment focuses on hot Jupiters as method-development targets, but the
-broader aim is reliable characterisation across exoplanet populations
+% Question: Which questions about exoplanets motivate atmospheric
+% characterisation?
+% Answer: Their diversity makes composition and evolution population-level
+% questions that cannot be answered from the Solar System alone.
+% Evidence: Winn and Fabrycky (2015).
+Exoplanets, planets that orbit stars other than our Sun, make planetary science
+a comparative discipline. The known population includes gas giants, Neptunes,
+sub-Neptunes, super-Earths, terrestrial worlds, and orbital architectures with
+no close Solar System counterpart. For this project, the important consequence
+is not simply that these planets exist, but that their diversity raises two
+linked questions: what are planets made of, and how do they acquire and change
+their present-day states? The Solar System alone cannot establish which
+formation and evolutionary pathways are general and which produced only our
+local architecture \citep{WinnFabrycky2015}. Answering these questions requires
+more than classifying planets by orbital period, mass, and radius.
+
+% Question: Why can bulk measurements not determine composition and evolution?
+% Answer: Mass and radius constrain bulk density but do not uniquely determine
+% interior structure, atmospheric mass, or evolutionary history.
+% Evidence: Madhusudhan (2019).
+Mass and radius provide essential constraints on a planet's bulk density, but
+they do not specify a unique physical structure. Planets with similar radii can
+have different interior compositions, atmospheric mass fractions, irradiation
+histories, and cloud properties. Labels such as Neptune, sub-Neptune, and
+super-Earth are therefore useful descriptions of a population, not complete
+physical explanations. Distinguishing between these possibilities requires
+observables that respond directly to the material and energy in a planet's
+outer layers. Atmospheres provide those observables
 \citep{Madhusudhan2019}.
 
-% Question: Which classes of planet are relevant to atmospheric studies?
-% Answer: Atmospheric targets span gas giants, Neptunes, sub-Neptunes,
-% super-Earths, and terrestrial planets, but their signals and scientific
-% questions differ substantially.
-% Evidence: Fulton et al. (2017) and Madhusudhan (2019).
+% Question: What additional information is carried by an atmosphere?
+% Answer: Atmospheric spectra connect present composition and energy transport
+% to formation, migration, chemistry, escape, and long-term evolution.
+% Evidence: Madhusudhan (2019).
+A planetary atmosphere records both present conditions and prior evolution.
+Atomic and molecular abundances constrain chemical inventories and
+thermochemical processes. Temperature structures, clouds, and hazes govern how
+radiation is absorbed, emitted, and transported, while escape signatures probe
+the interaction between a planet and its host star. When interpreted alongside
+mass, radius, age, and irradiation, these measurements can constrain formation
+location, migration, atmospheric enrichment, and long-term mass loss
+\citep{Madhusudhan2019}. Atmospheric characterisation therefore provides a
+route from detecting a planet to reconstructing its physical history. To use
+that record, however, the atmospheric signal must first be recovered from the
+light of the host star.
 
-The known population spans gas giants, ice giants, Neptunes, sub-Neptunes,
-super-Earths, and terrestrial planets across a wide range of temperatures and
-orbital periods. These labels are useful descriptions rather than complete
-physical models. Planets of similar radius can have different bulk
-compositions, atmospheric mass fractions, irradiation histories, and cloud
-properties. Atmospheres add information that mass and radius alone cannot
-provide and can therefore help distinguish otherwise degenerate interior and
-evolutionary scenarios \citep{Madhusudhan2019}.
-
-% Question: Why are hot Jupiters useful initial targets for method development?
-% Answer: Their large radii, low mean molecular weights, high temperatures, and
-% often low surface gravities produce comparatively large transmission signals.
-% Evidence: Seager and Sasselov (2000), Brown (2001), and Anderson et al. (2010).
-
-Large, highly irradiated gas giants remain useful targets for developing
-high-precision spectroscopic methods because their atmospheric signals are
-comparatively strong. For an isothermal atmosphere, the pressure scale height
-is approximately
+% Question: What determines whether a transmission signal is measurable?
+% Answer: The pressure scale height and the planet-to-star area ratio set the
+% approximate change in transit depth produced by atmospheric opacity.
+% Evidence: Seager and Sasselov (2000) and Brown (2001).
+In transmission spectroscopy, the atmosphere changes the apparent size of the
+planet by only a small amount. For an isothermal atmosphere, the pressure scale
+height is approximately
 \begin{equation}
   H = \frac{k_{\mathrm B}T}{\mu g},
   \label{eq:scale-height}
 \end{equation}
 where $T$ is atmospheric temperature, $\mu$ is mean molecular mass, and $g$ is
 surface gravity. One scale height changes the transit depth by approximately
-$2R_{\mathrm p}H/R_\star^2$ \citep{SeagerSasselov2000,Brown2001}. A hot,
-low-gravity giant planet can therefore produce spectral modulation over several
-scale heights that is easier to measure than the corresponding signal from a
-small, cool planet. This makes hot Jupiters useful initial cases for testing a
-recovery method, without making them the final scientific limit of that method.
+$2R_{\mathrm p}H/R_\star^2$ \citep{SeagerSasselov2000,Brown2001}. For a
+representative hydrogen-dominated hot Jupiter with $T=1500$~K,
+$\mu=2.3m_{\mathrm H}$, and $g=10$~m~s$^{-2}$, this gives
+$H\simeq540$~km. Around a Sun-sized star, one scale height then changes the
+transit depth by approximately 160~ppm, and molecular bands can extend across
+several scale heights. The physics of the atmosphere therefore determines
+which planets provide the most informative initial observations.
 
-\subsection{Atmospheres as probes of planets}
-\label{sec:atmospheres}
-
-% Question: What physical information is encoded in an exoplanet atmosphere?
-% Answer: Atmospheric spectra constrain composition, temperature, clouds,
-% hazes, circulation, chemistry, and escape, which connect present conditions
-% to formation and evolution.
-% Evidence: Madhusudhan (2019).
-
-A planetary atmosphere records both present conditions and prior evolution.
-Atomic and molecular abundances constrain chemical inventories and
-thermochemical processes. Temperature structures, clouds, and hazes govern how
-radiation is absorbed, emitted, and transported. Escape signatures probe the
-interaction between a planet and its host star. When interpreted alongside the
-planet's mass, radius, age, and irradiation, these measurements can constrain
-formation location, migration, atmospheric enrichment, and long-term mass loss
-\citep{Madhusudhan2019}.
-
-% Question: Why is atmospheric characterisation an inverse problem?
-% Answer: The atmosphere is inferred from a small wavelength-dependent signal
-% mixed with stellar, instrumental, and geometric effects, and different
-% physical states can produce similar spectra.
-% Evidence: Brown (2001) and Madhusudhan (2019).
-
-The atmosphere is not observed in isolation. Its signal is embedded in light
-from the star and modified by the telescope, detector, observing geometry, and
-data analysis. Different combinations of abundance, temperature, reference
-radius, clouds, hazes, and stellar heterogeneity can produce similar spectral
-signatures. Atmospheric characterisation is consequently an inverse problem:
-the data constrain a family of physical explanations rather than measuring a
-unique atmospheric state directly \citep{Brown2001,Madhusudhan2019}. Improved
-precision narrows this family only if the measurement model and its
-uncertainties are also accurate.
+% Question: Why begin method development with hot Jupiters?
+% Answer: Their large radii, high temperatures, low mean molecular weights, and
+% often low surface gravities make their atmospheric signals comparatively
+% strong, allowing methodological failures to be diagnosed before moving to
+% more difficult planets.
+% Evidence: Seager and Sasselov (2000), Brown (2001), and Madhusudhan (2019).
+Hot Jupiters combine large radii, high temperatures, hydrogen-dominated
+atmospheres, and sometimes low surface gravities. Their transmission spectra
+are consequently favourable for developing and testing a recovery method. A
+strong signal helps distinguish a failure of the analysis from a simple lack
+of photons. These planets are a starting point rather than the final scientific
+scope. Once a method has been validated where atmospheric structure is easier
+to measure, it can be applied to smaller and cooler planets, including the
+worlds most relevant to questions of planetary habitability. The next step is
+therefore to establish how atmospheric opacity is encoded in time-series
+observations.
 
 \subsection{Observing exoplanet atmospheres}
 \label{sec:observing-atmospheres}
@@ -135,6 +126,20 @@ structure \citep{KnutsonEtAl2007}. Each geometry measures a different weighting
 of the atmosphere. This project focuses on transmission spectroscopy, while
 emission and phase-curve analyses remain relevant future applications of a
 detector-level framework.
+
+% Question: Why is atmospheric characterisation an inverse problem?
+% Answer: Atmospheric signals are mixed with stellar, instrumental, and
+% geometric effects, and different physical states can produce similar spectra.
+% Evidence: Brown (2001) and Madhusudhan (2019).
+Across all three geometries, the atmosphere is not observed in isolation. Its
+signal is embedded in light from the host star and modified by the telescope,
+detector, observing geometry, and data analysis. Different combinations of
+abundance, temperature, reference radius, clouds, hazes, and stellar
+heterogeneity can also produce similar spectral signatures. Atmospheric
+characterisation is consequently an inverse problem: the data constrain a
+family of physical explanations rather than measuring a unique atmospheric
+state directly \citep{Brown2001,Madhusudhan2019}. This interpretation can only
+be as reliable as the spectrum supplied to it.
 
 % Question: Is a transmission spectrum the final atmospheric result?
 % Answer: No. Detector data are first used to infer a transmission spectrum,
