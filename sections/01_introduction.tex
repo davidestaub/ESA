@@ -48,28 +48,20 @@ route from detecting a planet to reconstructing its physical history. To use
 that record, however, the atmospheric signal must first be recovered from the
 light of the host star.
 
-% Question: What determines whether a transmission signal is measurable?
-% Answer: The pressure scale height and the planet-to-star area ratio set the
-% approximate change in transit depth produced by atmospheric opacity.
+% Question: Why are atmospheric transmission signals difficult to measure?
+% Answer: Only the starlight passing through a thin annulus around the planet
+% probes the atmosphere, so its wavelength-dependent effect is small.
 % Evidence: Seager and Sasselov (2000) and Brown (2001).
-In transmission spectroscopy, the atmosphere changes the apparent size of the
-planet by only a small amount. A useful measure of how vertically extended an
-atmosphere is is its pressure scale height: the altitude over which atmospheric
-pressure decreases by a factor of approximately $e$. For an isothermal
-atmosphere, this scale height is
-\begin{equation}
-  H = \frac{k_{\mathrm B}T}{\mu g},
-  \label{eq:scale-height}
-\end{equation}
-where $T$ is atmospheric temperature, $\mu$ is mean molecular mass, and $g$ is
-surface gravity. Hotter atmospheres, lighter atmospheric constituents, and
-weaker surface gravity all produce larger scale heights. A more extended
-atmosphere produces a larger wavelength-dependent change in the apparent
-planetary radius. If that radius changes by approximately one scale height, the
-corresponding change in transit depth scales as
-$2R_{\mathrm p}H/R_\star^2$ \citep{SeagerSasselov2000,Brown2001}. The strength
-of a transmission signal therefore depends on both the atmosphere and the
-relative sizes of the planet and its host star.
+In transmission spectroscopy, only the starlight passing through a thin annulus
+around the planet probes its atmosphere. Absorption at different wavelengths
+changes the planet's apparent radius, but this change is small compared with
+the total light received from the star \citep{SeagerSasselov2000,Brown2001}.
+The signal is stronger when the planet is large relative to its host star and
+when its atmosphere extends over a greater range of altitudes. High
+temperatures, light atmospheric constituents, and weak surface gravity favour
+an extended atmosphere, whereas clouds and hazes can obscure spectral
+features. Both the atmosphere and the geometry of the planet--star system
+therefore determine how readily a transmission signal can be measured.
 
 % Question: Why begin method development with hot Jupiters?
 % Answer: Their large radii, high temperatures, low mean molecular weights, and
@@ -77,16 +69,17 @@ relative sizes of the planet and its host star.
 % strong, allowing methodological failures to be diagnosed before moving to
 % more difficult planets.
 % Evidence: Seager and Sasselov (2000), Brown (2001), and Madhusudhan (2019).
-Hot Jupiters combine large radii, high temperatures, hydrogen-dominated
-atmospheres, and sometimes low surface gravities. Their transmission spectra
-are consequently favourable for developing and testing a recovery method. A
-strong signal helps distinguish a failure of the analysis from a simple lack
-of photons. These planets are a starting point rather than the final scientific
-scope. Once a method has been validated where atmospheric structure is easier
-to measure, it can be applied to smaller and cooler planets, including the
-worlds most relevant to questions of planetary habitability. The next step is
-therefore to establish how atmospheric opacity is encoded in time-series
-observations.
+These favourable conditions are often found in hot Jupiters. Their large radii,
+high temperatures, hydrogen-dominated atmospheres, and sometimes low surface
+gravities make their transmission signatures comparatively strong. They are
+therefore useful targets for developing and testing a recovery method. A
+stronger signal makes errors in reduction and inference easier to diagnose
+before moving to planets with intrinsically weaker atmospheric signatures.
+Hot Jupiters are consequently a starting point rather than the final scientific
+scope. Once a method has been validated on these favourable targets, it can be
+applied to smaller and cooler planets, including the worlds most relevant to
+questions of planetary habitability. The next step is to establish how
+atmospheric opacity is encoded in time-series observations.
 
 \subsection{Observing exoplanet atmospheres}
 \label{sec:observing-atmospheres}
@@ -278,14 +271,14 @@ high-information spectra, but that information is mediated by a detector
 geometry and reduction chain that must be modelled carefully.
 
 % Question: Why begin NOVA development with WASP-17 b?
-% Answer: WASP-17 b has a large scale height, a complete SOSS transit, prior
-% Hubble and Spitzer constraints, and three published reductions of the same
-% NIRISS observation.
+% Answer: WASP-17 b is a low-density hot Jupiter with an extended atmosphere, a
+% complete SOSS transit, prior Hubble and Spitzer constraints, and three
+% published reductions of the same NIRISS observation.
 % Evidence: Anderson et al. (2010) and Louie et al. (2025).
 
 WASP-17 b is the initial development case rather than the complete scope of the
-project. Its low density and low surface gravity give it a large atmospheric
-scale height \citep{AndersonEtAl2010}. It also has prior Hubble and Spitzer
+project. Its low density and low surface gravity give it an extended atmosphere
+\citep{AndersonEtAl2010}. It also has prior Hubble and Spitzer
 measurements and a complete NIRISS/SOSS transit analysed with Ahsoka,
 \texttt{transitspectroscopy}/\texttt{juliet}, and supreme-SPOON
 \citep{LouieEtAl2025}. The published study found close agreement among the
