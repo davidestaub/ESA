@@ -53,21 +53,23 @@ light of the host star.
 % approximate change in transit depth produced by atmospheric opacity.
 % Evidence: Seager and Sasselov (2000) and Brown (2001).
 In transmission spectroscopy, the atmosphere changes the apparent size of the
-planet by only a small amount. For an isothermal atmosphere, the pressure scale
-height is approximately
+planet by only a small amount. A useful measure of how vertically extended an
+atmosphere is is its pressure scale height: the altitude over which atmospheric
+pressure decreases by a factor of approximately $e$. For an isothermal
+atmosphere, this scale height is
 \begin{equation}
   H = \frac{k_{\mathrm B}T}{\mu g},
   \label{eq:scale-height}
 \end{equation}
 where $T$ is atmospheric temperature, $\mu$ is mean molecular mass, and $g$ is
-surface gravity. One scale height changes the transit depth by approximately
-$2R_{\mathrm p}H/R_\star^2$ \citep{SeagerSasselov2000,Brown2001}. For a
-representative hydrogen-dominated hot Jupiter with $T=1500$~K,
-$\mu=2.3m_{\mathrm H}$, and $g=10$~m~s$^{-2}$, this gives
-$H\simeq540$~km. Around a Sun-sized star, one scale height then changes the
-transit depth by approximately 160~ppm, and molecular bands can extend across
-several scale heights. The physics of the atmosphere therefore determines
-which planets provide the most informative initial observations.
+surface gravity. Hotter atmospheres, lighter atmospheric constituents, and
+weaker surface gravity all produce larger scale heights. A more extended
+atmosphere produces a larger wavelength-dependent change in the apparent
+planetary radius. If that radius changes by approximately one scale height, the
+corresponding change in transit depth scales as
+$2R_{\mathrm p}H/R_\star^2$ \citep{SeagerSasselov2000,Brown2001}. The strength
+of a transmission signal therefore depends on both the atmosphere and the
+relative sizes of the planet and its host star.
 
 % Question: Why begin method development with hot Jupiters?
 % Answer: Their large radii, high temperatures, low mean molecular weights, and
