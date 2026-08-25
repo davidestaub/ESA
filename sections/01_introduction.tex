@@ -1,88 +1,67 @@
 \section{Introduction and Literature Review}
 \label{sec:introduction}
 
-\subsection{From planetary diversity to atmospheric characterisation}
+\subsection{Atmospheres as observational targets}
 \label{sec:exoplanets-targets}
 
 % Question: What does exoplanet diversity require us to determine?
-% Answer: We need to determine the physical and chemical properties of
-% exoplanet atmospheres and establish how reliably those properties can be
-% inferred from observations.
+% Answer: We need to determine the physical and chemical properties of planets
+% and establish how reliably those properties can be inferred from observations.
 % Evidence: Winn and Fabrycky (2015).
 The discovery of planets beyond the Solar System has shown that planetary
 systems can look very different from our own. These exoplanets span a wide
 range of sizes, temperatures, and orbital configurations, including many with
 no close Solar System counterpart \citep{WinnFabrycky2015}. Understanding this
-diversity requires determining the physical and chemical properties of their
-atmospheres, and establishing how reliably those properties can be inferred
-from observations. This requires more than classifying planets by orbital
-period, mass, and radius.
+diversity requires determining the physical and chemical properties of these
+planets and establishing how reliably those properties can be inferred from
+observations. Orbital period, mass, and radius provide essential context, but
+cannot answer either question alone.
 
-% Question: Why can bulk measurements not determine composition and evolution?
+% Question: Why can bulk measurements not determine a planet's composition?
 % Answer: Mass and radius constrain bulk density but do not uniquely determine
-% interior structure, atmospheric mass, or evolutionary history.
-% Evidence: Madhusudhan (2019).
+% its interior structure or atmospheric mass fraction.
+% Evidence: Rogers and Seager (2010) and Madhusudhan (2019).
 Mass and radius provide essential constraints on a planet's bulk density, but
-they do not specify a unique physical structure. Planets with similar radii can
-have different interior compositions, atmospheric mass fractions, irradiation
-histories, and cloud properties. Labels such as Neptune, sub-Neptune, and
-super-Earth are therefore useful descriptions of a population, not complete
-physical explanations. Distinguishing between these possibilities requires
-observables that respond directly to the material and energy in a planet's
-outer layers. Atmospheres provide those observables
-\citep{Madhusudhan2019}.
+they do not specify a unique physical structure. Planets with similar masses
+and radii can contain different proportions of iron, silicates, water, and
+hydrogen and helium, leaving their exact compositions underconstrained
+\citep{RogersSeager2010}. Labels such as Neptune, sub-Neptune, and super-Earth
+are therefore useful descriptions of a population, not complete physical
+explanations. Distinguishing between these possibilities requires observables
+that respond directly to the material and energy in a planet's outer layers.
+Atmospheres provide those observables \citep{Madhusudhan2019}.
 
 % Question: What additional information is carried by an atmosphere?
-% Answer: Atmospheric spectra connect present composition and energy transport
-% to formation, migration, chemistry, escape, and long-term evolution.
-% Evidence: Madhusudhan (2019).
-A planetary atmosphere records both present conditions and prior evolution.
-Atomic and molecular abundances constrain chemical inventories and
-thermochemical processes. Temperature structures, clouds, and hazes govern how
-radiation is absorbed, emitted, and transported, while escape signatures probe
-the interaction between a planet and its host star. When interpreted alongside
-mass, radius, age, and irradiation, these measurements can constrain formation
-location, migration, atmospheric enrichment, and long-term mass loss
-\citep{Madhusudhan2019}. Atmospheric characterisation therefore provides a
-route from detecting a planet to reconstructing its physical history. To use
-that record, however, the atmospheric signal must first be recovered from the
-light of the host star.
-
-% Question: Why are atmospheric transmission signals difficult to measure?
-% Answer: Only the starlight passing through a thin annulus around the planet
-% probes the atmosphere, so its wavelength-dependent effect is small.
-% Evidence: Seager and Sasselov (2000) and Brown (2001).
-In transmission spectroscopy, only the starlight passing through a thin annulus
-around the planet probes its atmosphere. Absorption at different wavelengths
-changes the planet's apparent radius, but this change is small compared with
-the total light received from the star \citep{SeagerSasselov2000,Brown2001}.
-The signal is stronger when the planet is large relative to its host star and
-when its atmosphere extends over a greater range of altitudes. High
-temperatures, light atmospheric constituents, and weak surface gravity favour
-an extended atmosphere, whereas clouds and hazes can obscure spectral
-features. Both the atmosphere and the geometry of the planet--star system
-therefore determine how readily a transmission signal can be measured.
-
-% Question: Why begin method development with hot Jupiters?
-% Answer: Their large radii, high temperatures, low mean molecular weights, and
-% often low surface gravities make their atmospheric signals comparatively
-% strong, allowing methodological failures to be diagnosed before moving to
-% more difficult planets.
-% Evidence: Seager and Sasselov (2000), Brown (2001), and Madhusudhan (2019).
-These favourable conditions are often found in hot Jupiters. Their large radii,
-high temperatures, hydrogen-dominated atmospheres, and sometimes low surface
-gravities make their transmission signatures comparatively strong. They are
-therefore useful targets for developing and testing a recovery method. A
-stronger signal makes errors in reduction and inference easier to diagnose
-before moving to planets with intrinsically weaker atmospheric signatures.
-Hot Jupiters are consequently a starting point rather than the final scientific
-scope. Once a method has been validated on these favourable targets, it can be
-applied to smaller and cooler planets, including the worlds most relevant to
-questions of planetary habitability. The next step is to establish how
-atmospheric opacity is encoded in time-series observations.
+% Answer: Atmospheric spectra probe composition, energy transport, clouds,
+% escape, and possible signatures of formation and evolution.
+% Evidence: Oberg et al. (2011), Vidal-Madjar et al. (2003), and Madhusudhan
+% (2019).
+Atmospheric composition and structure reflect present conditions and may
+retain information about a planet's formation and evolution. Atomic and
+molecular abundances constrain chemical inventories and elemental ratios,
+including the carbon-to-oxygen ratio, while the overall metallicity provides a
+measure of atmospheric enrichment. These quantities may carry information about the gas and solids
+accreted during formation, although they do not determine a unique formation
+history \citep{ObergEtAl2011}. Temperature structures, clouds, and hazes govern
+how radiation is absorbed, emitted, and transported, while escape signatures
+trace atmospheric loss driven by the host star's high-energy irradiation
+\citep{VidalMadjarEtAl2003}. When interpreted alongside mass, radius, age, and
+irradiation, atmospheric measurements can therefore test hypotheses about
+formation, migration, enrichment, and long-term mass loss
+\citep{Madhusudhan2019}. Atmospheric characterisation provides a route from
+detecting a planet to testing physical explanations for its present state. To
+do so reliably, however, the atmospheric signal must first be recovered from
+the light of the host star.
 
 \subsection{Observing exoplanet atmospheres}
 \label{sec:observing-atmospheres}
+
+% Question: Why does this work begin with transmission spectroscopy?
+% Answer: Its initial development and benchmark data are time-series transit
+% observations.
+% Evidence: Current project scope.
+The present work begins with transmission spectroscopy because its initial
+development and benchmark data are time-series transit observations.
 
 % Question: How does transmission spectroscopy probe an atmosphere?
 % Answer: During transit, wavelength-dependent atmospheric opacity changes the
@@ -101,6 +80,37 @@ atmosphere is more opaque and decreases where it is more transparent.
 Absorption by atoms, molecules, clouds, and aerosols can therefore imprint
 wavelength-dependent structure on the measured transit depth
 \citep{SeagerSasselov2000,Brown2001}.
+
+% Question: Why are atmospheric transmission signals difficult to measure?
+% Answer: Only the starlight passing through a thin annulus around the planet
+% probes the atmosphere, so its wavelength-dependent effect is small.
+% Evidence: Seager and Sasselov (2000) and Brown (2001).
+Only the starlight passing through a thin annulus around the planet probes its
+atmosphere, so the wavelength-dependent change in transit depth is small
+compared with the transit itself. The signal is stronger when the planet is
+large relative to its host star and when its atmosphere extends over a greater
+range of altitudes. High temperatures, atmospheres dominated by light gases
+such as hydrogen, and weak gravity favour an extended atmosphere, whereas
+clouds and hazes can obscure spectral features. Both the atmosphere and the
+geometry of the planet--star system therefore determine how readily a
+transmission signal can be measured \citep{SeagerSasselov2000,Brown2001}.
+
+% Question: Why begin method development with hot Jupiters?
+% Answer: Their large radii, high temperatures, hydrogen-dominated atmospheres,
+% and often low gravities make their atmospheric signals comparatively strong.
+% Evidence: Charbonneau et al. (2002), Brown (2001), and Madhusudhan (2019).
+These favourable conditions are often found in hot Jupiters. Their large radii,
+high temperatures, hydrogen-dominated atmospheres, and sometimes low gravities
+make their transmission signatures comparatively strong. The first detection
+of an exoplanet atmosphere identified sodium absorption in the hot Jupiter
+HD~209458~b \citep{CharbonneauEtAl2002}. Hot Jupiters are therefore
+useful targets for developing and testing methods that recover transmission
+spectra from spectroscopic time series. A stronger signal makes errors in
+reduction and light-curve fitting easier to diagnose before moving to planets
+with intrinsically weaker atmospheric signatures. Hot Jupiters are a starting
+point rather than an end point. Once a method has been validated on these
+targets, it can be applied to smaller and cooler planets, including the worlds
+most relevant to questions of planetary habitability.
 
 % Question: What complementary information comes from emission and phase
 % curves?
