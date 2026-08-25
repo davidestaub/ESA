@@ -143,9 +143,13 @@ useful targets for developing and testing methods that recover transmission
 spectra from spectroscopic time series. A stronger signal makes errors in
 reduction and light-curve fitting easier to diagnose before moving to planets
 with intrinsically weaker atmospheric signatures. Hot Jupiters are a starting
-point rather than an end point. Once a method has been validated on these
-targets, it can be applied to smaller and cooler planets, including the worlds
-most relevant to questions of planetary habitability.
+point rather than an end point. The initial case study in this project is
+WASP-17~b, an unusually low-density hot Jupiter for which a complete
+JWST/NIRISS SOSS transit and several independent reductions are available
+\citep{AndersonEtAl2010,LouieEtAl2025}. Once a method has been validated on
+this and other favourable targets, it can be applied to smaller and cooler
+planets, including the worlds most relevant to questions of planetary
+habitability.
 
 % Question: What complementary information comes from emission and phase
 % curves?
@@ -256,103 +260,126 @@ studies.
 
 % Question: What changed with JWST?
 % Answer: JWST combines a large cold aperture, broad near- to mid-infrared
-% coverage, stable time-series modes, and performance that met or exceeded
-% commissioning expectations.
+% coverage, and stable time-series modes to characterise known planets with
+% greater precision and broader simultaneous wavelength coverage than earlier
+% facilities.
 % Evidence: Gardner et al. (2006) and Rigby et al. (2023).
 
 JWST was designed as a 6.6-metre, cryogenic, infrared-optimised observatory with
 instruments spanning the near- to mid-infrared
-\citep{GardnerEtAl2006}. Its collecting area increases photon counts, its cold
-optics reduce thermal background over much of the infrared, and its instrument
-suite gives access to multiple molecular bands over a much broader wavelength
-range than a single Hubble or Spitzer mode. Commissioning showed that the
-observatory's sensitivity, image quality, stability, and spectral performance
-met or exceeded the mission requirements in most areas
-\citep{RigbyEtAl2023}. For transmission spectroscopy, this combination improves
-precision and, equally importantly, allows several atmospheric absorbers and
-continuum regions to be measured within a consistent observing framework.
-%Davide: What is a bit missing here is that JWST does not do detection and only does characterization of already discovered exoplanets but with much more precision and wavelength coverage than HUBBLE. 
+\citep{GardnerEtAl2006}. Unlike Kepler and TESS, it is not a wide-field transit
+survey. For the time-series spectroscopy considered here, JWST follows up
+planets that have already been discovered and whose transit times are known,
+using its observing time to characterise their atmospheres. Its collecting area
+increases the number of detected photons, its cold optics reduce thermal
+background over much of the infrared, and its instrument suite gives access to
+multiple molecular bands over a much broader wavelength range than a single
+Hubble or Spitzer mode. Commissioning showed that the observatory's
+sensitivity, stability, and spectral performance met or exceeded the mission
+requirements in most areas \citep{RigbyEtAl2023}. JWST can therefore measure
+smaller wavelength-dependent changes in transit depth while covering several
+atmospheric absorbers and continuum regions within a consistent observing
+framework.
 
 \subsection{NIRISS/SOSS and the initial WASP-17 b case study}
 \label{sec:soss-wasp17}
 
-% Question: What is NIRISS/SOSS designed to measure?
-% Answer: SOSS is a slitless, cross-dispersed time-series mode covering
-% 0.6--2.8 micrometres at resolving power near 700, with deliberate spatial
-% defocus to observe bright stars.
-% Evidence: Albert et al. (2023).
+% Question: Why does this project begin with NIRISS/SOSS, and what makes the
+% mode useful and difficult?
+% Answer: The available WASP-17 b observation and its independent published
+% reductions provide a controlled first case, while the curved and overlapping
+% SOSS orders make the mode a demanding test of detector-level inference.
+% Evidence: Gardner et al. (2006), Albert et al. (2023), and Louie et al.
+% (2025).
 
-%Davide maybe here mention that there are 4 instruments on board JWST and why we chose NIRISS (there wasnt really a reason to be honest and also it turns out to be one of the more tricky ones because the traces are curved and overlap)
-The Single Object Slitless Spectroscopy mode of NIRISS was designed
-specifically for time-series observations of transiting exoplanets
-\citep{AlbertEtAl2023}. The GR700XD grism produces cross-dispersed spectral
-orders covering approximately $0.6$--$2.8\,\mu\mathrm{m}$, with resolving power
-near $R=700$ at $1.25\,\mu\mathrm{m}$. A weak cylindrical lens spreads the trace over
-roughly 23 pixels in the cross-dispersion direction, reducing peak counts and
-%Davide: what is peak coundts, dont we do that to avoid saturation?
-permitting observations of bright targets. The bandpass includes strong water
-bands, alkali features at optical wavelengths, and spectral regions sensitive
-to methane, carbon monoxide, carbon dioxide, helium, clouds, and hazes.
+JWST carries four science instruments: NIRCam, NIRSpec, MIRI, and NIRISS,
+which is paired with the Fine Guidance Sensor
+\citep{GardnerEtAl2006,AlbertEtAl2023}. Several of these instruments support
+exoplanet time-series spectroscopy. This project
+begins with the NIRISS Single Object Slitless Spectroscopy mode because the
+initial WASP-17~b case study was observed in SOSS and has three independent
+published reductions that permit a controlled comparison
+\citep{LouieEtAl2025}. The available case study therefore sets the starting
+instrument. Its slitless, cross-dispersed design produces curved
+spectral orders that overlap on the detector, making SOSS a demanding test of
+extraction and detector-level modelling \citep{AlbertEtAl2023}.
+
+The GR700XD grism produces cross-dispersed orders covering approximately
+$0.6$--$2.8\,\mu\mathrm{m}$, with resolving power near $R=700$ at
+$1.25\,\mu\mathrm{m}$ \citep{AlbertEtAl2023}. A weak cylindrical lens spreads
+the spectrum over roughly 23 detector rows in the cross-dispersion direction.
+Distributing the light over more pixels prevents any one pixel from saturating
+as quickly and therefore permits observations of bright host stars. The
+bandpass includes strong water bands, alkali features at optical wavelengths,
+and regions sensitive to methane, carbon monoxide, carbon dioxide, helium,
+clouds, and hazes.
 
 % Question: How precise is SOSS in practice?
-% Answer: Commissioning demonstrated near photon-limited stability to 20 ppm
-% over 40-minute bins after removal of a long-term trend, while exoplanet
-% spectral precision depends on target and binning.
+% Answer: A broad-band SOSS light curve reached about 20 ppm scatter when
+% averaged over 40 minutes during commissioning, while the narrower wavelength
+% channels in the WASP-17 b spectrum have median uncertainties of 46--73 ppm.
 % Evidence: Albert et al. (2023) and Louie et al. (2025).
 
-%Davide: weird opening also i dont really understand what you are describving here with the comnssioned binned down to photon blabla 
-Precision must be quoted for a defined target, cadence, and wavelength bin.
-There is no single factor by which JWST is more precise than earlier
-observatories. During commissioning, a SOSS white-light time series binned down
-close to photon noise at the 20 parts-per-million level on a 40-minute
-timescale after a long-term trend was removed \citep{AlbertEtAl2023}. For the
-%Davide: We never talked about WASP-17b, maybe it needs to be introduced prior when we say we study hot jupiters and we start with one exoplanet WASP-17b, what do you think?
-WASP-17 b observation used in this project, three independent analyses reported
-median spectroscopic uncertainties between 46 and 73 parts per million across
-the two useful orders \citep{LouieEtAl2025}. These numbers demonstrate the
-relevant scale while also showing why precision claims must specify the
-analysis and data product.
-%Davide I dont get this, what do you mean by we must specify analysis and data product, why does precision depend on the data product, what is the data product. its unclear
+SOSS must distinguish changes in transit depth at the level of tens to hundreds
+of parts per million. During commissioning, the light measured across the broad
+SOSS bandpass was combined into a single white-light time series. After a slow
+instrumental trend was removed and the measurements were averaged over
+40-minute intervals, the remaining scatter was approximately 20 parts per
+million, close to the expected photon noise \citep{AlbertEtAl2023}. A
+transmission spectrum divides the same light into many narrower wavelength
+channels, leaving fewer photons in each channel and therefore larger
+uncertainties. For WASP-17~b, the three reductions reported median
+uncertainties of 46--73 parts per million per spectral channel across the two
+useful orders \citep{LouieEtAl2025}. The achievable precision therefore depends
+on the brightness of the star, the observing cadence, the width of the
+wavelength channels, and the reduction choices.
 
-
-% Question: What have early SOSS observations demonstrated?
-% Answer: They have recovered broad molecular and atomic signatures and
-% constrained clouds across multiple gas-giant targets, while exposing
-% instrument-specific reduction challenges.
+% Question: What has SOSS already delivered, and what analysis difficulties
+% have those observations exposed?
+% Answer: SOSS has recovered molecular, atomic, and cloud signatures, but the
+% analyses must treat background, readout noise, overlapping orders, field-star
+% contamination, and wavelength-correlated residuals.
 % Evidence: Feinstein et al. (2023), Radica et al. (2023), and Holmberg and
 % Madhusudhan (2023).
 
-%THis whole paragraph is weird and needs reworking
-
-Early SOSS studies demonstrated both the scientific power and the analysis
-demands of the mode. The WASP-39 b Early Release Science spectrum covered
-multiple water bands, potassium, and cloud signatures
-\citep{FeinsteinEtAl2023}. Independent studies of WASP-96 b and WASP-39 b
-examined background subtraction, $1/f$ noise, order overlap, field-star
-contamination, limb darkening, and wavelength-correlated noise
-\citep{RadicaEtAl2023,HolmbergMadhusudhan2023}. SOSS therefore provides
-high-information spectra, but that information is mediated by a detector
-geometry and reduction chain that must be modelled carefully.
+The first SOSS exoplanet analyses demonstrated that the mode can recover rich
+atmospheric structure. The WASP-39~b Early Release Science spectrum contained
+multiple water bands, potassium absorption, and evidence of clouds
+\citep{FeinsteinEtAl2023}. At the same time, analyses of WASP-96~b and
+WASP-39~b had to account for zodiacal background, low-frequency readout noise,
+overlapping spectral orders, contaminating field stars, limb darkening, and
+wavelength-correlated residuals
+\citep{RadicaEtAl2023,HolmbergMadhusudhan2023}. The atmospheric information is
+therefore scientifically valuable, but recovering it requires choices about
+detector calibration, extraction, and light-curve fitting. This combination of
+a strong atmospheric signal and a difficult reduction makes SOSS a useful
+first test for a detector-level method.
 
 % Question: Why begin NOVA development with WASP-17 b?
 % Answer: WASP-17 b is a low-density hot Jupiter with an extended atmosphere, a
 % complete SOSS transit, prior Hubble and Spitzer constraints, and three
 % published reductions of the same NIRISS observation.
-% Evidence: Anderson et al. (2010) and Louie et al. (2025).
+% Evidence: Anderson et al. (2010), Alderson et al. (2022), Louie et al.
+% (2025), Espinoza et al. (2019), Espinoza (2022), Radica et al. (2023),
+% and Radica (2024).
 
-WASP-17 b is the initial development case rather than the complete scope of the
+WASP-17~b is the initial development case rather than the complete scope of the
 project. Its low density and low surface gravity give it an extended atmosphere
-\citep{AndersonEtAl2010}. It also has prior Hubble %Davide:cite! 
-and Spitzer %Davide:cite!
-measurements and a complete NIRISS/SOSS transit analysed with Ahsoka, %Davide:cite!
-\texttt{transitspectroscopy}/\texttt{juliet},%Davide:cite! and why the weird indent?
-and supreme-SPOON %Davide:cite! cite the package and the analysis !! this is bad
-\citep{LouieEtAl2025}. The published study%Davide:cite! which published study, unclear
-found close agreement among the
-three spectra and used the wider SOSS bandpass to constrain the water abundance
-more tightly than the earlier data allowed. This combination makes WASP-17 b a
-strong case for controlled method comparison. Later benchmark stages will
-include other targets and injected atmospheric scenarios.
+\citep{AndersonEtAl2010}. Alderson et al. combined Hubble STIS and WFC3 spectra
+with Spitzer IRAC photometry to construct a $0.3$--$5\,\mu\mathrm{m}$
+transmission spectrum, but the atmospheric interpretation retained distinct
+high- and low-metallicity solutions \citep{AldersonEtAl2022}. Louie et al. then
+analysed a complete NIRISS/SOSS transit with three independent reductions:
+Ahsoka, which was introduced in that analysis; \texttt{transitspectroscopy}
+with \texttt{juliet}; and supreme-SPOON, now released as exoTEDRF
+\citep{LouieEtAl2025,Espinoza2022TransitSpectroscopy,EspinozaEtAl2019,
+RadicaEtAl2023,Radica2024}. Louie et al. found close agreement among the three
+spectra and used the wider SOSS bandpass to constrain the water abundance more
+tightly than the earlier Hubble and Spitzer data allowed
+\citep{LouieEtAl2025}. This combination of earlier observations, a complete
+SOSS transit, and multiple reductions of the same data makes WASP-17~b a strong
+case for controlled method comparison. Later benchmark stages will include
+other targets and injected atmospheric scenarios.
 
 \subsection{From detector integrations to a transmission spectrum}
 \label{sec:detector-to-spectrum}
@@ -388,7 +415,11 @@ wavelength bins, limb-darkening priors, and time-domain systematics models
 a modular framework from uncalibrated data through light-curve fitting
 \citep{BellEtAl2022}. Supreme-SPOON, now developed as exoTEDRF, includes
 SOSS-specific detector processing and extraction
-\citep{RadicaEtAl2023}. Ahsoka combines components of the official
+\citep{RadicaEtAl2023,Radica2024}. \texttt{transitspectroscopy} provides
+routines for spectral tracing, extraction, and light-curve construction; the
+WASP-17~b analysis paired it with \texttt{juliet}
+\citep{Espinoza2022TransitSpectroscopy,EspinozaEtAl2019,LouieEtAl2025}.
+Ahsoka combines components of the official
 \texttt{jwst} calibration pipeline, supreme-SPOON, nirHiss, and Eureka!, while
 using several forward models in the interpretation of WASP-17 b
 \citep{LouieEtAl2025}. These tools overlap, but they are not interchangeable and
