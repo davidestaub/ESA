@@ -135,7 +135,8 @@ One class of planet with especially favourable properties for transmission
 spectroscopy is the hot Jupiter. Hot Jupiters are a subgroup of gas giants that
 orbit close to their host stars and are consequently strongly irradiated. Their
 large radii, high temperatures, hydrogen-dominated atmospheres, and sometimes
-low gravities make their transmission signatures comparatively strong. The
+low gravities make their transmission signatures comparatively strong
+\citep{Brown2001,Madhusudhan2019}. The
 first detection of an exoplanet atmosphere identified sodium absorption in the
 hot Jupiter
 HD~209458~b \citep{CharbonneauEtAl2002}. Hot Jupiters are therefore
@@ -197,7 +198,8 @@ as reliable as the spectrum supplied to the retrieval.
 The transmission spectrum is itself an inferred data product. Detector
 measurements are calibrated and modelled to estimate transit depth as a function
 of wavelength. A separate atmospheric forward model or retrieval then maps that
-spectrum to composition, temperature, clouds, and other physical quantities.
+spectrum to composition, temperature, clouds, and other physical quantities
+\citep{Brown2001,Madhusudhan2019}.
 These two inference stages answer different questions. A retrieval can be
 statistically precise while inheriting a bias from the recovered spectrum, and
 a well-recovered spectrum can still admit several atmospheric interpretations.
@@ -316,10 +318,12 @@ $0.6$--$2.8\,\mu\mathrm{m}$, with resolving power near $R=650$ at
 $1.25\,\mu\mathrm{m}$ \citep{AlbertEtAl2023}. A weak cylindrical lens spreads
 the spectrum over roughly 23 detector rows in the cross-dispersion direction.
 Distributing the light over more pixels prevents any one pixel from saturating
-as quickly and therefore permits observations of bright host stars. The
-bandpass includes strong water bands, the potassium doublet in the red optical,
-and regions sensitive to methane, carbon monoxide, carbon dioxide, helium,
-clouds, and hazes. %Davide: We need to cite this
+as quickly and therefore permits observations of bright host stars
+\citep{AlbertEtAl2023}. The bandpass contains several water bands, the
+potassium doublet, and regions that can constrain other absorbers and optical
+scattering by clouds and hazes, with the precise sensitivity depending on the
+target atmosphere
+\citep{AlbertEtAl2023,HolmbergMadhusudhan2023,LouieEtAl2025}.
 
 Figure~\ref{fig:soss-detector-orders} shows the curved first-
 and second-order footprints in a median SOSS detector image.
@@ -354,10 +358,10 @@ depths.
 
 The 20 parts per million value describes a white-light time series that combines
 photons across the full SOSS bandpass. A transmission spectrum instead measures
-the transit depth separately in narrower wavelength channels. 
-Each channel
+the transit depth separately in narrower wavelength channels. Each channel
 therefore contains only part of the total photon count and normally has greater
-photon noise than the corresponding white-light measurement. %Davide: this needs to be cited
+photon noise than the corresponding white-light measurement
+\citep{AlbertEtAl2023,LouieEtAl2025}.
 For WASP-17~b,
 the three reductions reported median uncertainties of 46--73 parts per million
 per spectral channel across the two
@@ -383,7 +387,7 @@ readout structure, wavelength calibration, spectral assignment, limb darkening,
 and time-dependent noise. SOSS adds a distinctive combination of curved and
 physically overlapping orders, slitless contamination by field-star spectra,
 and a spatially structured zodiacal background
-\citep{RadicaEtAl2023,HolmbergMadhusudhan2023}. The atmospheric information is
+\citep{BellEtAl2022,RadicaEtAl2023,HolmbergMadhusudhan2023}. The atmospheric information is
 scientifically valuable, but recovering it requires choices about detector
 calibration, extraction, and light-curve fitting. Strong signals provide
 leverage for diagnosing those choices, while the curved and overlapping traces
@@ -439,14 +443,17 @@ calibration pipeline or custom variants identify unusable data, correct
 saturation, bias, reference-pixel and nonlinearity effects, detect jumps, and
 fit the ramps. Subsequent processing assigns a wavelength and trace position to
 each pixel and treats flat-field response, low-frequency readout structure,
-background, field-star contamination, and bad pixels. The precise order of
-these operations differs between pipelines. Background may be subtracted before
-extraction or estimated as part of the extraction model.
-%Davide: question, so does that mean some models do estimate background???
-A box extraction,
-optimal extraction, or forward extraction such as ATOCA %CITE!!!
-then converts the
-two-dimensional images into one-dimensional spectra for each integration.
+background, field-star contamination, and bad pixels
+\citep{BellEtAl2022,RadicaEtAl2023,LouieEtAl2025}. The precise order of these
+operations differs between pipelines. Background is sometimes estimated as
+part of extraction rather than only subtracted beforehand. In particular,
+JExoRES fits a residual background level simultaneously with the fluxes of the
+overlapping orders during its multi-order extraction
+\citep{HolmbergMadhusudhan2023}. This couples background estimation to spectral
+extraction, but not to the later time-dependent transit fit. A box extraction,
+optimal extraction, or forward extraction such as ATOCA then converts the
+two-dimensional images into one-dimensional spectra for each integration
+\citep{Horne1986,DarveauBernierEtAl2022}.
 
 The extracted spectra are divided into wavelength channels, producing one light
 curve per channel. Each light curve is fitted with a transit model, but the
@@ -553,7 +560,8 @@ closely over most of the SOSS bandpass \citep{LouieEtAl2025}, which is strong
 evidence that the result is reproducible across those implementations.
 Nevertheless, the analyses begin from the same observation, use common
 calibration reference files, and deliberately standardise several choices.
-Some also share software components. Agreement therefore bounds the effect of
+Some also share software components
+\citep{BellEtAl2022,RadicaEtAl2023,LouieEtAl2025}. Agreement therefore bounds the effect of
 the choices that differ, but it cannot exclude a bias caused by assumptions that
 are common to every analysis.
 
@@ -597,7 +605,8 @@ model. It is whether background and the wavelength-dependent transit are
 inferred together. In the published implementations considered here,
 background is either subtracted before extraction or refined jointly with
 extraction, but it is not inferred jointly with the transit signal in the same
-detector-pixel likelihood. Once a one-dimensional spectrum has been produced,
+detector-pixel likelihood
+\citep{HolmbergMadhusudhan2023,LouieEtAl2025}. Once a one-dimensional spectrum has been produced,
 the later transit fit can account for background uncertainty only to the extent
 that its estimation error and covariance were carried into that product. The
 transit shape also cannot help revise how the earlier stage allocated detector
@@ -665,7 +674,8 @@ forward, the later light-curve fit cannot recover the discarded information.
 Even a forward-modelled extraction normally separates the stellar-spectrum
 estimate from the later transit fit. ATOCA treats the incident spectrum as the
 unknown quantity at each integration, while time-dependent transit parameters
-are inferred after extraction. This ordering is practical and may be entirely
+are inferred after extraction
+\citep{DarveauBernierEtAl2022,BellEtAl2022,RadicaEtAl2023}. This ordering is practical and may be entirely
 adequate. It does, however, prevent the transit model from helping to separate
 stellar light, additive background, overlapping orders, and detector response
 within a single likelihood. Whether that separation causes a meaningful bias

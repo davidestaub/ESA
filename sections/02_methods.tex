@@ -85,7 +85,7 @@ independent copies.
 
 For depth $D$ in parts per million, the radius ratio is
 $k=\sqrt{D\times10^{-6}}$. NOVA evaluates an exact Keplerian transit with
-wavelength-dependent quadratic limb darkening. Each detector integration is
+wavelength-dependent quadratic limb darkening \citep{MandelAgol2002}. Each detector integration is
 modelled as a Gauss-Legendre average across its finite exposure rather than at a
 single mid-exposure time. A convergence test selected 21 quadrature points, for
 which the maximum difference relative to a 61-point reference was below
@@ -116,7 +116,8 @@ used in some extracted light-curve analyses. Residual temporal correlation is
 therefore retained as a diagnostic and as a possible future extension of the
 likelihood.
 
-Quadratic limb darkening is parameterised using physically bounded coordinates,
+Quadratic limb darkening is parameterised using physically bounded coordinates
+\citep{Kipping2013},
 \begin{equation}
  u_1=2\sqrt{q_1}q_2, \qquad
  u_2=\sqrt{q_1}(1-2q_2).
@@ -140,15 +141,16 @@ $\bm{\theta}$, NOVA solves
  +\frac{1}{2}\left\|\bm{L}\bm{\eta}\right\|_2^2 .
  \label{eq:varpro}
 \end{equation}
-This variable-projection step removes the linear variables from the nonlinear
+This variable-projection step \citep{GolubPereyra1973} removes the linear variables from the nonlinear
 search while retaining their exact response to $\bm{\theta}$. The profiled
 Jacobian includes movement of the fitted stellar and background coefficients.
 The production implementation streams detector rows into sparse factors and a
 small background Schur complement, avoiding a visit-sized dense Jacobian.
 
 The nonlinear profiled problem is solved with bounded trust-region reflective
-least squares. Robustness is provided by Huber iteratively reweighted least
-squares with threshold 1.345. Each robust cycle recomputes detector weights from
+least squares \citep{BranchColemanLi1999}. Robustness is provided by Huber
+iteratively reweighted least squares \citep{Huber1964} with threshold 1.345.
+Each robust cycle recomputes detector weights from
 standardised residuals, refits the model, and stores an immutable prediction and
 diagnostic record. The standard policy permits 25 cycles before a soft limit and
 50 before a hard stop. A final fit using the recomputed terminal weights is
