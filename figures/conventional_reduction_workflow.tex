@@ -9,86 +9,95 @@
   \node[anchor=west,font=\bfseries] at (5.44,4.82)
     {(b) Extraction-first reduction};
 
-  % Ramp sampling within an integration
-  \draw[->,line width=0.65pt] (0.82,0.92) -- (4.38,0.92);
+  % Nondestructive groups within one integration. The cosmic ray produces a
+  % discontinuity, while the count-rate slope is retained on either side.
+  \draw[->,line width=0.65pt] (0.82,0.92) -- (4.50,0.92);
   \draw[->,line width=0.65pt] (0.82,0.92) -- (0.82,4.22);
-  \node[anchor=north] at (2.60,0.78) {Time within integration};
+  \node[anchor=north] at (2.66,0.78) {Time within integration};
   \node[rotate=90,anchor=center] at (0.30,2.55)
     {Accumulated counts};
 
   \draw[transitatmos!75!black,line width=1.0pt]
-    (1.03,1.20) -- (3.83,3.79);
+    (1.02,1.15) -- (2.34,2.21);
+  \draw[transitatmos!75!black,line width=1.0pt]
+    (2.46,2.90) -- (3.86,4.02);
+
   \foreach \x/\y/\lab in {
-    1.18/1.32/G1,
-    1.72/1.82/G2,
-    2.26/2.32/G3,
-    2.80/2.82/G4,
-    3.34/3.32/G5}
+    1.16/1.27/G1,
+    1.66/1.67/G2,
+    2.16/2.07/G3,
+    2.66/3.06/G4,
+    3.16/3.46/G5,
+    3.66/3.86/G6}
   {
     \fill[transitatmos] (\x,\y) circle (0.075);
     \node[anchor=south,font=\scriptsize,text=transitatmos!70!black]
       at (\x,\y+0.10) {\lab};
   }
-  \draw[->,transitabsorb,line width=0.75pt]
-    (3.58,2.66) -- (3.08,3.08);
+
+  \draw[->,transitabsorb,dashed,line width=0.75pt]
+    (2.39,2.24) -- (2.39,2.84);
   \node[anchor=west,text=transitabsorb,align=left,font=\scriptsize]
-    at (3.56,2.40) {slope =\\count rate};
-  % Reusable box dimensions and top workflow row
-  \draw[rounded corners=2pt,fill=transitatmos!8,draw=transitatmos!65,
-    line width=0.55pt] (5.44,3.18) rectangle (7.76,4.23);
-  \node[align=center,font=\scriptsize] at (6.60,3.705)
-    {Count-rate images\\at $t_1,t_2,\ldots$};
+    at (2.52,2.52) {cosmic-ray\\jump};
 
-  \draw[rounded corners=2pt,fill=transitatmos!8,draw=transitatmos!65,
-    line width=0.55pt] (8.05,3.18) rectangle (10.80,4.23);
-  \node[align=center,font=\scriptsize] at (9.425,3.705)
-    {Detector corrections\\background and $1/f$\\trace and bad pixels};
+  \draw[->,transitatmos!75!black,line width=0.7pt]
+    (4.08,2.42) -- (3.42,3.59);
+  \node[anchor=east,text=transitatmos!75!black,align=left,font=\scriptsize]
+    at (4.66,2.05) {slope =\\count rate};
 
-  \draw[rounded corners=2pt,fill=transitstar!10,draw=transitstar!75!black,
-    line width=0.55pt] (11.09,3.18) rectangle (13.84,4.23);
-  \node[align=center,font=\scriptsize] at (12.465,3.705)
-    {Spectral extraction\\box, optimal, or\\forward model};
+  % Two shared stages per representation. Exact implementations and ordering
+  % within a stage vary between pipelines.
+  % Detector-space boxes
+  \draw[rounded corners=2pt,fill=transitatmos!8,draw=transitatmos!70,
+    line width=0.6pt] (5.46,3.05) rectangle (8.76,4.30);
+  \node[align=center,text width=3.00cm,font=\scriptsize] at (7.11,3.675)
+    {\textbf{2D count-rate images}\\one per integration};
 
-  \draw[rounded corners=2pt,fill=transitstar!10,draw=transitstar!75!black,
-    line width=0.55pt] (14.13,3.18) rectangle (16.91,4.23);
-  \node[align=center,font=\scriptsize] at (15.52,3.705)
-    {One-dimensional spectra\\for each integration};
+  \draw[rounded corners=2pt,fill=transitatmos!8,draw=transitatmos!70,
+    line width=0.6pt] (5.46,1.55) rectangle (8.76,2.80);
+  \node[align=center,text width=3.00cm,font=\scriptsize] at (7.11,2.175)
+    {\textbf{Background and}\\\textbf{noise treatment}};
 
-  \draw[->,line width=0.65pt] (7.76,3.705) -- (8.05,3.705);
-  \draw[->,line width=0.65pt] (10.80,3.705) -- (11.09,3.705);
-  \draw[->,line width=0.65pt] (13.84,3.705) -- (14.13,3.705);
-  \node[anchor=north,font=\scriptsize,text=transitabsorb]
-    at (12.465,3.10) {spectral compression};
+  % Extracted one-dimensional data
+  \draw[rounded corners=2pt,fill=transitstar!10,draw=transitstar!80!black,
+    line width=0.6pt] (9.18,3.05) rectangle (12.78,4.30);
+  \node[align=center,text width=3.30cm,font=\scriptsize] at (10.98,3.675)
+    {\textbf{Spectral extraction}\\2D pixels $\rightarrow$ 1D spectrum\\
+     one per integration};
 
-  % Continue the workflow on a second row from right to left
-  \draw[rounded corners=2pt,fill=black!3,draw=black!38,line width=0.55pt]
-    (14.13,1.38) rectangle (16.91,2.43);
-  \node[align=center] at (15.52,1.905)
-    {Wavelength\\binning};
+  \draw[rounded corners=2pt,fill=transitstar!10,draw=transitstar!80!black,
+    line width=0.6pt] (9.18,1.55) rectangle (12.78,2.80);
+  \node[align=center,text width=3.30cm,font=\scriptsize] at (10.98,2.175)
+    {\textbf{Spectral light curves}\\one flux time series per\\
+     wavelength channel};
 
-  \draw[rounded corners=2pt,fill=black!3,draw=black!38,line width=0.55pt]
-    (11.09,1.38) rectangle (13.84,2.43);
-  \node[align=center] at (12.465,1.905)
-    {Spectral\\light curves};
+  % Transit inference and planetary spectrum
+  \draw[rounded corners=2pt,fill=transitabsorb!9,draw=transitabsorb!75,
+    line width=0.6pt] (13.20,3.05) rectangle (16.92,4.30);
+  \node[align=center,text width=3.42cm,font=\scriptsize] at (15.06,3.675)
+    {\textbf{Transit fitting}\\fit each wavelength channel\\
+     one depth per channel};
 
-  \draw[rounded corners=2pt,fill=transitabsorb!9,draw=transitabsorb!70,
-    line width=0.55pt] (8.05,1.38) rectangle (10.80,2.43);
-  \node[align=center,font=\scriptsize] at (9.425,1.905)
-    {Transit inference\\pipeline-specific\\nuisance model};
+  \draw[rounded corners=2pt,fill=transitabsorb!12,draw=transitabsorb!85,
+    line width=0.9pt] (13.20,1.55) rectangle (16.92,2.80);
+  \node[align=center,text width=3.60cm,font=\scriptsize] at (15.06,2.175)
+    {\textbf{Transmission spectrum}\\transit depth versus wavelength\\
+     $\delta(\lambda)$};
 
-  \draw[rounded corners=2pt,fill=transitplanet!5,draw=transitplanet!65,
-    line width=0.55pt] (5.44,1.38) rectangle (7.76,2.43);
-  \node[align=center] at (6.60,1.905)
-    {Transmission\\spectrum};
-
+  % Shared conceptual flow
+  \draw[->,line width=0.65pt] (7.11,3.05) -- (7.11,2.80);
   \draw[->,line width=0.65pt]
-    (16.91,3.705) -- (17.01,3.705) -- (17.01,2.64) --
-    (15.52,2.64) -- (15.52,2.43);
-  \draw[->,line width=0.65pt] (14.13,1.905) -- (13.84,1.905);
-  \draw[->,line width=0.65pt] (11.09,1.905) -- (10.80,1.905);
-  \draw[->,line width=0.65pt] (8.05,1.905) -- (7.76,1.905);
+    (8.76,2.175) -- (8.97,2.175) -- (8.97,3.675) -- (9.18,3.675);
+  \draw[->,line width=0.65pt] (10.98,3.05) -- (10.98,2.80);
+  \draw[->,line width=0.65pt]
+    (12.78,2.175) -- (12.99,2.175) -- (12.99,3.675) -- (13.20,3.675);
+  \draw[->,line width=0.65pt] (15.06,3.05) -- (15.06,2.80);
 
-  \node[anchor=north,align=center,font=\scriptsize,text=black!65]
-    at (11.30,1.05)
-    {Detector pixels are no longer available to the downstream light-curve fit};
+  % Colour key requested beneath the boxes
+  \node[font=\scriptsize] at (11.19,0.69)
+    {\textcolor{transitatmos!80!black}{detector pixels}
+     $\rightarrow$
+     \textcolor{transitstar!85!black}{extracted 1D data}
+     $\rightarrow$
+     \textcolor{transitabsorb!85!black}{planetary spectrum}};
 \end{tikzpicture}

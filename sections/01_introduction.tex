@@ -319,7 +319,20 @@ Distributing the light over more pixels prevents any one pixel from saturating
 as quickly and therefore permits observations of bright host stars. The
 bandpass includes strong water bands, the potassium doublet in the red optical,
 and regions sensitive to methane, carbon monoxide, carbon dioxide, helium,
-clouds, and hazes.
+clouds, and hazes. Figure~\ref{fig:soss-detector-orders} shows the curved first-
+and second-order footprints in a median SOSS detector image.
+
+\begin{figure*}[t]
+  \centering
+  \includegraphics[width=\textwidth]{figures/niriss_soss_detector_orders.png}
+  \caption{Median NIRISS/SOSS detector image showing the curved first- and
+  second-order spectra. The cyan and green dashed boundaries indicate the
+  detector footprints used for orders 1 and 2, respectively. An inverse
+  hyperbolic sine (\(\operatorname{asinh}\)) intensity stretch preserves the
+  visibility of both the bright trace cores and their fainter wings. The colour
+  bar reports the original count rate in \(\mathrm{DN\,s^{-1}}\).}
+  \label{fig:soss-detector-orders}
+\end{figure*}
 
 % Question: How precise is SOSS in practice?
 % Answer: A broad-band SOSS light curve reached about 20 ppm scatter when
@@ -445,15 +458,17 @@ and assembled as a function of wavelength to form the transmission spectrum.
 \begin{figure*}[t]
   \centering
   \input{figures/conventional_reduction_workflow}
-  \caption{Schematic extraction-first reduction of a JWST/NIRISS SOSS
-  time-series observation. (a) Nondestructive groups sample the accumulating
-  charge within an integration, and the fitted ramp slope gives one count rate
-  per detector pixel. (b) Repeated count-rate images are calibrated and
-  corrected before each integration is compressed to a one-dimensional
-  spectrum. Wavelength binning produces spectral light curves, which are fitted
-  with a transit model and any pipeline-specific nuisance model. The fitted
-  depths are then assembled into a transmission spectrum. Exact operations and
-  their ordering differ between pipelines.}
+  \caption{Shared conceptual backbone of extraction-first JWST/NIRISS SOSS
+  reductions. (a) Nondestructive groups sample accumulated charge within an
+  integration. A cosmic ray causes a discontinuity between groups, while the
+  fitted slopes of the unaffected ramp segments estimate the pixel count rate.
+  (b) Each integration produces a two-dimensional count-rate image. After
+  background and noise treatment, spectral extraction compresses the detector
+  pixels to a one-dimensional spectrum. Wavelength binning produces one light
+  curve per channel, and transit fitting yields the wavelength-dependent depths
+  that form the transmission spectrum. The exact implementation and ordering,
+  including whether an operation occurs at group or count-rate level, differ
+  between pipelines.}
   \label{fig:extraction-first-workflow}
 \end{figure*}
 
