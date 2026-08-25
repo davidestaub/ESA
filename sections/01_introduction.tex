@@ -271,6 +271,7 @@ met or exceeded the mission requirements in most areas
 \citep{RigbyEtAl2023}. For transmission spectroscopy, this combination improves
 precision and, equally importantly, allows several atmospheric absorbers and
 continuum regions to be measured within a consistent observing framework.
+%Davide: What is a bit missing here is that JWST does not do detection and only does characterization of already discovered exoplanets but with much more precision and wavelength coverage than HUBBLE. 
 
 \subsection{NIRISS/SOSS and the initial WASP-17 b case study}
 \label{sec:soss-wasp17}
@@ -281,12 +282,14 @@ continuum regions to be measured within a consistent observing framework.
 % defocus to observe bright stars.
 % Evidence: Albert et al. (2023).
 
+%Davide maybe here mention that there are 4 instruments on board JWST and why we chose NIRISS (there wasnt really a reason to be honest and also it turns out to be one of the more tricky ones because the traces are curved and overlap)
 The Single Object Slitless Spectroscopy mode of NIRISS was designed
 specifically for time-series observations of transiting exoplanets
 \citep{AlbertEtAl2023}. The GR700XD grism produces cross-dispersed spectral
 orders covering approximately $0.6$--$2.8\,\mu\mathrm{m}$, with resolving power
 near $R=700$ at $1.25\,\mu\mathrm{m}$. A weak cylindrical lens spreads the trace over
 roughly 23 pixels in the cross-dispersion direction, reducing peak counts and
+%Davide: what is peak coundts, dont we do that to avoid saturation?
 permitting observations of bright targets. The bandpass includes strong water
 bands, alkali features at optical wavelengths, and spectral regions sensitive
 to methane, carbon monoxide, carbon dioxide, helium, clouds, and hazes.
@@ -297,16 +300,20 @@ to methane, carbon monoxide, carbon dioxide, helium, clouds, and hazes.
 % spectral precision depends on target and binning.
 % Evidence: Albert et al. (2023) and Louie et al. (2025).
 
+%Davide: weird opening also i dont really understand what you are describving here with the comnssioned binned down to photon blabla 
 Precision must be quoted for a defined target, cadence, and wavelength bin.
 There is no single factor by which JWST is more precise than earlier
 observatories. During commissioning, a SOSS white-light time series binned down
 close to photon noise at the 20 parts-per-million level on a 40-minute
 timescale after a long-term trend was removed \citep{AlbertEtAl2023}. For the
+%Davide: We never talked about WASP-17b, maybe it needs to be introduced prior when we say we study hot jupiters and we start with one exoplanet WASP-17b, what do you think?
 WASP-17 b observation used in this project, three independent analyses reported
 median spectroscopic uncertainties between 46 and 73 parts per million across
 the two useful orders \citep{LouieEtAl2025}. These numbers demonstrate the
 relevant scale while also showing why precision claims must specify the
 analysis and data product.
+%Davide I dont get this, what do you mean by we must specify analysis and data product, why does precision depend on the data product, what is the data product. its unclear
+
 
 % Question: What have early SOSS observations demonstrated?
 % Answer: They have recovered broad molecular and atomic signatures and
@@ -314,6 +321,8 @@ analysis and data product.
 % instrument-specific reduction challenges.
 % Evidence: Feinstein et al. (2023), Radica et al. (2023), and Holmberg and
 % Madhusudhan (2023).
+
+%THis whole paragraph is weird and needs reworking
 
 Early SOSS studies demonstrated both the scientific power and the analysis
 demands of the mode. The WASP-39 b Early Release Science spectrum covered
@@ -333,10 +342,13 @@ geometry and reduction chain that must be modelled carefully.
 
 WASP-17 b is the initial development case rather than the complete scope of the
 project. Its low density and low surface gravity give it an extended atmosphere
-\citep{AndersonEtAl2010}. It also has prior Hubble and Spitzer
-measurements and a complete NIRISS/SOSS transit analysed with Ahsoka,
-\texttt{transitspectroscopy}/\texttt{juliet}, and supreme-SPOON
-\citep{LouieEtAl2025}. The published study found close agreement among the
+\citep{AndersonEtAl2010}. It also has prior Hubble %Davide:cite! 
+and Spitzer %Davide:cite!
+measurements and a complete NIRISS/SOSS transit analysed with Ahsoka, %Davide:cite!
+\texttt{transitspectroscopy}/\texttt{juliet},%Davide:cite! and why the weird indent?
+and supreme-SPOON %Davide:cite! cite the package and the analysis !! this is bad
+\citep{LouieEtAl2025}. The published study%Davide:cite! which published study, unclear
+found close agreement among the
 three spectra and used the wider SOSS bandpass to constrain the water abundance
 more tightly than the earlier data allowed. This combination makes WASP-17 b a
 strong case for controlled method comparison. Later benchmark stages will
