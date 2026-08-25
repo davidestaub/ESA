@@ -108,6 +108,14 @@ background in the same way as the star. Source and background are nevertheless
 partly degenerate, so the fit records nuisance rank, singular values,
 conditioning, source positivity, and held-out background diagnostics.
 
+The current likelihood does not include a generic Gaussian-process model for
+time-correlated residuals. The fitted background modes describe additive
+detector structure, while the Huber weights introduced below reduce the
+influence of outlying residuals. Neither is equivalent to the Mat\'ern process
+used in some extracted light-curve analyses. Residual temporal correlation is
+therefore retained as a diagnostic and as a possible future extension of the
+likelihood.
+
 Quadratic limb darkening is parameterised using physically bounded coordinates,
 \begin{equation}
  u_1=2\sqrt{q_1}q_2, \qquad

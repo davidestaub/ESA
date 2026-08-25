@@ -298,32 +298,23 @@ measurements obtained with different instruments or at different epochs.
 % mode useful and difficult?
 % Answer: The WASP-17 b observation and its independent published reductions
 % provide a controlled first case, while the curved and overlapping SOSS orders
-% make the mode a demanding test of inference performed in detector space.
+% make the mode a demanding test of spectral-extraction methods.
 % Evidence: Gardner et al. (2006), Albert et al. (2023), and Louie et al.
 % (2025).
 
-JWST carries four science instruments: NIRCam, NIRSpec, MIRI, and NIRISS. %Davide: remobved fine guidance sensor
+JWST carries four science instruments: NIRCam, NIRSpec, MIRI, and NIRISS
 \citep{GardnerEtAl2006,AlbertEtAl2023}. Several of these instruments support
 exoplanet time-series spectroscopy. This project begins with the NIRISS Single
 Object Slitless Spectroscopy (SOSS) mode because the initial WASP-17~b transit
 has three independent published reductions that permit a controlled comparison
 \citep{LouieEtAl2025}. Its slitless, cross-dispersed design produces curved
 spectral orders that overlap on the detector, making SOSS a demanding test of
-extraction and detector-level modelling \citep{AlbertEtAl2023}. 
-
-%Davide: I disagree with claude here, i dont think we should introduce pixel level modeeling here before we even introduce how standard reduction pipelines work. I would remove this and also remove the mention of NOVA
-Here,
-detector-level modelling means fitting the time-dependent signal in calibrated
-detector pixels rather than first collapsing those pixels into independently
-extracted one-dimensional spectra and spectral light curves. NOVA, the method
-developed in this project, takes this approach (Section~\ref{sec:benchmark-and-nova}).
+spectral extraction \citep{AlbertEtAl2023}.
 
 The GR700XD grism produces cross-dispersed orders covering approximately
 $0.6$--$2.8\,\mu\mathrm{m}$, with resolving power near $R=650$ at
 $1.25\,\mu\mathrm{m}$ \citep{AlbertEtAl2023}. A weak cylindrical lens spreads
 the spectrum over roughly 23 detector rows in the cross-dispersion direction.
-
-%Davide: Maybe insert an image of the JWST NIRISS SOSS detector here, i can create one if needed. 
 Distributing the light over more pixels prevents any one pixel from saturating
 as quickly and therefore permits observations of bright host stars. The
 bandpass includes strong water bands, the potassium doublet in the red optical,
@@ -337,21 +328,22 @@ clouds, and hazes.
 % spanning 46--73 ppm.
 % Evidence: Albert et al. (2023) and Louie et al. (2025).
 
-%Davide I would say NIRISS SOSS aswell as all other instruments
-SOSS must distinguish changes in transit depth at the level of tens to hundreds
-of parts per million. During commissioning, the light measured across the broad
-SOSS bandpass was combined into a single white-light time series. After a slow
-instrumental trend was removed and the measurements were averaged over
-40-minute intervals, the remaining scatter was approximately 20 parts per
-million, close to the expected photon noise \citep{AlbertEtAl2023}.
-%Maybe mention that this is however a ground based experiment an not representative of real inflight noise. 
+JWST time-series spectroscopy must distinguish changes in transit depth at the
+level of tens to hundreds of parts per million. During commissioning, an
+in-flight observation of the standard star BD+$60^{\circ}1753$ reached
+approximately 20 parts per million scatter after removal of a long-term trend
+and averaging over 40-minute intervals \citep{AlbertEtAl2023}. This on-sky test
+demonstrated the time-series stability of SOSS, but it was not a transit
+observation and did not measure the precision of wavelength-dependent transit
+depths.
 
-%The A transmission spectrum.. appears a bit out of noweher. 
-A transmission spectrum divides the same light into many narrower wavelength
-%Davide: is that really true ? is it the fault of the transmission spectrum that there are fewer phozos per channel is that not natural? maybe I am wrong. Maybe say as opposed to ... if that would be suitable
-channels, leaving fewer photons in each channel and therefore larger
-uncertainties. For WASP-17~b, the three reductions reported median
-uncertainties of 46--73 parts per million per spectral channel across the two
+The 20 parts per million value describes a white-light time series that combines
+photons across the full SOSS bandpass. A transmission spectrum instead measures
+the transit depth separately in narrower wavelength channels. Each channel
+therefore contains only part of the total photon count and normally has greater
+photon noise than the corresponding white-light measurement. For WASP-17~b,
+the three reductions reported median uncertainties of 46--73 parts per million
+per spectral channel across the two
 useful orders \citep{LouieEtAl2025}. This range does not identify which
 reduction is more accurate, but it demonstrates that the precision assigned to
 a transmission spectrum is analysis-dependent at a scale relevant to the
@@ -368,22 +360,20 @@ atmospheric signal.
 The first SOSS exoplanet analyses demonstrated that the mode can recover rich
 atmospheric structure. The WASP-39~b Early Release Science spectrum contained
 multiple water bands, potassium absorption, and evidence of clouds
-\citep{FeinsteinEtAl2023}. At the same time, analyses of WASP-96~b and
-WASP-39~b 
-%Davide: only these studies had to account for that? is that not generally true? 
-had to account for zodiacal background, low-frequency readout noise,
-overlapping spectral orders, contaminating field stars, limb darkening, and
-wavelength-correlated residuals
+\citep{FeinsteinEtAl2023}. All JWST time-series spectroscopy reductions must
+address detector calibration, bad pixels and cosmic rays, background emission,
+readout structure, wavelength calibration, spectral assignment, limb darkening,
+and time-dependent noise. SOSS adds a distinctive combination of curved and
+physically overlapping orders, slitless contamination by field-star spectra,
+and a spatially structured zodiacal background
 \citep{RadicaEtAl2023,HolmbergMadhusudhan2023}. The atmospheric information is
 scientifically valuable, but recovering it requires choices about detector
 calibration, extraction, and light-curve fitting. Strong signals provide
 leverage for diagnosing those choices, while the curved and overlapping traces
-expose assumptions in the detector model.
-%Davide: dont mention NOVA yet
-This combination makes SOSS a useful
-first test for NOVA.
+expose assumptions in the detector model. This combination makes SOSS a useful
+test case for comparing reduction methods.
 
-% Question: Why begin NOVA development with WASP-17 b?
+% Question: Why begin method development with WASP-17 b?
 % Answer: WASP-17 b is a low-density hot Jupiter with an extended atmosphere, a
 % complete SOSS transit, prior Hubble and Spitzer constraints, and three
 % published reductions of the same NIRISS observation.
@@ -418,22 +408,54 @@ other targets and injected atmospheric scenarios.
 % fitted transit depths.
 % Evidence: Bell et al. (2022), Albert et al. (2023), and Radica et al. (2023).
 
-JWST does not record a transmission spectrum directly. NIRISS produces groups
-%Davide: ONly NIRISS does this or is it JWST or is it NIRISS SOSS ?
-of nondestructive detector reads within each integration. 
+JWST does not record a transmission spectrum directly. In a NIRISS/SOSS
+time-series observation, the detector is read nondestructively several times
+within each integration. These individual reads are called groups. Charge
+accumulates across the groups, and a ramp fit estimates a count rate for each
+pixel in each integration. Repeating this process throughout a visit produces a
+time series of two-dimensional count-rate images
+\citep{AlbertEtAl2023}.
 
-%Davide: Maybe ad an image to expalin integration and groups and reads etc. 
-The standard analysis
-estimates count-rate slopes, applies detector and spectroscopic calibrations,
-%Davide: This is crucial!! does it model or subtract background ??
-models or subtracts background and readout structure, locates the spectral
-traces, extracts one-dimensional spectra,
-%Davide: If this is the only place where we explain the data reduction pipeline done by traditoinal methods we a) need to go into more detail and b) clearly label that we are now explaining the classical method as used by xyz method. especially more detail for fits a transit model etc. 
-bins those spectra into wavelength
-channels, and fits a transit and systematics model to each resulting light
-%Davide: DO THEY FIT A SYSTEMATICS MODEL?? BE PRECISE THIS IS CRUCIAL!
-curve. The wavelength-dependent planet-to-star radius ratio is then assembled
-into the transmission spectrum \citep{BellEtAl2022,AlbertEtAl2023,RadicaEtAl2023}.
+The conventional analyses considered here follow an extraction-first workflow,
+summarised in Figure~\ref{fig:extraction-first-workflow}. The official JWST
+calibration pipeline or custom variants identify unusable data, correct
+saturation, bias, reference-pixel and nonlinearity effects, detect jumps, and
+fit the ramps. Subsequent processing assigns a wavelength and trace position to
+each pixel and treats flat-field response, low-frequency readout structure,
+background, field-star contamination, and bad pixels. The precise order of
+these operations differs between pipelines. Background may be subtracted before
+extraction or estimated as part of the extraction model. A box extraction,
+optimal extraction, or forward extraction such as ATOCA then converts the
+two-dimensional images into one-dimensional spectra for each integration.
+
+The extracted spectra are divided into wavelength channels, producing one light
+curve per channel. Each light curve is fitted with a transit model, but the
+treatment of residual time dependence is pipeline-specific rather than a
+universal step. In the published WASP-17~b comparison, the Ahsoka branch used
+Eureka! to fit polynomial time trends and a multiplicative noise term. The
+\texttt{transitspectroscopy}/\texttt{juliet} branch used a
+Mat\'ern-$3/2$ Gaussian process, an offset, and an additional white-noise term.
+The Mat\'ern process is a flexible stochastic model in which measurements close
+together in time are allowed to have correlated residuals. The supreme-SPOON
+branch used no additional time-systematics function for those light curves, but
+included an additive uncertainty term \citep{LouieEtAl2025}. Finally, the
+fitted planet-to-star radius ratio in each channel is converted to transit depth
+and assembled as a function of wavelength to form the transmission spectrum.
+
+\begin{figure*}[t]
+  \centering
+  \input{figures/conventional_reduction_workflow}
+  \caption{Schematic extraction-first reduction of a JWST/NIRISS SOSS
+  time-series observation. (a) Nondestructive groups sample the accumulating
+  charge within an integration, and the fitted ramp slope gives one count rate
+  per detector pixel. (b) Repeated count-rate images are calibrated and
+  corrected before each integration is compressed to a one-dimensional
+  spectrum. Wavelength binning produces spectral light curves, which are fitted
+  with a transit model and any pipeline-specific nuisance model. The fitted
+  depths are then assembled into a transmission spectrum. Exact operations and
+  their ordering differ between pipelines.}
+  \label{fig:extraction-first-workflow}
+\end{figure*}
 
 % Question: Where can analysis pipelines differ?
 % Answer: They can differ at detector calibration, jump detection, 1/f
@@ -457,7 +479,7 @@ WASP-17~b analysis paired it with \texttt{juliet}
 \citep{Espinoza2022TransitSpectroscopy,EspinozaEtAl2019,LouieEtAl2025}.
 Ahsoka combines components of the official
 \texttt{jwst} calibration pipeline, supreme-SPOON, nirHiss, and Eureka!, while
-using several forward models in the interpretation of WASP-17 b
+its WASP-17~b analysis uses several atmospheric forward models after reduction
 \citep{LouieEtAl2025}. These tools overlap, but they are not interchangeable and
 do not necessarily implement the same stages.
 
@@ -472,9 +494,8 @@ from both orders. ATOCA addresses this by constructing a linear model for every
 detector pixel and solving for the incident spectrum of both orders
 simultaneously \citep{DarveauBernierEtAl2022}. Its accuracy depends on the trace
 profiles, wavelength maps, throughputs, and spectral-resolution kernels.
-APPLESOSS %DAVIDE: CITE!
-estimates the spatial profiles needed by ATOCA directly from the
-observation \citep{RadicaEtAl2022}. These algorithms are already forward models
+APPLESOSS \citep{RadicaEtAl2022} estimates the spatial profiles needed by ATOCA
+directly from the observation. These algorithms are already forward models
 at the extraction stage, but they infer a stellar spectrum before the
 time-dependent transit inference performed later.
 
@@ -490,9 +511,8 @@ time-dependent transit inference performed later.
 When independent reductions disagree, the result is scientifically useful but
 incomplete. It identifies sensitivity to methodological choices and may reveal
 an unmodelled uncertainty. For WASP-39 b NIRSpec data, different reductions
-shifted retrieved abundances by as much as about one dex %Davide: What is one dex ?
-and altered the
-detectability of weaker species \citep{ConstantinouEtAl2023}. For the sub-Earth
+shifted retrieved abundances by approximately one order of magnitude and
+altered the detectability of weaker species \citep{ConstantinouEtAl2023}. For the sub-Earth
 GJ 341 b, three reductions all supported the broad conclusion that no atmosphere
 was detected, yet two pipelines produced weak candidate features at different
 wavelengths and consequently favoured different molecular explanations
@@ -534,23 +554,32 @@ spectrum is known.
 \label{sec:structural-limitations}
 
 % Question: Why does background treatment require particular attention?
-% Answer: SOSS pipelines commonly estimate and subtract background before the
-% transit fit, so later inference can represent its uncertainty only to the
-% extent that the subtraction and covariance have been propagated.
+% Answer: Published methods either subtract background before extraction or
+% refine it during extraction, but do not infer it jointly with the transit.
 % Evidence: Radica et al. (2023), Holmberg and Madhusudhan (2023), and Louie et
 % al. (2025).
 
 Two structural choices in the conventional chain motivate this project. The
-first is background treatment. Published SOSS analyses commonly scale a
-zodiacal-background model using pixels outside the trace and subtract it before
-spectral extraction and transit fitting
-\citep{RadicaEtAl2023,HolmbergMadhusudhan2023,LouieEtAl2025}. This is a
-reasonable and often effective operation. It is not, however, the same as
-jointly inferring the background with the transit. Once subtraction has
-occurred, the later fit can account for uncertainty in the background only to
-the extent that its estimation error and covariance were propagated into the
-extracted light curves.
-%Davide: THis is such a crucial point maybe talk a bt more about the background treatment and check again that really none of the methods we mention model background
+first is background treatment. Published methods do not all treat the
+background identically. In the Ahsoka and supreme-SPOON implementations used
+for WASP-17~b, scaled versions of the STScI zodiacal-background model were
+subtracted before the extracted light curves were fitted. The
+\texttt{transitspectroscopy}/\texttt{juliet} branch followed the same general
+ordering \citep{LouieEtAl2025}. JExoRES is an important exception: it refines a
+background component simultaneously with its multi-order spectral extraction
+\citep{HolmbergMadhusudhan2023}. It therefore models, rather than simply fixes,
+background at the extraction stage.
+
+The central distinction is not whether a pipeline contains any background
+model. It is whether background and the wavelength-dependent transit are
+inferred together. In the published implementations considered here,
+background is either subtracted before extraction or refined jointly with
+extraction, but it is not inferred jointly with the transit signal in the same
+detector-pixel likelihood. Once a one-dimensional spectrum has been produced,
+the later transit fit can account for background uncertainty only to the extent
+that its estimation error and covariance were carried into that product. The
+transit shape also cannot help revise how the earlier stage allocated detector
+counts between stellar source and additive background.
 
 % Question: How can background error affect a transmission spectrum?
 % Answer: Additive light allocated incorrectly between source and background
@@ -558,7 +587,6 @@ extracted light curves.
 % offsets or slopes.
 % Evidence: Kelson (2003), Radica et al. (2023), and Holmberg and Madhusudhan
 % (2023).
-%Davide: A sorry you do go into more detail her
 This distinction matters because background is additive while a transit is
 multiplicative on the stellar contribution. If a constant amount of flux is
 assigned incorrectly to the background, the inferred out-of-transit stellar
@@ -576,14 +604,16 @@ zodiacal light, field-star spectra, masked pixels, and $1/f$ readout structure
 % Evidence: Horne (1986).
 
 The second choice is compression from detector pixels to one-dimensional
-spectra. Extraction is not inherently defective. The optimal-extraction
-formalism of \citet{Horne1986} uses a spatial profile and inverse-variance
-weights to improve signal-to-noise while preserving spectrophotometric
-accuracy. Under its assumptions, the extracted flux is an efficient summary of
-the two-dimensional data. The relevant question is therefore not whether
-extraction occurs, but which likelihood information and model uncertainty are
-retained when it occurs.
-%Davide: explain this point to me I always thought summing = bad because we dont know anymore if the light comes from background, defect pixels or stellar light.
+spectra. A simple sum can lose the information needed to distinguish stellar
+light from background, defective pixels, or overlapping wavelengths. Extraction
+is not inevitably lossy, however. If the spatial profile, background, detector
+response, bad-pixel mask, and noise model are correct, the optimal-extraction
+formalism of \citet{Horne1986} combines pixels with inverse-variance weights and
+can provide an efficient summary of the two-dimensional data. The difficulty
+arises when uncertain detector components are fixed during this compression, or
+when their covariance and response description are not carried forward. A later
+light-curve fit can then no longer revisit the original source-background or
+pixel assignment.
 
 % Question: When can extraction lose information relevant to later inference?
 % Answer: Loss occurs when the compression fixes an imperfect detector model or
@@ -592,13 +622,12 @@ retained when it occurs.
 % Evidence: Bolton and Schlegel (2010), Bolton et al. (2012), and
 % Darveau-Bernier et al. (2022).
 
-Two-dimensional forward extraction makes this condition explicit.
-%Davide: introduce the term Spectro perfectionisnm before and also cite. 
-Spectro-perfectionism models the detector image with the full
+Spectro-perfectionism, introduced by \citet{BoltonSchlegel2010}, makes this
+condition explicit. It models the detector image with the full
 two-dimensional point-spread function and shows that a one-dimensional product
 can preserve the pixel-level likelihood if the extracted spectrum is delivered
 with an appropriate covariance and resolution description
-\citep{BoltonSchlegel2010,BoltonEtAl2012}. ATOCA applies a related pixel model
+\citep{BoltonEtAl2012}. ATOCA applies a related pixel model
 to overlapping SOSS orders \citep{DarveauBernierEtAl2022}. Conversely, if the
 trace, wavelength mixing, background, bad-pixel treatment, or order
 decomposition is fixed incorrectly, and the resulting covariance is not carried
@@ -631,11 +660,10 @@ this project.
 % Evidence: This is the controlled benchmark design developed in this project.
 
 The validation problem motivates a detector-level benchmark. A forward injector
-%Davide: why are you using future tense here, will ?
-will generate time-series observations with a known transmission spectrum,
+generates time-series observations with a known transmission spectrum,
 stellar signal, instrument response, additive background, noise, and detector
-flags. Every recovery method will receive the same synthetic detector cube and
-the same declared auxiliary information. The injected spectrum will remain
+flags. Every recovery method receives the same synthetic detector cube and
+the same declared auxiliary information. The injected spectrum remains
 unavailable to the recovery process until its prediction has been fixed.
 Recovery error can then be measured directly as a function of wavelength,
 spectral morphology, order, signal level, background structure, and detector
