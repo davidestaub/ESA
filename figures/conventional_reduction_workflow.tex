@@ -45,53 +45,47 @@
   \node[anchor=east,text=transitatmos!75!black,align=left,font=\scriptsize]
     at (4.66,2.05) {slope =\\count rate};
 
-  % Two shared stages per representation. Exact implementations and ordering
-  % within a stage vary between pipelines.
+  % Clockwise conceptual flow. Exact implementations and ordering within a
+  % stage vary between pipelines.
   % Detector-space boxes
   \draw[rounded corners=2pt,fill=transitatmos!8,draw=transitatmos!70,
-    line width=0.6pt] (5.46,3.05) rectangle (8.76,4.30);
-  \node[align=center,text width=3.00cm,font=\scriptsize] at (7.11,3.675)
+    line width=0.6pt] (5.48,3.05) rectangle (9.02,4.30);
+  \node[align=center,text width=3.28cm,font=\scriptsize] at (7.25,3.675)
     {\textbf{2D count-rate images}\\one per integration};
 
   \draw[rounded corners=2pt,fill=transitatmos!8,draw=transitatmos!70,
-    line width=0.6pt] (5.46,1.55) rectangle (8.76,2.80);
-  \node[align=center,text width=3.00cm,font=\scriptsize] at (7.11,2.175)
+    line width=0.6pt] (9.42,3.05) rectangle (12.96,4.30);
+  \node[align=center,text width=3.28cm,font=\scriptsize] at (11.19,3.675)
     {\textbf{Background and}\\\textbf{noise treatment}};
 
   % Extracted one-dimensional data
   \draw[rounded corners=2pt,fill=transitstar!10,draw=transitstar!80!black,
-    line width=0.6pt] (9.18,3.05) rectangle (12.78,4.30);
-  \node[align=center,text width=3.30cm,font=\scriptsize] at (10.98,3.675)
-    {\textbf{Spectral extraction}\\2D pixels $\rightarrow$ 1D spectrum\\
-     one per integration};
+    line width=0.6pt] (13.36,3.05) rectangle (16.90,4.30);
+  \node[align=center,text width=3.28cm,font=\scriptsize] at (15.13,3.675)
+    {\textbf{Spectral extraction}\\2D pixels $\rightarrow$ 1D spectrum};
 
   \draw[rounded corners=2pt,fill=transitstar!10,draw=transitstar!80!black,
-    line width=0.6pt] (9.18,1.55) rectangle (12.78,2.80);
-  \node[align=center,text width=3.30cm,font=\scriptsize] at (10.98,2.175)
-    {\textbf{Spectral light curves}\\one flux time series per\\
-     wavelength channel};
+    line width=0.6pt] (13.36,1.55) rectangle (16.90,2.80);
+  \node[align=center,text width=3.28cm,font=\scriptsize] at (15.13,2.175)
+    {\textbf{Spectral light curves}\\one light curve per channel};
 
   % Transit inference and planetary spectrum
   \draw[rounded corners=2pt,fill=transitabsorb!9,draw=transitabsorb!75,
-    line width=0.6pt] (13.20,3.05) rectangle (16.92,4.30);
-  \node[align=center,text width=3.42cm,font=\scriptsize] at (15.06,3.675)
-    {\textbf{Transit fitting}\\fit each wavelength channel\\
-     one depth per channel};
+    line width=0.6pt] (9.42,1.55) rectangle (12.96,2.80);
+  \node[align=center,text width=3.28cm,font=\scriptsize] at (11.19,2.175)
+    {\textbf{Transit fitting}\\one depth per channel};
 
   \draw[rounded corners=2pt,fill=transitabsorb!12,draw=transitabsorb!85,
-    line width=0.9pt] (13.20,1.55) rectangle (16.92,2.80);
-  \node[align=center,text width=3.60cm,font=\scriptsize] at (15.06,2.175)
-    {\textbf{Transmission spectrum}\\transit depth versus wavelength\\
-     $\delta(\lambda)$};
+    line width=0.9pt] (5.48,1.55) rectangle (9.02,2.80);
+  \node[align=center,text width=3.28cm,font=\scriptsize] at (7.25,2.175)
+    {\textbf{Transmission spectrum}\\$\delta(\lambda)$};
 
-  % Shared conceptual flow
-  \draw[->,line width=0.65pt] (7.11,3.05) -- (7.11,2.80);
-  \draw[->,line width=0.65pt]
-    (8.76,2.175) -- (8.97,2.175) -- (8.97,3.675) -- (9.18,3.675);
-  \draw[->,line width=0.65pt] (10.98,3.05) -- (10.98,2.80);
-  \draw[->,line width=0.65pt]
-    (12.78,2.175) -- (12.99,2.175) -- (12.99,3.675) -- (13.20,3.675);
-  \draw[->,line width=0.65pt] (15.06,3.05) -- (15.06,2.80);
+  % Clockwise arrows: left to right across the top, down, then right to left.
+  \draw[->,line width=0.65pt] (9.02,3.675) -- (9.42,3.675);
+  \draw[->,line width=0.65pt] (12.96,3.675) -- (13.36,3.675);
+  \draw[->,line width=0.65pt] (15.13,3.05) -- (15.13,2.80);
+  \draw[->,line width=0.65pt] (13.36,2.175) -- (12.96,2.175);
+  \draw[->,line width=0.65pt] (9.42,2.175) -- (9.02,2.175);
 
   % Colour key requested beneath the boxes
   \node[font=\scriptsize] at (11.19,0.69)
