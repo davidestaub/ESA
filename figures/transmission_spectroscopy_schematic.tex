@@ -1,96 +1,77 @@
 \begin{tikzpicture}[x=1cm,y=1cm,font=\footnotesize]
-  \path[use as bounding box] (0,0) rectangle (17.2,5.15);
+  \path[use as bounding box] (0,0) rectangle (17.2,4.60);
 
-  % Panel frames and titles
-  \draw[black!25,line width=0.4pt] (0.05,0.10) rectangle (8.25,5.00);
-  \draw[black!25,line width=0.4pt] (8.70,0.10) rectangle (17.15,5.00);
-  \node[anchor=west,font=\bfseries] at (0.25,4.72)
+  % Panel frames and headings
+  \draw[black!22,line width=0.4pt] (0.05,0.12) rectangle (8.20,4.45);
+  \draw[black!22,line width=0.4pt] (8.65,0.12) rectangle (17.15,4.45);
+  \node[anchor=west,font=\bfseries] at (0.28,4.17)
     {(a) Transit geometry};
-  \node[anchor=west,font=\bfseries] at (8.90,4.72)
-    {(b) Wavelength-dependent transit depth};
+  \node[anchor=west,font=\bfseries] at (8.90,4.17)
+    {(b) Schematic transmission spectrum};
 
-  % Star
+  % Host star
   \shade[inner color=yellow!15,outer color=transitstar]
-    (1.60,2.60) circle (1.23);
+    (1.52,2.30) circle (1.02);
   \draw[transitstar!70!black,line width=0.5pt]
-    (1.60,2.60) circle (1.23);
-  \node[anchor=north] at (1.60,1.20) {Host star};
+    (1.52,2.30) circle (1.02);
+  \node[anchor=north] at (1.52,1.14) {Host star};
 
-  % Wavelength-labelled stellar rays before and after the atmosphere
-  \draw[transitstar!80!black,line width=1.15pt]
-    (2.72,3.10) -- (4.10,3.10);
-  \draw[transitabsorb,line width=0.55pt,->]
-    (5.32,3.10) -- (7.72,3.10);
-  \node[anchor=south,text=transitabsorb] at (3.42,3.13)
-    {$\lambda_{\rm high}$};
-
-  \draw[transitstar!80!black,line width=1.15pt]
-    (2.72,2.02) -- (4.16,2.02);
-  \draw[transitatmos,line width=0.95pt,->]
-    (5.27,2.02) -- (7.72,2.02);
-  \node[anchor=north,text=transitatmos] at (3.43,1.98)
-    {$\lambda_{\rm low}$};
-
-  % Opaque planet and wavelength-dependent atmospheric radii
-  \fill[transitatmos!12] (4.72,2.60) circle (0.78);
-  \draw[transitabsorb,dashed,line width=1.05pt]
-    (4.72,2.60) circle (0.78);
+  % Planet and atmosphere
+  \fill[transitatmos!14] (4.58,2.30) circle (0.70);
   \draw[transitatmos,line width=1.05pt]
-    (4.72,2.60) circle (0.61);
-  \fill[transitplanet] (4.72,2.60) circle (0.45);
-  \draw[black,line width=0.45pt] (4.72,2.60) circle (0.45);
+    (4.58,2.30) circle (0.70);
+  \fill[transitplanet] (4.58,2.30) circle (0.42);
+  \draw[black,line width=0.45pt] (4.58,2.30) circle (0.42);
 
-  \draw[transitabsorb,dashed,line width=1.05pt]
-    (5.30,4.08) -- (5.86,4.08);
-  \node[anchor=west,text=transitabsorb] at (5.96,4.08)
-    {larger $R_{\rm p}(\lambda_{\rm high})$};
-  \draw[transitatmos,line width=1.05pt]
-    (5.30,3.72) -- (5.86,3.72);
-  \node[anchor=west,text=transitatmos] at (5.96,3.72)
-    {smaller $R_{\rm p}(\lambda_{\rm low})$};
+  % Stellar rays. The central ray is blocked by the opaque planet, while the
+  % upper and lower rays cross the atmospheric annulus.
+  \draw[transitstar!85!black,line width=0.85pt]
+    (2.49,2.85) -- (3.98,2.85);
+  \draw[transitatmos,line width=0.85pt]
+    (5.18,2.85) -- (7.55,2.85);
+  \draw[transitstar!85!black,line width=0.85pt]
+    (2.49,1.75) -- (3.98,1.75);
+  \draw[transitatmos,line width=0.85pt]
+    (5.18,1.75) -- (7.55,1.75);
+  \draw[transitstar!85!black,line width=0.85pt]
+    (2.54,2.30) -- (4.16,2.30);
 
-  \draw[black!60,->,line width=0.55pt]
-    (5.82,2.59) -- (5.32,2.67);
-  \node[anchor=west,align=left] at (5.90,2.58)
-    {atmospheric\\annulus};
+  \node[anchor=south] at (3.18,3.04) {Starlight};
+  \node[anchor=north] at (4.58,1.67) {Opaque planet};
 
-  \node[anchor=north,align=center] at (4.72,1.58)
-    {Planet and\\atmospheric annulus};
-  \node[anchor=north,align=center] at (7.35,1.88)
-    {toward the\\observer};
+  % Short leader for the atmospheric annulus
+  \draw[black!55,line width=0.5pt] (5.10,2.76) -- (5.48,3.18);
+  \node[anchor=west,align=left] at (5.55,3.25)
+    {Atmospheric\\annulus};
 
   % Spectrum axes
-  \draw[->,line width=0.65pt] (9.45,0.83) -- (16.78,0.83);
-  \draw[->,line width=0.65pt] (9.45,0.83) -- (9.45,4.38);
-  \node[anchor=north] at (13.10,0.66) {Wavelength, $\lambda$};
-  \node[rotate=90,anchor=south] at (8.92,2.63)
+  \draw[->,line width=0.65pt] (9.42,0.82) -- (16.78,0.82);
+  \draw[->,line width=0.65pt] (9.42,0.82) -- (9.42,3.78);
+  \node[anchor=north] at (13.10,0.61) {Wavelength, $\lambda$};
+  \node[rotate=90,anchor=center] at (9.00,2.30)
     {Transit depth, $\delta(\lambda)$};
 
-  % Illustrative transmission spectrum
-  \draw[black!15,densely dotted] (9.45,1.43) -- (16.64,1.43);
-  \draw[black!20,densely dotted] (9.45,2.75) -- (16.64,2.75);
+  % Illustrative spectrum without numerical wavelength or depth scales
+  \draw[black!15,densely dotted] (9.43,1.39) -- (16.62,1.39);
   \draw[transitplanet,line width=1.35pt]
     plot[smooth,tension=0.72] coordinates {
-      (9.52,1.47) (9.88,1.50) (10.22,1.62) (10.56,2.15)
-      (10.90,1.70) (11.28,1.52) (11.65,1.58) (12.03,1.86)
-      (12.38,3.05) (12.73,1.91) (13.08,1.56) (13.48,1.49)
-      (13.88,1.68) (14.27,2.19) (14.65,1.73) (15.03,1.62)
-      (15.39,2.00) (15.76,3.48) (16.10,2.03) (16.50,1.57)
+      (9.52,1.43) (9.90,1.46) (10.27,1.60) (10.62,2.02)
+      (10.98,1.62) (11.35,1.47) (11.73,1.54) (12.04,1.82)
+      (12.36,2.77) (12.70,1.88) (13.05,1.53) (13.42,1.40)
+      (13.80,1.51) (14.18,1.89) (14.52,1.55) (14.92,1.48)
+      (15.30,1.73) (15.66,3.18) (16.02,1.82) (16.47,1.48)
     };
 
-  % Link spectral extrema to the two atmospheric radii in panel (a)
-  \fill[transitabsorb] (12.38,3.05) circle (0.065);
-  \draw[transitabsorb,densely dashed] (12.38,0.84) -- (12.38,3.05);
+  % Direct labels at representative high- and low-opacity wavelengths
+  \fill[transitabsorb] (12.36,2.77) circle (0.065);
+  \draw[transitabsorb,line width=0.55pt]
+    (12.36,2.84) -- (12.36,3.12);
   \node[anchor=south,text=transitabsorb,align=center]
-    at (12.38,3.18) {higher opacity\\deeper transit};
+    at (12.36,3.17) {higher opacity\\larger apparent radius};
 
-  \fill[transitatmos] (13.48,1.49) circle (0.065);
-  \draw[transitatmos,densely dashed] (13.48,0.84) -- (13.48,1.49);
+  \fill[transitatmos] (13.42,1.40) circle (0.065);
+  \draw[transitatmos,line width=0.55pt]
+    (13.50,1.40) -- (14.02,1.40);
   \node[anchor=west,text=transitatmos,align=left]
-    at (13.63,1.44) {lower opacity\\shallower transit};
-
-  \node[anchor=east,align=right,font=\scriptsize] at (16.68,4.20)
-    {$\mathrm{opacity}\!\uparrow\;\Rightarrow\;
-      R_{\rm p}(\lambda)\!\uparrow\;\Rightarrow\;
-      \delta(\lambda)\!\uparrow$};
+    at (14.10,1.40) {lower opacity\\smaller apparent radius};
 \end{tikzpicture}
