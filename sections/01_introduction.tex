@@ -16,25 +16,25 @@ diversity requires determining the physical and chemical properties of
 individual planets and assessing how reliably those properties can be inferred
 from observations.
 
-% Question: How are exoplanets commonly grouped, and where do hot Jupiters fit?
-% Answer: Four broad observational categories provide useful orientation, with
-% hot Jupiters forming a short-period, strongly irradiated subset of gas giants.
+% Question: How are exoplanets commonly grouped?
+% Answer: Four broad observational categories provide useful orientation, but
+% they do not uniquely determine a planet's physical composition.
 % Evidence: NASA Science (2026).
 For orientation, exoplanets are often described using four broad observational
 categories: terrestrial planets, super-Earths, Neptune-like planets, and gas
-giants \citep{NASAPlanetTypes2026}. %Davide: Its a bit weird to have this sentence here maybe add it like: A sub group of gas giants are so called hot jupiters ...
-Hot Jupiters are strongly irradiated gas giants on short-period orbits. These categories provide useful descriptive
-shorthand, but their boundaries are not fundamental and they do not uniquely
-determine interior or atmospheric composition.
+giants \citep{NASAPlanetTypes2026}. These categories provide useful descriptive
+shorthand, but their boundaries are not fundamental, and a category does not
+uniquely determine a planet's interior or atmospheric composition.
 
 % Question: Why can bulk measurements not determine a planet's composition?
 % Answer: Mass and radius constrain bulk density but do not uniquely determine
 % its interior structure or atmospheric mass fraction.
 % Evidence: Rogers and Seager (2010) and Madhusudhan (2019).
-%Davide: Maybe add an intro here like, While being the easiest thing to measure, mass and radius of a planet can constrain ... or like the first thing we can measure directly about a planet. idk it just seems abrubt otherwise. probably the best would be to lead further on the last sentence, interior or atmospheric composition. 
-Mass and radius constrain a planet's bulk density, but planets with similar
-masses and radii can have different interior structures and atmospheric mass
-fractions, leaving their exact compositions underconstrained
+For well-characterised transiting planets, mass and radius are usually among
+the first physical properties inferred. Together they constrain bulk density,
+but planets with similar masses and radii can have different interior
+structures and atmospheric mass fractions, leaving their exact compositions
+underconstrained
 \citep{RogersSeager2010}. Distinguishing between these possibilities requires
 observables that respond directly to the material and energy in a planet's
 outer layers. Atmospheres provide those observables
@@ -66,12 +66,15 @@ the light of the host star.
 \label{sec:observing-atmospheres}
 
 % Question: Why does this work begin with transmission spectroscopy?
-% Answer: Its initial development and benchmark data are time-series transit
-% observations.
+% Answer: The well-defined transit geometry provides a tractable setting in
+% which to test how detector modelling and reduction choices affect a recovered
+% atmospheric spectrum.
 % Evidence: Current project scope.
-The present work begins with transmission spectroscopy because its initial
-development and benchmark data are time-series transit observations.
-%Davide, i dont like this above sentence, so we are basically saying we started because we had the data, but there is also emission data available. how could we make this nicer. 
+The present work begins with transmission spectroscopy because its well-defined
+transit geometry provides a tractable setting in which to test how detector
+modelling and reduction choices affect a recovered atmospheric spectrum. The
+same detector-level principles can later be extended to emission and
+phase-curve observations.
 
 % Question: How does transmission spectroscopy probe an atmosphere?
 % Answer: During transit, wavelength-dependent atmospheric opacity changes the
@@ -100,8 +103,8 @@ atmosphere, so the wavelength-dependent change in transit depth is small
 compared with the transit itself. The signal is stronger when the planet is
 large relative to its host star and when its atmosphere extends over a greater
 range of altitudes. High temperatures, atmospheres dominated by light gases
-such as hydrogen and helium %Davide: I added helium
-, and weak gravity favour an extended atmosphere, whereas
+such as hydrogen and helium, and weak gravity favour an extended atmosphere,
+whereas
 clouds and hazes can obscure spectral features. Both the atmosphere and the
 geometry of the planet-star system therefore determine how readily a
 transmission signal can be measured \citep{SeagerSasselov2000,Brown2001}.
@@ -111,11 +114,11 @@ transmission signal can be measured \citep{SeagerSasselov2000,Brown2001}.
 % and often low gravities make their atmospheric signals comparatively strong.
 % Evidence: Charbonneau et al. (2002), Brown (2001), and Madhusudhan (2019).
 
-%only here mention that hot jupiters are a sub group of gas giants, and what they are. 
-These favourable conditions are often found in hot Jupiters. Their large radii,
-high temperatures, hydrogen-dominated atmospheres, and sometimes low gravities
-make their transmission signatures comparatively strong. The first detection
-of an exoplanet atmosphere identified sodium absorption in the hot Jupiter
+Hot Jupiters are a subgroup of gas giants that orbit close to their host stars
+and are consequently strongly irradiated. Their large radii, high temperatures,
+hydrogen-dominated atmospheres, and sometimes low gravities make their
+transmission signatures comparatively strong. The first detection of an
+exoplanet atmosphere identified sodium absorption in the hot Jupiter
 HD~209458~b \citep{CharbonneauEtAl2002}. Hot Jupiters are therefore
 useful targets for developing and testing methods that recover transmission
 spectra from spectroscopic time series. A stronger signal makes errors in
@@ -130,38 +133,41 @@ most relevant to questions of planetary habitability.
 % Answer: Secondary eclipses constrain dayside emission, while phase curves
 % track the changing planetary flux through the orbit and probe longitudinal
 % temperature and composition.
-% Evidence: Deming et al. (2005), Knutson et al. (2007), and Madhusudhan (2019).
+% Evidence: Deming et al. (2005), Knutson et al. (2007), Coulombe et al.
+% (2023), Mikal-Evans et al. (2023), Kempton et al. (2023), Gressier et al.
+% (2024), and Splinter et al. (2025).
 
 Transmission is one of three principal time-series geometries used for
 atmospheric spectroscopy. Secondary-eclipse measurements isolate the planet's
 dayside emission by comparing the combined star and planet flux with the stellar
-flux measured while the planet is hidden \citep{DemingEtAl2005}.
-%Please check my phd_papers folder i have way more papers we could cite here and also before and after. basically I want to cite every paper I have read. for example if you agree we could cite some emission papers case studies here that are relevant. 
-Phase curves
-follow the changing planetary contribution over an orbit and constrain
-day-night temperature contrast, heat redistribution, and longitudinal
-structure \citep{KnutsonEtAl2007}. Each geometry measures a different weighting
-of the atmosphere. This project focuses on transmission spectroscopy, while
-emission and phase-curve analyses remain relevant future applications of a
-detector-level framework.
+flux measured while the planet is hidden \citep{DemingEtAl2005}. JWST has
+extended secondary-eclipse spectroscopy across broad infrared wavelength
+ranges, including NIRISS/SOSS studies of the hot Jupiters WASP-18b and
+WASP-17b \citep{CoulombeEtAl2023,GressierEtAl2024}. Phase curves follow the
+changing planetary contribution over an orbit and constrain day-night
+temperature contrast, heat redistribution, and longitudinal structure
+\citep{KnutsonEtAl2007}. Recent JWST phase curves have applied this technique to
+targets ranging from ultra-hot Jupiters to warm sub-Neptunes
+\citep{MikalEvansEtAl2023,KemptonEtAl2023,SplinterEtAl2025}. Each geometry
+measures a different weighting of the atmosphere. This project focuses on
+transmission spectroscopy, while emission and phase-curve analyses remain
+relevant future applications of a detector-level framework.
 
 % Question: Why is atmospheric characterisation an inverse problem?
 % Answer: Atmospheric signals are mixed with stellar, instrumental, and
 % geometric effects, and different physical states can produce similar spectra.
-% Evidence: Brown (2001) and Madhusudhan (2019).
+% Evidence: Rackham et al. (2018), Madhusudhan (2019), and Barstow and Heng
+% (2020).
 Across all three geometries, the atmosphere is not observed in isolation. Its
 signal is embedded in light from the host star and modified by the telescope,
 detector, observing geometry, and data analysis. Different combinations of
 abundance, temperature, reference radius, clouds, hazes, and stellar
-heterogeneity can also produce similar spectral signatures. Atmospheric
-characterisation is consequently an inverse problem: the data constrain a
-family of physical explanations rather than measuring a unique atmospheric
-state directly 
-%Could we use more and different citations here. 
-\citep{Brown2001,Madhusudhan2019}. 
-%What is "This" refering to, unclear. 
-This interpretation can only
-be as reliable as the spectrum supplied to it.
+heterogeneity can also produce similar spectral signatures
+\citep{RackhamEtAl2018,Madhusudhan2019}. Atmospheric characterisation is
+consequently an inverse problem: the data constrain a family of physical
+explanations rather than measuring a unique atmospheric state directly
+\citep{BarstowHeng2020}. Any atmospheric interpretation can therefore only be
+as reliable as the spectrum supplied to the retrieval.
 
 % Question: Is a transmission spectrum the final atmospheric result?
 % Answer: No. Detector data are first used to infer a transmission spectrum,
