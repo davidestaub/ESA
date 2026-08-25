@@ -65,17 +65,19 @@ the light of the host star.
 \subsection{Observing exoplanet atmospheres}
 \label{sec:observing-atmospheres}
 
-% Question: Why does this work begin with transmission spectroscopy?
-% Answer: The well-defined transit geometry provides a tractable setting in
-% which to test how detector modelling and reduction choices affect a recovered
-% atmospheric spectrum.
+% Question: What observing method turns the atmospheric signal into a
+% measurement, and why does this work begin there?
+% Answer: Transmission spectroscopy measures starlight filtered through the
+% atmospheric limb during transit. Its well-defined geometry provides a
+% tractable setting in which to test how detector modelling and reduction
+% choices affect a recovered spectrum.
 % Evidence: Current project scope.
-%Davide: I am not sure this first sentence needs to be here as is, as in section 1.1 we basically talk about transmnission only, maybe we could mentoin that what we described before, this whole light going through an atmosphere is transmission spectroscopy then explain what it is as we are currently doing and then say there are also emission and phase curves and how they are different and that we will handle them in future work. 
-The present work begins with transmission spectroscopy because its well-defined
-transit geometry provides a tractable setting in which to test how detector
-modelling and reduction choices affect a recovered atmospheric spectrum. The
-same detector-level principles can later be extended to emission and
-phase-curve observations.
+The atmospheric signal discussed above can be observed when a planet passes in
+front of its host star and some of the starlight crosses the planet's
+atmospheric limb. This observing method is transmission spectroscopy. It is the
+starting point for the present work because its repeated, well-defined transit
+geometry provides a tractable setting in which to test how detector modelling
+and reduction choices affect a recovered atmospheric spectrum.
 
 % Question: How does transmission spectroscopy probe an atmosphere?
 % Answer: During transit, wavelength-dependent atmospheric opacity changes the
@@ -93,20 +95,34 @@ The effective planetary radius $R_{\mathrm p}(\lambda)$ increases where the
 atmosphere is more opaque and decreases where it is more transparent.
 Absorption by atoms, molecules, clouds, and aerosols can therefore imprint
 wavelength-dependent structure on the measured transit depth
-\citep{SeagerSasselov2000,Brown2001}.
+\citep{SeagerSasselov2000,Brown2001}. Figure~\ref{fig:transmission-spectroscopy}
+summarises this geometry and its connection to a transmission spectrum.
+
+\begin{figure*}[t]
+  \centering
+  \input{figures/transmission_spectroscopy_schematic}
+  \caption{Principle of transmission spectroscopy. (a) During transit, the
+  opaque planet blocks starlight while a small fraction passes through its
+  atmospheric annulus. The altitude at which the atmosphere becomes opaque,
+  and therefore the apparent planetary radius, depends on wavelength.
+  (b) Greater atmospheric opacity produces a larger $R_{\mathrm p}(\lambda)$
+  and a deeper transit, whereas lower opacity produces a shallower transit.
+  The plotted spectrum is schematic and does not represent a particular planet
+  or instrument.}
+  \label{fig:transmission-spectroscopy}
+\end{figure*}
 
 % Question: Why are atmospheric transmission signals difficult to measure?
 % Answer: Only the starlight passing through a thin annulus around the planet
-% probes the atmosphere, so its wavelength-dependent effect is small.
+% probes the atmosphere, so the wavelength-dependent atmospheric signal is a
+% small fraction of the total stellar flux.
 % Evidence: Seager and Sasselov (2000) and Brown (2001).
 Only the starlight passing through a thin annulus around the planet probes its
-atmosphere, so the wavelength-dependent change in transit depth is small
-%Davide: What do you mean by compared with the transit itself, isnt it smal compared to the total amount of stellar light. maybe I am wrong
-compared with the transit itself. The signal is stronger when the planet is
-large relative to its host star and when its atmosphere extends over a greater
-range of altitudes. High temperatures, atmospheres dominated by light gases
-such as hydrogen and helium, and weak gravity favour an extended atmosphere,
-whereas
+atmosphere, so the wavelength-dependent atmospheric signal is a small fraction
+of the total stellar flux. The signal is stronger when the planet is large
+relative to its host star and when its atmosphere extends over a greater range
+of altitudes. High temperatures, atmospheres dominated by light gases such as
+hydrogen and helium, and weak gravity favour an extended atmosphere, whereas
 clouds and hazes can obscure spectral features. Both the atmosphere and the
 geometry of the planet-star system therefore determine how readily a
 transmission signal can be measured \citep{SeagerSasselov2000,Brown2001}.
@@ -115,12 +131,13 @@ transmission signal can be measured \citep{SeagerSasselov2000,Brown2001}.
 % Answer: Their large radii, high temperatures, hydrogen-dominated atmospheres,
 % and often low gravities make their atmospheric signals comparatively strong.
 % Evidence: Charbonneau et al. (2002), Brown (2001), and Madhusudhan (2019).
-%Davide: this is bad, dont just start with hot jupiters are ... start like: One type of planets that have favorable features for transmissino spectroscopy are hot jupiters. HOt jupiters are a subgroup ...
-Hot Jupiters are a subgroup of gas giants that orbit close to their host stars
-and are consequently strongly irradiated. Their large radii, high temperatures,
-hydrogen-dominated atmospheres, and sometimes low gravities make their
-transmission signatures comparatively strong. The first detection of an
-exoplanet atmosphere identified sodium absorption in the hot Jupiter
+One class of planet with especially favourable properties for transmission
+spectroscopy is the hot Jupiter. Hot Jupiters are a subgroup of gas giants that
+orbit close to their host stars and are consequently strongly irradiated. Their
+large radii, high temperatures, hydrogen-dominated atmospheres, and sometimes
+low gravities make their transmission signatures comparatively strong. The
+first detection of an exoplanet atmosphere identified sodium absorption in the
+hot Jupiter
 HD~209458~b \citep{CharbonneauEtAl2002}. Hot Jupiters are therefore
 useful targets for developing and testing methods that recover transmission
 spectra from spectroscopic time series. A stronger signal makes errors in
@@ -142,24 +159,15 @@ most relevant to questions of planetary habitability.
 Transmission is one of three principal time-series geometries used for
 atmospheric spectroscopy. Secondary-eclipse measurements isolate the planet's
 dayside emission by comparing the combined star and planet flux with the stellar
-flux measured while the planet is hidden \citep{DemingEtAl2005}.
-
-%Davide: This sentence below here should not exist, cant we just cite the JWST emission papers withouth saying anything about NIRISS etc here. is really akwakrd
-JWST has
-extended secondary-eclipse spectroscopy across broad infrared wavelength
-ranges, including NIRISS/SOSS studies of the hot Jupiters WASP-18b and
-WASP-17b \citep{CoulombeEtAl2023,GressierEtAl2024}. Phase curves follow the
-changing planetary contribution over an orbit and constrain day-night
+flux measured while the planet is hidden
+\citep{DemingEtAl2005,CoulombeEtAl2023,GressierEtAl2024}. Phase curves follow
+the changing planetary contribution over an orbit and constrain day-night
 temperature contrast, heat redistribution, and longitudinal structure
-\citep{KnutsonEtAl2007}.
-
-%Davide: Same critique here. 
-Recent JWST phase curves have applied this technique to
-targets ranging from ultra-hot Jupiters to warm sub-Neptunes
-\citep{MikalEvansEtAl2023,KemptonEtAl2023,SplinterEtAl2025}. Each geometry
-measures a different weighting of the atmosphere. This project focuses on
-transmission spectroscopy, while emission and phase-curve analyses remain
-relevant future applications of a detector-level framework.
+\citep{KnutsonEtAl2007,MikalEvansEtAl2023,KemptonEtAl2023,
+SplinterEtAl2025}. Each geometry measures a different weighting of the
+atmosphere. This project begins with
+transmission spectroscopy. Emission and phase-curve analyses are planned future
+applications of the same detector-level framework.
 
 % Question: Why is atmospheric characterisation an inverse problem?
 % Answer: Atmospheric signals are mixed with stellar, instrumental, and
