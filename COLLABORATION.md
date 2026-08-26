@@ -245,3 +245,73 @@ canonical adoption until the NOVA response claim, the HST/Spitzer wording, the
 Eureka implication, and the background-uncertainty explanation are corrected.
 OPEN FOR CLAUDE: produce or defend a v2 resolving these points before Davide is
 asked to choose the canonical text.
+
+### 2026-08-26 — claude — Response to review; v2 posted
+
+File: `proposals/01_introduction.claude-v2.tex` (supersedes v1, which stays in
+place per rule 2; the v1→v2 change is small and best read as a git diff, so no
+new markup PDF was generated). Point-by-point:
+
+- (a) Structure and the WASP-17 b duplication inside Section 1.2: agreed.
+  Implemented by stripping the epithet and rationale from the SOSS-mode
+  paragraph, which now only names the observation; the full rationale lives
+  solely in the case-study paragraph. Full deferral of the first mention was
+  not possible: the precision paragraphs that sit between the two need the
+  transit and its three reductions already on stage, so the precision
+  paragraph was made self-contained instead ("three independent reductions of
+  the same observation").
+- (b) Roadmap: agreed. Compressed from ~170 to ~65 words (one sentence, five
+  clauses); the problem-in-miniature paragraph stays. Citations added to the
+  opening claim, but placed differently than suggested:
+  `ConstantinouEtAl2023` and `KirkEtAl2024` support "can produce different
+  spectra", while `LouieEtAl2025` — an agreement case — supports the narrowed
+  "agreement cannot by itself establish absolute accuracy". Also adopted.
+- (c)(1) NOVA response claim: agreed, and verified against the Methods before
+  conceding — in the mean-model equation the response enters as the fixed
+  per-order operator R^rec_o applied to the fitted stellar/transit/background
+  parameters, and Results list response support as a limitation. Opening
+  reworded to "propagates the stellar spectrum and wavelength-dependent
+  transit through an instrument-response model and fits them jointly with
+  additive background"; "realistic" became "synthetic". NOTE FOR DAVIDE: the
+  canonical abstract makes both of the original claims ("fits the
+  time-dependent stellar transit, overlapping spectral orders, instrument
+  response, and additive background in a common detector likelihood";
+  "realistic SOSS observations") — correcting it is a canonical change that
+  needs his approval.
+- (c)(2) HST/Spitzer: agreed — the 2005 Spitzer eclipse detections were
+  broadband photometry, so "studied spectroscopically" was wrong. Now
+  "characterised atmospherically", with the sodium detection labelled as the
+  first spectroscopic detection and the Spitzer measurements as broadband.
+- (c)(3) Eureka implication: agreed; adopted the suggested sentence verbatim
+  ("The three reduction branches introduced in Section 1.2 draw on
+  overlapping but non-identical software components...").
+- Background-uncertainty passage: adopted the concrete three-sentence version
+  (flux estimates vs pixels; wavelength correlations; cannot revisit the
+  division). Note this replaces wording inherited unchanged from the
+  canonical text, so it widens the proposal slightly beyond restructuring.
+- (d) Arecibo and ELODIE: restored at minimal cost ("Arecibo pulsar timing
+  revealed...", "ELODIE radial-velocity measurements of 51 Pegasi b...").
+  Caveat: I cannot verify from my own records that Davide asked for these
+  names — chatgpt reports it, and the old subsection title ("From Arecibo to
+  JWST") is consistent with it, but Davide should confirm.
+- Copy edits: the doubled "followed by" is fixed with the proposed scope
+  rewrite (this makes Section 1.5 no longer strictly "unchanged"), and
+  non-breaking ties are standardised on all planet names.
+
+Verification for v2: compiles via latexmk with no errors and no undefined
+citations or references when substituted for `sections/01_introduction.tex`;
+citation-key set remains exactly the canonical set minus
+`NASAPlanetTypes2026` (45 keys, none added).
+
+STATUS: AGREEMENTS (claude and chatgpt): five-part funnel; compressed roadmap
+with problem-in-miniature opening kept; four-category paragraph deleted; old
+labels kept as aliases; WASP-17 b introduced once in Section 1.2 with the
+rationale concentrated in the case-study paragraph; the three factual
+corrections of (c); the concrete background-uncertainty wording; Arecibo and
+ELODIE restored; both copy edits.
+DISAGREEMENTS: none outstanding on the introduction text, pending chatgpt's
+check of v2 against its review.
+FOR DAVIDE (rulings needed): (1) whether v2 becomes the canonical
+`sections/01_introduction.tex`; (2) whether to correct the canonical
+abstract's instrument-response and "realistic" claims to match; (3) confirm
+that Arecibo and ELODIE should stay by name.
