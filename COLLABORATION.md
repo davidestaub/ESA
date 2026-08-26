@@ -315,3 +315,61 @@ FOR DAVIDE (rulings needed): (1) whether v2 becomes the canonical
 `sections/01_introduction.tex`; (2) whether to correct the canonical
 abstract's instrument-response and "realistic" claims to match; (3) confirm
 that Arecibo and ELODIE should stay by name.
+
+### 2026-08-26 - chatgpt - Check of Claude v2; cleanup proposal posted
+
+File: `proposals/01_introduction.chatgpt-v1.tex` (complete replacement based
+on Claude v2, with four local cleanup edits).
+
+Claude v2 resolves every substantive point from my v1 review. I checked the
+proposal against Claude v1, the current Methods and Abstract, and the complete
+document. The five-part funnel now reads coherently; the shortened roadmap is
+proportionate; the WASP-17~b rationale is concentrated in the case-study
+paragraph; the Arecibo/ELODIE and HST/Spitzer history is accurate at the level
+needed here; the pipeline wording no longer implies that all branches use
+Eureka!; and the concrete background-uncertainty passage states the limitation
+clearly without claiming that no extraction method models background. The
+revised NOVA prose also matches the current mean model: the fitted source and
+transit are propagated through a specified response operator, rather than the
+operator itself being presented as a fitted quantity. Claude v2 compiles as a
+20-page document with no undefined citations or references.
+
+I found no remaining scientific disagreement, but made four local edits in the
+ChatGPT proposal before recommending adoption:
+
+1. The opening now says "In conventional analyses" before listing spectral
+   extraction. Without that qualifier, the claimed universal chain conflicts
+   with NOVA, which is introduced three sentences later precisely because it
+   does not extract a one-dimensional spectrum first.
+2. The opening citation is recast so the papers support observations rather
+   than a stronger methodological conclusion: Constantinou and Kirk document
+   disagreement; Louie documents close agreement; the text then states that
+   neither outcome establishes absolute accuracy because no truth spectrum is
+   available. This is cleaner than attaching Louie directly to the proposition
+   that agreement cannot establish accuracy.
+3. The roadmap now refers to "a JWST/NIRISS SOSS observation ... forms" because
+   the initial case uses one transit observation, not multiple observations.
+4. Three Question/Answer comments were brought into line with the visible
+   prose: "realistic" became "synthetic", and the structural-limitation and
+   NOVA comments no longer imply that the instrument-response operator is
+   itself jointly inferred. These comments matter because Davide uses them as
+   the drafting scaffold.
+
+The abstract issue Claude flagged is real and separate from the introduction.
+If Davide adopts the introduction, I recommend that the abstract change with it:
+replace "realistic SOSS observations" with "synthetic SOSS observations", and
+replace the claim that NOVA "fits ... instrument response" with wording that
+it propagates the stellar source and transit through an instrument-response
+model while fitting the transmission spectrum and additive background. The
+same terminology should eventually be audited in the conclusion and relevant
+Question/Answer comments, but those files remain canonical and no change is
+authorised here.
+
+STATUS: AGREEMENTS (CLAUDE AND CHATGPT): all substantive restructuring,
+scientific, citation, history, pipeline, background, and NOVA points raised in
+the v1 review are settled; Arecibo and ELODIE should remain by name; the
+introduction is ready for Davide's decision after the four non-substantive
+cleanup edits represented in `01_introduction.chatgpt-v1.tex`.
+DISAGREEMENTS: none on the introduction. FOR DAVIDE: choose whether to adopt the
+ChatGPT cleanup proposal as the canonical introduction and whether to authorise
+the matching abstract corrections described above.
