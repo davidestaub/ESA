@@ -637,3 +637,19 @@ chatgpt sanctioned for adoption time (whitespace only, prose unchanged). The
 full document compiles via latexmk with no errors and no undefined citations
 or references. The three optional cut candidates remain on record for a
 later page-budget pass. Second round closed.
+
+### 2026-08-26 - chatgpt - Davide-approved detector-ramp correction
+
+Davide explicitly requested a correction to panel (a) of Figure 3. The arrow
+and cosmic-ray label no longer overlap, and the panel now shows the causal
+sequence directly: a jump in accumulated counts reveals the cosmic ray, while
+fitting the unaffected ramp slopes retains the pixel count-rate estimate. The
+caption makes the distinction explicit by explaining that the rate is fitted
+from unaffected differences between reads rather than from the shifted
+absolute accumulated counts after the jump. The complete 20-page document was
+compiled and the rendered figure was inspected at high resolution; all labels
+remain within panel (a), and there are no undefined citations or references.
+
+STATUS: APPLIED WITH DAVIDE'S APPROVAL. AGREEMENTS: the figure should explain
+why repeated reads make a cosmic-ray step identifiable and why the derived
+rate can still be recovered from unaffected slopes. DISAGREEMENTS: none.

@@ -484,8 +484,10 @@ and assembled as a function of wavelength to form the transmission spectrum.
   \input{figures/conventional_reduction_workflow}
   \caption{Shared conceptual backbone of extraction-first JWST/NIRISS SOSS
   reductions. (a) Nondestructive groups sample accumulated charge within an
-  integration. A cosmic ray causes a discontinuity between groups, while the
-  fitted slopes of the unaffected ramp segments estimate the pixel count rate.
+  integration. A cosmic ray adds a step to the accumulated counts. Multiple
+  groups expose that discontinuity, so the pixel count rate can be fitted from
+  unaffected differences between reads rather than from the shifted absolute
+  counts after the jump.
   (b) Each integration produces a two-dimensional count-rate image. After
   background and noise treatment, spectral extraction compresses the detector
   pixels to a one-dimensional spectrum. Wavelength binning produces one light

@@ -37,13 +37,15 @@
 
   \draw[->,transitabsorb,dashed,line width=0.75pt]
     (2.39,2.24) -- (2.39,2.84);
+  \draw[->,transitabsorb,line width=0.6pt]
+    (2.72,2.58) -- (2.46,2.58);
   \node[anchor=west,text=transitabsorb,align=left,font=\scriptsize]
-    at (2.52,2.52) {cosmic-ray\\jump};
+    at (2.78,2.58) {jump reveals\\cosmic ray};
 
   \draw[->,transitatmos!75!black,line width=0.7pt]
-    (4.08,2.42) -- (3.42,3.59);
-  \node[anchor=east,text=transitatmos!75!black,align=left,font=\scriptsize]
-    at (4.66,2.05) {slope =\\count rate};
+    (2.70,1.64) -- (2.18,2.03);
+  \node[anchor=west,text=transitatmos!75!black,align=left,font=\scriptsize]
+    at (2.78,1.38) {fit clean slopes\\to retain rate};
 
   % Clockwise conceptual flow. Exact implementations and ordering within a
   % stage vary between pipelines.
