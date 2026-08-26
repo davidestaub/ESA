@@ -633,7 +633,7 @@ extraction, but it is not inferred jointly with the transit signal in the same
 detector-pixel likelihood
 \citep{HolmbergMadhusudhan2023,LouieEtAl2025}. After extraction, the transit
 fit sees flux estimates rather than detector pixels. It can propagate
-background uncertainty only if the extraction encodes that uncertainty,
+background uncertainty only if the extraction encodes that uncertainty, %Davide: Do the pipelines do that or no? and why do we care about background uncertainty and not background itself
 including its wavelength correlations, in the uncertainties or covariance
 passed forward. Otherwise the transit fit cannot revisit how detector counts
 were divided between stellar source and additive background.
