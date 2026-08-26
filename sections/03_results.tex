@@ -1,0 +1,132 @@
+\section{Results and Current Status}
+\label{sec:results}
+
+This section reports the state of the project frozen on 21 August 2026. The
+results are development and screening evidence. None is presented as a final
+measurement of WASP-17 b, and the current benchmark remains
+\texttt{science\_ready=0}.
+
+\subsection{Injector validation}
+
+The supported-wing detector injector passed its internal identity and held-out
+checks. The maximum difference between the constructed comparison cubes at the
+pixel level was $5.945\times10^{-14}$ DN s$^{-1}$, and the maximum identity
+difference in the order-overlap region was $5.232\times10^{-14}$ DN s$^{-1}$.
+No background-only pixels changed. Increasing the exposure-integration rule from
+41 to 61 points altered the delivered spectral prediction by 0.013116 ppm. These
+tests establish numerical identity of delivery and adequate exposure quadrature
+for the diagnostic case.
+
+The supported stellar-wing correction was estimated using temporal fold A and
+tested on fold B. The held-out residual wing fraction was $1.6383\times10^{-4}$,
+while the source-fraction difference between the two folds was
+$1.02119\times10^{-3}$. This supports the use of the correction within the
+declared detector support. A genuine Order-1 response hole remained unsupported.
+Three central bins and two preregistered partial edge bins around that region
+were therefore excluded from both recovery methods rather than reconstructed
+with unvalidated information.
+
+\subsection{Transmission-spectrum recovery}
+
+Successive response-aware NOVA branches showed that instrument response and
+wavelength support dominate the current error budget. The best completed result
+in the directly compared V26 to V30 development set was the physically contracted
+K155 support branch, with 203.631 ppm absolute and 174.655 ppm morphology RMSE on
+the common-$R=100$ grid. A later Fold-B response branch completed at 211.709 ppm
+absolute and 189.095 ppm morphology RMSE. Its two deterministic starts agreed to
+well below 1 ppm, showing that reproducibility of the numerical endpoint did not
+guarantee a more accurate physical solution.
+
+The residual in the Fold-B branch was dominated by Order 1. Two bins on the
+flanks of the 1.03 to $1.10\,\mu$m support gap contributed approximately
+107.5 ppm in quadrature. Removing only those bins left about 183.7 ppm absolute
+RMSE. Order 2 below $0.84\,\mu$m recovered more accurately than Order 1 despite
+the higher nominal signal-to-noise ratio of Order 1. This localised the next
+methodological problem to response, mask, support, wavelength, or source
+allocation rather than to a uniform lack of signal.
+
+\begin{table}[t]
+ \centering
+ \caption{Selected closed development results on the common-$R=100$ grid. These
+ are diagnostic scores, not final scientific results.}
+ \label{tab:development-results}
+ \begin{tabular}{@{}lcc@{}}
+  \toprule
+  Branch & Abs. RMSE & Morph. RMSE \\
+         & (ppm) & (ppm) \\
+  \midrule
+  NOVA V28-R2 & 203.631 & 174.655 \\
+  NOVA V30-R8 & 211.709 & 189.095 \\
+  \bottomrule
+ \end{tabular}
+\end{table}
+
+\subsection{Cross-method comparison}
+
+An end-to-end diagnostic comparison was completed on one opened structured
+atmospheric case using the supported-wing injector. NOVA obtained an absolute
+RMSE of 281.873 ppm and morphology RMSE of 255.725 ppm on the common-$R=100$
+grid. The authentic Ahsoka analysis obtained 756.498 ppm and 352.440 ppm,
+respectively. NOVA's mean bias was $+84.301$ ppm and Ahsoka's was
+$-450.844$ ppm. Feature-amplitude errors differed in sign and wavelength,
+showing that the comparison cannot be reduced to a single constant offset.
+
+\begin{table}[t]
+ \centering
+ \small
+ \setlength{\tabcolsep}{3pt}
+ \caption{Opened one-case diagnostic comparison on the common-$R=100$ grid.}
+ \label{tab:cross-method-results}
+ \begin{tabular}{@{}lccc@{}}
+  \toprule
+  Method & Abs. RMSE & Morph. RMSE & Bias \\
+         & (ppm) & (ppm) & (ppm) \\
+  \midrule
+  NOVA & 281.873 & 255.725 & $+84.301$ \\
+  Ahsoka & 756.498 & 352.440 & $-450.844$ \\
+  \bottomrule
+ \end{tabular}
+\end{table}
+
+The lower NOVA error in this case is encouraging but does not establish general
+superiority. The NOVA reducer classified the two-start solution as non-strict, so
+it is excluded from a headline scientific comparison. The source and background
+decomposition was also specific to this injector, and only one atmospheric case
+was opened. The result demonstrates that the benchmark can discriminate methods
+and diagnose failure structure. It does not yet answer how either method performs
+across targets, noise realisations, backgrounds, or response mismatch.
+
+\subsection{Instrument-response and support limitations}
+
+The response-aware development changed the interpretation of earlier results.
+The first injector and recovery shared too much spatial-response structure, so
+their strong closure was not an independent end-to-end test. Later external
+response models removed this matched structure and exposed supported stellar
+wings, source-background allocation, and the Order-1 gap as limiting factors.
+An out-of-transit-median spatial-profile substitution also risked allocating
+background morphology to the star and was rejected from the selected branch.
+
+The current response model replaces legacy SPECTRACE calibration, rebuilds the
+generator mask consistently, and constructs Fold-A, Fold-B, and full-data
+response variants. The associated factorial experiment is designed to separate
+calibration and support changes from temporal-fold choice. At the handoff freeze,
+these responses and validation products had been constructed, but the final fair
+injector regeneration and downstream recovery were not complete.
+
+\subsection{What has and has not been established}
+
+The work has established four points. First, a detector-level SOSS cube can be
+delivered identically to NOVA and an authentic extraction-based analysis. Second,
+the injected spectrum can be withheld until a prediction is fixed and then used
+to compute absolute and morphology errors. Third, NOVA can jointly fit a shared
+transmission spectrum and additive background at detector level. Fourth,
+response support and source-background allocation can dominate the recovered
+spectrum even when the optimisation is reproducible.
+
+Several claims remain open. The current work has not demonstrated strict NOVA
+convergence on the fair response-consistent injector, calibrated frequentist or
+posterior uncertainties, superiority across a preregistered ensemble, or an
+improved atmospheric inference on real data. It has also not completed an
+independent limb-darkening cross-check or a multi-pipeline benchmark. These open
+claims define the future research plan rather than weaknesses to be hidden by the
+current diagnostic scores.

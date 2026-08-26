@@ -1,0 +1,35 @@
+\documentclass[11pt,a4paper,twocolumn]{article}
+
+\input{preamble}
+
+\begin{document}
+
+\twocolumn[
+\begin{@twocolumnfalse}
+  \begin{center}
+    {\LARGE\bfseries Toward Robust Detector-Level Inference for
+    JWST/NIRISS SOSS Transmission Spectroscopy\par}
+    \vspace{0.8em}
+    {\large Davide Staub\par}
+    \vspace{0.25em}
+    {\normalsize Early Stage Assessment, August 2026\par}
+  \end{center}
+  \input{sections/00_abstract}
+  \vspace{1.2em}
+\end{@twocolumnfalse}
+]
+
+\input{sections/01_introduction}
+\input{sections/02_methods}
+\input{sections/03_results}
+\input{sections/04_discussion_future}
+\input{sections/05_conclusions}
+
+\bibliographystyle{plainnat}
+\bibliography{references}
+
+\appendix
+\input{appendices/appendix_nova}
+\input{appendices/appendix_benchmarking}
+
+\end{document}

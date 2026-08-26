@@ -1,0 +1,87 @@
+\section{Detailed \nova{} Model and Numerical Implementation}
+\label{app:nova}
+
+\subsection{Detector-level forward equations}
+
+Write the retained detector data as $\bm{y}\in\mathbb{R}^{N}$ with diagonal
+standardisation matrix $\bm{W}$. For nonlinear state $\bm{\theta}$, the model is
+linear in the stellar-continuum coefficients $\bm{\beta}$ and background
+coefficients $\bm{\alpha}$,
+\begin{equation}
+ \widehat{\bm{y}}(\bm{\theta},\bm{\eta})
+ = \bm{A}(\bm{\theta})\bm{\eta}, \qquad
+ \bm{\eta}=\begin{bmatrix}\bm{\beta}\\\bm{\alpha}\end{bmatrix}.
+\end{equation}
+Each row corresponds to one physical pixel and integration. Contributions from
+all orders assigned to that pixel are summed in the row before comparison with
+the data. The response matrices remain defined on a fine wavelength grid, while
+the fitted stellar continuum and planetary depth use lower-dimensional physical
+bases. This separates instrument sampling from the number of fitted coefficients.
+
+\subsection{Transit and limb-darkening parameterisation}
+
+Positive atmospheric depths are represented in unconstrained optimiser
+coordinates and mapped smoothly into the allowed physical interval. Quadratic
+limb-darkening coefficients are obtained from bounded $q_1$ and $q_2$
+coordinates using Equation~\ref{eq:kipping-coordinates}. The transit engine
+evaluates a Keplerian orbit and integrates the model across every exposure.
+Unphysical depth, geometry, or limb darkening causes a diagnostic failure rather
+than a fallback model.
+
+The primary atmospheric basis is shared between orders. A smooth two-coefficient
+order-discrepancy model exists only as a diagnostic for response mismatch. It is
+constrained to prevent the two orders from becoming independent spectra and is
+excluded from the primary result unless a preregistered comparison requires it.
+
+\subsection{Variable projection and additive background}
+
+For a fixed robust-weight cycle, the profiled residual is
+\begin{equation}
+ \bm{r}(\bm{\theta})=
+ \bm{C}(\bm{\theta})\widehat{\bm{\eta}}(\bm{\theta})-\bm{d},
+\end{equation}
+where $\bm{C}$ and $\bm{d}$ include detector standardisation and any declared
+linear regularisation rows. If
+$\bm{C}_a=\partial\bm{C}/\partial\theta_a$, movement of the profiled linear
+solution satisfies
+\begin{equation}
+ (\bm{C}^{\mathsf T}\bm{C})\bm{\eta}_a
+ =-\left(\bm{C}^{\mathsf T}\bm{C}_a\widehat{\bm{\eta}}
+ +\bm{C}_a^{\mathsf T}\bm{r}\right),
+\end{equation}
+and the exact profiled derivative is
+\begin{equation}
+ \bm{r}_a=\bm{C}_a\widehat{\bm{\eta}}+\bm{C}\bm{\eta}_a.
+\end{equation}
+This derivative includes the response of both stellar and background
+coefficients. Treating the fitted nuisance coefficients as fixed would omit part
+of the derivative and can alter the nonlinear step.
+
+The production solve exploits the sparse stellar-response block and eliminates
+it into a 16-dimensional background Schur complement. Verification-sized
+problems are also solved with dense rank-revealing linear algebra. Agreement
+between the structured and dense predictions, objectives, and Jacobians is a
+release requirement.
+
+\subsection{Huber IRLS and numerical safeguards}
+
+For standardised detector residual $z$, NOVA uses the Huber loss
+\citep{Huber1964} with threshold $\delta=1.345$,
+\begin{equation}
+ \rho_{\delta}(z)=
+ \begin{cases}
+  \tfrac{1}{2}z^2, & |z|\leq\delta,\\
+  \delta(|z|-\tfrac{1}{2}\delta), & |z|>\delta.
+ \end{cases}
+\end{equation}
+IRLS converts this loss into fixed-weight profiled least-squares cycles. The
+accepted prediction must pass a final confirmation using newly recomputed
+weights. Every cycle records objective components, robust-weight change,
+spectral change, gradient measures, bounds, nuisance rank, conditioning, and
+prediction hashes.
+
+The optimiser rejects invalid physical or coordinate proposals. Two independent
+starts must converge to compatible spectra and objectives. A deterministic
+material-descent audit tests feasible local directions after nominal termination.
+These safeguards were added because small objective changes and an optimiser
+success flag were found insufficient to establish a unique numerical endpoint.

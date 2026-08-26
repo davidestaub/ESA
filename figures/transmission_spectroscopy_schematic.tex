@@ -1,0 +1,91 @@
+\begin{tikzpicture}[x=1cm,y=1cm,font=\footnotesize]
+  \path[use as bounding box] (0,0) rectangle (17.2,4.60);
+
+  % Panel frames and headings
+  \draw[black!22,line width=0.4pt] (0.05,0.12) rectangle (8.20,4.45);
+  \draw[black!22,line width=0.4pt] (8.65,0.12) rectangle (17.15,4.45);
+  \node[anchor=west,font=\bfseries] at (0.28,4.17)
+    {(a) Transit geometry};
+  \node[anchor=west,font=\bfseries] at (8.90,4.17)
+    {(b) Schematic transmission spectrum};
+
+  % Host star
+  \shade[inner color=yellow!15,outer color=transitstar]
+    (1.52,2.30) circle (1.02);
+  \draw[transitstar!70!black,line width=0.5pt]
+    (1.52,2.30) circle (1.02);
+  \node[anchor=north] at (1.52,1.14) {Host star};
+
+  % Planet and atmosphere. The filled annulus shows the atmosphere, while the
+  % coloured circles show the effective radius at two wavelengths.
+  \path[fill=transitatmos!13,even odd rule]
+    (4.58,2.30) circle (0.74)
+    (4.58,2.30) circle (0.43);
+  \draw[black!25,line width=0.45pt]
+    (4.58,2.30) circle (0.74);
+  \fill[transitplanet] (4.58,2.30) circle (0.42);
+  \draw[black,line width=0.45pt] (4.58,2.30) circle (0.42);
+  \draw[transitabsorb,dashed,line width=0.95pt]
+    (4.58,2.30) circle (0.70);
+  \draw[transitatmos,line width=1.05pt]
+    (4.58,2.30) circle (0.56);
+
+  % Starlight at two wavelengths. Pink light is strongly attenuated by the
+  % atmosphere, while blue light at a lower-opacity wavelength remains bright.
+  \draw[transitabsorb,line width=1.05pt]
+    (2.49,2.90) -- (4.22,2.90);
+  \path[shade,left color=transitabsorb,
+    right color=transitabsorb!18!white]
+    (4.21,2.88) rectangle (4.95,2.92);
+  \draw[transitabsorb,opacity=0.18,line width=1.05pt]
+    (4.95,2.90) -- (7.55,2.90);
+  \draw[transitatmos,line width=1.05pt]
+    (2.49,1.78) -- (7.55,1.78);
+  \draw[transitstar!85!black,line width=0.85pt]
+    (2.54,2.30) -- (4.16,2.30);
+
+  \node[anchor=south] at (3.10,3.08) {Starlight};
+  \node[anchor=north,align=center] at (4.58,1.14)
+    {Planet and\\atmospheric annulus};
+
+  % Compact key for the two wavelength-dependent effective radii
+  \draw[transitabsorb,dashed,line width=0.95pt]
+    (5.35,3.50) -- (5.72,3.50);
+  \node[anchor=west,text=transitabsorb,font=\scriptsize]
+    at (5.82,3.50) {larger $R_{\rm p}(\lambda)$};
+  \draw[transitatmos,line width=1.05pt]
+    (5.35,3.20) -- (5.72,3.20);
+  \node[anchor=west,text=transitatmos,font=\scriptsize]
+    at (5.82,3.20) {smaller $R_{\rm p}(\lambda)$};
+
+  % Spectrum axes
+  \draw[->,line width=0.65pt] (9.42,0.72) -- (16.78,0.72);
+  \draw[->,line width=0.65pt] (9.42,0.72) -- (9.42,3.78);
+  \node[anchor=north] at (13.10,0.61) {Wavelength, $\lambda$};
+  \node[rotate=90,anchor=center] at (9.00,2.30)
+    {Transit depth, $\delta(\lambda)$};
+
+  % Illustrative spectrum without numerical wavelength or depth scales
+  \draw[black!15,densely dotted] (9.43,1.39) -- (16.62,1.39);
+  \draw[transitplanet,line width=1.35pt]
+    plot[smooth,tension=0.72] coordinates {
+      (9.52,1.43) (9.90,1.46) (10.27,1.60) (10.62,2.02)
+      (10.98,1.62) (11.35,1.47) (11.73,1.54) (12.04,1.82)
+      (12.36,2.77) (12.70,1.88) (13.05,1.53) (13.42,1.40)
+      (13.80,1.51) (14.18,1.89) (14.52,1.55) (14.92,1.48)
+      (15.30,1.73) (15.66,3.18) (16.02,1.82) (16.47,1.48)
+    };
+
+  % Direct labels at representative high- and low-opacity wavelengths
+  \fill[transitabsorb] (12.36,2.77) circle (0.065);
+  \draw[transitabsorb,line width=0.55pt]
+    (12.36,2.84) -- (12.36,3.12);
+  \node[anchor=south,text=transitabsorb,align=center]
+    at (12.36,3.17) {higher opacity\\larger apparent radius};
+
+  \fill[transitatmos] (13.42,1.40) circle (0.065);
+  \draw[transitatmos,line width=0.55pt]
+    (13.42,1.33) -- (13.42,1.24);
+  \node[anchor=north,text=transitatmos,align=center,font=\scriptsize]
+    at (13.42,1.18) {lower opacity, smaller $R_{\rm p}(\lambda)$};
+\end{tikzpicture}

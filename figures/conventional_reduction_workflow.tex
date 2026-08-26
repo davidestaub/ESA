@@ -1,0 +1,97 @@
+\begin{tikzpicture}[x=1cm,y=1cm,font=\footnotesize]
+  \path[use as bounding box] (0,0) rectangle (17.2,5.25);
+
+  % Panel frames and headings
+  \draw[black!22,line width=0.4pt] (0.05,0.12) rectangle (4.95,5.10);
+  \draw[black!22,line width=0.4pt] (5.20,0.12) rectangle (17.15,5.10);
+  \node[anchor=west,font=\bfseries] at (0.28,4.82)
+    {(a) Detector ramp};
+  \node[anchor=west,font=\bfseries] at (5.44,4.82)
+    {(b) Extraction-first reduction};
+
+  % Nondestructive groups within one integration. The cosmic ray produces a
+  % discontinuity, while the count-rate slope is retained on either side.
+  \draw[->,line width=0.65pt] (0.82,0.92) -- (4.50,0.92);
+  \draw[->,line width=0.65pt] (0.82,0.92) -- (0.82,4.22);
+  \node[anchor=north] at (2.66,0.78) {Time within integration};
+  \node[rotate=90,anchor=center] at (0.30,2.55)
+    {Accumulated counts};
+
+  \draw[transitatmos!75!black,line width=1.0pt]
+    (1.02,1.15) -- (2.34,2.21);
+  \draw[transitatmos!75!black,line width=1.0pt]
+    (2.46,2.90) -- (3.86,4.02);
+
+  \foreach \x/\y/\lab in {
+    1.16/1.27/G1,
+    1.66/1.67/G2,
+    2.16/2.07/G3,
+    2.66/3.06/G4,
+    3.16/3.46/G5,
+    3.66/3.86/G6}
+  {
+    \fill[transitatmos] (\x,\y) circle (0.075);
+    \node[anchor=south,font=\scriptsize,text=transitatmos!70!black]
+      at (\x,\y+0.10) {\lab};
+  }
+
+  \draw[->,transitabsorb,dashed,line width=0.75pt]
+    (2.39,2.24) -- (2.39,2.84);
+  \node[anchor=west,text=transitabsorb,align=left,font=\scriptsize]
+    at (2.52,2.52) {cosmic-ray\\jump};
+
+  \draw[->,transitatmos!75!black,line width=0.7pt]
+    (4.08,2.42) -- (3.42,3.59);
+  \node[anchor=east,text=transitatmos!75!black,align=left,font=\scriptsize]
+    at (4.66,2.05) {slope =\\count rate};
+
+  % Clockwise conceptual flow. Exact implementations and ordering within a
+  % stage vary between pipelines.
+  % Detector-space boxes
+  \draw[rounded corners=2pt,fill=transitatmos!8,draw=transitatmos!70,
+    line width=0.6pt] (5.48,3.05) rectangle (9.02,4.30);
+  \node[align=center,text width=3.28cm,font=\scriptsize] at (7.25,3.675)
+    {\textbf{2D count-rate images}\\one per integration};
+
+  \draw[rounded corners=2pt,fill=transitatmos!8,draw=transitatmos!70,
+    line width=0.6pt] (9.42,3.05) rectangle (12.96,4.30);
+  \node[align=center,text width=3.28cm,font=\scriptsize] at (11.19,3.675)
+    {\textbf{Background and}\\\textbf{noise treatment}};
+
+  % Extracted one-dimensional data
+  \draw[rounded corners=2pt,fill=transitstar!10,draw=transitstar!80!black,
+    line width=0.6pt] (13.36,3.05) rectangle (16.90,4.30);
+  \node[align=center,text width=3.28cm,font=\scriptsize] at (15.13,3.675)
+    {\textbf{Spectral extraction}\\2D pixels $\rightarrow$ 1D spectrum};
+
+  \draw[rounded corners=2pt,fill=transitstar!10,draw=transitstar!80!black,
+    line width=0.6pt] (13.36,1.55) rectangle (16.90,2.80);
+  \node[align=center,text width=3.28cm,font=\scriptsize] at (15.13,2.175)
+    {\textbf{Spectral light curves}\\one light curve per channel};
+
+  % Transit inference and planetary spectrum
+  \draw[rounded corners=2pt,fill=transitabsorb!9,draw=transitabsorb!75,
+    line width=0.6pt] (9.42,1.55) rectangle (12.96,2.80);
+  \node[align=center,text width=3.28cm,font=\scriptsize] at (11.19,2.175)
+    {\textbf{Transit fitting}\\one depth per channel};
+
+  \draw[rounded corners=2pt,fill=transitabsorb!12,draw=transitabsorb!85,
+    line width=0.9pt] (5.48,1.55) rectangle (9.02,2.80);
+  \node[align=center,text width=3.28cm,font=\scriptsize] at (7.25,2.175)
+    {\textbf{Transmission spectrum}\\$\delta(\lambda)$};
+
+  % Clockwise arrows: left to right across the top, down, then right to left.
+  \draw[->,line width=0.65pt] (9.02,3.675) -- (9.42,3.675);
+  \draw[->,line width=0.65pt] (12.96,3.675) -- (13.36,3.675);
+  \draw[->,line width=0.65pt] (15.13,3.05) -- (15.13,2.80);
+  \draw[->,line width=0.65pt] (13.36,2.175) -- (12.96,2.175);
+  \draw[->,line width=0.65pt] (9.42,2.175) -- (9.02,2.175);
+
+  % Colour key requested beneath the boxes
+  \node[font=\scriptsize] at (11.19,0.69)
+    {\textcolor{transitatmos!80!black}{detector pixels}
+     $\rightarrow$
+     \textcolor{transitstar!85!black}{extracted 1D data}
+     $\rightarrow$
+     \textcolor{transitabsorb!85!black}{planetary spectrum}};
+\end{tikzpicture}

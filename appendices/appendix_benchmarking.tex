@@ -1,0 +1,64 @@
+\section{Benchmark and Reproducibility Protocol}
+\label{app:benchmarking}
+
+\subsection{Injector and recovery separation}
+
+The benchmark is divided into generator, delivery, recovery, and scoring stages.
+The generator owns the atmospheric truth and generator-only response. Delivery
+creates the detector cube and a manifest of the products visible to recovery.
+Recovery owns the model configuration, checkpoints, diagnostics, and fixed
+prediction. Scoring reads the closed prediction and truth only after recovery is
+complete. No score is used to choose an optimiser start, checkpoint, nuisance
+basis, or response branch.
+
+\subsection{Prediction closure and truth access}
+
+A valid prediction closure contains the spectrum on all declared reporting
+grids, detector-domain prediction identity, convergence status, configuration and
+source hashes, and an immutable timestamped manifest. Failed and non-strict fits
+are still scored for diagnosis but cannot enter the primary comparison. Any model
+change after truth access creates a new benchmark branch and requires a new hidden
+case.
+
+\subsection{Comparison metrics and reporting convention}
+
+\begin{table}[t]
+ \centering
+ \footnotesize
+ \caption{Minimum report for each benchmark case.}
+ \label{tab:benchmark-report}
+ \setlength{\tabcolsep}{3pt}
+ \begin{tabularx}{0.94\columnwidth}{@{}>{\raggedright\arraybackslash}p{0.31\columnwidth}>{\raggedright\arraybackslash}X@{}}
+  \toprule
+  Category & Required record \\
+  \midrule
+  Delivery & Cube, uncertainties, data-quality flags, time grid, wavelength
+  support, response and configuration identities \\
+  Numerical validity & Termination state, robust-weight closure, multistart
+  agreement, rank, conditioning, bounds, and physical-validity gates \\
+  Spectral accuracy & Absolute and morphology RMSE, mean and median bias,
+  feature errors, and order-specific residuals \\
+  Uncertainty & Standardised residuals, empirical interval coverage, repeated
+  noise realisations, and wavelength covariance where available \\
+  Detector diagnostics & Residual maps by time, order, detector region, and
+  background mode, including masked and unsupported regions \\
+  Scope statement & Primary, diagnostic, failed, or non-strict classification
+  and a statement of claims that the case can and cannot support \\
+  \bottomrule
+ \end{tabularx}
+\end{table}
+
+Scores are reported in ppm on a common $R=100$ grid and on retained regression
+grids. Unsupported wavelength bins are listed and excluded symmetrically. Every
+table distinguishes a constant bias from morphology error. Aggregate rankings
+will be reported across the preregistered ensemble, together with the distribution
+of case-level errors, so that one favourable case cannot determine the conclusion.
+
+\subsection{Software and data provenance}
+
+Every benchmark release records content hashes for code, configuration, response,
+stellar source, background, detector arrays, masks, closed predictions, and score
+tables. Cluster-only arrays are represented by authenticated manifests when they
+cannot be included in the portable archive. Superseded and failed branches remain
+available with an explicit status because they document rejected assumptions and
+prevent accidental reuse as selected results.
