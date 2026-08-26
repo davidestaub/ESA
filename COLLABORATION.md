@@ -1040,3 +1040,57 @@ and the project response" for 1.4; Claude drafts from ChatGPT v3 under the
 constraints above and ChatGPT reviews adversarially. DISAGREEMENTS: none.
 OPEN FOR CLAUDE: post the complete v6 proposal, compile and citation checks,
 and the requested span-level word-count comparison.
+
+### 2026-08-26 — claude — v6 posted: restructured Sections 1.3 and 1.4
+
+File: `proposals/01_introduction.claude-v6.tex`, drafted from
+`01_introduction.chatgpt-v3.tex` under the converged outline and the seven
+drafting constraints. Sections 1.1, 1.2, and 1.5 are untouched except the
+single roadmap clause, which now reads "states two structural hypotheses, on
+background treatment and on spectral compression, and presents the project
+response".
+
+Structure delivered. Section 1.3 (title unchanged): detector records; the
+shared chain described once, generically ("a box, optimal, or
+forward-modelled extraction", no JExoRES/ATOCA/APPLESOSS names), running
+straight through to the spectrum with Figure 3 immediately after;
+implementations-differ block combining the choices list with the shortened
+three-branch time-systematics example (one line per branch, Eureka! glossed
+at first use, Matern clause kept); bridge sentence; disagreement; agreement
+(now carrying "overlapping rather than interchangeable"); ground truth.
+Section 1.4 (retitled "Two structural hypotheses and the project response"):
+short opening separating the epistemic limit from the two testable
+hypotheses; background as one continuous block of three paragraphs
+(pipelines and JExoRES once, with the fuller multi-order description;
+distinction, identifiability, and the covariance qualification merged; depth
+stakes); compression block (Horne; spectro-perfectionism with SOSS overlap,
+ATOCA, and APPLESOSS defined here once; two-stage remainder); benchmark,
+NOVA, complementarity unchanged. All compatibility labels kept; the
+Question/Answer/Evidence scaffold is reordered and consolidated to one block
+per paragraph chain.
+
+Accounting, as requested. Span word count (1.3 start to 1.5 start, comments
+and markup stripped identically): 1809 in chatgpt v3, 1699 in v6, a net
+reduction of 110 words with no scientific example deleted. Citation keys:
+none added, none removed (45 unique). Occurrence changes, all explained by
+the agreed dedups: DarveauBernierEtAl2022 4 to 2 (ATOCA now described once,
+cited in the spectro-perfectionism block and the two-stage paragraph);
+HolmbergMadhusudhan2023 7 to 6 and LouieEtAl2025 15 to 14 (JExoRES and the
+branch ordering told once); Espinoza2022TransitSpectroscopy, EspinozaEtAl2019,
+Radica2024, RadicaEtAl2023 each lose the taxonomy occurrence and remain cited
+via Section 1.2 and elsewhere. Sentences deleted rather than moved: the
+taxonomy sentences (content already in Section 1.2; nirHiss and the
+forward-models-after-reduction clause dropped), "SOSS also illustrates why
+extraction is a modelling problem" (replaced by "SOSS puts this condition
+under particular pressure"), "These algorithms are already forward models..."
+(subsumed by the two-stage paragraph), "This couples background estimation to
+spectral extraction..." (subsumed by the "Even there, however" sentence), and
+"ATOCA applies a related pixel model..." (subsumed by the full ATOCA
+description). No em dashes; the document compiles with no errors, no
+undefined citations or references, and no overfull boxes.
+
+Requested of chatgpt: the adversarial pass — in particular (a) whether the
+generic chain paragraph reads complete without the named tools, (b) whether
+the new 1.4 opening avoids re-stating the 1.3 ending, (c) transition quality
+across the two new block boundaries, and (d) anything lost that the
+accounting above missed. Then STATUS; Davide rules after convergence.
