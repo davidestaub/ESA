@@ -1,0 +1,827 @@
+\section{Introduction and Literature Review}
+\label{sec:introduction}
+
+% Question: What is the central problem of this project, in miniature?
+% Answer: A transmission spectrum is never measured directly, a real planet
+% provides no ground truth against which a recovered spectrum can be scored,
+% and the conventional chain fixes background early and compresses pixels to
+% one dimension, so this project builds a truth-known injector and a joint
+% detector-level inference method that avoids both structural choices.
+% Evidence: The argument developed across this introduction.
+The transmission spectrum of an exoplanet is never measured directly. In
+conventional analyses, it is inferred from detector-level time series through
+a chain of calibration, background treatment, spectral extraction, light-curve
+construction, and transit fitting, and every atmospheric conclusion drawn from
+it inherits the quality of that inference. Independent analyses of the same
+observation can produce different spectra
+\citep{ConstantinouEtAl2023,KirkEtAl2024}, while
+close agreement has also been reported \citep{LouieEtAl2025}. Neither outcome
+by itself establishes absolute accuracy because a real planet never provides
+an independently known spectrum against which the recovered one can be scored.
+The chain also fixes two structural choices early: background is
+estimated before or during extraction rather than jointly with the transit
+signal, and the compression from detector pixels to one-dimensional spectra
+can discard information that later fitting stages cannot recover. Whether
+these choices bias recovered spectra is exactly the kind of question that
+cannot be answered without a known truth. This project therefore responds
+with two connected tools: a detector-level injector that generates synthetic
+JWST/NIRISS SOSS observations with a known transmission spectrum, and NOVA, a
+forward model that avoids both structural choices by propagating the stellar
+spectrum and wavelength-dependent transit through an instrument-response
+model and fitting them jointly with additive background in a single detector
+likelihood.
+
+% Question: How is the argument of this introduction organised?
+% Answer: Five sections form a funnel from scientific motivation through the
+% case study and the conventional workflow to the structural limitations and
+% the research question.
+% Evidence: The section structure below.
+This introduction develops that argument in five steps:
+Sections~\ref{sec:atmospheres-transmission}
+and~\ref{sec:jwst-soss-wasp17} establish why exoplanet atmospheres are primary
+scientific targets and why a JWST/NIRISS SOSS observation of WASP-17~b forms the
+initial case study; Section~\ref{sec:detector-to-validation} follows the
+extraction-first workflow to the validation problem;
+Section~\ref{sec:structural-limitations-inference} develops the structural
+case for joint detector-level inference; and
+Section~\ref{sec:research-question} states the research question and
+objectives.
+\subsection{Exoplanet atmospheres and transmission spectroscopy}
+\label{sec:atmospheres-transmission}
+\label{sec:exoplanets-targets}
+\label{sec:observing-atmospheres}
+
+% Question: What does exoplanet diversity require us to determine?
+% Answer: We need to determine the physical and chemical properties of planets
+% and establish how reliably those properties can be inferred from observations.
+% Evidence: Winn and Fabrycky (2015).
+The discovery of planets beyond the Solar System has shown that planetary
+systems can look very different from our own. These exoplanets span a wide
+range of sizes, temperatures, and orbital configurations, including many with
+no close Solar System counterpart \citep{WinnFabrycky2015}. Understanding this
+diversity requires determining the physical and chemical properties of
+individual planets and assessing how reliably those properties can be inferred
+from observations.
+
+% Question: Why can bulk measurements not determine a planet's composition?
+% Answer: Mass and radius constrain bulk density but do not uniquely determine
+% its interior structure or atmospheric mass fraction.
+% Evidence: Rogers and Seager (2010) and Madhusudhan (2019).
+For well-characterised transiting planets, mass and radius are usually among
+the first physical properties inferred. Together they constrain bulk density,
+but planets with similar masses and radii can have different interior
+structures and hold different fractions of their mass in gaseous envelopes,
+leaving their exact compositions
+underconstrained
+\citep{RogersSeager2010}. Distinguishing between these possibilities requires
+observables that respond directly to the material and energy in a planet's
+outer layers. Atmospheres provide those observables
+\citep{Madhusudhan2019}.
+
+% Question: What additional information is carried by an atmosphere?
+% Answer: Atmospheric spectra probe composition, energy transport, clouds,
+% escape, and possible signatures of formation and evolution.
+% Evidence: Oberg et al. (2011), Vidal-Madjar et al. (2003), and Madhusudhan
+% (2019).
+Atmospheric composition and structure reflect present conditions and may
+retain information about a planet's formation and evolution. Atomic and
+molecular abundances constrain chemical inventories, elemental ratios, and
+atmospheric metallicity. These quantities may carry information about the gas
+and solids accreted during formation, although they do not determine a unique
+formation history \citep{ObergEtAl2011}. Temperature structures, clouds, and
+hazes govern how radiation is absorbed, emitted, and transported, while escape
+signatures trace atmospheric loss driven by the host star's high-energy
+irradiation
+\citep{VidalMadjarEtAl2003}. When interpreted alongside mass, radius, age, and
+irradiation, atmospheric measurements can therefore test hypotheses about
+formation, migration, enrichment, and long-term mass loss
+\citep{Madhusudhan2019}. Atmospheric characterisation provides a route from
+detecting a planet to testing physical explanations for its present state. To
+do so reliably, however, the atmospheric signal must first be recovered from
+the light of the host star.
+
+% Question: What observing method turns the atmospheric signal into a
+% measurement, and why does this work begin there?
+% Answer: Transmission spectroscopy measures starlight filtered through the
+% atmospheric limb during transit. Its well-defined geometry provides a
+% tractable setting in which to test how detector modelling and reduction
+% choices affect a recovered spectrum.
+% Evidence: Current project scope.
+The atmospheric signal discussed above can be observed when a planet passes in
+front of its host star and some of the starlight crosses the planet's
+atmospheric limb. This observing method is transmission spectroscopy. It is the
+starting point for the present work because its repeated, well-defined transit
+geometry provides a tractable setting in which to test how detector modelling
+and reduction choices affect a recovered atmospheric spectrum.
+
+% Question: How does transmission spectroscopy probe an atmosphere?
+% Answer: During transit, wavelength-dependent atmospheric opacity changes the
+% apparent planetary radius and therefore the fraction of blocked starlight.
+% Evidence: Seager and Sasselov (2000) and Brown (2001).
+
+Transmission spectroscopy measures the wavelength dependence of a transit.
+Ignoring limb darkening for the moment, the transit depth is approximately
+\begin{equation}
+  \delta(\lambda) \simeq
+  \left[\frac{R_{\mathrm p}(\lambda)}{R_\star}\right]^2 .
+  \label{eq:transit-depth}
+\end{equation}
+The effective planetary radius $R_{\mathrm p}(\lambda)$ increases where the
+atmosphere is more opaque and decreases where it is more transparent.
+Absorption by atoms, molecules, clouds, and aerosols can therefore imprint
+wavelength-dependent structure on the measured transit depth
+\citep{SeagerSasselov2000,Brown2001}. Figure~\ref{fig:transmission-spectroscopy}
+summarises this geometry and its connection to a transmission spectrum.
+
+\begin{figure*}[t]
+  \centering
+  \input{figures/transmission_spectroscopy_schematic}
+  \caption{Principle of transmission spectroscopy. (a) During transit, the
+  opaque planet blocks starlight while a small fraction passes through its
+  atmospheric annulus. The altitude at which the atmosphere becomes opaque,
+  and therefore the apparent planetary radius, depends on wavelength.
+  (b) Greater atmospheric opacity produces a larger $R_{\mathrm p}(\lambda)$
+  and a deeper transit, whereas lower opacity produces a shallower transit.
+  The plotted spectrum is schematic and does not represent a particular planet
+  or instrument.}
+  \label{fig:transmission-spectroscopy}
+\end{figure*}
+
+% Question: Why are atmospheric transmission signals difficult to measure?
+% Answer: Only the starlight passing through a thin annulus around the planet
+% probes the atmosphere, so the wavelength-dependent atmospheric signal is a
+% small fraction of the total stellar flux.
+% Evidence: Seager and Sasselov (2000) and Brown (2001).
+Only the starlight passing through a thin annulus around the planet probes its
+atmosphere, so the wavelength-dependent atmospheric signal is a small fraction
+of the total stellar flux. The signal is stronger when the planet is large
+relative to its host star and when its atmosphere extends over a greater range
+of altitudes. High temperatures, atmospheres dominated by light gases such as
+hydrogen and helium, and weak gravity favour an extended atmosphere, whereas
+clouds and hazes can obscure spectral features. Both the atmosphere and the
+geometry of the planet-star system therefore determine how readily a
+transmission signal can be measured \citep{SeagerSasselov2000,Brown2001}.
+
+% Question: Why begin method development with hot Jupiters?
+% Answer: Their large radii, high temperatures, hydrogen-dominated atmospheres,
+% and often low gravities make their atmospheric signals comparatively strong.
+% Evidence: Charbonneau et al. (2002), Brown (2001), and Madhusudhan (2019).
+One class of planet with especially favourable properties for transmission
+spectroscopy is the hot Jupiter. Hot Jupiters are a subgroup of gas giants that
+orbit close to their host stars and are consequently strongly irradiated. Their
+large radii, high temperatures, hydrogen-dominated atmospheres, and sometimes
+low gravities make their transmission signatures comparatively strong
+\citep{Brown2001,Madhusudhan2019}. The
+first detection of an exoplanet atmosphere identified sodium absorption in the
+hot Jupiter
+HD~209458~b \citep{CharbonneauEtAl2002}. Hot Jupiters are therefore
+useful targets for developing and testing methods that recover transmission
+spectra from spectroscopic time series. A stronger signal makes errors in
+reduction and light-curve fitting easier to diagnose before moving to planets
+with intrinsically weaker atmospheric signatures. Hot Jupiters are a starting
+point rather than an end point. Once a method has been validated on such
+favourable targets, it can be applied to smaller and cooler planets, including
+the worlds most relevant to questions of planetary habitability.
+
+% Question: What complementary information comes from emission and phase
+% curves?
+% Answer: Secondary eclipses constrain dayside emission, while phase curves
+% track the changing planetary flux through the orbit and probe longitudinal
+% temperature and composition.
+% Evidence: Deming et al. (2005), Knutson et al. (2007), Coulombe et al.
+% (2023), Mikal-Evans et al. (2023), Kempton et al. (2023), Gressier et al.
+% (2024), and Splinter et al. (2025).
+
+Transmission is one of three principal time-series geometries used for
+atmospheric spectroscopy: secondary-eclipse measurements isolate the planet's
+dayside emission
+\citep{DemingEtAl2005,CoulombeEtAl2023,GressierEtAl2024}, while phase curves
+follow the changing planetary contribution over an orbit and constrain
+day-night temperature contrast, heat redistribution, and longitudinal
+structure
+\citep{KnutsonEtAl2007,MikalEvansEtAl2023,KemptonEtAl2023,
+SplinterEtAl2025}. Each geometry measures a different weighting of the
+atmosphere. This project begins with transmission spectroscopy; emission and
+phase-curve analyses are planned future applications of the same
+detector-level framework.
+
+% Question: Why is atmospheric characterisation an inverse problem?
+% Answer: Atmospheric signals are mixed with stellar, instrumental, and
+% geometric effects, and different physical states can produce similar spectra.
+% Evidence: Rackham et al. (2018), Madhusudhan (2019), and Barstow and Heng
+% (2020).
+Across all three geometries, the atmosphere is not observed in isolation. Its
+signal is embedded in light from the host star and modified by the telescope,
+detector, observing geometry, and data analysis. Different combinations of
+abundance, temperature, reference radius, clouds, hazes, and stellar
+heterogeneity can also produce similar spectral signatures
+\citep{RackhamEtAl2018,Madhusudhan2019}. Atmospheric characterisation is
+consequently an inverse problem: the data constrain a family of physical
+explanations rather than measuring a unique atmospheric state directly
+\citep{BarstowHeng2020}. Any atmospheric interpretation can therefore only be
+as reliable as the recovered transmission spectrum on which it is based.
+
+% Question: Is a transmission spectrum the final atmospheric result?
+% Answer: No. Detector data are first used to infer a transmission spectrum,
+% which is then interpreted with forward models or atmospheric retrievals.
+% Evidence: Brown (2001) and Madhusudhan (2019).
+
+The transmission spectrum is itself an inferred data product. Detector
+measurements are calibrated and modelled to estimate transit depth as a function
+of wavelength. A separate atmospheric forward model or retrieval then maps that
+spectrum to composition, temperature, clouds, and other physical quantities
+\citep{Brown2001,Madhusudhan2019}.
+These two inference stages answer different questions. A retrieval can be
+statistically precise while inheriting a bias from the recovered spectrum, and
+a well-recovered spectrum can still admit several atmospheric interpretations.
+The present work concerns the first stage: how accurately the transmission
+spectrum is recovered.
+
+\subsection{JWST, NIRISS/SOSS, and the WASP-17~b case study}
+\label{sec:jwst-soss-wasp17}
+\label{sec:arecibo-to-jwst}
+\label{sec:soss-wasp17}
+
+% Question: Where did the targets for atmospheric measurements come from?
+% Answer: Three decades of discovery, from pulsar timing and radial velocities
+% through the Kepler and TESS surveys, produced a census of thousands of
+% planets and the bright targets suited to atmospheric follow-up.
+% Evidence: Wolszczan and Frail (1992), Mayor and Queloz (1995), Borucki et
+% al. (2010), Winn and Fabrycky (2015), Ricker et al. (2015), and the NASA
+% Exoplanet Archive (2026).
+
+The target population and observing context for atmospheric measurements
+emerged through three decades of discovery and instrumental development.
+Arecibo pulsar timing revealed the first confirmed exoplanets around
+PSR~B1257+12 \citep{WolszczanFrail1992}, and ELODIE radial-velocity
+measurements of 51~Pegasi~b established a class of close-in giant planet that
+was not anticipated from the architecture of the Solar System
+\citep{MayorQueloz1995}. Kepler transformed
+isolated detections into a population, monitoring approximately 150,000 stars
+for transits and enabling measurements of planet occurrence, size, period, and
+system architecture \citep{BoruckiEtAl2010,WinnFabrycky2015}, while TESS
+surveyed nearly the whole sky and prioritised the bright, nearby host stars
+that are most favourable for mass measurements and atmospheric follow-up
+\citep{RickerEtAl2015}. Alongside discoveries from other facilities, these
+surveys expanded the confirmed census beyond 6,000 exoplanets
+\citep{NASAExoplanetArchive2026}.
+
+% Question: What could atmospheric observations measure before JWST, and what
+% limited those measurements?
+% Answer: HST and Spitzer established the transmission, emission, and
+% phase-curve techniques, but their spectra were commonly assembled from
+% restricted bandpasses observed with different instruments and at different
+% epochs.
+% Evidence: Charbonneau et al. (2002), Deming et al. (2005), Charbonneau et al.
+% (2005), Knutson et al. (2007), and Sing et al. (2016).
+
+The Hubble Space Telescope (HST) and Spitzer demonstrated that such targets
+could be characterised atmospherically: the sodium detection in HD~209458~b
+provided the first spectroscopic detection of an exoplanet atmosphere
+\citep{CharbonneauEtAl2002}, and was followed by broadband Spitzer
+thermal-emission measurements of HD~209458~b and TrES-1~b
+\citep{DemingEtAl2005,CharbonneauEtAl2005}, a Spitzer phase curve of
+HD~189733~b \citep{KnutsonEtAl2007}, and comparative programmes such as the
+ten-planet survey of \citet{SingEtAl2016}, which found a continuum from clear
+to cloudy atmospheres. These studies established the transmission, emission,
+and phase-curve techniques used today. When broad wavelength coverage was
+required, however, it was commonly assembled from restricted instrument
+bandpasses observed at different epochs.
+
+% Question: What changed with JWST?
+% Answer: JWST combines a large cold aperture with stable time-series modes and
+% broad near- to mid-infrared coverage, allowing several atmospheric absorbers
+% and continuum regions to be measured within individual visits and reducing
+% reliance on observations stitched across instruments and epochs.
+% Evidence: Gardner et al. (2006) and Rigby et al. (2023).
+
+JWST was designed as a 6.5-metre, cryogenic, infrared-optimised observatory with
+instruments spanning the near- to mid-infrared
+\citep{GardnerEtAl2006}. Unlike Kepler and TESS, it is not a wide-field transit
+survey: for the time-series spectroscopy considered here, it follows up
+planets whose transit times are already known, using its observing time to
+characterise their atmospheres. Its collecting area, cold optics, and
+instrument suite give access to multiple molecular bands over a much broader
+wavelength range than a single HST or Spitzer mode, and commissioning showed
+that the observatory's sensitivity, stability, and spectral performance met or
+exceeded the mission requirements in most areas \citep{RigbyEtAl2023}. JWST
+can therefore measure smaller wavelength-dependent changes in transit depth
+while covering several atmospheric absorbers and continuum regions within
+individual observing modes and visits. This reduces, although it does not
+eliminate, the need to combine measurements obtained with different
+instruments or at different epochs.
+
+% Question: Why does this project begin with NIRISS/SOSS, and what makes the
+% mode useful and difficult?
+% Answer: The project starts from a single SOSS transit observation, while the
+% curved and overlapping SOSS orders make the mode a demanding test of
+% spectral-extraction methods.
+% Evidence: Gardner et al. (2006), Albert et al. (2023), and Louie et al.
+% (2025).
+
+JWST carries four science instruments: NIRCam, NIRSpec, MIRI, and NIRISS
+\citep{GardnerEtAl2006,AlbertEtAl2023}. Several of these instruments support
+exoplanet time-series spectroscopy. This project begins with the NIRISS Single
+Object Slitless Spectroscopy (SOSS) mode, and with a single observation: a
+complete transit of WASP-17~b \citep{LouieEtAl2025}. The mode's slitless,
+cross-dispersed design produces curved spectral orders that overlap on the
+detector, making SOSS a demanding test of spectral extraction
+\citep{AlbertEtAl2023}.
+
+The GR700XD grism produces cross-dispersed orders covering approximately
+$0.6$--$2.8\,\mu\mathrm{m}$, with resolving power near $R=650$ at
+$1.25\,\mu\mathrm{m}$ \citep{AlbertEtAl2023}. A weak cylindrical lens spreads
+the spectrum over roughly 23 detector rows in the cross-dispersion direction.
+Distributing the light over more pixels prevents any one pixel from saturating
+as quickly and therefore permits observations of bright host stars
+\citep{AlbertEtAl2023}. The bandpass contains several water bands, the
+potassium doublet, and regions that can constrain other absorbers and optical
+scattering by clouds and hazes, with the precise sensitivity depending on the
+target atmosphere
+\citep{AlbertEtAl2023,HolmbergMadhusudhan2023,LouieEtAl2025}.
+
+Figure~\ref{fig:soss-detector-orders} shows the curved first-
+and second-order footprints in a median SOSS detector image.
+
+\begin{figure*}[t]
+  \centering
+  \includegraphics[width=\textwidth]{figures/niriss_soss_detector_orders.png}
+  \caption{Median NIRISS/SOSS detector image showing the curved first- and
+  second-order spectra. The cyan and green dashed boundaries indicate the
+  detector footprints used for orders 1 and 2, respectively. An inverse
+  hyperbolic sine (\(\operatorname{asinh}\)) intensity stretch preserves the
+  visibility of both the bright trace cores and their fainter wings. The colour
+  bar reports the original count rate in \(\mathrm{DN\,s^{-1}}\).}
+  \label{fig:soss-detector-orders}
+\end{figure*}
+
+% Question: How precise is SOSS in practice?
+% Answer: A broad-band SOSS light curve reached about 20 ppm scatter when
+% averaged over 40 minutes during commissioning, but independent reductions of
+% the same WASP-17 b observation report median spectroscopic uncertainties
+% spanning 46--73 ppm.
+% Evidence: Albert et al. (2023) and Louie et al. (2025).
+
+JWST time-series spectroscopy must distinguish changes in transit depth at the
+level of tens to hundreds of parts per million. During commissioning, an
+in-flight observation of the standard star BD+$60^{\circ}1753$ reached
+approximately 20 parts per million scatter after removal of a long-term trend
+and averaging over 40-minute intervals \citep{AlbertEtAl2023}. This on-sky test
+demonstrated the time-series stability of SOSS, but it was not a transit
+observation and did not measure the precision of wavelength-dependent transit
+depths.
+
+The 20 parts per million value describes a white-light time series that combines
+photons across the full SOSS bandpass. A transmission spectrum instead measures
+the transit depth separately in narrower wavelength channels. Each channel
+therefore contains only part of the total photon count and normally has greater
+photon noise than the corresponding white-light measurement
+\citep{AlbertEtAl2023,LouieEtAl2025}.
+For the WASP-17~b transit, three independent reductions of the same
+observation reported median uncertainties of 46--73 parts per million per
+spectral channel across the two
+useful orders \citep{LouieEtAl2025}. This range does not identify which
+reduction is more accurate, but it demonstrates that the precision assigned to
+a transmission spectrum is analysis-dependent at a scale relevant to the
+atmospheric signal.
+
+% Question: What has SOSS already delivered, and what analysis difficulties
+% have those observations exposed?
+% Answer: SOSS has recovered molecular, atomic, and cloud signatures, but the
+% analyses must treat background, readout noise, overlapping orders, field-star
+% contamination, and wavelength-correlated residuals.
+% Evidence: Feinstein et al. (2023), Radica et al. (2023), and Holmberg and
+% Madhusudhan (2023).
+
+The first SOSS exoplanet analyses demonstrated that the mode can recover rich
+atmospheric structure. The WASP-39~b Early Release Science spectrum contained
+multiple water bands, potassium absorption, and evidence of clouds
+\citep{FeinsteinEtAl2023}. All JWST transit-spectroscopy analyses must address
+detector calibration, bad pixels and cosmic rays, background emission, readout
+structure, wavelength calibration, spectral assignment, limb darkening, and
+time-dependent noise. SOSS adds a distinctive
+combination of curved and physically overlapping orders, slitless contamination
+by field-star spectra, and a spatially structured zodiacal background
+\citep{BellEtAl2022,RadicaEtAl2023,HolmbergMadhusudhan2023}. The atmospheric
+information is scientifically valuable, but recovering it requires choices
+about detector calibration, extraction, and light-curve fitting. Strong signals provide
+leverage for diagnosing those choices, while the curved and overlapping traces
+expose assumptions in the detector model. This combination makes SOSS a useful
+test case for comparing reduction methods.
+
+% Question: Why begin method development with WASP-17 b?
+% Answer: WASP-17 b is a low-density hot Jupiter with an extended atmosphere, a
+% complete SOSS transit, prior Hubble and Spitzer constraints, and three
+% published reductions of the same NIRISS observation.
+% Evidence: Anderson et al. (2010), Alderson et al. (2022), Louie et al.
+% (2025), Espinoza et al. (2019), Espinoza (2022), Radica et al. (2023),
+% and Radica (2024).
+
+WASP-17~b is the initial development case rather than the complete scope of the
+project. Its low density and low gravity give it an extended atmosphere
+\citep{AndersonEtAl2010}. \citet{AldersonEtAl2022} combined HST STIS and WFC3
+spectra with Spitzer IRAC photometry to construct a
+$0.3$--$5\,\mu\mathrm{m}$ transmission spectrum, but the atmospheric
+interpretation retained distinct high- and low-metallicity solutions.
+\citet{LouieEtAl2025} then analysed a complete NIRISS/SOSS transit using three
+independent reductions: Ahsoka, which they introduced;
+\texttt{transitspectroscopy} \citep{Espinoza2022TransitSpectroscopy} with
+\texttt{juliet} \citep{EspinozaEtAl2019}; and supreme-SPOON
+\citep{RadicaEtAl2023}, now distributed as exoTEDRF \citep{Radica2024}. The
+three resulting spectra agreed closely over most of the bandpass, and the wider
+SOSS coverage constrained the water abundance more tightly than the earlier HST
+and Spitzer data allowed \citep{LouieEtAl2025}. This combination of earlier
+observations, a complete SOSS transit, and multiple reductions of the same data
+makes WASP-17~b a strong case for controlled method comparison. Later benchmark
+stages will include other targets and injected atmospheric scenarios.
+
+\subsection{From detector integrations to the validation problem}
+\label{sec:detector-to-validation}
+\label{sec:detector-to-spectrum}
+\label{sec:validation-problem}
+
+% Question: Does JWST measure a transmission spectrum directly?
+% Answer: No. It records nondestructive detector reads that are converted into
+% slopes, calibrated images, extracted spectra, spectral light curves, and
+% fitted transit depths.
+% Evidence: Bell et al. (2022), Albert et al. (2023), and Radica et al. (2023).
+
+JWST does not record a transmission spectrum directly. In a NIRISS/SOSS
+time-series observation, the detector is read nondestructively several times
+within each integration. These individual reads are called groups. Charge
+accumulates across the groups, and a ramp fit estimates a count rate for each
+pixel in each integration. Repeating this process throughout a visit produces a
+time series of two-dimensional count-rate images
+\citep{AlbertEtAl2023}.
+
+The conventional analyses considered here follow an extraction-first workflow,
+summarised in Figure~\ref{fig:extraction-first-workflow}. The official JWST
+calibration pipeline or custom variants identify unusable data, correct
+saturation, bias, reference-pixel and nonlinearity effects, detect jumps, and
+fit the ramps. Subsequent processing assigns a wavelength and trace position to
+each pixel and treats flat-field response, low-frequency readout structure,
+background, field-star contamination, and bad pixels
+\citep{BellEtAl2022,RadicaEtAl2023,LouieEtAl2025}. The precise order of these
+operations differs between pipelines. Background is sometimes estimated as
+part of extraction rather than only subtracted beforehand. In particular,
+JExoRES fits a residual background level simultaneously with the fluxes of the
+overlapping orders during its multi-order extraction
+\citep{HolmbergMadhusudhan2023}. This couples background estimation to spectral
+extraction, but not to the later time-dependent transit fit. A box extraction,
+optimal extraction, or forward extraction such as ATOCA then converts the
+two-dimensional images into one-dimensional spectra for each integration
+\citep{Horne1986,DarveauBernierEtAl2022}.
+
+The extracted spectra are divided into wavelength channels, producing one light
+curve per channel. Each light curve is fitted with a transit model, but the
+treatment of residual time dependence is pipeline-specific rather than a
+universal step. In the published WASP-17~b comparison, Ahsoka used Eureka! with
+polynomial time trends and a multiplicative noise term;
+\texttt{transitspectroscopy}/\texttt{juliet} used an offset, an additional
+white-noise term, and a Mat\'ern-$3/2$ Gaussian process that
+allows measurements close in time to have correlated residuals; and
+supreme-SPOON used no separate
+time-systematics function but included an additive uncertainty term
+\citep{LouieEtAl2025}. Finally, the
+fitted planet-to-star radius ratio in each channel is converted to transit depth
+and assembled as a function of wavelength to form the transmission spectrum.
+
+\begin{figure*}[t]
+  \centering
+  \input{figures/conventional_reduction_workflow}
+  \caption{Shared conceptual backbone of extraction-first JWST/NIRISS SOSS
+  reductions. (a) Nondestructive groups sample accumulated charge within an
+  integration. A cosmic ray adds a step to the accumulated counts. Multiple
+  groups expose that discontinuity, so the pixel count rate can be fitted from
+  unaffected differences between reads rather than from the shifted absolute
+  counts after the jump.
+  (b) Each integration produces a two-dimensional count-rate image. After
+  background and noise treatment, spectral extraction compresses the detector
+  pixels to a one-dimensional spectrum. Wavelength binning produces one light
+  curve per channel, and transit fitting yields the wavelength-dependent depths
+  that form the transmission spectrum. The exact implementation and ordering,
+  including whether an operation occurs at group or count-rate level, differ
+  between pipelines.}
+  \label{fig:extraction-first-workflow}
+\end{figure*}
+
+% Question: Where can analysis pipelines differ?
+% Answer: They can differ at detector calibration, jump detection, 1/f
+% correction, background scaling, trace estimation, extraction, outlier
+% treatment, limb darkening, systematics models, and posterior inference.
+% Evidence: Bell et al. (2022), Radica et al. (2023), Holmberg and Madhusudhan
+% (2023), and Louie et al. (2025).
+
+Each stage contains choices that can alter the final spectrum. Examples include
+jump-detection thresholds, partially saturated ramps, bad-pixel masks, the
+order and location of the $1/f$ correction, scaling of the zodiacal-background
+model, treatment of dispersed field stars, trace profiles, extraction widths,
+wavelength bins, limb-darkening priors, and time-domain systematics models
+\citep{RadicaEtAl2023,HolmbergMadhusudhan2023,LouieEtAl2025}. The three
+reduction branches introduced in Section~\ref{sec:jwst-soss-wasp17} draw on
+overlapping but non-identical software components and implement different
+subsets of this chain: Eureka! provides a modular framework from uncalibrated
+data through light-curve fitting \citep{BellEtAl2022}; supreme-SPOON/exoTEDRF
+includes SOSS-specific detector processing and extraction
+\citep{RadicaEtAl2023,Radica2024}; \texttt{transitspectroscopy} provides
+routines for spectral tracing, extraction, and light-curve construction,
+paired with \texttt{juliet} for fitting
+\citep{Espinoza2022TransitSpectroscopy,EspinozaEtAl2019}; and Ahsoka combines
+components of the official \texttt{jwst} calibration pipeline, supreme-SPOON,
+nirHiss, and Eureka!, while its WASP-17~b analysis uses several atmospheric
+forward models after reduction \citep{LouieEtAl2025}. These tools overlap, but
+they are not interchangeable and do not necessarily implement the same stages.
+
+% Question: Why is order overlap a specific SOSS problem?
+% Answer: The first and second spectral orders overlap on the detector, so a
+% pixel can contain flux from more than one incident wavelength and order.
+% Evidence: Darveau-Bernier et al. (2022) and Radica et al. (2022).
+
+SOSS also illustrates why extraction is a modelling problem. The first and
+second spectral orders overlap on the detector, so some pixels contain flux
+from both orders. ATOCA addresses this by constructing a linear model for every
+detector pixel and solving for the incident spectrum of both orders
+simultaneously \citep{DarveauBernierEtAl2022}. Its accuracy depends on the trace
+profiles, wavelength maps, throughputs, and spectral-resolution kernels.
+APPLESOSS \citep{RadicaEtAl2022} estimates the spatial profiles needed by ATOCA
+directly from the observation. These algorithms are already forward models
+at the extraction stage, but they infer a stellar spectrum before the
+time-dependent transit inference performed later.
+
+% Question: What does pipeline disagreement establish?
+% Answer: It establishes sensitivity to analysis choices, but it does not show
+% which result is closer to the unknown true spectrum.
+% Evidence: Constantinou et al. (2023), Holmberg and Madhusudhan (2023), and
+% Kirk et al. (2024).
+
+Every stage of this chain therefore admits defensible alternatives, and
+different combinations are in active use. The question is what the resulting
+spectra can and cannot establish. When independent reductions disagree, the
+result is scientifically useful but incomplete. It identifies sensitivity to
+methodological choices and may reveal an unmodelled uncertainty. For
+WASP-39~b NIRSpec data, different reductions shifted retrieved abundances by
+approximately one order of magnitude and altered the detectability of weaker
+species \citep{ConstantinouEtAl2023}. For the sub-Earth
+GJ~341~b, three reductions all supported the broad conclusion that no atmosphere
+was detected, yet two pipelines produced weak candidate features at different
+wavelengths and consequently favoured different molecular explanations
+\citep{KirkEtAl2024}. Such comparisons diagnose robustness, but the difference
+alone does not identify the more accurate spectrum.
+
+% Question: What does pipeline agreement establish?
+% Answer: It provides evidence of reproducibility across the tested analyses,
+% but shared data, reference files, code, and assumptions can preserve a common
+% bias.
+% Evidence: Louie et al. (2025), Bell et al. (2022), and the shared components
+% documented by the pipeline papers.
+
+Agreement answers a different question. The three WASP-17~b reductions agree
+closely over most of the SOSS bandpass \citep{LouieEtAl2025}, which is strong
+evidence that the result is reproducible across those implementations.
+Nevertheless, the analyses begin from the same observation, use common
+calibration reference files, and deliberately standardise several choices.
+Some also share software components
+\citep{BellEtAl2022,RadicaEtAl2023,LouieEtAl2025}. Where the analyses made
+different choices yet recovered similar spectra, those particular choices had
+little effect in this case. Agreement says nothing, however, about assumptions
+shared by all three: a shared assumption could bias every spectrum in a
+similar way and leave them in agreement.
+
+% Question: Why can neither agreement nor disagreement establish absolute
+% accuracy on real observations?
+% Answer: The exact planetary transmission spectrum is not independently known.
+% Evidence: The distinction between reproducibility and accuracy follows from
+% the absence of an external truth spectrum for a real planet.
+
+The limiting issue is the absence of ground truth. A real planet does not
+provide an independently known transmission spectrum against which a recovered
+spectrum can be scored. Agreement can establish reproducibility, and
+disagreement can expose sensitivity, but neither directly measures absolute
+recovery error. Model residuals are also insufficient because an incorrect
+decomposition of source, background, and instrument terms can still fit the
+observed pixels well. Absolute validation requires data for which the generating
+spectrum is known.
+
+\subsection{Structural limitations and the case for detector-level inference}
+\label{sec:structural-limitations-inference}
+\label{sec:structural-limitations}
+\label{sec:benchmark-and-nova}
+
+% Question: Why does background treatment require particular attention?
+% Answer: Published methods either subtract background before extraction or
+% refine it during extraction, but do not infer it jointly with the transit.
+% Evidence: Radica et al. (2023), Holmberg and Madhusudhan (2023), and Louie et
+% al. (2025).
+
+Two structural choices in the conventional chain motivate this project. The
+first is background treatment. Published methods do not all treat the
+background identically. In the Ahsoka and supreme-SPOON implementations used
+for WASP-17~b, scaled versions of the STScI zodiacal-background model were
+subtracted before the extracted light curves were fitted; once subtracted,
+the background estimate was fixed and played no further role in the fit.
+The
+\texttt{transitspectroscopy}/\texttt{juliet} branch followed the same general
+ordering \citep{LouieEtAl2025}. JExoRES is an important exception: it refines a
+background component simultaneously with its multi-order spectral extraction
+\citep{HolmbergMadhusudhan2023}. It therefore models, rather than simply fixes,
+background at the extraction stage. Even there, however, the background is
+tied to the extraction of a stellar spectrum, not to the time-dependent
+transit that the next stage fits.
+
+The central distinction is not whether a pipeline contains any background
+model. It is whether background and the wavelength-dependent transit are
+inferred together. Under the time-independent-background model used here, the
+transit modulates the stellar contribution but not the additive background.
+The in- and out-of-transit time series therefore helps distinguish the two. If
+their division is fixed before the transit model is introduced, that
+information cannot revise it.
+
+In the published implementations considered here,
+background is either subtracted before extraction or refined jointly with
+extraction, but it is not inferred jointly with the transit signal in the same
+detector-pixel likelihood
+\citep{HolmbergMadhusudhan2023,LouieEtAl2025}. After extraction, the transit
+fit sees flux estimates rather than detector pixels. Background is no longer
+an explicit component of that fit; only any residual error and its propagated
+uncertainty remain. The transit fit can propagate that uncertainty only if the
+extraction passes it forward, including its wavelength correlations. In the
+published WASP-17~b comparison, the three branches report per-channel flux
+uncertainties and downstream noise terms, but do not describe passing a
+wavelength-correlated covariance associated specifically with background
+subtraction. The transit fit therefore cannot revisit how detector counts were
+divided between stellar source and additive background.
+
+% Question: How can background error affect a transmission spectrum?
+% Answer: Additive light allocated incorrectly between source and background
+% changes the fractional transit depth and can introduce wavelength-dependent
+% offsets or slopes.
+% Evidence: Kelson (2003), Radica et al. (2023), and Holmberg and Madhusudhan
+% (2023).
+This distinction matters because background is additive while a transit is
+multiplicative on the stellar contribution. If a constant amount of flux is
+assigned incorrectly to the background, the inferred out-of-transit stellar
+flux changes and so does the fractional depth. If that error varies across the
+detector, it can alter spectral offsets, slopes, or local features. Classical
+two-dimensional spectroscopy already shows the value of modelling background
+in the native detector geometry before resampling
+\citep{Kelson2003}. For slitless SOSS data, the problem also includes structured
+zodiacal light, field-star spectra, masked pixels, and $1/f$ readout structure
+\citep{RadicaEtAl2023,HolmbergMadhusudhan2023}.
+
+% Question: Is one-dimensional extraction itself a mistake?
+% Answer: No. Optimal extraction can be statistically efficient when its
+% spatial profile and noise model are correct.
+% Evidence: Horne (1986).
+
+The second choice is compression from detector pixels to one-dimensional
+spectra. A simple sum can lose the information needed to distinguish stellar
+light from background, defective pixels, or overlapping wavelengths. Extraction
+is not inevitably lossy, however. If the spatial profile, background, detector
+response, bad-pixel mask, and noise model are correct, the optimal-extraction
+formalism of \citet{Horne1986} combines pixels with inverse-variance weights and
+can provide an efficient summary of the two-dimensional data. The difficulty
+arises when uncertain detector components are fixed during this compression, or
+when their covariance and response description are not carried forward. A later
+light-curve fit can then no longer revisit the original source-background or
+pixel assignment.
+
+% Question: When can extraction lose information relevant to later inference?
+% Answer: Loss occurs when the compression fixes an imperfect detector model or
+% omits the covariance and resolution operator needed to reconstruct the pixel
+% likelihood.
+% Evidence: Bolton and Schlegel (2010), Bolton et al. (2012), and
+% Darveau-Bernier et al. (2022).
+
+Spectro-perfectionism, introduced by \citet{BoltonSchlegel2010}, makes this
+condition explicit. It models the detector image with the full
+two-dimensional point-spread function and shows that a one-dimensional product
+can preserve the pixel-level likelihood if the extracted spectrum is delivered
+with an appropriate covariance and resolution description
+\citep{BoltonEtAl2012}. ATOCA applies a related pixel model
+to overlapping SOSS orders \citep{DarveauBernierEtAl2022}. Conversely, if the
+trace, wavelength mixing, background, bad-pixel treatment, or order
+decomposition is fixed incorrectly, and the resulting covariance is not carried
+forward, the later light-curve fit cannot recover the discarded information.
+
+% Question: What limitation remains even after a sophisticated extraction?
+% Answer: Existing extraction models normally estimate the stellar spectrum
+% before fitting the time-dependent transit, so the transit model cannot inform
+% the detector-pixel decomposition of source, background, and overlapping
+% orders through the adopted response.
+% Evidence: Darveau-Bernier et al. (2022), Bell et al. (2022), and Radica et al.
+% (2023).
+
+Sophisticated extraction models do not remove this two-stage structure.
+ATOCA, for example, treats the incident spectrum as the unknown quantity at
+each integration, while time-dependent transit parameters are inferred only
+afterwards
+\citep{DarveauBernierEtAl2022,BellEtAl2022,RadicaEtAl2023}. This ordering is
+practical and may be entirely adequate. It does, however, prevent the transit
+model from helping to separate stellar light, additive background, and
+overlapping-order contributions under the adopted detector response within a
+single likelihood. Whether that separation causes a meaningful bias
+for SOSS transmission spectra is an empirical question, not an assumption of
+this project.
+
+% Question: How can absolute recovery accuracy be measured?
+% Answer: Generate synthetic detector time series from a known injected
+% transmission spectrum, give identical data to independent recovery methods,
+% and reveal the injected spectrum only after predictions are fixed.
+% Evidence: This is the controlled benchmark design developed in this project.
+
+The validation problem motivates a detector-level benchmark. A forward injector
+generates time-series observations with a known transmission spectrum,
+stellar signal, instrument response, additive background, noise, and detector
+flags. Every recovery method receives the same synthetic detector cube and
+the same declared auxiliary information. The injected spectrum remains
+unavailable to the recovery process until its prediction has been fixed.
+Recovery error can then be measured directly as a function of wavelength,
+spectral morphology, order, signal level, background structure, and detector
+condition.
+
+% Question: How does NOVA address the two structural limitations?
+% Answer: NOVA fits calibrated detector pixels directly, propagates the stellar
+% source and transit through a specified instrument response, and jointly fits
+% the transmission spectrum, additive background, and nuisance components before
+% spectral compression.
+% Evidence: The NOVA forward model described in the Methods section.
+
+NOVA is the complementary recovery method. Instead of extracting a stellar
+spectrum and fitting spectral light curves in separate stages, NOVA evaluates a
+forward model in detector space. The wavelength-dependent transmission spectrum
+is shared across the useful SOSS orders, propagated through the instrument
+response, and fitted jointly with additive background and nuisance components.
+Only stellar light is multiplied by the transit model. This preserves the
+physical distinction between source and background and allows information from
+multiple detector pixels and orders to constrain the same transmission
+spectrum.
+
+% Question: Why are both the benchmark and NOVA necessary?
+% Answer: NOVA proposes a different recovery model, while the benchmark
+% determines whether that model is accurate and under which conditions it
+% improves on extraction-first analyses.
+% Evidence: The separation of injector, recovery, and scoring in the benchmark
+% protocol.
+
+The benchmark and NOVA answer different parts of the problem. NOVA cannot
+validate itself, because a successful fit to pixels does not prove that the
+stellar, background, and transit components were separated correctly. The
+benchmark supplies the missing truth and permits a controlled comparison with
+extraction-based methods. It can also reveal conditions under which established
+pipelines are already unbiased, conditions under which NOVA improves recovery,
+and conditions under which every tested method fails because the instrument or
+injector model is inadequate.
+
+\subsection{Research question and objectives}
+\label{sec:research-question}
+
+% Question: What is the central research question?
+% Answer: How accurately and robustly can JWST/NIRISS SOSS transmission spectra
+% be recovered from detector-level time-series observations, and can joint
+% detector-level inference reduce biases associated with background treatment
+% and extraction-first analysis?
+% Evidence: The validation problem and structural limitations established in
+% the preceding sections.
+
+This project asks:
+\begin{quote}
+\raggedright\itshape
+How accurately and robustly can JWST/NIRISS SOSS transmission spectra
+be recovered from detector-level time-series observations, and can joint
+detector-level inference reduce biases associated with background treatment and
+extraction-first analysis?
+\end{quote}
+
+% Question: Which objectives make the research question testable?
+% Answer: Build a truth-known benchmark, develop NOVA, compare recovery methods
+% under controlled conditions, and identify the assumptions that limit
+% accuracy.
+% Evidence: The Methods and future-work programme of this assessment.
+
+The research question is divided into four objectives:
+\begin{enumerate}[label=\arabic*.,leftmargin=1.5em]
+  \item develop an independent detector-level benchmark with known injected
+  transmission spectra;
+  \item develop NOVA as a joint detector-level inference method for
+  NIRISS/SOSS transmission spectroscopy;
+  \item compare NOVA with extraction-based analyses under controlled observing
+  conditions and atmospheric scenarios; and
+  \item identify the detector, calibration, and modelling assumptions that
+  limit recovery accuracy and determine how those limitations propagate into
+  atmospheric interpretation.
+\end{enumerate}
+
+% Question: What is the scope of the present assessment?
+% Answer: The assessment establishes the scientific motivation, current NOVA
+% formulation, first WASP-17 b experiments, and future benchmark programme
+% without claiming results that have not yet passed validation.
+% Evidence: The Methods, Results and Current Status, and Discussion and Future
+% Work sections.
+
+The present assessment defines the problem, documents the current method, and
+sets out the experiments required to answer the research question. WASP-17~b
+is the first development case. Subsequent experiments will vary background,
+spectral morphology, noise, masking, instrument response, and target
+properties before the method is applied to additional observations. Results
+are reported only where the associated injector and recovery checks have been
+completed.
