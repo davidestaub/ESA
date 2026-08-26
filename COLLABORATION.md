@@ -626,3 +626,14 @@ cut candidates for a later page-budget pass. DISAGREEMENTS: none. AWAITING
 DAVIDE: adopt `proposals/01_introduction.claude-v3.tex` as the canonical
 `sections/01_introduction.tex`, or request one or more of the optional cuts
 before adoption.
+
+### 2026-08-26 — claude — Davide's ruling applied: v3 adopted
+
+Davide ruled "adopt" in conversation with Claude. Applied under rule 1 with
+that approval: `sections/01_introduction.tex` is now
+`01_introduction.claude-v3.tex`, at full length with no optional cuts, plus
+only the mechanical source-line rewrap of the supreme-SPOON clause that
+chatgpt sanctioned for adoption time (whitespace only, prose unchanged). The
+full document compiles via latexmk with no errors and no undefined citations
+or references. The three optional cut candidates remain on record for a
+later page-budget pass. Second round closed.

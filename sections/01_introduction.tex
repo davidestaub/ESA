@@ -243,7 +243,8 @@ spectrum is recovered.
 % al. (2010), Winn and Fabrycky (2015), Ricker et al. (2015), and the NASA
 % Exoplanet Archive (2026).
 
-The targets for such measurements came from three decades of discovery.
+The target population and observing context for atmospheric measurements
+emerged through three decades of discovery and instrumental development.
 Arecibo pulsar timing revealed the first confirmed exoplanets around
 PSR~B1257+12 \citep{WolszczanFrail1992}, and ELODIE radial-velocity
 measurements of 51~Pegasi~b established a class of close-in giant planet that
@@ -276,9 +277,9 @@ thermal-emission measurements of HD~209458~b and TrES-1~b
 HD~189733~b \citep{KnutsonEtAl2007}, and comparative programmes such as the
 ten-planet survey of \citet{SingEtAl2016}, which found a continuum from clear
 to cloudy atmospheres. These studies established the transmission, emission,
-and phase-curve techniques used today, but their broad wavelength coverage
-generally had to be assembled from restricted instrument bandpasses observed
-at different epochs.
+and phase-curve techniques used today. When broad wavelength coverage was
+required, however, it was commonly assembled from restricted instrument
+bandpasses observed at different epochs.
 
 % Question: What changed with JWST?
 % Answer: JWST combines a large cold aperture with stable time-series modes and
@@ -388,15 +389,15 @@ atmospheric signal.
 The first SOSS exoplanet analyses demonstrated that the mode can recover rich
 atmospheric structure. The WASP-39~b Early Release Science spectrum contained
 multiple water bands, potassium absorption, and evidence of clouds
-\citep{FeinsteinEtAl2023}. All JWST time-series spectroscopy reductions must
-address detector calibration, bad pixels and cosmic rays, background emission,
-readout structure, wavelength calibration, spectral assignment, limb darkening,
-and time-dependent noise. SOSS adds a distinctive combination of curved and
-physically overlapping orders, slitless contamination by field-star spectra,
-and a spatially structured zodiacal background
-\citep{BellEtAl2022,RadicaEtAl2023,HolmbergMadhusudhan2023}. The atmospheric information is
-scientifically valuable, but recovering it requires choices about detector
-calibration, extraction, and light-curve fitting. Strong signals provide
+\citep{FeinsteinEtAl2023}. All JWST transit-spectroscopy analyses must address
+detector calibration, bad pixels and cosmic rays, background emission, readout
+structure, wavelength calibration, spectral assignment, limb darkening, and
+time-dependent noise. SOSS adds a distinctive
+combination of curved and physically overlapping orders, slitless contamination
+by field-star spectra, and a spatially structured zodiacal background
+\citep{BellEtAl2022,RadicaEtAl2023,HolmbergMadhusudhan2023}. The atmospheric
+information is scientifically valuable, but recovering it requires choices
+about detector calibration, extraction, and light-curve fitting. Strong signals provide
 leverage for diagnosing those choices, while the curved and overlapping traces
 expose assumptions in the detector model. This combination makes SOSS a useful
 test case for comparing reduction methods.
@@ -422,10 +423,10 @@ independent reductions: Ahsoka, which they introduced;
 \citep{RadicaEtAl2023}, now distributed as exoTEDRF \citep{Radica2024}. The
 three resulting spectra agreed closely over most of the bandpass, and the wider
 SOSS coverage constrained the water abundance more tightly than the earlier HST
-and Spitzer data allowed \citep{LouieEtAl2025}. This combination of earlier observations, a complete
-SOSS transit, and multiple reductions of the same data makes WASP-17~b a strong
-case for controlled method comparison. Later benchmark stages will include
-other targets and injected atmospheric scenarios.
+and Spitzer data allowed \citep{LouieEtAl2025}. This combination of earlier
+observations, a complete SOSS transit, and multiple reductions of the same data
+makes WASP-17~b a strong case for controlled method comparison. Later benchmark
+stages will include other targets and injected atmospheric scenarios.
 
 \subsection{From detector integrations to the validation problem}
 \label{sec:detector-to-validation}
@@ -467,14 +468,14 @@ two-dimensional images into one-dimensional spectra for each integration
 The extracted spectra are divided into wavelength channels, producing one light
 curve per channel. Each light curve is fitted with a transit model, but the
 treatment of residual time dependence is pipeline-specific rather than a
-universal step. In the published WASP-17~b comparison, the Ahsoka branch used
-Eureka! to fit polynomial time trends and a multiplicative noise term. The
-\texttt{transitspectroscopy}/\texttt{juliet} branch used a
-Mat\'ern-$3/2$ Gaussian process, an offset, and an additional white-noise term.
-The Mat\'ern process is a flexible stochastic model in which measurements close
-together in time are allowed to have correlated residuals. The supreme-SPOON
-branch used no additional time-systematics function for those light curves, but
-included an additive uncertainty term \citep{LouieEtAl2025}. Finally, the
+universal step. In the published WASP-17~b comparison, Ahsoka used Eureka! with
+polynomial time trends and a multiplicative noise term;
+\texttt{transitspectroscopy}/\texttt{juliet} used an offset, an additional
+white-noise term, and a Mat\'ern-$3/2$ Gaussian process that
+allows measurements close in time to have correlated residuals; and
+supreme-SPOON used no separate
+time-systematics function but included an additive uncertainty term
+\citep{LouieEtAl2025}. Finally, the
 fitted planet-to-star radius ratio in each channel is converted to transit depth
 and assembled as a function of wavelength to form the transmission spectrum.
 
@@ -571,9 +572,9 @@ evidence that the result is reproducible across those implementations.
 Nevertheless, the analyses begin from the same observation, use common
 calibration reference files, and deliberately standardise several choices.
 Some also share software components
-\citep{BellEtAl2022,RadicaEtAl2023,LouieEtAl2025}. Agreement therefore bounds the effect of
-the choices that differ, but it cannot exclude a bias caused by assumptions that
-are common to every analysis.
+\citep{BellEtAl2022,RadicaEtAl2023,LouieEtAl2025}. Agreement therefore bounds
+the effect of the choices that differ, but it cannot exclude a bias caused by
+assumptions that are common to every analysis.
 
 % Question: Why can neither agreement nor disagreement establish absolute
 % accuracy on real observations?
@@ -689,10 +690,11 @@ Even a forward-modelled extraction normally separates the stellar-spectrum
 estimate from the later transit fit. ATOCA treats the incident spectrum as the
 unknown quantity at each integration, while time-dependent transit parameters
 are inferred after extraction
-\citep{DarveauBernierEtAl2022,BellEtAl2022,RadicaEtAl2023}. This ordering is practical and may be entirely
-adequate. It does, however, prevent the transit model from helping to separate
-stellar light, additive background, overlapping orders, and detector response
-within a single likelihood. Whether that separation causes a meaningful bias
+\citep{DarveauBernierEtAl2022,BellEtAl2022,RadicaEtAl2023}. This ordering is
+practical and may be entirely adequate. It does, however, prevent the transit
+model from helping to separate stellar light, additive background, and
+overlapping-order contributions under the adopted detector response within a
+single likelihood. Whether that separation causes a meaningful bias
 for SOSS transmission spectra is an empirical question, not an assumption of
 this project.
 
