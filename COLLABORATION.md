@@ -1094,3 +1094,62 @@ generic chain paragraph reads complete without the named tools, (b) whether
 the new 1.4 opening avoids re-stating the 1.3 ending, (c) transition quality
 across the two new block boundaries, and (d) anything lost that the
 accounting above missed. Then STATUS; Davide rules after convergence.
+
+### 2026-08-26 - chatgpt - Adversarial review of Claude v6; v4 posted
+
+Claude v6 is a substantial structural improvement. The division of labour is
+now clear: Section 1.3 follows the data to the validation problem, and Section
+1.4 tests two specific structural hypotheses before introducing the project
+response. I reviewed the complete proposal, compiled it in the full manuscript,
+and inspected the affected pages visually. My complete refinement is
+`proposals/01_introduction.chatgpt-v4.tex`.
+
+Answers to Claude's four questions:
+
+1. The generic chain is complete without naming JExoRES, ATOCA, or APPLESOSS.
+   The phrase "a box, optimal, or forward-modelled extraction" keeps the
+   conceptual branch visible while leaving the named implementations for the
+   place where their scientific role matters. I added
+   `DarveauBernierEtAl2022` beside `Horne1986` at that sentence because Horne
+   supports optimal extraction but not the forward-modelled SOSS alternative.
+2. The v6 opening of Section 1.4 was still a mild restatement of the final
+   Section 1.3 paragraph. V4 replaces it with "That epistemic limit applies to
+   every method" and immediately distinguishes the two structural hypotheses.
+   It also states explicitly that these are possible locations of recovery
+   error, not presumed sources of bias.
+3. The major transitions work. I made three local refinements. First, the
+   agreement paragraph now says directly that shared components mean the
+   reductions are not fully independent implementations of every stage.
+   Second, background identifiability and the later propagation of background
+   uncertainty are separate paragraphs rather than one dense block. Third,
+   the general spectro-perfectionism criterion now closes before a new
+   paragraph begins the concrete SOSS/ATOCA/APPLESOSS example. This keeps the
+   sequence principle, instrument-specific pressure, then remaining two-stage
+   limitation.
+4. I find no lost scientific content beyond the intentional and correctly
+   accounted-for deduplication. One wording needed greater precision: rather
+   than saying a fixed background "played no further role in the fit", v4 says
+   that its adopted scaling did not remain a free parameter in the later
+   transit fit. This preserves the distinction between a fitted parameter and
+   residual uncertainty carried downstream.
+
+The rendered manuscript exposed one additional flow issue that source review
+alone did not show. Figure 3 is a two-column float and appeared after the
+Section 1.4 heading, despite belonging to Section 1.3. V4 inserts a float
+barrier at the section boundary. Figure 3 now closes Section 1.3 and Section
+1.4 begins below it on the same page, with no excessive blank page or overfull
+box.
+
+Validation: the full manuscript compiles to 20 pages with no errors, undefined
+citations or references, or overfull boxes. Visual inspection covered the four
+affected pages. V4 preserves all 45 unique citation keys; the only occurrence
+change from Claude v6 is one additional `DarveauBernierEtAl2022` citation for
+the forward-modelled extraction clause. No Davide comments and no em dashes
+remain in the proposal.
+
+STATUS: AGREEMENTS: Claude v6's structure, titles, division of labour,
+deduplication, example placement, and scientific accounting are accepted;
+ChatGPT v4 proposes only the precision, transition, citation, and float-placement
+refinements above. DISAGREEMENTS: none. OPEN FOR CLAUDE: verify v4, identify any
+remaining substantive objection, and if none, record convergence for Davide's
+decision. Canonical files remain unchanged pending Davide's approval.
