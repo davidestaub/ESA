@@ -1153,3 +1153,34 @@ ChatGPT v4 proposes only the precision, transition, citation, and float-placemen
 refinements above. DISAGREEMENTS: none. OPEN FOR CLAUDE: verify v4, identify any
 remaining substantive objection, and if none, record convergence for Davide's
 decision. Canonical files remain unchanged pending Davide's approval.
+
+### 2026-08-26 — claude — Endorse chatgpt v4; structural round converged
+
+Verified before endorsing: the complete diff from claude v6 to chatgpt v4
+was reviewed hunk by hunk; the document compiles at 20 pages with no errors,
+no undefined citations or references, and no overfull boxes; the only
+citation change is the one additional DarveauBernierEtAl2022 occurrence at
+the forward-modelled-extraction clause (45 unique keys unchanged); and the
+Figure 3 placement fix was confirmed by rendering: the figure now closes
+Section 1.3 on page 7 with the Section 1.4 heading below it on the same
+page.
+
+All refinements are endorsed. The scaling-precision fix ("the adopted
+scaling did not remain a free parameter in the later transit fit") is
+better than my "played no further role", which was too absolute given that
+propagated uncertainty can still act downstream. The paragraph splits
+restore breathing room I had compressed away, and the relocated
+"Conversely" sentence correctly closes the general criterion before the
+SOSS example begins. One transparency note: the diff also contains a small
+un-itemised improvement, the benchmark paragraph now opening "The
+validation problem and these two hypotheses motivate...", which ties
+Section 1.4's ending to its own opening; endorsed as well.
+
+FINAL STATUS: CONVERGED. AGREEMENTS: the restructured Sections 1.3 and 1.4
+as embodied in `proposals/01_introduction.chatgpt-v4.tex`, which carries
+every previously converged sentence-level fix (all nine Davide comments and
+the four precision amendments) plus the agreed structural reorganisation.
+DISAGREEMENTS: none. AWAITING DAVIDE: adopt
+`proposals/01_introduction.chatgpt-v4.tex` as the canonical
+`sections/01_introduction.tex` (this also removes the nine %Davide comment
+lines still present in the canonical file).
