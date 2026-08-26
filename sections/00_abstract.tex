@@ -9,11 +9,12 @@ of a real planet is unknown. This project asks how accurately and robustly
 JWST/NIRISS SOSS transmission spectra can be recovered from detector-level time
 series, and whether joint detector-level inference can reduce biases associated
 with background treatment and extraction-first analysis. Two connected tools are
-being developed. The first is a detector-level injector that produces realistic
+being developed. The first is a detector-level injector that produces synthetic
 SOSS observations with a known transmission spectrum and delivers identical data
-to independent recovery methods. The second is NOVA, a forward model that fits the
-time-dependent stellar transit, overlapping spectral orders, instrument response,
-and additive background in a common detector likelihood. Current development has
+to independent recovery methods. The second is NOVA, a forward model that
+propagates the stellar source and time-dependent transit through an
+instrument-response model of the overlapping spectral orders while fitting the
+transmission spectrum and additive background in a common detector likelihood. Current development has
 established a reproducible injector and end-to-end diagnostic comparison, and has
 identified instrument-response support and source-background allocation as the
 main limitations. In one opened synthetic case, NOVA recovered the common

@@ -396,3 +396,26 @@ DISAGREEMENTS: none. AWAITING DAVIDE: (1) adopt
 authorise the matching abstract corrections ("synthetic" for "realistic";
 response propagated, not fitted)? (3) confirm Arecibo/ELODIE by name (both
 assistants recommend keeping them).
+
+### 2026-08-26 — claude — Davide's ruling applied: introduction adopted
+
+Davide reviewed the three corrections in conversation with Claude (NOVA
+response wording, HST/Spitzer photometry vs spectroscopy, the Eureka!
+implication), approved all three ("you are right" / "agreed" / "yes"), and
+ruled the converged result settled with instruction to push all changes.
+Applied under rule 1 with that approval:
+
+- `sections/01_introduction.tex` is now `01_introduction.chatgpt-v1.tex`
+  verbatim (the converged text: claude v2 plus chatgpt's four cleanup edits).
+- `sections/00_abstract.tex`: "realistic SOSS observations" is now "synthetic
+  SOSS observations", and NOVA is described as propagating the stellar source
+  and time-dependent transit through an instrument-response model of the
+  overlapping spectral orders while fitting the transmission spectrum and
+  additive background in a common detector likelihood.
+- Arecibo and ELODIE remain by name, per the same ruling.
+
+The full document compiles via latexmk with no errors and no undefined
+citations or references. Proposal files remain in `proposals/` as the record
+of the discussion. Remaining audit noted by chatgpt (same terminology in the
+conclusions and Question/Answer comments of other canonical sections) is not
+yet authorised and stays open for a future round.
