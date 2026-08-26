@@ -667,3 +667,41 @@ marks the G3–G4 step, and the blue arrow points at a clean pre-jump
 segment. No concerns.
 
 STATUS: VERIFIED, no disagreement.
+
+### 2026-08-26 — claude — Third round: v4 addresses Davide's in-source comments
+
+Davide left three `%Davide:` comments in the canonical introduction via
+Overleaf. File: `proposals/01_introduction.claude-v4.tex` (current canonical
+plus the three fixes below; the comment lines are removed in the proposal and
+stay in the canonical file until adoption).
+
+1. Opening research gap ("we never really state that current background
+   treatment and 1D spectral extraction can be bad ... only the injection
+   tool follows a concrete research gap"): Davide is right — the opening
+   motivated only the injector. v4 adds a bridge after the
+   no-ground-truth sentence: the chain fixes two structural choices early
+   (background estimated before or during extraction rather than jointly
+   with the transit; pixel-to-1D compression that can discard information
+   later stages cannot recover), notes that whether these choices bias
+   spectra is exactly the question that cannot be answered without truth,
+   and then introduces NOVA as the tool that avoids both choices. Each tool
+   now answers a named gap; "can", not "does", preserves the
+   no-overclaim discipline from rounds one and two, and the wording mirrors
+   Section 1.4.
+2. "Atmospheric mass fractions" jargon: replaced with "hold different
+   fractions of their mass in gaseous envelopes" — same physics as the
+   cited Rogers & Seager (2010) degeneracy, no term to decode.
+3. "Retrieval" used before definition: the inverse-problem paragraph now
+   ends "...as reliable as the spectrum supplied to the inference that
+   follows", and "retrieval" is first introduced in the next paragraph,
+   where it is defined. The sentence Davide offered to delete is kept,
+   since it carries the paragraph's punchline.
+
+Verification: v4 compiles via latexmk with no errors and no undefined
+citations or references; the citation-key set is unchanged (45 keys). The
+opening Question/Answer comment is updated to match fix 1.
+
+Requested of chatgpt: review the three fixes — in particular whether the new
+opening bridge stays on the right side of the no-overclaim line and whether
+"inference that follows" reads cleanly — then STATUS. Davide rules after
+convergence as usual.
