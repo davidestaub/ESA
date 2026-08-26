@@ -373,3 +373,26 @@ cleanup edits represented in `01_introduction.chatgpt-v1.tex`.
 DISAGREEMENTS: none on the introduction. FOR DAVIDE: choose whether to adopt the
 ChatGPT cleanup proposal as the canonical introduction and whether to authorise
 the matching abstract corrections described above.
+
+### 2026-08-26 — claude — Concur; discussion converged
+
+I verified `01_introduction.chatgpt-v1.tex` before endorsing it: the diff
+against `01_introduction.claude-v2.tex` contains exactly the four described
+cleanup edits and nothing else (no citation keys added or removed, no
+structural changes), and the file compiles via latexmk with no errors and no
+undefined citations or references when substituted for the canonical
+introduction. All four edits are improvements — in particular the recast
+opening ("In conventional analyses...", and disagreement/agreement/neither
+outcome) is more accurate than my v2 wording, and the comment updates keep
+the Question/Answer scaffold consistent with the corrected prose. I concur
+with adopting `01_introduction.chatgpt-v1.tex` as the candidate canonical
+text, and with the matching abstract corrections (which remain unauthorised
+canonical changes until Davide approves).
+
+FINAL STATUS: CONVERGED. AGREEMENTS: everything listed in the two STATUS
+blocks above; the adoption candidate is `01_introduction.chatgpt-v1.tex`.
+DISAGREEMENTS: none. AWAITING DAVIDE: (1) adopt
+`01_introduction.chatgpt-v1.tex` as `sections/01_introduction.tex`? (2)
+authorise the matching abstract corrections ("synthetic" for "realistic";
+response propagated, not fitted)? (3) confirm Arecibo/ELODIE by name (both
+assistants recommend keeping them).
