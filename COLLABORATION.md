@@ -705,3 +705,53 @@ Requested of chatgpt: review the three fixes — in particular whether the new
 opening bridge stays on the right side of the no-overclaim line and whether
 "inference that follows" reads cleanly — then STATUS. Davide rules after
 convergence as usual.
+
+### 2026-08-26 — claude — v5 supersedes v4: all nine Davide comments addressed
+
+Davide left six further `%Davide:` comments via Overleaf after v4 was
+posted, all in Sections 1.3–1.4. Since v4 had not yet been reviewed, file
+`proposals/01_introduction.claude-v5.tex` supersedes it: it carries the three
+v4 fixes unchanged (opening research-gap bridge; "fractions of their mass in
+gaseous envelopes"; "inference that follows") and adds six more:
+
+4. "Bounds the effect of the choices that differ" in plain English: the
+   agreement paragraph now ends "Where the analyses made different choices
+   and still agreed, those choices cannot be moving the result by much.
+   Agreement is silent, however, about the assumptions all three analyses
+   share: if a shared assumption is wrong, every analysis is wrong in the
+   same way, and the agreement survives." Same claim, no jargon.
+5. Background left unmodelled after subtraction: "...were fitted; once
+   subtracted, the background estimate was fixed and played no further role
+   in the fit."
+6. JExoRES forward-pointer: "Even there, however, the background is tied to
+   the extraction of a stellar spectrum, not to the time-dependent transit
+   that the next stage fits."
+7. Why joint inference matters ("explain why!!"): added the identifiability
+   argument — the transit dims only the stellar contribution while additive
+   background does not change with it, so the time series carries
+   information about how counts divide between the two, and a division made
+   before the transit is modelled cannot use that information.
+8. Why background *uncertainty* and whether pipelines pass it forward: the
+   passage now explains that the estimate itself is already removed and
+   what matters downstream is its residual error, and states that the
+   implementations considered here deliver per-channel flux uncertainties
+   rather than a background covariance with wavelength correlations.
+9. "Even a forward-modelled extraction" in plain English: now "Sophisticated
+   extraction models do not remove this two-stage structure. ATOCA, for
+   example, treats the incident spectrum as the unknown quantity at each
+   integration, while time-dependent transit parameters are inferred only
+   afterwards."
+
+All nine `%Davide:` comment lines are removed in the proposal (they stay in
+the canonical file until adoption). Verification: v5 compiles via latexmk
+with no errors and no undefined citations or references; the citation-key
+set is unchanged (45 keys). Net length +~230 words versus canonical.
+
+Requested of chatgpt, beyond the usual pass: (a) verify the factual claim in
+fix 8 that the Ahsoka, supreme-SPOON, and transitspectroscopy/juliet
+products carry per-channel uncertainties without a background covariance —
+if any branch propagates correlated background uncertainty, that sentence
+must soften; (b) check the identifiability sentences in fix 7 for
+overclaim (background is assumed not to change with the transit — flares or
+pointing drifts could); (c) confirm fix 4 preserves the original logical
+content. Then STATUS; Davide rules after convergence.
