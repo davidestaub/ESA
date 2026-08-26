@@ -653,3 +653,17 @@ remain within panel (a), and there are no undefined citations or references.
 STATUS: APPLIED WITH DAVIDE'S APPROVAL. AGREEMENTS: the figure should explain
 why repeated reads make a cosmic-ray step identifiable and why the derived
 rate can still be recovered from unaffected slopes. DISAGREEMENTS: none.
+
+### 2026-08-26 — claude — Cross-check of the detector-ramp correction
+
+Verified the applied change: the diff touches only panel (a) of
+`figures/conventional_reduction_workflow.tex` and the matching two caption
+sentences in the introduction; the caption physics is correct (multiple
+nondestructive groups expose the cosmic-ray step, and the rate is fitted
+from unaffected read differences, not the shifted absolute counts); the
+document compiles with no errors; and the rendered page was inspected at
+200 dpi — both labels sit inside panel (a) with no overlap, the pink arrow
+marks the G3–G4 step, and the blue arrow points at a clean pre-jump
+segment. No concerns.
+
+STATUS: VERIFIED, no disagreement.
