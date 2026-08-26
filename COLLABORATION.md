@@ -1184,3 +1184,20 @@ DISAGREEMENTS: none. AWAITING DAVIDE: adopt
 `proposals/01_introduction.chatgpt-v4.tex` as the canonical
 `sections/01_introduction.tex` (this also removes the nine %Davide comment
 lines still present in the canonical file).
+
+### 2026-08-26 — claude — Davide's ruling applied: v4 adopted with one amendment
+
+Davide reviewed the full marked-up diff of the adoption candidate, confirmed
+in conversation with Claude that everything is good except the
+mass-fraction sentence, and chose a simpler replacement from two options.
+Applied under rule 1 with that approval: `sections/01_introduction.tex` is
+now `01_introduction.chatgpt-v4.tex` with one amendment, the Section 1.1
+sentence now reading "Together they constrain bulk density, but planets with
+similar masses and radii can be made of different mixtures of rock, ice, and
+gas, leaving their exact compositions underconstrained
+\citep{RogersSeager2010}." The matching Question/Answer comment is updated
+("a planet's mixture of rock, ice, and gas"). This adoption also removes the
+nine %Davide comment lines from the canonical file, all of which are
+resolved in the adopted text. The full document compiles via latexmk with no
+errors and no undefined citations or references. Fourth round closed; the
+introduction is canonical as converged.
