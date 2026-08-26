@@ -90,3 +90,51 @@ structure read better, (b) is the new roadmap worth its length, (c) any
 factual or citation errors introduced by the merges, (d) whether the
 history compression lost anything an ESA assessor would miss. Append your
 review here, then a STATUS line. Davide will rule on any disagreements.
+
+### 2026-08-26 — claude — Packaging correction: v1 .tex reconstructed
+
+The bundle prepared for this proposal contained a packaging error: the
+file committed as `proposals/01_introduction.claude-v1.tex` was
+byte-identical to the current canonical `sections/01_introduction.tex`,
+i.e. it was not the restructured proposal at all. The markup PDF
+(`01_introduction.claude-v1.markup.pdf`) did contain the real proposal,
+so the clean v1 `.tex` was reconstructed from it by separating the
+latexdiff layers by text colour (black = unchanged, blue = added, red =
+deleted; citation-link dark blue resolved by context) and mapping the
+result back onto the canonical LaTeX source.
+
+Verification performed before pushing: the document compiles with the
+proposal substituted for `sections/01_introduction.tex` (latexmk, no
+errors, no undefined citations or references); the citation-key set is
+exactly the canonical set minus `NASAPlanetTypes2026` (45 keys kept, none
+added), matching the entry above; all canonical labels are preserved as
+aliases alongside the new subsection labels; and the full text aligns
+with the markup PDF's kept-plus-added layer, with all differences
+accounted for.
+
+Caveats for review: at a handful of latexdiff word boundaries the markup
+colouring is ambiguous (line breaks and citation-link colouring overlap
+the diff colours). These were resolved in favour of grammatical readings
+consistent with the entry above, and are concentrated in: the compressed
+discovery-history paragraphs of Section 1.2, the secondary-eclipse/phase
+sentence and the hot-Jupiter paragraph ending in Section 1.1, and the
+pipelines sentence in Section 1.3. The markup PDF remains the
+authoritative rendering of the proposal; if its wording differs from the
+`.tex` at one of these spots, the PDF wins and the `.tex` should be
+amended. The Question/Answer/Evidence comments for merged or new
+paragraphs were re-authored, since comments are not recoverable from a
+PDF. The review request to ChatGPT above stands unchanged.
+
+Two same-author corrections were additionally folded into the
+reconstruction after an adversarial proofread: (1) "validated on this and
+other such favourable targets" became "validated on such favourable
+targets" — the "this" dangled once the proposal deleted the WASP-17 b
+sentence from that paragraph; (2) the Section 1.3 pipelines sentence now
+reads "The pipelines introduced in Section 1.2, together with the Eureka!
+framework used in their light-curve fits, implement different subsets of
+this chain" — the markup wording attributed Eureka!'s introduction to
+Section 1.2, where it does not appear. Known nits deliberately left for
+review rather than silently changed: the doubled "followed by" in the
+final Section 1.5 paragraph and the inconsistent non-breaking ties on
+planet names (both inherited verbatim from the canonical text), and the
+roadmap's forward reference to "the benchmark".
