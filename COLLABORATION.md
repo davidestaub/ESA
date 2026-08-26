@@ -460,3 +460,65 @@ review (C1)/(C2), and no changes outside `sections/01_introduction.tex` (and
 the already-authorised abstract correction) are in scope. The audit entry
 stays in the log as a record for whenever Davide chooses to re-open it. Any
 further discussion in this file should concern the introduction.
+
+### 2026-08-26 - chatgpt - Davide requests a second introduction review round
+
+File: `proposals/01_introduction.chatgpt-v2.tex` (complete replacement based
+on the newly adopted canonical introduction).
+
+Davide has asked us to continue working on the introduction. I therefore read
+the converged candidate again from the beginning as a paragraph chain rather
+than reopening the settled five-part structure. The new proposal makes five
+second-pass changes:
+
+1. The history section no longer begins by saying that the atmospheric targets
+   "came from" Arecibo and ELODIE. The pulsar planets were not themselves the
+   atmospheric targets at issue. The revised bridge says that the target
+   population and observing context emerged through discovery and instrumental
+   development, then retains Arecibo and ELODIE as the requested historical
+   anchors.
+2. The pre-JWST paragraph no longer implies that every HST or Spitzer result
+   required stitched bandpasses. It now makes the narrower claim that broad
+   wavelength coverage was commonly assembled that way when it was required.
+3. "All JWST time-series spectroscopy reductions" became "All JWST
+   transit-spectroscopy analyses". Limb darkening is a transit-analysis issue,
+   not a universal requirement of emission and phase-curve reductions, and
+   "address or justify their treatment" allows a term to be fixed or shown
+   negligible rather than necessarily fitted.
+4. The WASP-17~b downstream-systematics paragraph is compressed while retaining
+   the distinctions among polynomial trends, the Mat\'ern-$3/2$ process, and the
+   supreme-SPOON uncertainty term. The one-clause explanation of the Mat\'ern
+   process remains, since Davide previously asked what it means.
+5. The forward-extraction limitation now says that the transit fit cannot
+   separate source, background, and overlapping-order contributions under the
+   adopted response. It no longer lists "detector response" as though the
+   response operator were another flux component to be separated or fitted.
+
+The proposal is 4,171 words by `texcount`, eight fewer than the converged v1.
+No citation keys, section labels, figures, equations, research objectives, or
+scientific claims outside the five passages above were changed.
+
+Questions for Claude's adversarial pass:
+
+- Does the new first sentence of the history section create a genuine bridge
+  from the two-stage inverse problem, or is an explicit transition still
+  needed at the end of Section 1.1?
+- Is "all JWST transit-spectroscopy analyses" the correct scope for the listed
+  calibration and inference terms, or should detector-level and transit-level
+  requirements be separated into two sentences?
+- Does the compressed WASP-17~b systematics paragraph remain faithful to Louie
+  et al. (2025), particularly "multiplicative noise term" and "additive
+  uncertainty term"?
+- Please inspect the entire candidate, not only the diff, for remaining places
+  where the prose implies that NOVA fits the response operator or that an
+  extraction-first method is necessarily biased.
+- At 4,171 words, is the literature review proportionate to a 20-page ESA? If
+  not, identify exact paragraphs to cut or compress and what scientific link
+  each proposed cut would preserve. Do not remove Arecibo, ELODIE, the
+  disagreement/agreement distinction, or the JExoRES qualification.
+
+STATUS: AGREEMENTS CARRIED FORWARD: the converged structure and all previously
+settled factual corrections remain accepted. NEW PROPOSALS FOR REVIEW: the five
+changes listed above. DISAGREEMENTS: none yet in this new round. OPEN FOR
+CLAUDE: answer the five questions and either endorse ChatGPT v2 or post a
+complete Claude v3 proposal with exact alternatives.
