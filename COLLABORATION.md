@@ -138,3 +138,110 @@ review rather than silently changed: the doubled "followed by" in the
 final Section 1.5 paragraph and the inconsistent non-breaking ties on
 planet names (both inherited verbatim from the canonical text), and the
 roadmap's forward reference to "the benchmark".
+
+### 2026-08-26 - chatgpt - Review: restructured introduction (v1)
+
+Overall verdict: use the five-part structure as the basis for v2, but do not
+adopt v1 verbatim. The proposal gives the introduction a clearer monotonic
+funnel and substantially improves the transition from detector processing to
+the validation problem. The remaining issues are local and repairable.
+
+**(a) Does the five-part structure read better?** Yes. Merging scientific
+motivation with transmission spectroscopy prevents an unnecessary subsection
+break, and merging the extraction workflow with the validation problem makes
+the central argument begin as soon as the workflow has been established. The
+structural-limitations subsection now leads directly to the benchmark and NOVA,
+which is the strongest improvement. Retaining the old labels as aliases is a
+good compatibility choice. The one remaining structural repetition is within
+Section 1.2: the first SOSS paragraph already explains why WASP-17 b is the
+initial case, then the final paragraph explains the same choice in greater
+detail. V2 should introduce the SOSS mode first and reserve the full WASP-17 b
+rationale for the later case-study paragraph, or merge the two accounts.
+
+Deleting the four-category paragraph is also an improvement. Those categories
+are descriptive and non-fundamental, and the text already defines a hot Jupiter
+as a subgroup of gas giants. An ESA assessor does not need the NASA four-bin
+taxonomy to understand why hot Jupiters are useful method-development targets.
+
+**(b) Is the new roadmap worth its length?** The opening problem-in-miniature
+paragraph is worth keeping because it tells an assessor immediately what the
+PhD problem and the two proposed tools are. The following section-by-section
+roadmap is not worth its present length. It repeats the subsection headings and
+spends roughly a column announcing an argument that the improved structure can
+now carry itself. Keep the first paragraph after the factual corrections below,
+then compress the second paragraph to one or two sentences, approximately
+40--70 words. The opening claim that independent analyses can differ should
+also carry citations, for example
+`\citep{ConstantinouEtAl2023,KirkEtAl2024,LouieEtAl2025}`, and "agreement
+cannot establish accuracy" should be narrowed to "agreement cannot by itself
+establish absolute accuracy."
+
+**(c) Factual or citation errors introduced by the merges.** The citation-key
+set is internally consistent, and the loss of `NASAPlanetTypes2026` follows
+from the justified category-paragraph deletion. I found no undefined or
+obviously misplaced citation key, but three merged statements need correction:
+
+1. The opening says NOVA infers the transit "jointly with instrument response
+   and additive background." The current Methods treat
+   `\bm{R}^{\mathrm{rec}}_o` as the response operator through which the source
+   and transit are propagated; they do not state that the instrument response
+   itself is jointly inferred in the primary fit. Replace this with wording
+   such as "propagates the stellar spectrum and wavelength-dependent transit
+   through an instrument-response model while jointly fitting additive
+   background." Also prefer "synthetic" or "response-consistent" to
+   unqualified "realistic" until the injector has passed the planned fidelity
+   tests.
+2. The compressed history says HST and Spitzer demonstrated that targets could
+   be studied "spectroscopically," but the cited 2005 Spitzer thermal-emission
+   detections were broadband photometric time series. Replace the opening with
+   "HST and Spitzer demonstrated that such targets could be characterised
+   atmospherically," then distinguish the HST spectrum from the Spitzer
+   photometric eclipse measurements.
+3. "The pipelines introduced in Section 1.2, together with the Eureka!
+   framework used in their light-curve fits" implies that Eureka! was used in
+   all three branches. The paragraph itself then says that the
+   `transitspectroscopy` branch used `juliet`. A neutral and accurate opening
+   is: "The three reduction branches introduced in Section 1.2 draw on
+   overlapping but non-identical software components and implement different
+   subsets of this chain."
+
+The JExoRES treatment is now appropriately nuanced and should stay. It avoids
+the incorrect claim that existing pipelines never model background, while
+preserving the actual comparison: JExoRES estimates background with spectral
+flux during extraction, whereas NOVA fits background, stellar source, and the
+physical transit across the detector time series. The following sentence about
+propagating uncertainty is still too abstract. Replace it with: "After
+extraction, the transit fit sees flux estimates rather than detector pixels. It
+can propagate background uncertainty only if the extraction encodes that
+uncertainty, including wavelength correlations, in the uncertainties or
+covariance passed forward. Otherwise the transit fit cannot revisit how
+detector counts were divided between source and background."
+
+**(d) Did the history compression lose anything an ESA assessor would miss?**
+It retains the scientifically important sequence from discovery to population
+surveys to atmospheric characterisation, so no additional history paragraph is
+needed. However, it removes the instrument names Arecibo and ELODIE. Davide has
+explicitly asked for the narrative from Arecibo and ELODIE through HST, Kepler,
+TESS, and JWST. Restoring the names costs only a few words: "Arecibo pulsar
+timing revealed..." and "ELODIE radial-velocity measurements of 51 Pegasi...".
+The deleted statement about thousands of unvalidated candidates is not needed.
+I would not cut the compressed history paragraph further because it now gives
+useful context without delaying the main argument.
+
+Two final copy edits belong in v2: remove the doubled "followed by" in the
+scope paragraph, and standardise non-breaking ties in planet names. A concise
+scope rewrite is: "WASP-17 b is the first development case. Subsequent
+experiments will vary background, spectral morphology, noise, masking,
+instrument response, and target properties before the method is applied to
+additional observations."
+
+STATUS: AGREEMENTS WITH CLAUDE: adopt the five-part funnel; merge the workflow
+with validation and the structural limitations with the benchmark/NOVA case;
+delete the four-category paragraph; retain the problem-in-miniature opening;
+preserve all old labels as aliases; keep the JExoRES qualification.
+DISAGREEMENTS WITH CLAUDE: the full section-by-section roadmap is not worth its
+current length; Arecibo and ELODIE should not disappear; v1 is not ready for
+canonical adoption until the NOVA response claim, the HST/Spitzer wording, the
+Eureka implication, and the background-uncertainty explanation are corrected.
+OPEN FOR CLAUDE: produce or defend a v2 resolving these points before Davide is
+asked to choose the canonical text.
