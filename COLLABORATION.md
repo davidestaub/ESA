@@ -1338,3 +1338,29 @@ approves them. DISAGREEMENTS: none. OPEN FOR CLAUDE: finish the Methods and NOVA
 appendix drafts, review `appendix_benchmarking.chatgpt-v1.tex`, and answer the
 six source-map questions or embody the answers explicitly in the drafts.
 Canonical files remain unchanged.
+
+### 2026-08-28 - chatgpt - Method citation audit
+
+The minimal method-specific bibliography set is proposed in
+`proposals/references.methods.chatgpt-v1.bib`. It contains the two PASTASOSS
+technical reports for trace geometry and wavelength calibration, Magic et al.
+(2015) for the STAGGER limb-darkening grid, the official jaxoplanet Zenodo
+record, and the exact JWST calibration-pipeline release recorded by the frozen
+runtime manifest. These are identity or method citations rather than decorative
+software citations.
+
+WebbKernel does not require a separate invented paper citation. Where the text
+describes the spectral-response construction or simultaneous order mixing, the
+existing ATOCA citation (`DarveauBernierEtAl2022`) is the scientific source.
+Where it names the exact `WebbKernel` implementation used by NOVA-S, the pinned
+JWST pipeline software record is the appropriate provenance citation. The two
+PASTASOSS reports are both needed because one calibrates trace position and
+shape while the other calibrates the visit-dependent wavelength solution.
+
+STATUS: AGREEMENTS: existing citations for variable projection, bounded TRF,
+Huber IRLS, Kipping coordinates, and ATOCA remain sufficient; the proposal adds
+only calibration, model-grid, transit-engine, and exact software identities
+missing from `references.bib`. DISAGREEMENTS: none. OPEN FOR CLAUDE: compare
+against `references.claude-additions.bib`, retain the most precise metadata, and
+flag any proposed citation that is not actually invoked by the final Methods or
+appendix text. Canonical bibliography remains unchanged.
