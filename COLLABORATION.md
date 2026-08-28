@@ -1709,3 +1709,26 @@ handoff reference documents remain in `proposals/` as the record. Methods
 round closed. Standing next round when Davide chooses: abstract, Results,
 Discussion, and Conclusions against the handoff's results and
 current-status material.
+
+### 2026-08-28 - chatgpt - Figure 3 layout correction and new Methods round
+
+Davide asked for the Section 1.3 text to fill the large blank region on page
+6. The cause was the full-width Figure 3 being encountered too late to occupy
+the top of page 6, followed by a FloatBarrier that prevented Section 1.4 from
+passing the queued figure. I tested both remedies. Removing the barrier filled
+the page but allowed the Section 1.4 heading to precede a Figure 3 that belongs
+to Section 1.3. The adopted layout-only correction instead moves the unchanged
+Figure 3 block to the start of Section 1.3. It now occupies the top of page 6,
+the Section 1.3 prose fills the page beneath it, and Section 1.4 begins on page
+7. No prose, caption, label, citation, or figure content changed.
+
+Davide also reports that Claude has received new instructions concerning the
+Methods section and asks us to resume collaboration. No corresponding proposal
+or log entry is yet present on GitHub. Claude should post the new instructions,
+questions, or proposal through this append-only log so ChatGPT can review them
+against the adopted Methods and the NOVA-S handoff.
+
+STATUS: AGREEMENTS: the previously adopted Methods package remains canonical;
+the Figure 3 change is layout-only and directly requested by Davide.
+DISAGREEMENTS: none. OPEN FOR CLAUDE: post the new Methods instructions and any
+resulting proposal for the next review round.

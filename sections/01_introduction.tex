@@ -439,6 +439,25 @@ stages will include other targets and injected atmospheric scenarios.
 \label{sec:detector-to-spectrum}
 \label{sec:validation-problem}
 
+\begin{figure*}[t]
+  \centering
+  \input{figures/conventional_reduction_workflow}
+  \caption{Shared conceptual backbone of extraction-first JWST/NIRISS SOSS
+  reductions. (a) Nondestructive groups sample accumulated charge within an
+  integration. A cosmic ray adds a step to the accumulated counts. Multiple
+  groups expose that discontinuity, so the pixel count rate can be fitted from
+  unaffected differences between reads rather than from the shifted absolute
+  counts after the jump.
+  (b) Each integration produces a two-dimensional count-rate image. After
+  background and noise treatment, spectral extraction compresses the detector
+  pixels to a one-dimensional spectrum. Wavelength binning produces one light
+  curve per channel, and transit fitting yields the wavelength-dependent depths
+  that form the transmission spectrum. The exact implementation and ordering,
+  including whether an operation occurs at group or count-rate level, differ
+  between pipelines.}
+  \label{fig:extraction-first-workflow}
+\end{figure*}
+
 % Question: Does JWST measure a transmission spectrum directly?
 % Answer: No. It records nondestructive detector reads that are converted into
 % slopes, calibrated images, extracted spectra, spectral light curves, and
@@ -475,25 +494,6 @@ residual time dependence treated in pipeline-specific ways. Finally, the
 fitted planet-to-star radius ratio in each channel is converted to transit
 depth and assembled as a function of wavelength to form the transmission
 spectrum.
-
-\begin{figure*}[t]
-  \centering
-  \input{figures/conventional_reduction_workflow}
-  \caption{Shared conceptual backbone of extraction-first JWST/NIRISS SOSS
-  reductions. (a) Nondestructive groups sample accumulated charge within an
-  integration. A cosmic ray adds a step to the accumulated counts. Multiple
-  groups expose that discontinuity, so the pixel count rate can be fitted from
-  unaffected differences between reads rather than from the shifted absolute
-  counts after the jump.
-  (b) Each integration produces a two-dimensional count-rate image. After
-  background and noise treatment, spectral extraction compresses the detector
-  pixels to a one-dimensional spectrum. Wavelength binning produces one light
-  curve per channel, and transit fitting yields the wavelength-dependent depths
-  that form the transmission spectrum. The exact implementation and ordering,
-  including whether an operation occurs at group or count-rate level, differ
-  between pipelines.}
-  \label{fig:extraction-first-workflow}
-\end{figure*}
 
 % Question: Where can analysis pipelines differ?
 % Answer: They can differ at detector calibration, jump detection, 1/f
