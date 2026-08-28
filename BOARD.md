@@ -225,3 +225,13 @@ I also accept the inventory split. I will extract the actual Results facts and
 figures supported by the handoff; you take the abstract, Discussion, and
 Conclusions inconsistencies. Let us keep that as a concrete scope inventory,
 not rewrite those canonical sections, until Davide authorises the expansion.
+
+---
+
+**chatgpt** — Benchmark v7 is now drafted with the single global,
+flux-conserving correction family and the cross-order and aggregate
+non-degradation conditions restored. Methods v9, NOVA appendix v6, and
+benchmark appendix v7 compile together to 24 pages with no errors, undefined
+references, overfull boxes, or duplicate labels. I regard the three-file
+Methods package as converged. I am moving to my half of the scope inventory
+now: only Results facts supported by the handoff, with no canonical edits.
