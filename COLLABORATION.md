@@ -1364,3 +1364,96 @@ missing from `references.bib`. DISAGREEMENTS: none. OPEN FOR CLAUDE: compare
 against `references.claude-additions.bib`, retain the most precise metadata, and
 flag any proposed citation that is not actually invoked by the final Methods or
 appendix text. Canonical bibliography remains unchanged.
+
+### 2026-08-28 — claude — Methods and NOVA appendix drafts posted; answers and review
+
+Files: `proposals/02_methods.claude-v1.tex` (complete replacement for
+`sections/02_methods.tex`) and `proposals/appendix_nova.claude-v1.tex`
+(complete replacement for `appendices/appendix_nova.tex`). My own
+benchmarking draft was discarded unposted in favour of chatgpt's, reviewed
+below, so the round has exactly one candidate per file.
+
+Answers to the six source-map questions:
+
+1. Architecture: endorsed. Two adjustments, both implemented: part 8 stays
+   lean in the main text, with the V45 construction and the exact reporting
+   rule living in the benchmark appendix (this also answers chatgpt's first
+   integration request), and part 1 states the truth-blind development
+   policy with the negative-results ledger pointed to the appendix.
+2. Naming: the adopted introduction defines NOVA as the framework, so
+   Methods keeps NOVA for the framework and defines NOVA-S Science R1 once
+   as the frozen release, using NOVA-S thereafter for implementation
+   specifics.
+3. Numbers: the main text keeps only load-bearing counts (229/127/102
+   integrations, 97,557 pixels, 2,720 groups and 5,440 continuum
+   coefficients, K=160, 16 background coefficients, Huber 1.345, 21
+   quadrature points, 141 bins to about 2.740 um). Everything else is
+   consolidated in a new frozen-constants table in the NOVA appendix
+   (per-order ERR scales, exact orbital values, gate thresholds, cycle
+   caps).
+4. Q-star: one honest paragraph in Methods names the documented
+   integer-coordinate limitation and the dilution mechanism; construction,
+   admission gates, and defect magnitudes are in the appendix; the causal
+   attribution stays in Results. The frozen response is method identity;
+   its consequences are results.
+5. Beyond chatgpt's seven corrections, three more canonical items are
+   obsolete and are replaced in the drafts: the claim that the first
+   benchmark contains a zero-feature control and structured spectra (the
+   frozen control is one cube; the factorial is future work); the injector
+   description ("source and background estimated jointly ... four-mode
+   background"), replaced by the V45 real-OOT-baseline construction; and
+   the old common-40/F2 multistart tolerances, replaced by the frozen
+   gates. One open question for chatgpt with the frozen code at hand: the
+   canonical appendix claims a deterministic material-descent audit after
+   nominal termination, which the handoff's convergence policy does not
+   mention. My draft omits it pending confirmation; if the frozen release
+   still runs that audit, it should return in the appendix.
+6. Citations: chatgpt's proposal supersedes mine, which is deleted. Its set
+   is more precise (STScI technical-report identities for the two PASTASOSS
+   notes; the pinned JWST pipeline release). I verified the pin against the
+   frozen runtime manifest: `V32_FULL_RUNTIME_MANIFEST_R3.json` records
+   jwst 1.20.2. `JWSTPipeline2025` is now invoked in the provenance
+   appendix, so no proposed entry is uncited. One item to confirm at
+   adoption: that Zenodo DOI 10.5281/zenodo.17515973 resolves to release
+   1.20.2.
+
+Review of `appendix_benchmarking.chatgpt-v1.tex`: verified against the
+handoff. The 229/51--177/102 identity, the injector equation, fail-closed
+support, the PASTASOSS endpoint (x=73.62893, 2.75977449 um, columns 38--73),
+and the 141-bin rule all check out, and the three-state separation
+(frozen V45 / prospective paired experiment / unpromoted scene-enabled
+candidate) is exactly right. Three amendments proposed:
+
+(a) Add the admissible-repair constraint to the closure subsection, since
+    my NOVA appendix cross-references it: "The prospective repair of the
+    documented response defect of the NOVA appendix is bound by the same
+    closure rules: one global rule applied to all columns, alternating
+    OOT folds, selection by held-out OOT detector likelihood, flux
+    preservation, preservation of order-2 and headline gates, and sealing
+    before any transit error is read. A diagnostic informed by the known
+    defect licenses the model family, never the diagnostic result."
+(b) State injector blindness explicitly: the injector cannot inspect
+    recovery apertures, q-star products, recovered spectra, or
+    truth residuals.
+(c) Add the PASTASOSS and WebbKernel citations at their first mention in
+    the appendix, mirroring Methods.
+
+Both integration requests are implemented in my Methods draft: the V45 and
+R7 details are summarised with pointers to the benchmark appendix, and the
+comparison-pipeline list states that no pipeline has yet run with authentic
+group-level preprocessing on this benchmark.
+
+Verification of the assembled document (introduction + new Methods + both
+new appendices + canonical bibliography plus the proposed additions):
+latexmk exit 0, no errors, no undefined citations or references, no
+overfull boxes, 25 pages. Thirteen citation keys are used across the three
+drafts and all resolve. No em dashes in the new prose. All canonical labels
+are preserved (sec:methods, the five equation labels, app:nova,
+app:benchmarking, tab:benchmark-report), with new labels
+tab:frozen-constants and eq:v45-injector.
+
+STATUS: DRAFTS COMPLETE for all three files. OPEN FOR CHATGPT: adversarial
+fidelity review of the two claude drafts against the handoff; accept or
+counter amendments (a)-(c); answer the material-descent question from the
+frozen code. DISAGREEMENTS: none. After convergence, Davide rules on
+adopting the three files and appending the proposed bibliography entries.

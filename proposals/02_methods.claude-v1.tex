@@ -1,0 +1,364 @@
+\section{Methods and Benchmark Design}
+\label{sec:methods}
+
+\subsection{Experimental design and frozen model identity}
+
+% Question: What is the experiment, and what exactly is the method under
+% evaluation?
+% Answer: A controlled recovery experiment on one method-neutral injected
+% detector cube, with NOVA's frozen science release, NOVA-S Science R1,
+% evaluated against extraction-based analyses of the same cube.
+% Evidence: The NOVA-S handoff README and science contract.
+
+The project uses a controlled recovery experiment. A detector-level injector
+generates a synthetic SOSS time series with a known transmission spectrum. NOVA
+and one or more extraction-based analyses receive the same detector cube, time
+grid, uncertainty array, data-quality information, and declared calibration
+products. Each method produces a fixed spectral prediction before the injected
+spectrum is made available for scoring. The experiment therefore separates
+model development from absolute evaluation.
+
+NOVA is the general detector-level inference framework introduced in
+Section~\ref{sec:structural-limitations-inference}. The specific
+implementation evaluated in this assessment is its frozen science release,
+NOVA-S Science R1, referred to below as NOVA-S. The release is immutable and
+authenticated by content hashes; later response experiments, adaptive
+candidates, and injector variants are diagnostics or prospective candidates
+and are not part of NOVA-S. Throughout development, no injected truth or
+recovered-depth residual may construct or select a response, mask, nuisance
+model, threshold, or correction: every calibration uses only the observed
+detector data, instrument reference files, and out-of-transit (OOT)
+information, and the injected spectrum is read only after a detector
+prediction has been closed. Model classes that failed truth-blind gates are
+retained and reported rather than silently discarded
+(Appendix~\ref{app:nova}).
+
+\subsection{The V45 benchmark cube and retained detector data}
+
+% Question: What data does the frozen benchmark contain?
+% Answer: 229 Stage-2 rateints integrations built from real WASP-17
+% out-of-transit data with a 127-integration synthetic event, consumed
+% unchanged by every recovery method.
+% Evidence: The exact NOVA-S method note and the injector evolution record.
+
+The frozen benchmark is the V45 method-neutral cube: real out-of-transit
+Stage-2 \texttt{rateints} integrations from the WASP-17 NIRISS/SOSS
+observation provide the source-free temporal baseline, and a known
+wavelength-dependent transit deficit, applied to a denoised per-order
+expectation of the target source only, is added to it. Additive background
+and unrelated contaminants therefore do not transit, and the realised noise
+is not artificially modulated; the exact injector construction is given in
+Appendix~\ref{app:benchmarking}. The delivered cube contains 229
+integrations; the synthetic event occupies integrations 51--177, giving 127
+event and 102 complement integrations. Stage-2 SCI, ERR, and DQ arrays are
+consumed directly, and no frozen background subtraction is applied to the
+science data.
+
+The unit of the NOVA-S likelihood is one retained physical detector pixel in
+one integration. Valid samples have finite values, positive uncertainties,
+and no \texttt{DO\_NOT\_USE} flag; the retained detector matrix contains
+97{,}557 pixels per integration. The detector support is organised into
+native (order, detector-column) groups. Six edge groups without reliable
+mapping are excluded, leaving 2{,}720 native groups. The two orders retain
+disjoint support in the current release, and predicted order contributions
+are nevertheless summed in detector space before each residual is formed, so
+the formulation extends unchanged to overlapping support.
+
+\subsection{The \nova{}-S detector-level forward model}
+
+% Question: What does NOVA-S predict for each detector sample?
+% Answer: The sum over orders of a response-propagated product of the frozen
+% source-curvature factor, the transit, and native-column continua, plus an
+% additive background.
+% Evidence: The exact NOVA-S method note, Section 3.
+
+For integration $t$ and physical detector pixel $p$, NOVA-S predicts
+\begin{equation}
+\begin{split}
+ \widehat y_{tp}
+ = {}& \sum_o \left[\bm{R}_o\left\{
+   g(t)\,\bm{T}_{o,t}(D,\bm{u}_o)\odot
+   \bm{\Psi}_o\,\bm{c}_o(t)\right\}\right]_p \\
+ & + \left[\bm{H}\bm{\alpha}\right]_{tp} ,
+\end{split}
+ \label{eq:nova-forward}
+\end{equation}
+where $o$ indexes the spectral orders. The frozen response $\bm{R}_o$
+contains the PASTASOSS wavelength and trace geometry
+\citep{BainesEtAl2023Trace,BainesEtAl2023Wavelength}, the WebbKernel
+line-spread mapping distributed with ATOCA \citep{DarveauBernierEtAl2022},
+and the empirical q-star cross-dispersion redistribution described below.
+$\bm{\Psi}_o$ maps native-column amplitudes onto the fine wavelength
+representation, $\bm{T}_{o,t}$ is the exact exposure-integrated transit for
+depth spectrum $D$ and limb darkening $\bm{u}_o$, $g(t)$ is a frozen common
+source-curvature factor, $\bm{c}_o(t)$ collects the native per-column
+stellar continua, and $\bm{H}\bm{\alpha}$ is the additive E13b background.
+The symbol $\odot$ denotes element-wise multiplication on the wavelength
+grid. The source and transit terms of both orders are added before the
+residual is formed. The background is additive and is never multiplied by
+the transit or by $g(t)$: a change in transit depth cannot be compensated by
+attenuating the background in the same way as the star.
+
+\subsection{Shared transmission spectrum and transit model}
+
+% Question: How is the transmission spectrum parameterised, and what orbital
+% and limb-darkening model generates the transit?
+% Answer: 160 shared positive adaptive coefficients split into an achromatic
+% depth and a weighted-zero-mean morphology; fixed Keplerian geometry with
+% finite-exposure quadrature; eight fitted limb-darkening coordinates around
+% the STAGGER theory reference.
+% Evidence: The exact NOVA-S method note, Sections 4 and 5.
+
+The transmission spectrum is represented by $K=160$ shared adaptive physical
+basis coefficients,
+\begin{equation}
+  D_j = D_{\mathrm{global}}\,
+  \frac{\exp\!\left[(\bm{H}_v\bm{v})_j\right]}
+       {\sum_k w_k \exp\!\left[(\bm{H}_v\bm{v})_k\right]} ,
+  \label{eq:depth-basis}
+\end{equation}
+where $\bm{v}$ is a signed bounded optimiser coordinate, $w_k$ are frozen
+basis-width weights, and $\bm{H}_v$ removes the constant gauge. This
+separates the achromatic depth $D_{\mathrm{global}}$, which carries a small
+positive floor, from a weighted-zero-mean chromatic morphology, and it
+enforces positive depths. Orders 1 and 2 evaluate the same physical
+$D(\lambda)$ on their own wavelength grids. Two optional order-discrepancy
+coordinates exist in the code but are numerically fixed to zero within
+$\pm 10^{-12}$; they have no physical freedom in NOVA-S. No atmospheric
+template, wavelength-local smoother, or truth-informed spectral prior is
+used.
+
+The orbital geometry is fixed: period, scaled semi-major axis, impact
+parameter, and mid-transit time are held at the values listed in
+Appendix~\ref{app:nova}, with zero eccentricity. Transit light curves are
+evaluated with an exact Keplerian engine implemented in jaxoplanet
+\citep{Jaxoplanet2024}, and each detector integration is modelled as a
+finite-exposure average over 21 quadrature points rather than at a single
+mid-exposure time.
+
+Quadratic limb darkening \citep{MandelAgol2002} is parameterised through
+bounded coordinates \citep{Kipping2013},
+\begin{equation}
+ u_1=2\sqrt{q_1}\,q_2, \qquad
+ u_2=\sqrt{q_1}\,(1-2q_2).
+ \label{eq:kipping-coordinates}
+\end{equation}
+The wavelength-dependent theory reference is the STAGGER-grid prediction
+\citep{MagicEtAl2015} and is unchanged in NOVA-S; the fitted freedom around
+it is deliberately small. For each order, six knots describe each of $q_1$
+and $q_2$, but only a constant offset and a normalised log-wavelength slope
+are fitted for each variable and order, giving eight nonlinear
+limb-darkening coordinates in total, projected into the six-knot deviation
+basis. Profiled priors constrain the deviation from theory and the
+wavelength curvature, and fine nodes outside the valid theory support are
+excluded rather than extrapolated.
+
+\subsection{Response, native continua, uncertainties, and background}
+
+% Question: Which frozen components close the model between transit and
+% detector, and how were they calibrated without truth access?
+% Answer: An OOT-estimated q-star cross-dispersion response with documented
+% limitations, 5,440 native continuum coefficients, per-order and per-row
+% uncertainty scales from OOT cross-validation, and the 16-coefficient E13b
+% additive background anchored on off-trace pixels.
+% Evidence: The exact NOVA-S method note, Sections 6 to 9.
+
+Within each native group, the empirical q-star response redistributes the
+group flux across detector rows; it is a normalised spatial response, not an
+additional spectrum. It was rebuilt from the public V45 cube itself, without
+access to injected truth or generator-private products: pixel time series
+were fitted with a level, a linear trend, and a depth-free event morphology
+under robust loss, alternating phase-stratified folds provided independent
+estimates, and the full response was admitted only after cross-fold
+flux-distribution and centroid stability gates. The frozen response is
+retained with a documented limitation: its smoother operates on an integer
+trace-relative coordinate, which produces centroid resets and a small
+red-column amplitude mismatch. The construction, admission gates, and this
+defect are specified in Appendix~\ref{app:nova}; its causal assessment
+belongs to the Results.
+
+Each of the 2{,}720 native groups carries a continuum level and a linear
+time slope, giving 5{,}440 linear nuisance coefficients that are eliminated
+exactly at every nonlinear evaluation. The group continuum controls total
+group brightness, while q-star controls only the within-group spatial
+distribution; this separation is why a response-amplitude error relative to
+the delivered source can act multiplicatively on the recovered depth.
+
+Detector uncertainties start from the FITS ERR arrays, scaled by one frozen
+factor per order, and are then multiplied by a per-detector-row guard
+derived from bidirectional OOT cross-validation, floored at one. No
+wavelength information, injected truth, or recovered spectrum enters this
+rule; the exact scales and formula are given in Appendix~\ref{app:nova}.
+
+The E13b additive background contains eight spatial modes crossed with two
+temporal modes, giving 16 linear coefficients. The spatial family and rank
+were selected by blocked cross-validation on authenticated off-trace pixels,
+and the second temporal mode was selected from the leading OOT singular
+vectors subject to a fixed cap on its absolute correlation with the transit
+reference vector. The OOT expectation and normal matrix of these
+coefficients form a quadratic anchor, and background and continua are fitted
+jointly in one linear solve. There is no frozen background subtraction in
+recovery. The likelihood contains no generic Gaussian-process term for
+time-correlated residuals; the robust weights described below reduce the
+influence of outliers, and residual temporal correlation is retained as a
+diagnostic.
+
+\subsection{Out-of-transit common source curvature}
+
+% Question: How is slow temporal variation of the source handled?
+% Answer: A frozen wavelength-independent curvature factor calibrated on
+% held-out OOT folds; the common candidate was selected because the per-order
+% candidate failed the requirement that both orders improve.
+% Evidence: The exact NOVA-S method note, Section 10.
+
+A small wavelength-independent temporal source-curvature factor $g(t)$ was
+calibrated from the 102 complement integrations, split into two 51-integration
+folds. After subtracting only the E13b OOT expectation for this calibration
+step, stable trace flux was integrated per order, weighted quadratic and
+affine time models were compared, and their positive ratio defined a
+candidate curvature. Null, common, and per-order candidates were ranked by
+held-out standardised chi-squared. The per-order candidate had the lowest
+aggregate score but failed the preregistered requirement that both orders
+improve individually, so the common candidate was selected. The frozen
+factor has unit OOT mean, multiplies only the stellar and transit source
+bundle, never the background, and adds no fitted parameters. Its selection
+scores and range are listed in Appendix~\ref{app:nova}.
+
+\subsection{Profiled robust optimisation and convergence}
+
+% Question: How is the model fitted, and what counts as convergence?
+% Answer: Exact variable projection of all 5,456 linear coefficients inside
+% bounded trust-region least squares, wrapped in exact outer Huber IRLS, with
+% preregistered convergence gates and two independent deterministic starts.
+% Evidence: The exact NOVA-S method note, Section 11.
+
+Let $\bm{\theta}$ contain the nonlinear spectrum and limb-darkening
+parameters and $\bm{\eta}$ the linear continuum and background coefficients.
+At fixed $\bm{\theta}$ and fixed robust weights $\bm{W}$, NOVA-S solves the
+single global linear problem
+\begin{equation}
+\begin{split}
+ \widehat{\bm{\eta}}(\bm{\theta})=
+ \arg\min_{\bm{\eta}}\;
+ &\frac{1}{2}\left\|\bm{W}^{1/2}
+ [\bm{y}-\bm{A}(\bm{\theta})\bm{\eta}]\right\|_2^2 \\
+ &+\frac{1}{2}
+ \left\|\bm{L}(\bm{\alpha}-\bm{\alpha}_{\mathrm{off}})\right\|_2^2 ,
+\end{split}
+ \label{eq:varpro}
+\end{equation}
+where the regularisation row anchors the background on its OOT expectation
+with $\bm{L}^{\mathsf T}\bm{L}$ equal to the OOT normal matrix. This
+variable-projection step \citep{GolubPereyra1973} eliminates all 5{,}440
+continuum and 16 background coefficients exactly: the equilibrated sparse
+continuum block is factorised and the background coupling is reduced to a
+16-dimensional Schur complement. The profiled Jacobian differentiates
+through the exact inner optimum and is accumulated with streamed sufficient
+statistics, avoiding a visit-sized dense Jacobian.
+
+The outer nonlinear problem is solved with bounded trust-region reflective
+least squares \citep{BranchColemanLi1999}. Robustness is implemented as
+exact outer Huber iteratively reweighted least squares \citep{Huber1964}
+with threshold 1.345, so the inner solver retains a linear least-squares
+loss and the combination remains exact M-estimation. Convergence requires
+robust-weight stability, small relative objective change, small
+shared-spectrum changes, scale-aware Karush-Kuhn-Tucker and first-order
+criteria, agreement of the deterministic starts, and a final confirmation
+fit at the recomputed terminal weights; the numeric gates and cycle caps are
+listed in Appendix~\ref{app:nova}. Two deterministic starts are fitted
+independently with no state transfer: one at the frozen white-light depth
+with zero morphology and theory limb darkening, and one with a fixed
+zero-mean 250 ppm morphology perturbation and small fixed limb-darkening
+perturbations. Both starts of the frozen release converged at robust cycle
+14. The selected solution is determined by the prospective convergence
+policy, never by truth error.
+
+\subsection{Benchmark separation, comparison analyses, and fairness status}
+
+% Question: How are injector, recovery, and comparison methods kept
+% independent, and what fairness work remains open?
+% Answer: Generator, delivery, recovery, and scoring are isolated; one opaque
+% cube is consumed unchanged by every pipeline; an authentic Ahsoka analysis
+% is the first comparison; a paired group-stage and rateints-stage injection
+% experiment is preregistered but not complete.
+% Evidence: The injector evolution and fairness record.
+
+Injector and recovery products are separated by construction. Recovery code
+reads only the delivered cube and preregistered auxiliary products; it
+cannot read the atmospheric spectrum, generator-only response products, or
+scoring code. Hashes identify the delivered arrays, configuration, masks,
+and response products, and the injected spectrum is loaded only after a
+prediction and its provenance record have been closed
+(Appendix~\ref{app:benchmarking}). The injector consumes none of NOVA's
+q-star, masks, recovered spectra, or truth residuals; its source deficit is
+built independently per order from the same public instrument references.
+
+The first external comparison uses an authentic Ahsoka reduction of the same
+delivered cube, following the analysis topology of the published WASP-17~b
+spectrum, including detector preparation, spectral extraction, spectroscopic
+light curves, and channel-level transit inference \citep{LouieEtAl2025}.
+Fairness is defined at delivery rather than by forcing a common internal
+representation: pixel values, uncertainties, flags, time grid, and declared
+wavelength support are identical, unsupported bins are excluded
+symmetrically, and each method retains its intended nuisance model and
+inference strategy.
+
+One fairness limitation is open. The principal comparison pipelines perform
+their most distinctive $1/f$ correction on detector groups before ramp
+fitting, and a \texttt{rateints} cube contains no groups. The programme
+therefore includes a preregistered paired experiment that injects the same
+physical deficit at group stage and at \texttt{rateints} stage, runs NOVA
+and the comparison pipelines on both, and compares delivered deficits,
+white-light scatter, and common-bin recovery. This is a sensitivity
+experiment for the frozen V45 control; it has not been completed and is not
+part of the frozen result. Later benchmark rounds will include Eureka!,
+exoTEDRF, transitspectroscopy, and the official JWST pipeline with ATOCA
+extraction
+\citep{BellEtAl2022,Radica2024,DarveauBernierEtAl2022,LouieEtAl2025},
+reported both end-to-end and with a common downstream light-curve fitter;
+none of these pipelines has yet been run with its authentic group-level
+preprocessing on this benchmark.
+
+\subsection{Reporting support and evaluation metrics}
+
+% Question: On what wavelength support are methods compared, and with which
+% metrics?
+% Answer: A common R=100 grid restricted prospectively to the direct
+% PASTASOSS training domain, scored by absolute RMSE, mean bias, and
+% morphology RMSE, alongside uncertainty and validity diagnostics.
+% Evidence: The exact NOVA-S method note and appendix draft.
+
+Recovered and injected spectra are compared on a common $R=100$ reporting
+grid. One instrument-defined rule fixes the paper-wide support: any bin
+whose detector support extends beyond the direct PASTASOSS training domain
+is excluded in full, because the wavelength solution beyond the last
+training anchor is a polynomial extrapolation. For this visit the rule
+retains 141 bins, with the last whole bin ending near $2.740\,\mu\mathrm{m}$.
+The rule is fixed across methods, changes no fit or prediction, and is
+applied only after recovery; its exact detector-coordinate definition is
+given in Appendix~\ref{app:benchmarking}. Internal regression grids are
+retained for diagnostics.
+
+Let $\widehat D_i$ and $D_i^{\mathrm{true}}$ be the recovered and injected
+depths on the common grid and $e_i=\widehat D_i-D_i^{\mathrm{true}}$. The
+absolute recovery error is
+\begin{equation}
+ \mathrm{RMSE}_{\mathrm{abs}}=
+ \left(\frac{1}{N}\sum_i e_i^2\right)^{1/2},
+ \label{eq:absolute-rmse}
+\end{equation}
+and the morphology error removes the mean residual,
+\begin{equation}
+ \mathrm{RMSE}_{\mathrm{morph}}=
+ \left[\frac{1}{N}\sum_i(e_i-\bar e)^2\right]^{1/2},
+ \label{eq:morphology-rmse}
+\end{equation}
+so that a constant offset is distinguished from incorrect spectral shape.
+Mean and median bias, feature-amplitude error, order-specific residuals, and
+subregion morphology are reported alongside. Uncertainty calibration is
+evaluated through standardised residuals, empirical coverage of injected
+depths, and repeated noise realisations, with spectral covariance from the
+profiled normal system where available. Detector residuals, robust weights,
+rank, conditioning, boundary activity, and convergence diagnostics accompany
+every score: a low RMSE is not sufficient if a fit fails its preregistered
+numerical or physical validity gates.
