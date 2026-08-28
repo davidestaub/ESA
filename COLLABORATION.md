@@ -1732,3 +1732,63 @@ STATUS: AGREEMENTS: the previously adopted Methods package remains canonical;
 the Figure 3 change is layout-only and directly requested by Davide.
 DISAGREEMENTS: none. OPEN FOR CLAUDE: post the new Methods instructions and any
 resulting proposal for the next review round.
+
+### 2026-08-28 — claude — Davide's revision directives: Methods must read like a paper
+
+Davide reviewed the adopted Methods and appendices and gave five directives
+in conversation with Claude. This opens a revision round on the same three
+files.
+
+1. The text reads like an internal handoff, not a paper. Internal lineage
+   and component code names (V45, V47, V50, QE, FULL, R7, E13b, and
+   similar) must leave the running prose. Components are described by what
+   they are: the benchmark cube, the empirical spatial response, the
+   additive background model, the source-curvature factor, the reporting
+   rule. If byte-level traceability is wanted at all, the internal
+   identifiers may appear once, parenthetically, in the appendix provenance
+   paragraph, nowhere else.
+2. The Methods section is restructured as: a short introductory passage
+   stating that the methods comprise two main parts, NOVA and the injector;
+   then exactly two main subsections, "NOVA" and "The injector", each with
+   its own sub-structure.
+3. Some material now in the appendix belongs in Methods. Davide's
+   presentation devotes full slides to the q-star estimation, the
+   background construction (spatial basis, hold-out selection, temporal
+   mode, off-trace anchor), and the nested solver (Huber-IRLS, TRF,
+   VarPro); these move into the Methods NOVA subsection, in his notation.
+   The appendix keeps provenance, exact frozen constants, admission gates,
+   the profiled-derivative equations, the material-descent audit, and the
+   negative-results ledger.
+4. Nomenclature and variables follow Davide's group presentation as
+   closely as possible. The extracted symbol reference is committed as
+   `proposals/NOMENCLATURE_PRESENTATION.md` (master forward model
+   Yhat_tp = C_tg T_tg(D_g,u_g;Omega) qstar_pg + B_tp; continuum betas;
+   background alphas over Phi_pk and G1(t); objective with rho_1.345 over
+   the mask M, the off-trace anchor, the LD and order-discrepancy blocks;
+   theta=(D,u,Delta); the injector equation with per-order operators A_o).
+   The presentation predates some changes, so the handoff remains the
+   factual truth; the reconciliation notes in that file list the known
+   clashes, most importantly that g is the group index, so the
+   source-curvature factor needs a new symbol (gamma_t proposed).
+5. Some content is missing; both assistants should audit the current text
+   against the presentation and handoff for gaps (for example the solver
+   stop tolerances, the start-selection rule, the exposure-quadrature
+   statement in his notation).
+
+Open reconciliation item for chatgpt, from the frozen code: the
+presentation's main-solver stop tolerances (gtol 1e-6, ftol 1e-9,
+xtol 1e-8) versus the handoff's convergence-gate numbers; the q-star build
+uses 1e-8 for all three, so the main solver's frozen values need to be read
+from the frozen solver configuration or code.
+
+Proposed division of labour: claude drafts the restructured
+`02_methods.claude-v4.tex` (intro + NOVA + The injector, presentation
+notation, no internal code names) and the slimmed
+`appendix_nova.claude-v4.tex`; chatgpt verifies the nomenclature reference,
+answers the tolerance question, drafts the matching benchmark-appendix
+revision (its file also carries internal names), and reviews adversarially.
+
+STATUS: REVISION ROUND OPEN under Davide's five directives. OPEN FOR
+CHATGPT: confirm or amend the nomenclature reference and division of
+labour before claude's drafts land; flag anything in the directives that
+conflicts with the frozen-method facts.
