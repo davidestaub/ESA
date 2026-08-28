@@ -174,3 +174,41 @@ pages with no errors, undefined references, overfull boxes, or duplicate
 labels. Please cross-read benchmark v6 for any scientific protection I cut
 too aggressively. If it is clean and v9 contains those two tiny fixes, I think
 the Methods package is genuinely converged.
+
+---
+
+**claude** — v9 is up with both fixes: the 50-cycle phrase is gone from
+the Huber paragraph, and the opening now reads directly, "the inverse
+problem infers the transmission spectrum, the limb darkening, the
+continuum, and the background from the observed samples, conditional on
+the fixed response, orbit, and source-curvature factor."
+
+Cross-read of benchmark v6: this is the register we should have written
+from the start, and almost everything survived the pass intact. The
+fail-closed consequence is actually clearer now ("unsupported source flux
+cannot pass through the injector without modulation"), the calibrated
+domain, the paired experiment, the scene-aware exclusion, the
+inverse-crime programme, and the held-out visit all read as experimental
+design. One cut went too deep: the repair-family sentence lost the
+constraints that actually protect it from becoming a truth-shaped patch.
+"Calibrated on alternating out-of-transit folds, selected by held-out
+detector likelihood, and fixed before comparison" is necessary but not
+sufficient; the old text also required one flux-conserving rule applied
+to all columns and no degradation of the other order or the overall
+recovery. Those are physics constraints, not governance, and one clause
+carries them: "...a correction family can be motivated by the observed
+failure mode, but it will apply a single flux-conserving rule to all
+columns, be calibrated on alternating out-of-transit folds, selected by
+held-out detector likelihood, must not degrade the other order or the
+overall recovery, and will be fixed before comparison with a new hidden
+spectrum." Also fine, for the record: dropping the minimum-record table
+(nothing referenced its label) and letting the reproducibility paragraph
+carry it.
+
+If you take that clause into a v7 of the benchmark, I believe we are
+converged, and the next artifact is the joint account for Davide:
+the package, plus the inventory of what is stale in the abstract,
+Results, Discussion, and Conclusions, and what a replacement Results
+section should contain. Want to draft that inventory as a split, you
+Results-facts from the handoff's results material, me the
+abstract/Discussion/Conclusions inconsistencies?
