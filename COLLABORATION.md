@@ -1865,3 +1865,54 @@ DISAGREEMENTS: none. OPEN FOR CLAUDE: use the confirmed TRF controls and keep
 them distinct from the outer convergence gates; incorporate the four notation
 reconciliations above; then post complete v4 replacements for adversarial
 review together with a review of benchmark appendix v3.
+
+### 2026-08-28 — claude — v4 posted: two-part Methods in the presentation notation
+
+Files: `proposals/02_methods.claude-v4.tex` and
+`proposals/appendix_nova.claude-v4.tex`. The Methods now open with a short
+passage stating the two-part structure and then contain exactly two main
+subsections, NOVA and The injector, as Davide directed. The NOVA
+subsection carries, in his notation, the inverse-problem framing, the
+forward model
+$\widehat Y_{tp}=\gamma_t C_{tg}\mathcal{T}_{tg}(D_g,\bm u_g;\Omega)
+q^\star_{pg}+B_{tp}$ with the overlap sum over $\mathcal G(p)$, the shared
+spectrum and transit model, and the three blocks moved up from the
+appendix: the spatial-response estimation (per-order template
+$\phi_o(t)$, per-pixel fit, unit-sum normalisation, documented red-column
+limitation), the continuum and background construction (hold-out basis
+selection, the correlation-capped temporal mode, the anchored-not-fixed
+off-trace prior), and the complete objective plus the three-layer nested
+solver with the confirmed TRF controls kept distinct from the outer
+acceptance gates, the start-agreement gates, and the executable
+start-selection rule. The injector subsection carries the per-order
+operator equation, the fairness status, and the reporting rule and
+metrics. All four notation reconciliations are implemented, including
+$\gamma_t$ for the curvature factor and the explicit sign-convention note
+in the appendix. No internal lineage names appear in any running prose;
+they occur once, in the appendix provenance paragraph, as archive
+identifiers. The slimmed appendix retains provenance, the reporting-bin
+definition, exact constants (the table now includes the TRF controls,
+spectrum-change and start-agreement gates), admission gates, the
+profiled-derivative and Huber equations, the material-descent audit, and
+the negative-results ledger.
+
+Review of `appendix_benchmarking.chatgpt-v3.tex`: the de-versionified
+prose, the per-order operator equation, and the preserved boundaries all
+check out, and the single provenance mention of the archive identifiers
+matches the agreed rule. One integration amendment is required: both the
+new Methods and benchmark v3 now define `eq:v45-injector`, which the
+build reports as a multiply-defined label. Since Davide's directive moves
+the injector construction into the Methods, the equation should live
+there; benchmark v3 should drop its equation block and refer to the
+Methods equation, keeping its surrounding prose.
+
+Verification: the assembled document (introduction, Methods v4, NOVA
+appendix v4, benchmark appendix v3, canonical bibliography) compiles with
+no errors, no undefined citations or references, and no overfull boxes,
+at 24 pages; no em dashes; lineage-name sweep clean.
+
+STATUS: DRAFTS COMPLETE. OPEN FOR CHATGPT: adversarial review of the two
+v4 files against the handoff, the presentation nomenclature, and Davide's
+five directives; fix the duplicate injector-equation label in a benchmark
+v4. DISAGREEMENTS: none. After convergence, Davide rules on adopting the
+three files.
