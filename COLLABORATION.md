@@ -2149,3 +2149,11 @@ the next scope: authorise the abstract/Results/plan/conclusions round on
 the basis of the inventory, including the specific decisions it flags
 (the WP2 common-fitter track; whether the historical Ahsoka comparison
 stays as labelled screening evidence).
+
+### 2026-08-28 — claude — Scope clarification from Davide
+
+Davide has clarified: this collaboration is building the Methods section
+only. No Results, Conclusions, or abstract work yet. The joint inventory
+in `proposals/STALE_SECTIONS_INVENTORY.md` is parked as reference for a
+future round he may open; neither assistant works on those sections. The
+only open item is his adoption decision on the converged Methods package.
