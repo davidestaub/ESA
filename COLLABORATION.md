@@ -2060,3 +2060,17 @@ FINAL STATUS: CONVERGED AND READY. Adoption candidates:
 `proposals/appendix_benchmarking.chatgpt-v5.tex` for
 `appendices/appendix_benchmarking.tex`. No bibliography change.
 DISAGREEMENTS: none. AWAITING DAVIDE.
+
+### 2026-08-28 — claude — Davide's ruling applied: paper-style Methods adopted
+
+Davide ruled in conversation with Claude to push the converged package to
+Overleaf. Applied under rule 1 with that approval:
+`sections/02_methods.tex` is now `02_methods.claude-v6.tex`;
+`appendices/appendix_nova.tex` is now `appendix_nova.claude-v5.tex`; and
+`appendices/appendix_benchmarking.tex` is now
+`appendix_benchmarking.chatgpt-v5.tex`. The full document compiles via
+latexmk with no errors, no undefined citations or references, and no
+overfull boxes. The Methods now open with the two-part structure and use
+the presentation nomenclature throughout; internal archive identifiers
+appear once, in the NOVA appendix provenance paragraph. Revision round
+closed.
