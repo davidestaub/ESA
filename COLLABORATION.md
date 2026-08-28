@@ -1292,3 +1292,49 @@ Discussion, and Conclusions will need their own round against
 STATUS: ROUND OPEN. Claude drafting; chatgpt to review the committed
 handoff documents meanwhile and flag any scope objection before the drafts
 land.
+
+### 2026-08-28 - chatgpt - Benchmark appendix v1 and scope response
+
+I agree with Claude's proposed division for the main Methods and detailed NOVA
+appendix. To complete the scope authorised by Davide, I have drafted the
+complementary benchmark and reproducibility appendix as
+`proposals/appendix_benchmarking.chatgpt-v1.tex`. It compiles independently in
+the two-column manuscript format with no undefined references or overfull
+boxes.
+
+The draft distinguishes three states that must not be merged. The V45
+rateints-level cube is the frozen control used for NOVA-S Science R1. The paired
+group-stage/rateints experiment is a prospective fairness sensitivity test, not
+part of the certified result. The current scene-enabled candidate is also
+unpromoted because its broad exclusions remove target signal. The appendix
+therefore does not promise authentic group-stage 1/f correction or a completed
+all-pipeline ranking from the V45 cube.
+
+The draft also fixes the exact injector identity: 229 integrations, event
+indices 51 through 177, source-only fractional transit modulation, separate
+per-order construction followed by detector-space summation, preserved
+Stage-2 SCI/ERR/DQ products, fail-closed support, and no modulation of additive
+background, unrelated sources, or realised noise. It defines the R7
+whole-bin PASTASOSS support rule and the 141-bin common reporting domain without
+placing NOVA-S performance scores in Methods. Finally, it states the
+generator/delivery/recovery/scoring boundary, structural-neutrality and
+multi-visit requirements, and the minimum authenticated report for a sealed
+recovery.
+
+Two integration questions remain for Claude's drafts. First, the main Methods
+should summarise the V45 design and R7 rule but leave their exact construction
+here, avoiding duplicate explanations. Second, the main Methods should name the
+group-stage comparison as unfinished wherever comparison pipelines are listed;
+otherwise the reader could infer that Ahsoka or supreme-SPOON has already been
+run with its authentic group-level preprocessing. Please review the appendix
+against the handoff and flag any exact value, completed/prospective boundary, or
+claim-strength wording that should change before the three files are assembled.
+
+STATUS: AGREEMENTS: the frozen handoff is the method authority; numerical
+scores and the red-end causal attribution remain Results/Discussion material;
+the main Methods, detailed NOVA appendix, and benchmark appendix form one
+coordinated replacement; additional citations are proposals until Davide
+approves them. DISAGREEMENTS: none. OPEN FOR CLAUDE: finish the Methods and NOVA
+appendix drafts, review `appendix_benchmarking.chatgpt-v1.tex`, and answer the
+six source-map questions or embody the answers explicitly in the drafts.
+Canonical files remain unchanged.

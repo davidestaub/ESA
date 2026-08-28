@@ -1,0 +1,174 @@
+\section{Benchmark Construction and Reproducibility}
+\label{app:benchmarking}
+
+% Question: What exactly is the frozen benchmark on which NOVA-S was developed?
+% Answer: It is the V45 rateints-level control built from one real WASP-17 OOT visit.
+% Evidence: Frozen V45 injector manifest and the authenticated NOVA-S Science R1 release.
+\subsection{Frozen V45 detector cube}
+
+The frozen control is the V45 integration-level benchmark constructed from
+out-of-transit observations of WASP-17. It contains 229 integrations. Synthetic
+transit modulation is applied to integrations 51 through 177, inclusive, while
+the remaining 102 integrations form the event complement used by the injector
+and by designated recovery-side calibrations. The delivered products retain the
+Stage-2 science values, uncertainties, and data-quality flags. No frozen
+background subtraction is undone or reapplied during delivery.
+
+The injector preserves the realised detector noise, additive background, field
+sources, higher-order structure, and temporal variability in the real
+out-of-transit data. It separately estimates a denoised target-source expectation
+for each spectral order. If $S^{\mathrm{emp}}_{o,tp}$ is that expectation and
+$f_{o,tp}$ is the fractional in-transit source factor propagated to detector
+pixel $p$, the delivered cube is
+\begin{equation}
+ Y^{\mathrm{inj}}_{tp}=Y^{\mathrm{OOT}}_{tp}
+ +\sum_o S^{\mathrm{emp}}_{o,tp}\left(f_{o,tp}-1\right).
+ \label{eq:v45-injector}
+\end{equation}
+Only the target-source expectation is multiplied by the transit factor.
+Additive background, unrelated sources, and the realised noise are not made to
+transit. Order contributions are constructed separately and summed in detector
+space, including in overlap pixels.
+
+The V45 writer uses the current PASTASOSS trace and wavelength solution together
+with the WebbKernel spectral mapping. Its support logic is fail closed: empirical
+target light that lacks a valid model response causes the injection to fail
+rather than being silently clipped or assigned a unity transit factor. The
+source expectation is denoised before modulation so that the injector does not
+attenuate a particular noise realisation.
+
+% Question: How is knowledge of the injected spectrum prevented from influencing recovery?
+% Answer: Generator, delivery, recovery, and scoring have separate inputs and immutable boundaries.
+% Evidence: Benchmark manifests and the frozen recovery and scoring interfaces.
+\subsection{Generator, delivery, recovery, and scoring separation}
+
+The benchmark is divided into four stages. The generator owns the atmospheric
+truth, generator-only source model, and detector response. Delivery writes one
+opaque detector cube and a manifest of the products available to every recovery
+method. Recovery owns its calibration products, configuration, optimiser state,
+diagnostics, and final detector prediction. Scoring reads the truth only after
+that prediction has been closed. The same delivered cube is used unchanged by
+NOVA-S and by each extraction-first comparison.
+
+Truth is unavailable to response construction, masks, nuisance-basis selection,
+starting-point selection, model selection, convergence tests, and prediction
+closure. A valid closure records the recovered spectrum on every declared grid,
+the detector-prediction identity, convergence status, configuration and source
+hashes, and an immutable timestamped manifest. A failed or non-strict fit may be
+scored for diagnosis, but it cannot enter the primary comparison. Any method
+change made after truth access defines a new benchmark branch and requires a new
+hidden case before it can support a performance claim.
+
+% Question: Which wavelengths enter the common paper comparison?
+% Answer: Every method is scored only on whole R=100 bins inside the direct PASTASOSS domain.
+% Evidence: R7 calibrated-domain mask and common-grid manifest.
+\subsection{Common reporting support}
+
+All methods are compared on the same physical $R=100$ grid and with the same
+prospectively defined support mask. The order-1 PASTASOSS training anchors for
+this visit end at detector coordinate $x=73.62893$, corresponding to
+$2.75977449\,\mu\mathrm{m}$. Columns 38 through 73 therefore depend on polynomial
+extrapolation and are not admitted to the primary paper comparison. The R7 rule
+excludes any reporting bin with even partial dependence on those columns. It
+retains 141 complete bins; the final retained bin ends at approximately
+$2.740018\,\mu\mathrm{m}$. The mask is fixed by the instrument calibration domain,
+applied symmetrically to all methods, and evaluated only after recovery.
+
+Primary spectral accuracy is the unweighted absolute RMSE on these common bins.
+Mean bias and morphology RMSE are reported separately so that an achromatic
+offset is not confused with an incorrect spectral shape. Order-specific,
+overlap, crossing-region, and supported-red diagnostics accompany the aggregate
+score. Weighted RMSE is a sensitivity statistic rather than the headline
+metric. Engineering cubes, including zero-injection, flat-depth, and noiseless
+tests, are reported separately from sealed science scores.
+
+% Question: Does the integration-level cube allow every comparison pipeline to run authentically?
+% Answer: No; group-stage preprocessing requires a separate paired sensitivity experiment.
+% Evidence: Injector fairness programme and current promotion status.
+\subsection{Rateints limitation and paired group-stage experiment}
+
+V45 is an integration-level control. It does not contain the nondestructive
+detector groups from which the count-rate images were fitted. Pipelines such as
+Ahsoka and supreme-SPOON/exoTEDRF normally perform characteristic $1/f$
+corrections before or during ramp fitting, so they cannot reproduce that step
+authentically from V45 alone. A comparison on V45 can therefore test recovery
+from an identical integration-level cube, but it cannot by itself determine the
+effect of group-stage preprocessing on the ranking of methods.
+
+A paired sensitivity experiment is consequently planned. One authenticated
+group-level baseline will be used to construct matched group-stage and
+integration-stage injections from the same physical source deficit. Each
+pipeline will retain its own truth-blind preprocessing, while NOVA will also be
+run after the same group-stage $1/f$ correction. The comparison will test
+zero-injection identity, delivered detector deficit, white-light scatter,
+red-end recovery, and common-bin RMSE. This paired experiment is not part of the
+frozen NOVA-S result and has not yet passed the delivery and cross-pipeline
+promotion gates.
+
+The current scene-enabled injector candidate is likewise not promoted. Its
+broad full-column exclusions remove a material fraction of the target signal,
+so contaminant handling must be replaced by target-protecting, OOT-only scene
+modelling before it can define a new public cube. The frozen V45 cube remains
+the benchmark control unless a sealed fairness experiment demonstrates that a
+reissue is required.
+
+% Question: What further tests are needed before a pipeline comparison can be generalised?
+% Answer: Method rankings must survive response mismatch, visits, spectra, and noise realisations.
+% Evidence: Frozen benchmark limitations and preregistered validation programme.
+\subsection{Structural-neutrality and ensemble requirements}
+
+The V45 injector and NOVA-S use related families of trace geometry, wavelength
+mapping, and spectral mixing. Their code and fitted detector response are not
+identical, but this shared modelling ancestry creates an inverse-crime risk.
+The final benchmark programme will therefore include sealed injections with
+deliberately mismatched spatial profiles, wavelength maps, line-spread
+functions, throughput, background morphology, and temporal systematics.
+
+WASP-17 is a development visit rather than sufficient validation by itself.
+Additional visits must pass a fixed admission audit covering target and visit
+identity, observing mode, out-of-transit coverage, integration chronology,
+data quality, background structure, field sources, and order-3 morphology.
+The same injected spectrum will first be recovered across the admitted visits,
+followed by additional spectral morphologies and a method-neutral noise
+ensemble. At least one visit must remain held out from model-branch selection.
+Until these tests and the full pipeline matrix are complete, V45 supports a
+controlled single-visit result rather than a universal ranking of reduction
+methods.
+
+% Question: What information is required to reproduce or audit one benchmark result?
+% Answer: Every data, code, configuration, prediction, and scoring identity is authenticated.
+% Evidence: NOVA-S release manifest and portable handoff audit.
+\subsection{Provenance and minimum report}
+
+Every release records content hashes for code, configuration, calibration and
+response products, stellar-source and background products, detector arrays,
+masks, closed predictions, and score tables. Large cluster-only arrays may be
+represented in the portable archive by authenticated manifests. Superseded,
+diagnostic, failed, and unpromoted branches retain an explicit status so that
+they cannot be mistaken for the frozen method.
+
+\begin{table}[t]
+ \centering
+ \footnotesize
+ \caption{Minimum record for each sealed benchmark recovery.}
+ \label{tab:benchmark-report}
+ \setlength{\tabcolsep}{3pt}
+ \begin{tabularx}{0.97\columnwidth}{@{}>{\raggedright\arraybackslash}p{0.29\columnwidth}>{\raggedright\arraybackslash}X@{}}
+  \toprule
+  Category & Required record \\
+  \midrule
+  Delivery & Cube, uncertainties, flags, time grid, wavelength support, and
+  response and configuration identities \\
+  Numerical validity & Termination state, final-weight confirmation,
+  multistart agreement, rank, conditioning, active bounds, and physical gates \\
+  Spectral accuracy & Absolute and morphology RMSE, mean bias, regional
+  residuals, and separate order products where available \\
+  Uncertainty & Standardised residuals, empirical coverage, repeated noise
+  realisations, and spectral covariance where available \\
+  Detector diagnostics & Residual and robust-weight summaries by time, order,
+  detector region, and nuisance component \\
+  Scope & Frozen, primary, diagnostic, failed, or prospective status, together
+  with the claims that the case can and cannot support \\
+  \bottomrule
+ \end{tabularx}
+\end{table}
