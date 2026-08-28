@@ -1,0 +1,283 @@
+\section{The Frozen \nova{}-S Science R1 Release}
+\label{app:nova}
+
+\subsection{Provenance, immutability, and input identities}
+
+NOVA-S Science R1 is the immutable internal V50/QE/FULL lineage applied to
+the V45 WASP-17 benchmark cube. A release manifest authenticates 419 files
+covering code, configuration, predictions, and diagnostics, and internal
+version names are retained in the code so the certified run stays
+byte-traceable; diagnostics and candidate models live outside the frozen
+directory. The wavelength and trace solution is the current PASTASOSS
+reference \citep{BainesEtAl2023Trace,BainesEtAl2023Wavelength} with the
+WebbKernel implementation of the ATOCA response mapping
+\citep{DarveauBernierEtAl2022,JWSTPipeline2025}; legacy SPECTRACE products
+are not used. The runtime manifest pins the exact software releases,
+including the JWST calibration pipeline \citep{JWSTPipeline2025} and the
+jaxoplanet transit engine \citep{Jaxoplanet2025}.
+
+Two calibration masks with different counts coexist by construction and
+must not be conflated: the source-curvature calibration uses all 102
+event-complement integrations, while the OOT baseline mask of the q-star build
+retains 101 integrations because its timing and quality manifest excludes
+one further sample; the robust template fit of that build then spans all
+transit phases in stratified folds.
+
+\subsection{Detector support and reporting bins}
+
+The initial mapping contained 2{,}726 native (order, detector-column)
+groups. Six edge groups without reliable mapping are excluded
+(order-1 columns 23, 24, and 2043; order-2 columns 974, 1677, and 1678),
+leaving 2{,}720 fitted groups; the q-star product records eight further
+unsupported response groups handled by the runtime support logic.
+
+PASTASOSS order-1 training anchors end at detector coordinate
+$x=73.62893$, corresponding to $2.75977449\,\mu\mathrm{m}$ for this visit,
+so detector columns 38--73 rely on polynomial extrapolation. The reporting
+rule of Section~\ref{sec:methods} excludes every bin that touches these
+columns. Bin 147 is 71.7\% inside the direct domain but is excluded as a
+whole, and bin 148 lies outside it; bin 149 was already structurally
+excluded from the release's 143 bins, so the rule removes two retained
+bins and leaves 141. Bin 146 is the last retained bin and ends at
+$2.740018\,\mu\mathrm{m}$.
+
+\subsection{Positive shared-spectrum parameterisation}
+
+In Equation~\ref{eq:depth-basis} the basis-width weights $w_k$ define the
+weighted-zero-mean gauge of the morphology and $\bm{H}_v$ spans the
+subspace orthogonal to the constant. The achromatic depth
+$D_{\mathrm{global}}$ is bounded below by a floor of $10^{-6}$ ppm plus a
+bound margin of $10^{-8}$ ppm in the internal transformed
+parameterisation. The
+optional two-coordinate order-discrepancy block is bounded at
+$\pm 10^{-12}$: its terminal values sit at this numerical scale and carry
+no physical freedom.
+
+The orbital geometry is: period $3.73548546$~d;
+$a/R_\star=17.59002069137651$; impact parameter $0.33859071787462686$;
+mid-transit time $60023.52874613816$~$\mathrm{BJD_{TDB}}$; zero
+eccentricity. The transit engine is the jaxoplanet Keplerian
+implementation \citep{Jaxoplanet2025} with backend quadrature order 10 and
+21-point finite-exposure quadrature. The limb-darkening priors use theory
+scale 0.5 in logit space and curvature scale 2.0 per $\mu\mathrm{m}^2$
+around the STAGGER reference \citep{MagicEtAl2015}.
+
+\subsection{Q-star construction and known limitation}
+
+Q-star is a normalised cross-dispersion profile within each native group;
+it is not an additional spectrum. Its construction uses only the public
+V45 cube. A per-pixel weighted OOT intercept-plus-slope baseline is
+estimated; pixels qualify when at least 95\% of their OOT samples are
+valid, their baseline is positive, and they lie above the 35th percentile
+of eligible baseline brightness. A robust median of baseline-normalised
+bright-pixel residuals defines a depth-free event template $\phi_o(t)$,
+normalised after removal of constant and linear terms. Each pixel is then
+fitted robustly as
+\begin{equation}
+ y_p(t)=a_{0,p}+a_{1,p}\,\tau(t)+A_p\,\phi_o(t)
+\end{equation}
+with Huber threshold 1.345 and four solve and reweight cycles. Per-group
+amplitudes are normalised to unit sum, leaving total group brightness to
+the fitted continuum. Folds alternate integrations within pre-OOT,
+ingress, full-transit, egress, and post-OOT phases, so no fold sees only
+one part of the event. A robust second-difference penalty smooths the
+profile along detector column and integer trace-relative rank, with
+strength chosen by opposite-fold chi-squared, followed by fixed A/B
+stability gates: p95 half-L1 at most 0.15 and centroid difference at most
+0.5 pixel.
+
+The frozen profile carries one documented defect: the smoother works on
+the integer trace-relative rank rather than the continuous trace-relative
+coordinate. Audits of the release record 14 centroid resets larger than
+0.5 pixel, a median 0.234-pixel registration difference relative to the
+delivered source, and roughly 1--2\% excess in-mask red response amplitude
+at the faintest columns. Because the continuum fixes each group's
+brightness while q-star fixes its spatial profile, an over-amplitude of
+this kind acts like a dilution and makes the recovered transit shallower
+at the affected columns. The defect is documented rather than silently
+repaired; its causal quantification belongs to the Results, and the rules
+that any prospective repair must satisfy are given in
+Appendix~\ref{app:benchmarking}.
+
+\subsection{Detector uncertainties and the QE guard}
+
+FITS ERR values are first multiplied by the frozen per-order scale $N_o$
+(order 1: 3.0746905465; order 2: 4.1917779190). The QE arm then derives
+one further scale for each detector row using only OOT data. Writing
+$r(p)$ for the row of pixel $p$, alternating OOT folds fit a weighted
+level plus slope and predict the opposite fold in both directions, and
+\begin{equation}
+ s_{r(p)}=\max\!\left[1,\;
+ \sqrt{\frac{\sum r_{\mathrm{cv}}^2}{\max(n_{\mathrm{cv}}-4,\,1)}}\right],
+\end{equation}
+so rows whose OOT residuals exceed their nominal uncertainties are
+down-weighted and no row is up-weighted. The final uncertainty is
+$\sigma_{tp}=\mathrm{ERR}_{tp}\,N_o\,s_{r(p)}$. No wavelength information,
+injected truth, or recovered spectrum enters this rule.
+
+\subsection{E13b background construction}
+
+Eight raw spatial maps comprise a standardised CRDS background anchor plus
+seven broad polynomial surfaces ($1, y, x, xy, y^2, x^2, xy^2$),
+orthonormalised on safe off-trace pixels. Candidate families and ranks 2,
+4, and 8 were assessed by blocked off-trace cross-validation; rank 8 is
+the smallest rank whose worst-fold RMSE lies within 5\% of the family
+minimum. The eight spatial coefficients measured across OOT integrations
+are centred and decomposed by singular value decomposition, and the first
+of the leading eight temporal vectors with absolute transit-reference
+correlation at most 0.25 is selected; the chosen component was index 1
+with correlation $-0.0735$. The constant and this component give the two
+temporal modes, whose product with the eight spatial modes yields the 16
+additive coefficients. Their OOT expectation
+$\bm{\alpha}_{\mathrm{off}}$ and normal matrix supply the quadratic anchor
+of Equation~\ref{eq:varpro}. Recovery never subtracts a fixed background
+and adds no further background variables.
+
+\subsection{Common source-curvature selection}
+
+On each 51-integration OOT fold, stable trace flux is integrated per order
+after subtracting only the E13b OOT expectation for this calibration; a
+weighted quadratic in time is divided by its weighted affine
+approximation, and positive candidates are normalised to unit
+training-fold mean and evaluated on the opposite fold. Held-out
+standardised chi-squared was 3.26065 for the null model, 3.21178 for the
+common factor, and 3.15235 for the per-order factor. The gates required
+the common factor to improve the null by at least 1\%, and the per-order
+factor additionally to improve the common one by at least 2\% and to
+improve each order individually; the per-order candidate fell short of the aggregate requirement (a
+1.85\% improvement over the common score) and its order-2 score (1.0226)
+was worse than the common counterpart (0.99964), so the common factor was
+selected. The frozen factor has unit OOT mean, range
+0.999866573--1.000079673, event-mean correction $-111.390$ ppm, maximum
+excursion 133.427 ppm, and fold correlation 0.999921.
+
+\subsection{Exact profiled robust solve}
+
+For fixed nonlinear state $\bm{\theta}$ and Huber weights, the linear
+nuisance problem of Equation~\ref{eq:varpro} is solved exactly: the
+equilibrated sparse continuum normal block is factorised and the
+background coupling reduces to a 16-dimensional Schur complement. Write
+the weighted augmented residual as
+$\bm{r}(\bm{\theta})=\bm{C}(\bm{\theta})\widehat{\bm{\eta}}-\bm{d}$, where
+$\bm{C}$ and $\bm{d}$ include the detector standardisation and the anchor
+rows. Differentiating the normal equations for nonlinear coordinate
+$\theta_a$, with $\bm{C}_a=\partial\bm{C}/\partial\theta_a$, gives the
+movement of the inner optimum,
+\begin{equation}
+ (\bm{C}^{\mathsf T}\bm{C})\,\bm{\eta}_a
+ =-\left(\bm{C}_a^{\mathsf T}\bm{r}
+ +\bm{C}^{\mathsf T}\bm{C}_a\widehat{\bm{\eta}}\right),
+\end{equation}
+and the exact profiled derivative,
+\begin{equation}
+ \bm{r}_a=\bm{C}_a\widehat{\bm{\eta}}+\bm{C}\,\bm{\eta}_a .
+\end{equation}
+Both stellar and background coefficients respond to $\bm{\theta}$ through
+these equations; treating them as fixed would omit part of the derivative
+and can change the nonlinear step. Sufficient statistics are streamed, so
+no dense detector Jacobian is formed.
+
+Robustness uses the Huber loss \citep{Huber1964} on the standardised
+residual $z$ with threshold $\delta=1.345$,
+\begin{equation}
+ \rho_{\delta}(z)=
+ \begin{cases}
+  \tfrac{1}{2}z^2, & |z|\leq\delta,\\
+  \delta\left(|z|-\tfrac{1}{2}\delta\right), & |z|>\delta,
+ \end{cases}
+\end{equation}
+implemented as exact outer iteratively reweighted least squares: the
+weights are updated outside the inner least-squares solve, so the inner
+problem stays linear and the combination is an exact M-estimator rather
+than a mixture of incompatible robust losses. The outer nonlinear solve is
+bounded trust-region reflective least squares
+\citep{BranchColemanLi1999}.
+
+Convergence requires maximum absolute weight change below $0.001$,
+relative objective change below $10^{-8}$, shared-spectrum changes below
+fixed RMS tolerances, a scale-aware Karush-Kuhn-Tucker measure below
+$10^{-6}$, first-order optimality below $0.002$, agreement of the
+deterministic starts, and a final confirmation fit at the recomputed
+terminal weights. Soft and hard cycle caps are 25 and 50. After each
+trust-region termination, a deterministic material-descent audit evaluates
+the executable objective along scale-normalised Cauchy and Gauss-Newton
+directions at linearised residual radii 0.03, 0.1, 0.3, and 1.0; a
+physically valid improvement beyond the material threshold restarts the
+same solver. The ordinary threshold and restart cap are $10^{-8}$ and 6,
+and the final confirmation uses $10^{-10}$ and 12. An accepted fit must
+show no tested material feasible descent.
+
+\subsection{Deterministic starts and evaluation order}
+
+Start 0 uses the white-light mean depth recorded in the release
+configuration, zero chromatic morphology, and the theory limb-darkening
+reference. Start 1 uses the same mean depth,
+a predetermined weighted-zero-mean 250 ppm morphology perturbation, and
+predetermined small limb-darkening perturbations. The starts are
+independent and exchange no optimiser state; both converged at robust
+cycle 14 in the frozen release.
+
+Truth values are unavailable to all preprocessing, fitting, starting,
+response selection, mask construction, and convergence code. Once a
+terminal detector prediction is immutable, an evaluation sidecar computes
+absolute RMSE, mean bias, and morphology RMSE. Because the fitted
+objective is the detector-space robust likelihood, intermediate truth
+error need not fall monotonically even while the fitted objective
+improves.
+
+\subsection{Frozen numerical constants}
+
+\begin{table}[t]
+ \centering
+ \footnotesize
+ \caption{Frozen constants of the NOVA-S Science R1 release.}
+ \label{tab:frozen-constants}
+ \setlength{\tabcolsep}{3pt}
+ \begin{tabularx}{0.94\columnwidth}{@{}>{\raggedright\arraybackslash}p{0.46\columnwidth}>{\raggedright\arraybackslash}X@{}}
+  \toprule
+  Quantity & Frozen value \\
+  \midrule
+  Integrations (total / event / complement) & 229 / 127 / 102 \\
+  Retained pixels per integration & 97{,}557 \\
+  Native groups (initial / fitted) & 2{,}726 / 2{,}720 \\
+  Shared spectral coefficients $K$ & 160 \\
+  Continuum coefficients & 5{,}440 \\
+  Background coefficients & $8\times2=16$ \\
+  Limb-darkening coordinates & 8 \\
+  ERR scale $N_o$, order 1 / order 2 & 3.0746905465 / 4.1917779190 \\
+  Background temporal-correlation cap & 0.25 (selected $-0.0735$) \\
+  Huber threshold $\delta$ & 1.345 \\
+  IRLS cycle caps (soft / hard) & 25 / 50 \\
+  Material-descent radii & 0.03, 0.1, 0.3, 1.0 \\
+  Material threshold / cap (ordinary) & $10^{-8}$ / 6 \\
+  Material threshold / cap (final) & $10^{-10}$ / 12 \\
+  Exposure quadrature points & 21 \\
+  Orbital period & $3.73548546$ d \\
+  $a/R_\star$; impact parameter & 17.59002069; 0.33859072 \\
+  Mid-transit time ($\mathrm{BJD_{TDB}}$) & 60023.52874614 \\
+  Curvature event-mean correction & $-111.390$ ppm \\
+  Reporting bins (release / paper rule) & 143 / 141 \\
+  Last retained bin edge & $2.740018\,\mu\mathrm{m}$ \\
+  \bottomrule
+ \end{tabularx}
+\end{table}
+
+Table~\ref{tab:frozen-constants} collects the frozen constants referenced
+from Section~\ref{sec:methods}; full-precision orbital values appear in
+the text above, and the release manifest is the authoritative record.
+
+\subsection{Rejected or unpromoted model classes}
+
+The following classes were tested and are retained as negative results:
+independent or priored per-order depth discrepancy; per-column priors on
+continuum coefficients; aggregate order-contrast priors;
+residual-location recentering with wavelength slopes; constant-recentering
+families superseded by the frozen curvature factor; OOT-median source
+profiles vulnerable to background contamination; extra background temporal
+modes; a global narrow-response swap; local wavelength-specific smoothing
+patches; recovery-side explicit order-overlap modelling; local
+transit-amplitude templates at the red end; and continuous-coordinate
+response candidates that improved red morphology while degrading order 2
+or the headline gates. None of these is part of NOVA-S; each is recorded
+with the evidence that rejected it, so failed ideas are neither repeated
+nor quietly omitted.
