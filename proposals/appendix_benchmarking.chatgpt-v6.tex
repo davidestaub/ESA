@@ -1,0 +1,148 @@
+\section{Benchmark Design and Reproducibility}
+\label{app:benchmarking}
+
+% Question: What detector data form the benchmark, and how is the synthetic transit added?
+% Answer: A known transit is projected into a real out-of-transit NIRISS/SOSS time series while preserving the observed background, contaminants, and noise.
+% Evidence: Injector manifest and the archived benchmark release.
+\subsection{Detector-level benchmark}
+
+The benchmark is constructed from out-of-transit observations of WASP-17 with
+NIRISS/SOSS. It contains 229 Stage-2 \texttt{rateints} integrations. Synthetic
+transit modulation is applied to integrations 51 through 177, inclusive, so
+the injected event contains 127 integrations and the remaining 102 form its
+complement. The delivered science values, uncertainties, and data-quality
+flags are retained, and no background subtraction is undone or reapplied.
+
+The injection is defined by Equation~\ref{eq:v45-injector}. In that
+expression, $Y^{\mathrm{OOT}}_{tp}$ is the observed out-of-transit detector
+time series, $\bm{s}_{o,t}$ is the denoised expectation of the target source
+for order $o$, $\bm{T}^{\mathrm{true}}_{o,t}$ is the known injected transit
+factor, and $\bm{A}_o$ is the corresponding detector projection operator.
+Only the target-source expectation is modulated. The realised detector noise,
+additive background, field sources, higher-order structure, and temporal
+variability remain as observed. The source expectation is denoised before the
+transit is applied so that the injector does not attenuate a particular noise
+realisation. Contributions from the two spectral orders are constructed
+separately and summed in detector space, including where their supports
+overlap.
+
+The projection operators use the PASTASOSS trace and wavelength solution
+\citep{BainesEtAl2023Trace,BainesEtAl2023Wavelength} and the WebbKernel
+implementation of the ATOCA response mapping
+\citep{DarveauBernierEtAl2022,JWSTPipeline2025}. If empirical target light
+falls outside the valid model response, the injection stops instead of
+clipping the source or assigning it a unity transit factor. Unsupported
+source flux therefore cannot pass through the injector without modulation.
+
+% Question: How is information about the injected spectrum kept out of the recovery methods?
+% Answer: The injected spectrum and generator products are unavailable during recovery, and scoring begins only after the detector prediction is final.
+% Evidence: Benchmark manifests and the recovery and scoring interfaces.
+\subsection{Blind recovery and scoring}
+
+The injected spectrum, source expectation, and detector projection are not
+available to the recovery analyses. Every method instead receives the same
+detector cube and declared calibration products, constructs its own response,
+masks, nuisance model, and starting points, and produces a final detector
+prediction. Only then is the injected spectrum revealed and compared with the
+recovery. This separation prevents the truth from influencing calibration,
+model selection, convergence, or the reported spectrum.
+
+If inspection of a recovered-versus-injected residual motivates a change to a
+method, the revised method is evaluated on a new hidden injection before that
+change contributes to an accuracy claim. The same design applies to a future
+repair of the known spatial-response defect: a correction family can be
+motivated by the observed failure mode, but it will be calibrated on
+alternating out-of-transit folds, selected by held-out detector likelihood,
+and fixed before comparison with a new hidden spectrum.
+
+% Question: Which wavelengths and metrics enter the common comparison?
+% Answer: Every method is scored on complete R=100 bins within the direct PASTASOSS calibration domain.
+% Evidence: Calibrated-domain mask and common-grid manifest.
+\subsection{Common reporting support}
+
+All methods are compared on the same physical $R=100$ grid and with the same
+predefined support mask. The order-1 PASTASOSS training anchors for this visit
+end at detector coordinate $x=73.62893$, corresponding to
+$2.75977449\,\mu\mathrm{m}$. Detector columns 38 through 73 depend on
+polynomial extrapolation and are therefore excluded from the primary
+comparison. Any reporting bin with even partial dependence on these columns is
+removed in full. This leaves 141 complete bins, with the final retained bin
+ending at approximately $2.740018\,\mu\mathrm{m}$. The mask is determined by
+the calibration domain, applied identically to all methods, and used only for
+reporting rather than fitting.
+
+The primary accuracy statistic is the unweighted absolute root-mean-square
+error on these common bins. Mean bias and morphology error are reported
+separately so that an achromatic offset is not confused with an incorrect
+spectral shape. Order-specific, overlap, crossing-region, and supported-red
+diagnostics accompany the aggregate score. Weighted error is treated as a
+sensitivity statistic. Zero-injection, flat-depth, and noiseless engineering
+tests are reported separately from the main recovery experiment.
+
+% Question: Can every comparison pipeline reproduce its normal preprocessing from an integration-level cube?
+% Answer: No. A matched group-stage experiment is required to isolate the effect of preprocessing performed before ramp fitting.
+% Evidence: Injector fairness programme and current comparison status.
+\subsection{Integration-level limitation and paired group-stage experiment}
+
+The present benchmark begins with integration-level count-rate images. It does
+not contain the nondestructive detector groups from which those images were
+fitted. Pipelines such as Ahsoka and supreme-SPOON/exoTEDRF normally perform
+characteristic $1/f$ corrections before or during ramp fitting and cannot
+reproduce that step from the delivered cube. The current benchmark can compare
+recoveries from identical integration-level data, but it cannot determine how
+group-stage preprocessing changes their relative performance.
+
+A paired sensitivity experiment is therefore planned. One common group-level
+baseline will be used to create matched group-stage and integration-stage
+injections from the same physical source deficit. Each pipeline will retain
+its own predefined preprocessing, and NOVA will also be run after the same
+group-stage $1/f$ correction. The comparison will include zero-injection
+identity, the delivered detector deficit, white-light scatter, red-end
+recovery, and common-bin spectral error. This experiment does not form part of
+the present result.
+
+A preliminary scene-aware injector is also excluded from the current
+benchmark because its broad full-column masks remove a material fraction of
+the target signal together with contaminants. A future version will require
+out-of-transit scene modelling that protects the target trace and quantifies
+any remaining contaminant leakage.
+
+% Question: What additional experiments are needed before the comparison can be generalised?
+% Answer: Performance must remain stable across detector-response mismatch, visits, atmospheric spectra, and noise realisations.
+% Evidence: Benchmark limitations and planned validation programme.
+\subsection{Structural neutrality and ensemble tests}
+
+The injector and NOVA use related families of trace geometry, wavelength
+mapping, and spectral mixing. They do not share fitted detector responses or
+the same executable implementation, but their common modelling ancestry
+creates an inverse-crime risk. The benchmark programme will therefore include
+hidden injections with deliberately mismatched spatial profiles, wavelength
+maps, line-spread functions, throughput, background morphology, and temporal
+systematics.
+
+WASP-17 is a development visit rather than sufficient validation by itself.
+Additional visits will be assessed for target and visit identity, observing
+mode, out-of-transit coverage, integration chronology, data quality,
+background structure, field sources, and order-3 morphology. The same injected
+spectrum will first be recovered across suitable visits, followed by
+additional spectral morphologies and a method-neutral noise ensemble. At least
+one visit will remain outside model-branch selection. Until these tests and
+the comparison-pipeline matrix are complete, the present benchmark supports a
+controlled single-visit result rather than a universal ranking of reduction
+methods.
+
+% Question: What information accompanies a reported benchmark recovery?
+% Answer: The inputs, fitted configuration, convergence evidence, spectrum, covariance, scores, and detector diagnostics needed to reproduce and interpret the result.
+% Evidence: Release manifest and portable handoff audit.
+\subsection{Reproducibility record}
+
+For each recovery, the archived record identifies the detector cube,
+uncertainties, flags, time grid, wavelength support, code, configuration,
+calibration and response products, and final detector prediction. It also
+contains the termination state, final-weight confirmation, multistart
+agreement, numerical conditioning, active bounds, recovered spectrum and
+covariance, common-grid accuracy scores, and residual and robust-weight
+diagnostics by time, order, and detector region. Content hashes link large
+cluster-resident arrays to the portable record. Together these products make
+the reported recovery reproducible and allow its spectral accuracy to be
+interpreted alongside the detector fit that produced it.

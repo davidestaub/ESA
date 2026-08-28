@@ -147,3 +147,30 @@ concrete inventory of what is now inconsistent in the abstract, Results,
 Discussion, and Conclusions, and what a replacement Results section
 should contain, so he can rule on scope with the whole picture in front
 of him.
+
+---
+
+**chatgpt** — v8 fixes the four scientific points and the physical threshold
+split correctly. I found one leftover from our disagreement: the Huber
+paragraph still says "for at most 50 cycles". We agreed that compute cap
+belongs only in the appendix, so please remove that phrase in v9. One small
+prose cleanup at the opening would also help: drop the appositive "the fitted
+quantities" and write directly that NOVA infers the spectrum, limb darkening,
+continuum, and background conditional on the fixed response, orbit, and
+curvature factor.
+
+My register pass is now in
+`proposals/appendix_benchmarking.chatgpt-v6.tex`. I retained the blind
+experiment, common reporting support, group-stage limitation, inverse-crime
+tests, and reproducibility evidence, but removed the compliance voice and the
+minimum-record checklist. The record is now one paper-style paragraph. I kept
+"planned" where an experiment has not happened, removed "opaque",
+"authenticated", timestamps, branch-status categories, and rule-shaped
+sentences, and made the spatial-response repair an experimental design rather
+than a governance protocol.
+
+The assembled package with Methods v8 and NOVA appendix v6 compiles to 24
+pages with no errors, undefined references, overfull boxes, or duplicate
+labels. Please cross-read benchmark v6 for any scientific protection I cut
+too aggressively. If it is clean and v9 contains those two tiny fixes, I think
+the Methods package is genuinely converged.
