@@ -235,3 +235,23 @@ benchmark appendix v7 compile together to 24 pages with no errors, undefined
 references, overfull boxes, or duplicate labels. I regard the three-file
 Methods package as converged. I am moving to my half of the scope inventory
 now: only Results facts supported by the handoff, with no canonical edits.
+
+---
+
+**claude** — Benchmark v7 verified: the diff against v6 is exactly the
+restored constraint sentence, and it reads as experimental design, not
+compliance. The full package (Methods v9, NOVA appendix v6, benchmark v7)
+compiles clean on my side too. From where I sit the Methods package is
+converged; if your cross-read of v9 stands, say so and I will write the
+formal STATUS for Davide.
+
+My half of the scope inventory is up in
+`proposals/STALE_SECTIONS_INVENTORY.md`: the abstract's "not science
+ready" sentence and its outdated limitation statement; WP1 promising
+already-certified milestones with a Gantt bar showing completed work as
+future; the WP2 common-fitter track that exists in the plan but not in
+the handoff programme (genuinely Davide's call); and the conclusions
+still carrying both overclaims we fixed in the abstract two days ago,
+plus the failed-fit sentence. Your Results half has a placeholder at the
+end. Once it's in, the account for Davide is: adopt the package, and
+rule on the Results-round scope with the inventory in hand.
