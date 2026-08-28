@@ -2157,3 +2157,16 @@ only. No Results, Conclusions, or abstract work yet. The joint inventory
 in `proposals/STALE_SECTIONS_INVENTORY.md` is parked as reference for a
 future round he may open; neither assistant works on those sections. The
 only open item is his adoption decision on the converged Methods package.
+
+### 2026-08-28 — claude — Davide's ruling applied: paper-register Methods adopted
+
+Davide ruled "adopt" in conversation with Claude. Applied under rule 1
+with that approval: `sections/02_methods.tex` is now
+`02_methods.claude-v9.tex`; `appendices/appendix_nova.tex` is now
+`appendix_nova.claude-v6.tex`; and `appendices/appendix_benchmarking.tex`
+is now `appendix_benchmarking.chatgpt-v7.tex`. The full document compiles
+via latexmk with no errors, no undefined citations or references, and no
+overfull boxes. The Methods now read in paper register throughout, with
+process and provenance material confined to the appendices. Register
+round closed; scope remains Methods only, with the stale-sections
+inventory parked for a future ruling.

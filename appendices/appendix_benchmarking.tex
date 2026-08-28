@@ -1,4 +1,4 @@
-\section{Benchmark Construction and Reproducibility}
+\section{Benchmark Design and Reproducibility}
 \label{app:benchmarking}
 
 % Question: What detector data form the benchmark, and how is the synthetic transit added?
@@ -29,43 +29,32 @@ overlap.
 The projection operators use the PASTASOSS trace and wavelength solution
 \citep{BainesEtAl2023Trace,BainesEtAl2023Wavelength} and the WebbKernel
 implementation of the ATOCA response mapping
-\citep{DarveauBernierEtAl2022,JWSTPipeline2025}. Their support logic fails
-closed: empirical target light without a valid model response causes the
-injection to stop rather than being clipped or assigned a unity transit
-factor. This prevents unsupported source flux from being silently left
-unmodulated.
+\citep{DarveauBernierEtAl2022,JWSTPipeline2025}. If empirical target light
+falls outside the valid model response, the injection stops instead of
+clipping the source or assigning it a unity transit factor. Unsupported
+source flux therefore cannot pass through the injector without modulation.
 
 % Question: How is information about the injected spectrum kept out of the recovery methods?
-% Answer: Injection, delivery, recovery, and scoring use separate inputs, and the truth is opened only after each detector prediction is final.
+% Answer: The injected spectrum and generator products are unavailable during recovery, and scoring begins only after the detector prediction is final.
 % Evidence: Benchmark manifests and the recovery and scoring interfaces.
-\subsection{Separation of injection, recovery, and scoring}
+\subsection{Blind recovery and scoring}
 
-The experiment separates four stages. The injector owns the atmospheric
-truth, its source model, and its detector projection. Delivery provides one
-opaque detector cube and the same declared calibration products to every
-recovery method. Each method independently constructs its calibrations,
-configuration, masks, optimiser state, diagnostics, and final detector
-prediction. Scoring compares the recovered and injected spectra only after
-that prediction has been finalised. The injector cannot inspect a recovery
-aperture, spatial-profile estimate, recovered spectrum, or truth residual.
+The injected spectrum, source expectation, and detector projection are not
+available to the recovery analyses. Every method instead receives the same
+detector cube and declared calibration products, constructs its own response,
+masks, nuisance model, and starting points, and produces a final detector
+prediction. Only then is the injected spectrum revealed and compared with the
+recovery. This separation prevents the truth from influencing calibration,
+model selection, convergence, or the reported spectrum.
 
-Injected truth is therefore unavailable when constructing the detector
-response, masks, nuisance basis, starting points, model-selection rules, or
-convergence tests. A completed recovery records the recovered spectrum on each
-declared grid, the detector prediction, convergence status, configuration and
-source hashes, and a timestamped manifest. A fit that does not satisfy the
-predefined numerical criteria may be retained as a diagnostic, but it does not
-enter the primary comparison. Any method change made after inspecting the
-truth must be evaluated on a new hidden case before it can support a performance
-claim.
-
-The same rule applies to the planned repair of the known spatial-response
-defect. One global correction family must be applied to all columns, calibrated
-on alternating out-of-transit folds, and selected by held-out detector
-likelihood. It must preserve flux and the order-specific and aggregate
-acceptance criteria, and it must be fixed before the recovered spectrum is
-compared with the truth. The known defect can motivate the model family to be
-tested, but its measured recovery error cannot select the correction.
+If inspection of a recovered-versus-injected residual motivates a change to a
+method, the revised method is evaluated on a new hidden injection before that
+change contributes to an accuracy claim. The same design applies to a future
+repair of the known spatial-response defect. The correction will use a single
+flux-conserving rule across all columns, be calibrated on alternating
+out-of-transit folds, and be selected by held-out detector likelihood. It must
+not degrade the other order or the aggregate recovery, and it will be fixed
+before comparison with a new hidden spectrum.
 
 % Question: Which wavelengths and metrics enter the common comparison?
 % Answer: Every method is scored on complete R=100 bins within the direct PASTASOSS calibration domain.
@@ -110,14 +99,14 @@ injections from the same physical source deficit. Each pipeline will retain
 its own predefined preprocessing, and NOVA will also be run after the same
 group-stage $1/f$ correction. The comparison will include zero-injection
 identity, the delivered detector deficit, white-light scatter, red-end
-recovery, and common-bin spectral error. This experiment is prospective and
-does not form part of the present result.
+recovery, and common-bin spectral error. This experiment does not form part of
+the present result.
 
 A preliminary scene-aware injector is also excluded from the current
-benchmark. Its broad full-column masks remove a material fraction of the
-target signal together with contaminants. Before such a model can be used, it
-must be replaced by out-of-transit scene modelling that protects the target
-trace and quantifies any remaining contaminant leakage.
+benchmark because its broad full-column masks remove a material fraction of
+the target signal together with contaminants. A future version will require
+out-of-transit scene modelling that protects the target trace and quantifies
+any remaining contaminant leakage.
 
 % Question: What additional experiments are needed before the comparison can be generalised?
 % Answer: Performance must remain stable across detector-response mismatch, visits, atmospheric spectra, and noise realisations.
@@ -126,59 +115,35 @@ trace and quantifies any remaining contaminant leakage.
 
 The injector and NOVA use related families of trace geometry, wavelength
 mapping, and spectral mixing. They do not share fitted detector responses or
-the same executable implementation, but their common modelling ancestry creates
-an inverse-crime risk. The benchmark programme will therefore include hidden
-injections with deliberately mismatched spatial profiles, wavelength maps,
-line-spread functions, throughput, background morphology, and temporal
+the same executable implementation, but their common modelling ancestry
+creates an inverse-crime risk. The benchmark programme will therefore include
+hidden injections with deliberately mismatched spatial profiles, wavelength
+maps, line-spread functions, throughput, background morphology, and temporal
 systematics.
 
 WASP-17 is a development visit rather than sufficient validation by itself.
-Additional visits must pass a fixed admission audit covering target and visit
-identity, observing mode, out-of-transit coverage, integration chronology,
-data quality, background structure, field sources, and order-3 morphology. The
-same injected spectrum will first be recovered across the admitted visits,
-followed by additional spectral morphologies and a method-neutral noise
-ensemble. At least one visit will remain held out from model-branch selection.
-Until these tests and the comparison-pipeline matrix are complete, the current
-benchmark supports a controlled single-visit result rather than a universal
-ranking of reduction methods.
+Additional visits will be assessed for target and visit identity, observing
+mode, out-of-transit coverage, integration chronology, data quality,
+background structure, field sources, and order-3 morphology. The same injected
+spectrum will first be recovered across suitable visits, followed by
+additional spectral morphologies and a method-neutral noise ensemble. At least
+one visit will remain outside model-branch selection. Until these tests and
+the comparison-pipeline matrix are complete, the present benchmark supports a
+controlled single-visit result rather than a universal ranking of reduction
+methods.
 
-% Question: What record is required to reproduce or audit a benchmark result?
-% Answer: The data, code, configuration, prediction, and scoring identities are preserved for every reported recovery.
+% Question: What information accompanies a reported benchmark recovery?
+% Answer: The inputs, fitted configuration, convergence evidence, spectrum, covariance, scores, and detector diagnostics needed to reproduce and interpret the result.
 % Evidence: Release manifest and portable handoff audit.
-\subsection{Provenance and minimum report}
+\subsection{Reproducibility record}
 
-For byte-level provenance, the release manifest records the identities and
-content hashes of the archived integration-level cube and reporting mask. It
-also records the code, configuration, calibration and response products,
-source and background products, detector arrays, final predictions, and score
-tables. Large cluster-only arrays may be represented in the portable archive
-by authenticated manifests. Superseded, diagnostic, unsuccessful, and
-prospective branches retain an explicit status so that they cannot be mistaken
-for the reported method.
-
-\begin{table}[t]
- \centering
- \footnotesize
- \caption{Minimum record for each benchmark recovery.}
- \label{tab:benchmark-report}
- \setlength{\tabcolsep}{3pt}
- \begin{tabularx}{0.97\columnwidth}{@{}>{\raggedright\arraybackslash}p{0.29\columnwidth}>{\raggedright\arraybackslash}X@{}}
-  \toprule
-  Category & Required record \\
-  \midrule
-  Delivery & Cube, uncertainties, flags, time grid, wavelength support, and
-  response and configuration identities \\
-  Numerical validity & Termination state, final-weight confirmation,
-  multistart agreement, rank, conditioning, active bounds, and physical checks \\
-  Spectral accuracy & Absolute and morphology error, mean bias, regional
-  residuals, and separate order products where available \\
-  Uncertainty & Standardised residuals and spectral covariance for each
-  recovery; empirical coverage across the planned noise ensemble \\
-  Detector diagnostics & Residual and robust-weight summaries by time, order,
-  detector region, and nuisance component \\
-  Scope & Primary, diagnostic, unsuccessful, or prospective status, together
-  with the claims that the case can and cannot support \\
-  \bottomrule
- \end{tabularx}
-\end{table}
+For each recovery, the archived record identifies the detector cube,
+uncertainties, flags, time grid, wavelength support, code, configuration,
+calibration and response products, and final detector prediction. It also
+contains the termination state, final-weight confirmation, multistart
+agreement, numerical conditioning, active bounds, recovered spectrum and
+covariance, common-grid accuracy scores, and residual and robust-weight
+diagnostics by time, order, and detector region. Content hashes link large
+cluster-resident arrays to the portable record. Together these products make
+the reported recovery reproducible and allow its spectral accuracy to be
+interpreted alongside the detector fit that produced it.
