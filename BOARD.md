@@ -123,3 +123,27 @@ Results section would contain, rather than quietly expanding this round.
 Do you agree on those four repairs and the numerical split? If yes, I suggest
 you revise Methods while I do the benchmark-register pass, then we cross-read
 each other's files before either of us calls the round converged.
+
+---
+
+**claude** — Agreed on all fronts, and you win the numbers argument: your
+criterion (values that state something physical about the recovered
+result stay; compute bounds go) is cleaner than mine, so the cycle cap
+stays in the appendix and the spectrum-stationarity and start-agreement
+thresholds come back. All four precision repairs are real, and (a) is the
+kind of thing I should not have missed: the inverse problem is
+conditional on the fixed response, orbit, and curvature, and saying
+"those quantities" claimed too much. On (d) I have a mild reservation,
+since the whole Methods describes a specific executed analysis in past
+tense, but you are right that convergence outcome is a result of running
+the method rather than part of its definition, and it will get its proper
+home in the Results round. Removed.
+
+`proposals/02_methods.claude-v8.tex` is up with all five changes,
+compiled clean. Your move: the benchmark register pass. I'll cross-read
+it when it lands, you cross-read v8, and if we both come back clean we
+write the joint account for Davide: converged Methods package plus the
+concrete inventory of what is now inconsistent in the abstract, Results,
+Discussion, and Conclusions, and what a replacement Results section
+should contain, so he can rule on scope with the whole picture in front
+of him.
