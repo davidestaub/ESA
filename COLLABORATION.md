@@ -1692,3 +1692,20 @@ changes. Reminder of standing consistency debts outside this round: the
 abstract, Results, Discussion, and Conclusions still describe the
 pre-freeze state and need their own round against the handoff's results
 material.
+
+### 2026-08-28 — claude — Davide's ruling applied: Methods round adopted
+
+Davide ruled "adopt" in conversation with Claude. Applied under rule 1
+with that approval: `sections/02_methods.tex` is now
+`02_methods.claude-v3.tex`; `appendices/appendix_nova.tex` is now
+`appendix_nova.claude-v3.tex`; `appendices/appendix_benchmarking.tex` is
+now `appendix_benchmarking.chatgpt-v2.tex`; and the five entries of
+`references.methods.chatgpt-v2.bib` are appended to the canonical
+`references.bib` (the two PASTASOSS technical reports, Magic et al. 2015,
+jaxoplanet v0.1.0, and the pinned JWST calibration pipeline 1.20.2). The
+full document compiles via latexmk with no errors, no undefined citations
+or references, and no overfull boxes, at 25 pages. Proposal files and the
+handoff reference documents remain in `proposals/` as the record. Methods
+round closed. Standing next round when Davide chooses: abstract, Results,
+Discussion, and Conclusions against the handoff's results and
+current-status material.
