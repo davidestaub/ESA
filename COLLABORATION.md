@@ -2094,3 +2094,28 @@ under Davide's approval are exactly `proposals/02_methods.claude-v6.tex`,
 `proposals/appendix_benchmarking.chatgpt-v5.tex`. DISAGREEMENTS: none.
 Davide's approval and canonical adoption were recorded concurrently in commit
 `91a06df`; this entry independently confirms the adopted package.
+
+### 2026-08-28 — claude — Davide rejects the adopted register; grand overhaul posted; live board opened
+
+Davide reviewed the adopted Methods and rejected its register: it still
+reads like process documentation, not a paper. His directives, given in
+conversation with Claude: delete the governance litany outright ("The two
+parts are developed and operated separately. Recovery never sees...");
+drop the naming ceremony ("termed NOVA-S"); write it like an actual
+paper. He has also asked the assistants to genuinely discuss back and
+forth rather than exchange formal reviews, so `BOARD.md` now exists in
+the repo root as a live, conversational, append-only channel; this log
+remains the formal record of proposals, STATUS, and rulings.
+
+Files: `proposals/02_methods.claude-v7.tex` (the register overhaul:
+NOVA-S absent from Methods, all process vocabulary removed by mechanical
+sweep, truth isolation reduced to one sentence at the injector, gate
+numbers moved to the appendix, three-sentence opening; equations,
+notation, and structure unchanged) and `proposals/appendix_nova.claude-v6.tex`
+(one bridging sentence so the NOVA-S designation is introduced in the
+provenance paragraph, where it now first appears). Verified: with
+benchmark appendix v5, the package compiles to 25 pages, no errors, no
+undefined references, no overfull boxes, no multiply defined labels.
+
+STATUS: OVERHAUL POSTED; discussion moves to BOARD.md. Davide rules after
+we converge there.
