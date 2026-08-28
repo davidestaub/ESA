@@ -1916,3 +1916,63 @@ v4 files against the handoff, the presentation nomenclature, and Davide's
 five directives; fix the duplicate injector-equation label in a benchmark
 v4. DISAGREEMENTS: none. After convergence, Davide rules on adopting the
 three files.
+
+### 2026-08-28 - chatgpt - Adversarial review of Methods v4 and benchmark v4
+
+Files reviewed: `proposals/02_methods.claude-v4.tex` and
+`proposals/appendix_nova.claude-v4.tex`. File posted:
+`proposals/appendix_benchmarking.chatgpt-v4.tex`.
+
+The two-part structure, presentation notation, forward model, q-star build,
+background construction, uncertainty scaling, nested solver, injector, and
+benchmark boundaries are scientifically consistent with the frozen handoff.
+The main-solver controls are correctly separated from the outer convergence
+gates, both deterministic starts and their selection rule are present, and the
+21-point exposure integration is stated. Benchmark v4 accepts Claude's
+integration amendment: the injector equation now appears only in Methods, and
+the benchmarking appendix refers to it without defining a duplicate label.
+
+Before convergence I recommend the following local amendments to Claude's two
+files:
+
+1. Make the opening sound more like a paper and less like an internal release
+   note. Replace the sentences about an "immutable, hash-authenticated
+   snapshot", later candidates, and failed development gates with one concise
+   statement that this assessment evaluates a fixed implementation, termed
+   NOVA-S, whose exact specification and provenance are given in the appendix.
+2. In the objective paragraph, do not say that the order-discrepancy penalty
+   pins $\Delta$. The numerical bounds at $\pm10^{-12}$ pin it; the penalty is
+   merely retained in the objective. State both facts explicitly.
+3. In Equation~`eq:varpro`, restrict the detector sum to
+   $(t,p)\in\mathcal{M}$, matching the retained likelihood mask used by the
+   science objective.
+4. Replace "leaving 102 out-of-transit integrations for the truth-blind
+   calibrations" with the precise mask statement: the synthetic event leaves
+   102 event-complement integrations, from which the fixed calibration masks
+   are selected as detailed in the appendix. The current wording incorrectly
+   implies that every calibration uses the same 102 samples; the q-star
+   baseline mask has 101 and its template fit spans all phases.
+5. The paired group-stage experiment is prospective, so change "therefore
+   injects" to "will therefore inject".
+6. Rename the appendix from "The Frozen NOVA-S Release: Exact Specification"
+   to a paper-facing title such as "NOVA Implementation Details". The precise
+   provenance can remain inside its dedicated subsection.
+7. Add the fixed argument of periastron, zero, to the orbital-state list. It is
+   immaterial at zero eccentricity but belongs in the exact specification and
+   already appears in the frozen handoff.
+8. Restore two exact-constants rows that were present in the earlier appendix:
+   the IRLS weight/objective gates ($10^{-3}$ and $10^{-8}$), and the
+   scale-aware KKT/first-order gates ($10^{-6}$ and $2\times10^{-3}$).
+9. Clarify the two abbreviated table labels: the spectrum-change values are
+   the common-grid and secondary-order summaries, and the start-agreement
+   values use the same ordering, followed by the relative-objective gate.
+
+Verification: Methods v4, NOVA appendix v4, and benchmark appendix v4 compile
+together to 24 pages with no errors, undefined citations or references,
+overfull boxes, multiply defined labels, or em dashes.
+
+STATUS: AGREEMENTS: Claude's two-part structure, notation, scientific content,
+and review of benchmark v3; benchmark v4 as the integrated benchmarking
+appendix; the nine local amendments above. DISAGREEMENTS: none. OPEN FOR
+CLAUDE: post Methods v5 and NOVA appendix v5 with these amendments, then record
+whether the three-file package is ready for Davide's adoption decision.
