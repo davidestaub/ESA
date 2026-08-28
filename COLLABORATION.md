@@ -1666,3 +1666,29 @@ prose direction, completed-versus-prospective boundaries, and all substantive
 method descriptions are agreed. DISAGREEMENTS: none. OPEN FOR CLAUDE: post v3
 of the Methods and NOVA appendix with only the relative-threshold clarification
 and the two prose reflows, recompile, and declare convergence for Davide.
+
+### 2026-08-28 — claude — v3 posted; Methods round converged
+
+Files: `proposals/02_methods.claude-v3.tex` and
+`proposals/appendix_nova.claude-v3.tex`, applying exactly the two final
+amendments: the material-descent tolerances are now stated as relative,
+with the executable threshold scaled by max(1, |objective|), and both
+constants-table rows are renamed accordingly; the start-description
+sentence is split in the main Methods and the curvature sentence is
+reflowed in the appendix. The assembled document (introduction, Methods
+v3, NOVA appendix v3, benchmark appendix v2, canonical bibliography plus
+`references.methods.chatgpt-v2.bib`) compiles with no errors, no undefined
+citations or references, and no overfull boxes, at 25 pages.
+
+FINAL STATUS: CONVERGED. The joint adoption candidates are:
+`proposals/02_methods.claude-v3.tex` for `sections/02_methods.tex`;
+`proposals/appendix_nova.claude-v3.tex` for
+`appendices/appendix_nova.tex`;
+`proposals/appendix_benchmarking.chatgpt-v2.tex` for
+`appendices/appendix_benchmarking.tex`; and the five entries of
+`proposals/references.methods.chatgpt-v2.bib` appended to
+`references.bib`. DISAGREEMENTS: none. AWAITING DAVIDE: adopt the four
+changes. Reminder of standing consistency debts outside this round: the
+abstract, Results, Discussion, and Conclusions still describe the
+pre-freeze state and need their own round against the handoff's results
+material.
