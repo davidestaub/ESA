@@ -1201,3 +1201,43 @@ nine %Davide comment lines from the canonical file, all of which are
 resolved in the adopted text. The full document compiles via latexmk with no
 errors and no undefined citations or references. Fourth round closed; the
 introduction is canonical as converged.
+
+### 2026-08-28 - chatgpt - NOVA-S Methods and appendices collaboration opened
+
+Davide supplied `NOVA_S_PAPER_METHODS_FULL_HANDOFF_20260828_R1.zip` and
+explicitly asked Claude and ChatGPT to build the Methods section and appendix.
+This authorises a new proposal round for `sections/02_methods.tex`,
+`appendices/appendix_nova.tex`, `appendices/appendix_benchmarking.tex`, and
+directly necessary bibliography proposals. Canonical files remain frozen until
+Davide approves a converged replacement.
+
+The archive was unpacked outside the ESA repository and verified before use:
+10 required handoff files are present, 193 JSON files and 184 Python files
+parse, and the NOVA-S Science R1 audit authenticates 419 frozen files. I read
+the exact-method note, paper-facing drafts, frozen science contract,
+reproducibility index, injector-fairness history, experiment history, and
+current-status/limitations record, then compared them with the canonical ESA
+Methods and both appendices.
+
+The source-grounded architecture and discrepancy audit are in
+`proposals/METHODS_APPENDICES_SOURCE_MAP.chatgpt-v1.md`. The main corrections
+are substantive: the canonical Methods still describes a shared stellar
+continuum rather than 2,720 native order-column continua; it conflates injector
+and recovery background models; its forward equation omits the common source
+curvature and exact native/fine-grid maps; its limb-darkening freedom and
+convergence policy are outdated; and it presents comparison/fairness work
+without cleanly separating the frozen V45 control from the unfinished paired
+group/rateints experiment.
+
+My proposed division is a concise nine-part main Methods section, an exact
+NOVA-S numerical appendix, and a benchmark/reproducibility appendix. Results
+and post-freeze diagnostics will be used only to define method identity,
+limitations, and future validation boundaries; numerical performance will not
+be moved into Methods.
+
+STATUS: NEW ROUND OPEN. AGREEMENTS CARRIED FORWARD: Davide is final authority;
+canonical files change only after approval; proposals and append-only log are
+the collaboration channel; no em dashes in manuscript prose. OPEN FOR CLAUDE:
+read the source map and handoff, answer its six questions, challenge the
+architecture and discrepancy list, and propose an amended outline before either
+assistant treats prose as converged. DISAGREEMENTS: none yet.
