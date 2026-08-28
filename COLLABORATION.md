@@ -1457,3 +1457,105 @@ fidelity review of the two claude drafts against the handoff; accept or
 counter amendments (a)-(c); answer the material-descent question from the
 frozen code. DISAGREEMENTS: none. After convergence, Davide rules on
 adopting the three files and appending the proposed bibliography entries.
+
+### 2026-08-28 - chatgpt - Adversarial review of Methods and NOVA appendix v1
+
+The two drafts are a strong and largely faithful basis for v2. The model
+architecture, parameter counts, q-star role, background construction,
+source-curvature selection, variable projection, multistart policy, and
+completed-versus-prospective boundaries agree with the handoff. I also accept
+all three amendments to the benchmark appendix. They are implemented in
+`proposals/appendix_benchmarking.chatgpt-v2.tex`, with slightly simplified
+wording so the closure rule reads as scientific prose rather than a contract.
+
+The frozen code answers the material-descent question unambiguously: the audit
+is part of NOVA-S and should return in the numerical appendix. Variant E12
+enables it for the robust order-discrepancy solve. After each TRF termination,
+the code evaluates the executable objective along deterministic,
+scale-normalised Cauchy and Gauss-Newton directions at linearised residual
+radii 0.03, 0.1, 0.3, and 1.0. A physically valid improvement beyond the
+relative material threshold restarts the same TRF backend. The ordinary
+threshold and restart cap are $10^{-8}$ and 6; the mandatory final confirmation
+uses $10^{-10}$ and 12. A returned fit must have no tested material feasible
+descent above the applicable threshold. This belongs after the convergence
+gates in `appendix_nova.claude-v2.tex`, and the four radii plus the two
+threshold/cap pairs should be added to the constants table.
+
+Five fidelity corrections are needed in v2:
+
+1. In the V45 subsection, the real OOT data do not provide a "source-free
+   temporal baseline". They contain the target source, background, field
+   sources, and realised noise. Call them the "pre-injection detector time
+   series" or "observed OOT baseline". The following injector equation already
+   expresses the correct construction.
+2. Replace "the WebbKernel line-spread mapping distributed with ATOCA" with
+   "the WebbKernel implementation of the ATOCA response mapping", citing both
+   `DarveauBernierEtAl2022` for the response formulation and
+   `JWSTPipeline2025` for the implementation identity.
+3. Remove the promise that later pipeline results will be reported with a
+   common downstream light-curve fitter. I found no such committed experiment
+   in the handoff. The supported plan is to run the named pipelines with their
+   authentic truth-blind settings on a common delivered cube. The citation list
+   should also add `Espinoza2022TransitSpectroscopy` for
+   `transitspectroscopy` and `JWSTPipeline2025` for the official pipeline.
+4. The final metrics paragraph currently makes empirical coverage and repeated
+   noise realisations sound complete. Separate the current V45 report from the
+   planned ensemble: standardised residuals and covariance can accompany an
+   individual recovery; empirical coverage requires the future repeated-noise
+   ensemble.
+5. In the uncertainty appendix, define $N_o$ explicitly as the frozen
+   per-order ERR scale before writing
+   $\sigma_{tp}=\mathrm{ERR}_{tp}N_os_p$.
+
+The detailed numerical appendix should also show why the profiled derivative
+is exact, not only assert it. A compact addition is enough. Define the augmented
+residual as $\bm r=\bm C(\bm\theta)\widehat{\bm\eta}-\bm d$. For nonlinear
+coordinate $\theta_a$, differentiation of the normal equations gives
+$\bm C^{\mathsf T}\bm C\,\bm\eta_a=-[\bm C_a^{\mathsf T}\bm r+
+\bm C^{\mathsf T}\bm C_a\widehat{\bm\eta}]$ and
+$\bm r_a=\bm C_a\widehat{\bm\eta}+\bm C\bm\eta_a$. This supports the claimed
+profiled Jacobian without adding detail to the main Methods. The appendix
+should likewise define the piecewise Huber loss or its equivalent weight rule
+once, because "exact M-estimator" otherwise asks the reader to supply an
+implementation detail that is central to NOVA-S.
+
+Davide has now explicitly requested natural, human prose. V1 is technically
+good but repeats "frozen", "exact", "authenticated", and "preregistered" often
+enough to sound like a manifest. V2 should retain these words only when they
+distinguish model identity or completed work from a prospective experiment.
+Specific prose changes: shorten the first subsection to state the experiment
+before its governance; remove "major net improvement" from the q-star appendix
+because it is a result rather than a method description; rename
+"Deterministic starts, truth firewall, and evaluation order" to
+"Deterministic starts and evaluation order", matching Davide's earlier ruling
+that truth isolation is part of injector construction rather than a standalone
+named concept; and split sentences that currently carry a method, a gate, and
+a justification at once. The equations should carry the formal precision so
+the surrounding prose can explain what each component does and why it is
+needed.
+
+The citation audit found one error in my own v1 proposal. The frozen runtime
+uses jaxoplanet 0.1.0, not 0.0.2. Zenodo identifies the exact v0.1.0 record as
+DOI `10.5281/zenodo.15367303`; the previous DOI was the concept DOI and resolved
+to the latest version. `proposals/references.methods.chatgpt-v2.bib` corrects
+the version, year, and DOI and changes the key to `Jaxoplanet2025`. The JWST
+pipeline DOI resolves to version 1.20.2 as intended.
+
+The assembled v1 Methods, v1 NOVA appendix, v2 benchmark appendix, and proposed
+bibliography compile to 25 pages with no errors, undefined references,
+undefined citations, or overfull boxes. This is a verification checkpoint, not
+an adoption recommendation until the corrections above are incorporated and
+the prose receives a full read-aloud pass.
+
+STATUS: AGREEMENTS: Claude's three-file architecture and core scientific
+description are accepted; benchmark amendments (a)-(c) are accepted and
+implemented in `appendix_benchmarking.chatgpt-v2.tex`; the deterministic
+material-descent audit is part of NOVA-S and returns in the appendix; Results
+remain separate from method identity; prose must be readable and human rather
+than manifest-like. DISAGREEMENTS: the v1 common-downstream-fitter promise is
+not supported by the handoff and should be removed; the phrase "truth firewall"
+should not be retained as a subsection title. OPEN FOR CLAUDE: post complete
+v2 replacements for Methods and the NOVA appendix that address the five
+fidelity corrections, the material-descent audit, the compact derivative and
+Huber definitions, the citation correction, and the prose pass; then review the
+benchmark v2 wording for final convergence.
