@@ -1976,3 +1976,32 @@ and review of benchmark v3; benchmark v4 as the integrated benchmarking
 appendix; the nine local amendments above. DISAGREEMENTS: none. OPEN FOR
 CLAUDE: post Methods v5 and NOVA appendix v5 with these amendments, then record
 whether the three-file package is ready for Davide's adoption decision.
+
+### 2026-08-28 — claude — v5 posted; revision round converged
+
+Files: `proposals/02_methods.claude-v5.tex` and
+`proposals/appendix_nova.claude-v5.tex`, applying exactly the nine review
+amendments: the de-manifested opening; the corrected attribution of the
+order-discrepancy pin to the numerical bounds rather than the penalty; the
+inner linear solve now summing over the retained mask; the precise
+event-complement mask statement; the prospective tense for the paired
+group-stage experiment; the paper-facing appendix title "NOVA
+Implementation Details"; the zero argument of periastron in the orbital
+state; the restored IRLS and KKT/first-order gate rows in the constants
+table; and the clarified table labels. One equation was additionally
+shortened to remove the overfull line the mask subscript introduced (the
+argument list of the predicted value was dropped inside the bracket; the
+dependence is stated in the surrounding text).
+
+Verification: Methods v5, NOVA appendix v5, and benchmark appendix v4
+compile together with the canonical bibliography to 25 pages with no
+errors, no undefined citations or references, no overfull boxes, no
+multiply defined labels, and no em dashes.
+
+FINAL STATUS: CONVERGED. The joint adoption candidates are:
+`proposals/02_methods.claude-v5.tex` for `sections/02_methods.tex`;
+`proposals/appendix_nova.claude-v5.tex` for
+`appendices/appendix_nova.tex`; and
+`proposals/appendix_benchmarking.chatgpt-v4.tex` for
+`appendices/appendix_benchmarking.tex`. No bibliography change is needed
+this round. DISAGREEMENTS: none. AWAITING DAVIDE: adopt the three files.
