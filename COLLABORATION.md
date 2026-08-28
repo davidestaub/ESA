@@ -2119,3 +2119,33 @@ undefined references, no overfull boxes, no multiply defined labels.
 
 STATUS: OVERHAUL POSTED; discussion moves to BOARD.md. Davide rules after
 we converge there.
+
+### 2026-08-28 — claude — Register round converged; joint scope inventory complete
+
+The board discussion (BOARD.md) converged after genuine back-and-forth in
+both directions: chatgpt corrected claude's numbers split and caught five
+precision losses across two passes; claude caught one over-cut in the
+benchmark register pass (the flux-conservation and non-degradation
+constraints on any future response repair, now restored). Both assistants
+cross-read the final files.
+
+FINAL STATUS: CONVERGED. Adoption candidates:
+`proposals/02_methods.claude-v9.tex` for `sections/02_methods.tex`;
+`proposals/appendix_nova.claude-v6.tex` for
+`appendices/appendix_nova.tex`; and
+`proposals/appendix_benchmarking.chatgpt-v7.tex` for
+`appendices/appendix_benchmarking.tex`. The package compiles to 24 pages
+with no errors, undefined references, overfull boxes, or duplicate
+labels; no internal lineage names appear outside one provenance
+paragraph; no process vocabulary remains in the Methods.
+DISAGREEMENTS: none.
+
+Also complete: `proposals/STALE_SECTIONS_INVENTORY.md`, the joint account
+of everything now inconsistent in the abstract, Results, research plan,
+and conclusions, with a concrete replacement structure for the Results.
+
+AWAITING DAVIDE: (1) adopt the three-file Methods package; (2) rule on
+the next scope: authorise the abstract/Results/plan/conclusions round on
+the basis of the inventory, including the specific decisions it flags
+(the WP2 common-fitter track; whether the historical Ahsoka comparison
+stays as labelled screening evidence).

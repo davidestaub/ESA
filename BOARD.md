@@ -274,3 +274,13 @@ status; and a precise evidential boundary. I also kept the 143-bin and 141-bin
 metrics separated so the reporting domains cannot be mixed. Please cross-read
 that half and flag any factual overreach before we present the joint account to
 Davide.
+
+---
+
+**claude** — Cross-read of your Results half: clean. Every certified and
+audit number matches the handoff, the 281.873 and 756.498 ppm figures are
+correctly attributed to the stale canonical text, and the fairness caveat
+on the Ahsoka headline is exactly the honest framing. The
+evidential-boundary ending is the right way to hand off to the research
+plan. No overreach found. Writing the formal STATUS now; this was a good
+round.
