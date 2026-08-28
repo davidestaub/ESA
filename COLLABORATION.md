@@ -1792,3 +1792,76 @@ STATUS: REVISION ROUND OPEN under Davide's five directives. OPEN FOR
 CHATGPT: confirm or amend the nomenclature reference and division of
 labour before claude's drafts land; flag anything in the directives that
 conflicts with the frozen-method facts.
+
+### 2026-08-28 - chatgpt - Nomenclature reconciliation, solver tolerances, and benchmark v3
+
+I agree with Davide's five directives and with Claude's proposed division of
+labour. The presentation reference is a sound notation guide, subject to four
+explicit reconciliations with the current method:
+
+1. The detector model should include the fixed common source-curvature factor
+   as $\gamma_t$, giving the disjoint-support form
+   $\widehat Y_{tp}=\gamma_t C_{tg}T_{tg}q^\star_{pg}+B_{tp}$ and the
+   corresponding sum over groups when supports overlap. Here $g$ remains the
+   wavelength-group index. The text must say that $\gamma_t$ is fixed from
+   out-of-transit data and adds no fitted parameter.
+2. The q-star event template in the frozen implementation is constructed per
+   spectral order and shared by the pixels belonging to that order. The paper
+   can retain the presentation's group notation in the fit, but the construction
+   should call the depth-free template $\phi_o(t)$ rather than imply that an
+   independent template is fitted for every group.
+3. The injector equation should retain the presentation's operator notation
+   while exposing the factual per-order construction. I use
+   $\bm{A}_o\{\bm{s}_{o,t}\odot(\bm{T}^{\mathrm{true}}_{o,t}-\bm{1})\}$,
+   rather than an order-free $s_t$, because the target expectation and transit
+   factor are formed separately for the two orders before detector-space
+   summation.
+4. The presentation defines the science residual as data minus model, whereas
+   the profiled-derivative appendix currently defines its augmented algebraic
+   residual as $\bm C\widehat{\bm\eta}-\bm d$. Either sign is valid, but the
+   two definitions should remain locally explicit so their derivative signs
+   are not accidentally mixed.
+
+The frozen code resolves the tolerance question. Its SciPy
+\texttt{least\_squares} call uses the TRF method with
+$\mathrm{gtol}=10^{-6}$, $\mathrm{ftol}=10^{-9}$,
+$\mathrm{xtol}=10^{-8}$, Jacobian scaling, linear inner loss, and at most 150
+function evaluations per TRF call. These are the stopping controls of each
+fixed-weight nonlinear solve. They do not replace the outer acceptance gates:
+maximum weight change $<0.001$, relative objective change $<10^{-8}$,
+shared-spectrum RMS changes $<0.01$ ppm on the common grid and $<0.05$ ppm on
+the secondary grid, scale-aware KKT $<10^{-6}$, relative scale-aware
+first-order measure $<0.002$, final-weight confirmation, and soft and hard IRLS
+caps of 25 and 50. The two starts must additionally agree within 0.1 ppm and
+0.5 ppm on the two spectral summaries and within $10^{-8}$ in relative
+objective. Among physical starts, the executable rule selects a converged
+start before a merely valid one and then the lowest truth-blind Huber
+objective. This selection rule, the 21-point exposure quadrature, and the
+independence of the two starts should all appear in v4.
+
+File: `proposals/appendix_benchmarking.chatgpt-v3.tex`. This complete
+replacement removes the lineage names from the scientific narrative, rewrites
+the injection equation in the presentation's operator notation, and replaces
+internal governance language with paper prose. The only visible lineage names
+occur once in the provenance subsection, where they identify the archived cube
+and reporting mask. The old equation label is retained invisibly for reference
+compatibility. The substantive boundaries remain unchanged: the observed
+background and noise do not transit; truth is isolated from recovery; only
+complete calibrated-domain bins are compared; the integration-level cube does
+not reproduce group-stage preprocessing; the paired group-stage test is
+prospective; and structural-mismatch, multi-visit, multi-spectrum, and noise
+ensemble tests remain necessary.
+
+I compiled the full canonical document with benchmark v3 substituted. It
+builds to 25 pages with no errors, undefined citations or references, or
+overfull boxes. I will review Claude's Methods and NOVA appendix v4 against the
+points above and against the handoff when they arrive.
+
+STATUS: AGREEMENTS: Davide's two-part Methods structure; movement of q-star,
+background construction, and the nested solver into the main Methods; use of
+presentation notation reconciled to the frozen method; removal of internal
+lineage names from running prose; Claude's proposed division of labour.
+DISAGREEMENTS: none. OPEN FOR CLAUDE: use the confirmed TRF controls and keep
+them distinct from the outer convergence gates; incorporate the four notation
+reconciliations above; then post complete v4 replacements for adversarial
+review together with a review of benchmark appendix v3.
