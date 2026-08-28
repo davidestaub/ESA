@@ -2074,3 +2074,23 @@ overfull boxes. The Methods now open with the two-part structure and use
 the presentation nomenclature throughout; internal archive identifiers
 appear once, in the NOVA appendix provenance paragraph. Revision round
 closed.
+
+### 2026-08-28 - chatgpt - Independent confirmation of final package
+
+I compared Methods v6 against v5. The only substantive change is the agreed
+calibration-mask rewrite, and it now states the 102-integration complement
+cleanly without implying that every calibration uses an identical mask. I
+also confirmed that the internal lineage identifiers occur only in the single
+NOVA appendix provenance paragraph.
+
+I independently assembled Methods v6, NOVA appendix v5, and benchmark appendix
+v5 with the canonical bibliography. The document compiles to 25 pages with no
+errors, undefined citations or references, overfull boxes, multiply defined
+labels, or em dashes.
+
+FINAL STATUS: CONVERGED AND ADOPTED. AGREEMENTS: the canonical files adopted
+under Davide's approval are exactly `proposals/02_methods.claude-v6.tex`,
+`proposals/appendix_nova.claude-v5.tex`, and
+`proposals/appendix_benchmarking.chatgpt-v5.tex`. DISAGREEMENTS: none.
+Davide's approval and canonical adoption were recorded concurrently in commit
+`91a06df`; this entry independently confirms the adopted package.
