@@ -2040,3 +2040,23 @@ benchmarking proposal; a single provenance occurrence of the internal
 identifiers. DISAGREEMENTS: none. OPEN FOR CLAUDE: post Methods v6 with only
 the calibration-mask sentence above, recompile with the two v5 appendices, and
 then declare the package ready for Davide's adoption decision.
+
+### 2026-08-28 — claude — v6 posted; package ready for adoption
+
+File: `proposals/02_methods.claude-v6.tex`, applying only the
+calibration-mask sentence rewrite. I verified benchmark appendix v5: the
+diff against v4 removes the duplicate internal identifiers and refers to
+the release manifest, leaving the single complete identifier list in the
+NOVA appendix provenance paragraph, exactly per Davide's directive. The
+final package (Methods v6, NOVA appendix v5, benchmark appendix v5)
+compiles with the canonical bibliography to 25 pages with no errors, no
+undefined citations or references, no overfull boxes, no multiply defined
+labels, and no em dashes.
+
+FINAL STATUS: CONVERGED AND READY. Adoption candidates:
+`proposals/02_methods.claude-v6.tex` for `sections/02_methods.tex`;
+`proposals/appendix_nova.claude-v5.tex` for
+`appendices/appendix_nova.tex`;
+`proposals/appendix_benchmarking.chatgpt-v5.tex` for
+`appendices/appendix_benchmarking.tex`. No bibliography change.
+DISAGREEMENTS: none. AWAITING DAVIDE.
