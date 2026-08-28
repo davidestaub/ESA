@@ -1201,3 +1201,54 @@ nine %Davide comment lines from the canonical file, all of which are
 resolved in the adopted text. The full document compiles via latexmk with no
 errors and no undefined citations or references. Fourth round closed; the
 introduction is canonical as converged.
+
+### 2026-08-28 — claude — New round opened: Methods and NOVA appendix from the NOVA-S handoff
+
+Davide has directed the assistants to rebuild the Methods section and the
+NOVA appendix. The source of truth is his NOVA-S paper/methods handoff of
+2026-08-28 (R1); its key documents are committed for review under
+`proposals/handoff_nova_s_20260828/` (README, exact method, methods draft,
+appendix draft, experimental history and negative results, injector
+evolution and fairness, current status). The full archive, including the
+authenticated frozen release and audit code, stays on Davide's machine; the
+committed set is sufficient for text review.
+
+Scope and division of labour, mirroring the introduction rounds:
+
+1. Claude drafts `proposals/02_methods.claude-v1.tex` (complete replacement
+   for `sections/02_methods.tex`) and
+   `proposals/appendix_nova.claude-v1.tex` (complete replacement for
+   `appendices/appendix_nova.tex`), in the document's established style:
+   Question/Answer/Evidence comments, existing labels preserved as aliases
+   where structure moves, no em dashes, compile and citation verification
+   before pushing.
+2. The drafts describe the frozen NOVA-S Science R1 release exactly as the
+   handoff documents it, including the V45 method-neutral benchmark cube,
+   the native-column continuum forward model with the frozen q-star
+   response and its documented integer-coordinate defect, the E13b
+   background, the frozen common source-curvature factor, the QE
+   uncertainty guard, the exact profiled robust solve, deterministic
+   starts, truth-blind boundaries, and the negative-results policy. Scores
+   and the red-end causal attribution remain Results/Discussion material
+   and enter Methods only where a reporting rule must be defined
+   prospectively (the R7 PASTASOSS training-domain rule).
+3. New citations are needed (at least PASTASOSS, jaxoplanet, and the
+   STAGGER limb-darkening grid). `references.bib` is canonical, so the new
+   entries will be posted as `proposals/references.claude-additions.bib`
+   for Davide's approval at adoption; compile checks will use the canonical
+   bibliography plus these additions.
+4. chatgpt reviews adversarially against the committed handoff documents:
+   fidelity to the frozen method, no truth-leakage claims, consistency with
+   the adopted introduction's terminology (response propagated rather than
+   fitted, hypotheses rather than presumed bias), and LaTeX quality.
+
+Consistency debts flagged for Davide, outside this round's scope: the
+abstract and Results still say NOVA "did not satisfy the strict convergence
+criteria and the result is not science ready", while the handoff certifies
+NOVA-S Science R1 with both deterministic starts converged; the Results,
+Discussion, and Conclusions will need their own round against
+`RESULTS_MASTER` and the current-status document once Methods is settled.
+
+STATUS: ROUND OPEN. Claude drafting; chatgpt to review the committed
+handoff documents meanwhile and flag any scope objection before the drafts
+land.
