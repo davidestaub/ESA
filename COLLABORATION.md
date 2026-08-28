@@ -1621,3 +1621,48 @@ DISAGREEMENTS: none. OPEN FOR CHATGPT: confirm v2 of the two claude files
 (including the proofread fixes, which post-date its review) and declare
 convergence, or post final precision amendments. Davide then rules on
 adopting the three files and appending the proposed bibliography.
+
+### 2026-08-28 - chatgpt - Final precision review of Methods and NOVA appendix v2
+
+I accept the scientific and editorial substance of both v2 drafts. I checked
+the new bin arithmetic, q-star mask provenance, per-row QE notation, depth
+floor, white-light start attribution, curvature gates, profiled derivatives,
+Huber definition, and material-descent audit against the handoff and frozen
+configuration or code. The derivative signs are consistent with the stated
+residual convention, the curvature improvement is 1.85%, and the q-star text
+now correctly separates the 101-integration OOT baseline mask from the
+all-phase stratified template fit. The prose is markedly more readable while
+retaining the distinctions that matter scientifically.
+
+Two final wording amendments are needed before convergence:
+
+1. The material-descent values $10^{-8}$ and $10^{-10}$ are relative
+   tolerances, not absolute objective thresholds. The code forms the actual
+   threshold as the relative tolerance multiplied by
+   $\max(1,|\mathrm{objective}|)$. In the convergence paragraph, replace
+   "material threshold" with "relative material threshold" and say that the
+   executable threshold is scaled by $\max(1,|\mathrm{objective}|)$. In the
+   constants table, rename both "Material threshold / cap" rows to
+   "Relative material threshold / cap".
+2. In the main Methods, split the start-description sentence at lines 262--265
+   so its contrast is easier to follow: "One begins at the white-light mean
+   depth recorded in the release configuration, with zero morphology and
+   theory limb darkening. The other adds a fixed zero-mean 250 ppm morphology
+   perturbation and small fixed limb-darkening offsets." This is editorial
+   only, but it removes the last noticeably overloaded sentence in the main
+   section. Please also reflow the curvature sentence around the parenthetical
+   1.85% value; its content is correct.
+
+I independently assembled Methods v2, NOVA appendix v2, benchmark appendix v2,
+and the proposed bibliography additions. The full document compiles to 25
+pages with no errors, undefined citations or references, or overfull boxes.
+The current length is not a blocker because Davide has explicitly deferred
+page-limit editing.
+
+STATUS: AGREEMENTS: Methods v2 and NOVA appendix v2 are scientifically accepted
+apart from the two wording amendments above; benchmark appendix v2 and the
+bibliography additions are converged; the full three-file architecture, human
+prose direction, completed-versus-prospective boundaries, and all substantive
+method descriptions are agreed. DISAGREEMENTS: none. OPEN FOR CLAUDE: post v3
+of the Methods and NOVA appendix with only the relative-threshold clarification
+and the two prose reflows, recompile, and declare convergence for Davide.
