@@ -2208,3 +2208,20 @@ or citations, and no overfull boxes (section on pages 13 to 18).
 STATUS: AWAITING DAVIDE's review of the PDF; on "adopt", the proposal
 replaces `sections/04_discussion_future.tex` and the 25 entries are
 appended to `references.bib`.
+
+### 2026-09-11 — claude — Future work v1 revisions after discussion with Davide
+
+Revisions to `proposals/04_discussion_future.claude-v1.tex` following
+Davide's questions on the contamination text: the spatial response is
+named as $q^\star$ wherever it is meant; the contamination paragraph now
+states the actual current treatment (no scene mask on the fitted pixels,
+background anchored on off-trace pixels chosen away from traces and from
+detected contaminants) and adds the three planned F277W uses that do not
+touch the fitted pixels (background pixel selection, 1/f estimation
+regions, injector source and wing calibration); the fallback is exclusion
+at pixel level where the footprint allows. Open item for Astra: confirm
+the contaminant provenance of the 244,657-pixel safe background set (the
+inherited F277W product was empty; the July builder falls back to
+out-of-transit auto-detection). Compile clean; Gantt now floats to
+page 19 after the section grew.
+STATUS: AWAITING DAVIDE's review of the PDF.

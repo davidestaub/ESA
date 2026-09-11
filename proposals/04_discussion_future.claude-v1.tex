@@ -76,10 +76,11 @@ estimated from the transit-shaped variation of each pixel
 (Equation~\ref{eq:qstar-fit}): only light that dims with the transit
 enters the amplitude $A_{pg}$, while steady contaminant light is absorbed
 by the pixel level $m_p$ and never enters $q^\star$. The additive
-background is a smooth low-order
-surface anchored on off-trace pixels and cannot represent a dispersed
-contaminant trace. Pixels flagged by the detector-quality mask are
-excluded. Contaminating light that falls under the target trace therefore
+background is a smooth low-order surface, anchored on a fixed set of
+off-trace pixels chosen away from the traces and from contaminating
+sources detected in the out-of-transit frames, and it cannot represent a
+dispersed contaminant trace. Pixels flagged by the detector-quality mask
+are excluded. Contaminating light that falls under the target trace therefore
 remains in the transit fit, where the model can attribute it only to the
 star, and the depth is diluted. The WASP-17~b comparison shows how
 difficult a correction becomes when little of the contaminant trace is
@@ -91,19 +92,29 @@ In the current analysis no scene mask is applied to the fitted pixels:
 NOVA excludes pixels only through detector-quality flags and calibration
 limits, so that every method sees the same detector information, and the
 comparison pipelines apply their own contaminant handling. Maps of where
-the contaminating sources fall do exist for all six benchmark visits,
-built from out-of-transit frames. Where an F277W exposure accompanies the
-observation it locates contaminants, but their brightness cannot be
-transferred directly to the science exposures because the filter changes
-the transmitted light \citep{HolmbergMadhusudhan2023}. Where a
-contaminant must be treated, the first choice is conservative: the
-affected detector columns are excluded and the lost wavelength coverage
-is reported. Where that coverage loss matters for a scientific question,
-I will extend the model with an additive template per contaminant. Its spatial shape follows the visible part of the contaminant
-trace, projected under the target by the instrument model; its amplitude
-is a nuisance parameter anchored like the background, so that it cannot
-trade against the transit. A template prototype and a held-out likelihood
-test already exist for WASP-96~b.
+the contaminating sources fall exist for all six benchmark visits, built
+from out-of-transit frames. Where an F277W exposure accompanies the
+observation it locates them independently: the filter suppresses the
+target spectrum below about 2.4~$\mu$m, so field-star images and parts
+of their traces are seen directly, although their brightness cannot be
+transferred to the science exposures because the filter changes the
+transmitted light \citep{HolmbergMadhusudhan2023}. For each visit, the
+contaminant footprint from the F277W exposure and the out-of-transit
+detection will be used in three places that do not touch the fitted
+pixels: to define the off-trace pixels on which the background is
+calibrated, to veto contaminated pixels from the regions in which the
+$1/f$ noise is estimated, as exoTEDRF does natively, and to exclude
+contaminant light from the stellar source and wing calibration of the
+injector. Where a contaminant must be treated in the fit itself, the
+first choice is conservative: the affected pixels are excluded, at pixel
+level where the footprint allows and by whole detector columns otherwise,
+and the lost wavelength coverage is reported. Where that coverage loss
+matters for a scientific question, I will extend the model with an
+additive template per contaminant. Its spatial shape follows the visible
+part of the contaminant trace, projected under the target by the
+instrument model; its amplitude is a nuisance parameter anchored like the
+background, so that it cannot trade against the transit. A template
+prototype and a held-out likelihood test already exist for WASP-96~b.
 
 \paragraph{Testing the transfer.}
 Tests will inject known planetary spectra into the target star only,
@@ -223,8 +234,9 @@ an existing study of sensitivity to reduction and modelling choices
 processing settings are fixed, as an independent test of the workflow.
 
 The catalogue requires a workflow that prepares each observation,
-identifies contaminating sources, fits the spectrum and runs its
-validation tests without manual changes to the code. It reuses the
+identifies contaminating sources from the F277W exposure and the
+out-of-transit frames, fits the spectrum and runs its validation tests
+without manual changes to the code. It reuses the
 contamination policy of Paper 2, with source positions, masks and template
 amplitudes determined per observation. HAT-P-18~b, HAT-P-26~b and
 WASP-80~b are already prepared as benchmark hosts. Order overlap and the
@@ -442,7 +454,7 @@ against closed deliverables, and a milestone counts as complete only when
 its data products, configuration, diagnostics and written interpretation
 are archived together.
 
-Five risks are foreseen. The first is contamination: if excluded columns
+Five risks are foreseen. The first is contamination: if excluded pixels
 remove more wavelength coverage than a scientific question can tolerate
 and the template correction does not validate, the affected spectra are
 released with the reduced coverage and the limitation is stated. The
