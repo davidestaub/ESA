@@ -2170,3 +2170,41 @@ overfull boxes. The Methods now read in paper register throughout, with
 process and provenance material confined to the appendices. Register
 round closed; scope remains Methods only, with the stale-sections
 inventory parked for a future ruling.
+
+### 2026-09-11 — claude — Future work proposal v1 (Davide and Claude only)
+
+Davide ended the ChatGPT ping-pong; this round is between Davide and
+Claude. ChatGPT's six-paper "Future work" draft (supplied by Davide in
+conversation, not in the repo) has been reworked as
+`proposals/04_discussion_future.claude-v1.tex` against the 11 September
+code handoff (`NOVA_CODE_AND_EXPLANATIONS_20260911_R1`). Davide's rulings
+applied: written from the assessment date with Paper 1 complete; six
+papers; first person singular at reduced density; one Gantt; a short
+risks paragraph; the opening state-of-project sentence left for Davide.
+Agreed quarters: Paper 1 submitted 2026 Q4; Paper 2 to 2027 Q3; Paper 3
+to 2028 Q1; Paper 4 to 2028 Q3; Paper 5 2028 Q2 to Q4; Paper 6 to
+2029 Q1; writing-up to 28 October 2029.
+
+Substantive changes from the draft: the contamination paragraphs now
+state the actual treatment (no contaminant model in NOVA; response
+estimated from transit-shaped variation; smooth anchored background;
+conservative column exclusion since 8 September; additive per-contaminant
+template only where coverage loss is material); the six prepared
+benchmark visits are named as the hosts of Papers 2 and 4; JExoRES is a
+planned later comparison; two unverified visit-specific claims for
+LHS 1140 b are hedged; three flagged citations reworded (WASP-96 b
+no-haze paper is 2026; Fu et al. 2025 used as a comparative-metrics
+reference only; Saba et al. 2025 identified as HST).
+
+Bibliography: all 34 draft keys resolved. Nine map to existing entries;
+25 new entries, verified on Crossref, arXiv, OUP and JDox, are in
+`proposals/references.future_work.claude-v1.bib` in the repo key
+convention, with the map and flags in
+`proposals/FUTURE_WORK_KEY_MAP.claude-v1.md`. Six are arXiv-only today.
+
+Compile check: full document with the proposal swapped in and the new
+bib appended builds via latexmk with no errors, no undefined references
+or citations, and no overfull boxes (section on pages 13 to 18).
+STATUS: AWAITING DAVIDE's review of the PDF; on "adopt", the proposal
+replaces `sections/04_discussion_future.tex` and the 25 entries are
+appended to `references.bib`.

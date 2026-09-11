@@ -1,0 +1,455 @@
+\section{Future work}
+\label{sec:future_work}
+\label{sec:research-plan}
+
+% Davide: one or two sentences on where the project stands at the
+% assessment date go here, once the benchmark and the WASP-17 b analysis
+% are closed. The rest of the section does not depend on that wording.
+
+I plan six papers. The first reports NOVA, the benchmark and the WASP-17~b
+analysis, and answers objectives 1 to 3 of
+Section~\ref{sec:research-question}. The next three stay with NIRISS/SOSS
+transmission spectroscopy and address objective 4: transfer to other
+targets, repeated visits and stellar variability, and a uniform reanalysis
+of the published SOSS sample. The last two extend NOVA to NIRSpec and to
+secondary eclipses. Each paper has a stated research question, a defined
+data set and a validation step that must pass before its scientific
+results are interpreted. Figure~\ref{fig:gantt} gives the schedule.
+
+\subsection{Paper 1: NOVA, the benchmark and WASP-17~b}
+\label{subsec:fw_benchmark}
+
+\noindent\textbf{Research question:} \textit{Does NOVA recover more
+accurate transmission spectra with reliable uncertainties than
+extraction-based analyses, and does its application change the
+atmospheric interpretation of WASP-17~b?}
+
+The method, the benchmark and the WASP-17~b analysis will be complete
+before the assessment. The paper reports the benchmark of
+Section~\ref{sec:methods}, the comparison with Ahsoka,
+\texttt{transitspectroscopy} and exoTEDRF, each run as its own end-to-end
+analysis \citep{LouieEtAl2025,Espinoza2022TransitSpectroscopy,Radica2024},
+and the WASP-17~b transmission spectrum with an atmospheric retrieval. A
+comparison with JExoRES \citep{HolmbergMadhusudhan2023} is planned for a
+later release of the benchmark.
+
+What remains after the assessment is submission in 2026 Q4, the referee
+process and the public release of the benchmark package: the injector, the
+injected spectra, the recovery configurations, the fixed predictions and
+the score tables needed to reproduce every figure. The benchmark injects
+known spectra into the out-of-transit data of six SOSS visits, of
+HAT-P-26~b, WASP-17~b, WASP-39~b, HAT-P-18~b, WASP-96~b and WASP-80~b, so
+the detector scenes of the first targets of Papers 2 and 4 are
+characterised before those analyses begin.
+
+\subsection{Paper 2: Transfer to other SOSS targets}
+\label{subsec:fw_transfer}
+
+\noindent\textbf{Research question:} \textit{Which atmospheric conclusions
+change when other SOSS observations are analysed with NOVA, and what
+causes those changes?}
+
+I will begin with WASP-39~b and WASP-96~b. Both are gas giants with
+well-studied SOSS observations, so the first transfer stays within the
+class of planet used for development. WASP-39~b has strong water features
+and published constraints on water abundance and clouds
+\citep{FeinsteinEtAl2023,CarterEtAl2024}. WASP-96~b offers a specific
+disagreement: \citet{TaylorEtAl2023} favoured an enhanced scattering slope
+at short wavelengths, whereas \citet{WangEtAl2026} found no haze
+signature. Both fields contain contaminating stars.
+
+\paragraph{Transfer.}
+NOVA's transit model, detector likelihood, response estimation and
+covariance propagation carry over unchanged. Each visit needs its own
+transit geometry, limb darkening, integration timing, excluded pixels,
+trace position and background estimate. These are estimated from the new
+observations by the procedures used for WASP-17~b, and the benchmark
+injections of Paper 1 already test whether those procedures recover known
+spectra in these two detector scenes, including weak features. Any change
+to the procedure of Paper 1 will be recorded and its effect on the
+WASP-17~b result reported.
+
+\paragraph{Field-star contamination.}
+NOVA has no explicit model for contaminating stars. Three properties of
+the method limit their effect. The spatial response is estimated from the
+transit-shaped variation of each pixel, so steady contaminant light does
+not enter the response. The additive background is a smooth low-order
+surface anchored on off-trace pixels and cannot represent a dispersed
+contaminant trace. Pixels flagged by the detector-quality mask are
+excluded. Contaminating light that falls under the target trace therefore
+remains in the transit fit, where the model can attribute it only to the
+star, and the depth is diluted. The WASP-17~b comparison shows how
+difficult a correction becomes when little of the contaminant trace is
+visible \citep{LouieEtAl2025}; the JExoRES treatment shows that a
+template-based correction is possible when more of it is
+\citep{HolmbergMadhusudhan2023}.
+
+The current policy is conservative: contaminated detector columns are
+excluded and the lost wavelength coverage is reported, rather than
+modelled. Scene inventories built from out-of-transit frames and F277W
+exposures exist for all six benchmark visits. F277W images locate
+contaminants, but their brightness cannot be transferred directly to the
+science exposures because the filter changes the transmitted light
+\citep{HolmbergMadhusudhan2023}. Where the coverage loss matters for a
+scientific question, I will extend the model with an additive template per
+contaminant. Its spatial shape follows the visible part of the contaminant
+trace, projected under the target by the instrument model; its amplitude
+is a nuisance parameter anchored like the background, so that it cannot
+trade against the transit. A template prototype and a held-out likelihood
+test already exist for WASP-96~b.
+
+\paragraph{Testing the transfer.}
+Tests will inject known planetary spectra into the target star only,
+leaving contaminant light in place, including in excluded pixels, and will
+repeat the background, white-light, response and spectral fits. They
+compare plain exclusion with the template correction on depth error,
+uncertainty coverage and retained wavelength range. WASP-39~b will be used
+to fix the decision rules. WASP-96~b will then be analysed under those
+rules without further changes, as a test of transfer to a different
+detector scene.
+
+\paragraph{Atmospheric interpretation.}
+For each planet I will compare NOVA with a conventional reduction that
+uses the same calibration files, then apply matched atmospheric models and
+priors, and examine whether water abundance, cloud constraints and
+spectral slopes are consistent across reductions. For WASP-96~b, the
+contamination treatment, limb darkening and slow brightness trends will
+be varied separately to identify which choices move the short-wavelength
+slope. The result may support either published interpretation or leave the
+slope uncertain.
+
+\paragraph{A geometry test.}
+HAT-P-14~b transits at grazing geometry, where planet radius, transit path
+and limb darkening have similar effects on the light curve. Its
+observations also saturate, and updated processing removed much of the
+spectral structure first reported \citep{LiuEtAl2025}. It tests how
+geometric and limb-darkening uncertainty propagate into the recovered
+spectrum, using a three-parameter law where the quadratic law is
+insufficient \citep{KeersEtAl2024} and the empirical JWST results on FGK
+limb darkening as a reference \citep{SingEtAl2026}. HAT-P-14~b will be
+included in Paper 2 if it adds a distinct result.
+
+\subsection{Paper 3: Repeated visits and stellar variability}
+\label{subsec:fw_repeats}
+
+\noindent\textbf{Research question:} \textit{Can independent visits
+recover a consistent planetary spectrum once visit-specific instrumental
+and stellar effects are accounted for, and are the remaining differences
+explained by the uncertainties?}
+
+GJ 9827~d has two SOSS visits and a published water-rich interpretation
+\citep{PiauletGhorayebEtAl2024}. It extends the application to a smaller
+planet and gives a direct repeatability test. I will first reproduce a
+conservative analysis that excludes flare-affected integrations, then fit
+the visits separately and examine how shared geometric information changes
+their agreement. Injection tests remain necessary because repeated
+observations can share a bias.
+
+I will then add a flare model fitted alongside the transit, with timing
+shared across wavelengths and amplitude and colour free. This tests
+whether integrations discarded by masking carry planetary information.
+Because NOVA estimates the spatial response from the transit time series,
+a flare can bias that step before the spectrum is fitted. The response
+estimation will therefore be repeated with the variability model included,
+and alternative estimates tested when the transit is too weak to constrain
+it.
+
+Spots and faculae change the apparent spectrum because the transit chord
+differs from the disc average \citep{RackhamEtAl2018,RackhamEtAl2019}, and
+a spot crossing produces a feature inside the transit. These will be
+modelled separately from flares and instrumental trends. Their light falls
+on the same trace as the rest of the star, so separation relies on timing,
+wavelength dependence and physically constrained stellar models. Simulated
+flares and surface features will test whether the model recovers the
+planetary signal or absorbs it.
+
+LHS 1140~b will be the second main target. Four SOSS visits allow a test
+across observing dates. Recent analyses agree that helium is not detected
+\citep{GressierEtAl2026,BennettEtAl2026}, while the first broadband study
+reported tentative spectral structure and stellar contamination
+\citep{CadieuxEtAl2024}. I will examine whether weak broadband features
+persist after accounting for stellar changes. Visit-specific complications
+reported in the published analyses, such as a displaced trace or an
+overlapping transit of another planet, will be modelled explicitly or
+excluded under a stated rule.
+
+TRAPPIST-1~f is the more demanding case. Its five visits contain flares,
+although the published spectrum shows no evidence of contamination from
+unocculted stellar structure \citep{LimEtAl2026}. It tests whether the
+model developed on the first two systems handles these data without
+suppressing the planetary signal; visits with too little clean data may
+yield only limits or a restricted wavelength range. GJ 9827~d and
+LHS 1140~b form the main paper. TRAPPIST-1~f is included if the same
+extension handles it.
+
+For each system, the separate visit spectra will be compared before any
+joint fit. Planetary information from some visits will also be used to
+predict another visit while that visit's own stellar and instrumental
+effects are fitted. These checks establish whether the visits support a
+common planetary spectrum and a common atmospheric interpretation.
+
+\subsection{Paper 4: A uniform reanalysis of SOSS transmission spectra}
+\label{subsec:fw_atlas}
+
+\noindent\textbf{Research question:} \textit{Which differences between
+published SOSS transmission spectra remain after a uniform reanalysis, and
+which atmospheric conclusions are sensitive to the observations or to the
+analysis choices?}
+
+Once transfer and repeatability are established, I will apply NOVA to the
+public SOSS sample. Uniform reanalyses with HST have shown the value of a
+consistent treatment across planets \citep{TsiarasEtAl2018,SabaEtAl2025}.
+This catalogue does the same for SOSS and adds a validation report for
+each observation. The first release covers planets with public SOSS
+transmission analyses and public transit observations available when the
+work starts in 2028 Q1. Selection rules, non-detections, incomplete
+observations and every exclusion will be documented.
+
+The sample covers problems beyond those used to develop NOVA. HAT-P-18~b
+and WASP-52~b test stellar surface effects, unocculted heterogeneity in
+one case and spot crossings in the other
+\citep{FournierTondreauEtAl2024,FournierTondreauEtAl2025}. GJ 357~b and
+LTT 9779~b test small or muted signals
+\citep{TaylorEtAl2025,RadicaEtAl2024}. K2-18~b provides a comparison with
+an existing study of sensitivity to reduction and modelling choices
+\citep{SchmidtEtAl2025}. Some targets will be held back until the
+processing settings are fixed, as an independent test of the workflow.
+
+The catalogue requires a workflow that prepares each observation,
+identifies contaminating sources, fits the spectrum and runs its
+validation tests without manual changes to the code. It reuses the
+contamination policy of Paper 2, with source positions, masks and template
+amplitudes determined per observation. HAT-P-18~b, HAT-P-26~b and
+WASP-80~b are already prepared as benchmark hosts. Order overlap and the
+dispersed zodiacal background will be tested against the established
+treatments \citep{DarveauBernierEtAl2022,BainesEtAl2025}, and the
+calibration will account for the count-dependent nonlinearity of the
+NIRISS analogue-to-digital conversion \citep{DholakiaEtAl2026}.
+Conventional reductions with matched calibration are retained for a
+representative subset and wherever NOVA changes an important conclusion.
+
+Every released spectrum will carry injection tests: weak and strong
+features, broad bands, slopes and a flat spectrum, with the
+data-dependent calibration steps repeated for each test. Injecting a
+change into real observations tests recovery of that change; absolute
+depth requires a baseline whose truth is known, and the two kinds of test
+are kept distinct. Further tests vary trace motion, bad pixels,
+saturation, background structure, contamination and the length of the
+pre- and post-transit baseline. A visit may pass at some wavelengths and
+fail at others, and those restrictions are carried into the released
+spectrum.
+
+The atmospheric comparison begins with quantities measured directly from
+the spectra, water band contrasts and short-wavelength slopes,
+distinguishing an overall depth shift from a change of shape, as in
+earlier comparative studies \citep{SingEtAl2016,FuEtAl2025}. Retrievals
+then test what the differences imply for gases and clouds, with consistent
+assumptions within comparable planet classes and identical assumptions
+when reductions of one planet are compared. Correlations between
+wavelength bins will be retained because they affect the retrieval
+\citep{IhKempton2021}. The products are separate-visit spectra, justified
+combined spectra, uncertainties with their correlations, quality flags,
+injection reports and the software and calibration versions used.
+Spectra corrected for stellar contamination are labelled separately from
+the apparent spectra measured in each visit.
+
+\subsection{Paper 5: Joint NIRISS and NIRSpec analysis}
+\label{subsec:fw_nirspec}
+
+\noindent\textbf{Research question:} \textit{Can NIRISS and NIRSpec
+observations be explained by one planetary transmission spectrum after
+accounting for their separate instrumental and stellar effects?}
+
+The WASP-39~b benchmark spectrum improved agreement across instruments
+through a consistent analysis but left discrepancies in partially
+saturated PRISM data \citep{CarterEtAl2024}. I will test whether a
+detector-level analysis changes that agreement and whether combining
+instruments produces a more reliable spectrum.
+
+NIRSpec G235H/F170LP comes first because its band overlaps SOSS
+substantially. LHS 1140~b already has G235H and G395H observations
+\citep{DamianoEtAl2024} and is the initial target. G395H/F290LP then
+extends the wavelength coverage, followed by dedicated PRISM tests and
+selected G140 modes. The actual wavelength range and detector gap of each
+configuration will be used; G395H mainly extends coverage and offers
+little overlap with SOSS \citep{JDoxNIRSpecBOTS2026}. WASP-39~b PRISM is a
+separate test of the documented disagreement.
+
+The extension requires a NIRSpec description of how stellar light falls
+on the detector: trace shape, wavelength mapping, spectral resolution,
+slit throughput and noise, while the transit model is retained. The
+injector uses the same instrument description to create tests with known
+spectra, and each mode is validated separately before it enters a joint
+analysis.
+
+NIRISS and NIRSpec are first fitted independently and compared at matched
+resolution in the overlap. The joint model then uses one intrinsic
+spectrum with separate backgrounds, detector effects and stellar
+properties for each visit. Stellar changes between dates can shift the
+apparent depths even when the atmosphere is unchanged, so those
+contributions are constrained by physical models and by the data rather
+than by an arbitrary offset at every wavelength, which could conceal a
+disagreement. The common spectrum is passed through each instrument's
+response, so that the comparison accounts for the different bins and
+resolutions.
+
+Paired injections test recovery of the same planet through both
+instruments with independent noise, backgrounds and stellar states, and
+deliberate mismatches test whether the joint model detects incompatible
+data. The products include individual and joint spectra with the
+uncertainty of relative depth offsets, and data sets that remain
+inconsistent are reported as such. The first NIRSpec paper covers the
+modes that pass these tests; further modes follow in later releases.
+
+\subsection{Paper 6: Secondary eclipses and the dayside atmosphere}
+\label{subsec:fw_eclipses}
+
+\noindent\textbf{Research question:} \textit{Can NOVA improve the
+reliability of weak eclipse measurements and the atmospheric conclusions
+drawn from them?}
+
+WASP-17~b is the starting point. Its SOSS eclipse analysis found that
+allowing negative fitted depths changed a tentative FeH constraint while
+the water result was more stable \citep{GressierEtAl2024}. I will
+investigate whether a detector-level analysis improves these weak
+measurements and how the resulting spectrum changes the estimated dayside
+temperature and composition.
+
+During secondary eclipse the planet's thermal emission and reflected light
+disappear while the stellar light remains. The planet will initially be a
+uniformly bright disc whose hidden fraction is predicted through ingress
+and egress and averaged over each integration. The detector model keeps
+its treatment of source light and background, with an eclipse model
+replacing the transit signal. Uncertainty in the orbit and eclipse timing,
+uneven planetary brightness and slow changes of planet flux around the
+event will be tested.
+
+The positive depth parameters become signed eclipse amplitudes. Noise can
+place a weak measurement below zero; retaining that estimate lets the
+atmospheric fit use the full measurement uncertainty, while the physical
+atmosphere still predicts nonnegative flux. Depth relative to the star is
+distinguished from depth relative to star and planet together. Response
+estimation needs its own tests, since a weak eclipse may contain too
+little variation to calibrate the response through the event; the mean
+stellar image and the instrument's optical model are the alternatives.
+
+The eclipse injector adds a known planetary contribution to a star-only
+baseline. The added light disappears during eclipse, and star, background
+and unrelated sources are unchanged. For injection before calibration,
+the accumulated planetary counts are added to each detector read with the
+corresponding photon noise, which changes the signal and noise treatment
+of the transit injector. Tests cover very weak emission, thermal and
+reflected light, and atmospheres with and without weak molecular
+features. Conventional extraction and NOVA are compared with signed and
+positive-constrained fits, followed by matched retrievals, to separate
+the effect of the depth constraint from the effect of the reduction. The
+metrics are recovery of injected spectra, coverage of uncertainty
+intervals and false detections of molecular features. The validated
+procedure is then applied to WASP-17~b. Circulation models can support
+later phase-curve tests.
+
+\subsection{Timeline, dependencies and risks}
+\label{subsec:fw_timeline}
+
+\begin{figure*}[t]
+\centering
+\resizebox{\textwidth}{!}{%
+\begin{ganttchart}[
+  hgrid,
+  vgrid,
+  x unit=0.84cm,
+  y unit title=0.55cm,
+  y unit chart=0.52cm,
+  title/.style={fill=black!6,draw=black!25},
+  title label font=\bfseries\scriptsize,
+  bar label font=\scriptsize,
+  group label font=\bfseries\scriptsize,
+  milestone label font=\scriptsize,
+  bar height=0.55,
+  group height=0.34,
+  group peaks height=0.16,
+  milestone height=0.45
+]{1}{13}
+\gantttitle{2026}{1}\gantttitle{2027}{4}\gantttitle{2028}{4}\gantttitle{2029}{4}\\
+\gantttitle{Q4}{1}
+\gantttitle{Q1}{1}\gantttitle{Q2}{1}\gantttitle{Q3}{1}\gantttitle{Q4}{1}
+\gantttitle{Q1}{1}\gantttitle{Q2}{1}\gantttitle{Q3}{1}\gantttitle{Q4}{1}
+\gantttitle{Q1}{1}\gantttitle{Q2}{1}\gantttitle{Q3}{1}\gantttitle{Q4}{1}\\
+\ganttgroup[group/.append style={fill=ganttsoss!35,draw=ganttsoss}]
+  {SOSS transmission programme}{1}{8}\\
+\ganttbar[bar/.append style={fill=ganttsoss!70,draw=ganttsoss}]
+  {Paper 1: submission and release}{1}{2}\\
+\ganttmilestone[milestone/.append style={fill=ganttsoss,draw=ganttsoss}]
+  {Paper 1 submitted}{1}\\
+\ganttbar[bar/.append style={fill=ganttsoss!70,draw=ganttsoss}]
+  {Paper 2: WASP-39 b, WASP-96 b}{2}{4}\\
+\ganttbar[bar/.append style={fill=ganttsoss!70,draw=ganttsoss}]
+  {Paper 3: repeated visits, variability}{4}{6}\\
+\ganttbar[bar/.append style={fill=ganttsoss!70,draw=ganttsoss}]
+  {Paper 4: uniform SOSS reanalysis}{6}{8}\\
+\ganttmilestone[milestone/.append style={fill=ganttsoss,draw=ganttsoss}]
+  {SOSS catalogue release}{8}\\
+\ganttgroup[group/.append style={fill=ganttgeneral!35,draw=ganttgeneral}]
+  {Instrument and geometry extensions}{7}{10}\\
+\ganttbar[bar/.append style={fill=ganttgeneral!70,draw=ganttgeneral}]
+  {Paper 5: NIRISS and NIRSpec}{7}{9}\\
+\ganttbar[bar/.append style={fill=ganttgeneral!70,draw=ganttgeneral}]
+  {Paper 6: secondary eclipses}{9}{10}\\
+\ganttmilestone[milestone/.append style={fill=ganttgeneral,draw=ganttgeneral}]
+  {Science freeze}{10}\\
+\ganttgroup[group/.append style={fill=ganttwrite!35,draw=ganttwrite}]
+  {Thesis}{2}{13}\\
+\ganttbar[bar/.append style={fill=ganttwrite!70,draw=ganttwrite}]
+  {Thesis integration}{2}{10}\\
+\ganttbar[bar/.append style={fill=ganttwrite!70,draw=ganttwrite}]
+  {Formal writing-up period}{11}{13}\\
+\ganttmilestone[milestone/.append style={fill=ganttwrite,draw=ganttwrite}]
+  {Thesis submission}{13}
+\end{ganttchart}%
+}
+\caption{Publication and thesis plan in quarters, starting after the
+assessment. Paper 1 is submitted in 2026 Q4. The SOSS transmission
+programme closes with the catalogue release in 2028 Q3, and the instrument
+and geometry extensions end with a science freeze in 2029 Q1. The research
+phase ends on approximately 27 April 2029 after the one-month
+interruption, and the formal writing-up period runs to 28 October 2029.}
+\label{fig:gantt}
+\end{figure*}
+
+Figure~\ref{fig:gantt} shows the dependency structure. Paper 1 releases
+the benchmark and the accepted injector that every later paper reuses.
+Paper 2 fixes the contamination policy that the catalogue applies without
+change, and Paper 3 supplies the stellar-variability model that Papers 4
+and 5 need for spotted hosts and multi-epoch data. The NIRSpec detector
+description of Paper 5 is new development and starts while the catalogue
+is being produced. Paper 6 reuses the injector changes of Paper 5 for
+injection before calibration. In every paper the recovered spectra are
+frozen before the atmospheric retrievals are run, so that detector-model
+uncertainty is traced into the atmospheric constraints rather than fitted
+away. The code and validation products of each paper are archived with a
+citable identifier. Further extensions to MIRI, phase curves, direct
+atmospheric retrieval from detector data and accelerated inference depend
+on these results and are not scheduled. Progress is reviewed quarterly
+against closed deliverables, and a milestone counts as complete only when
+its data products, configuration, diagnostics and written interpretation
+are archived together.
+
+Five risks are foreseen. The first is contamination: if excluded columns
+remove more wavelength coverage than a scientific question can tolerate
+and the template correction does not validate, the affected spectra are
+released with the reduced coverage and the limitation is stated. The
+second is stellar variability: where flares or spot crossings cannot be
+separated from the planetary signal, the analysis reports limits or a
+restricted wavelength range rather than a spectrum. The third is
+computational cost, which grows with the number of visits and injection
+tests; variable projection, streamed derivatives and staged small cases
+before visit-scale runs control it, as in Paper 1. The fourth is the
+NIRSpec detector description, the largest technical development of the
+later papers; if it does not validate in time, Paper 5 is reduced to
+independent fits compared in the overlap region. The fifth is schedule: a
+delay in the referee process or the benchmark release of Paper 1 shifts
+Paper 2, and Papers 5 and 6 are the adjustable scope, while the SOSS
+programme of Papers 1 to 4 is the core of the thesis. A fair result in
+which NOVA does not outperform extraction-based analyses remains
+scientifically useful, because it bounds the benefit of joint
+detector-level inference under stated conditions.
