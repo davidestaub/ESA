@@ -59,8 +59,8 @@ at short wavelengths, whereas \citet{WangEtAl2026} found no haze
 signature. Both fields contain contaminating stars.
 
 \paragraph{Transfer.}
-NOVA's transit model, detector likelihood, response estimation and
-covariance propagation carry over unchanged. Each visit needs its own
+NOVA's transit model, detector likelihood, estimation of the spatial
+response $q^\star$ and covariance propagation carry over unchanged. Each visit needs its own
 transit geometry, limb darkening, integration timing, excluded pixels,
 trace position and background estimate. These are estimated from the new
 observations by the procedures used for WASP-17~b, and the benchmark
@@ -71,9 +71,12 @@ WASP-17~b result reported.
 
 \paragraph{Field-star contamination.}
 NOVA has no explicit model for contaminating stars. Three properties of
-the method limit their effect. The spatial response is estimated from the
-transit-shaped variation of each pixel, so steady contaminant light does
-not enter the response. The additive background is a smooth low-order
+the method limit their effect. The spatial response $q^\star_{pg}$ is
+estimated from the transit-shaped variation of each pixel
+(Equation~\ref{eq:qstar-fit}): only light that dims with the transit
+enters the amplitude $A_{pg}$, while steady contaminant light is absorbed
+by the pixel level $m_p$ and never enters $q^\star$. The additive
+background is a smooth low-order
 surface anchored on off-trace pixels and cannot represent a dispersed
 contaminant trace. Pixels flagged by the detector-quality mask are
 excluded. Contaminating light that falls under the target trace therefore
@@ -148,11 +151,11 @@ observations can share a bias.
 I will then add a flare model fitted alongside the transit, with timing
 shared across wavelengths and amplitude and colour free. This tests
 whether integrations discarded by masking carry planetary information.
-Because NOVA estimates the spatial response from the transit time series,
-a flare can bias that step before the spectrum is fitted. The response
-estimation will therefore be repeated with the variability model included,
-and alternative estimates tested when the transit is too weak to constrain
-it.
+Because NOVA estimates the spatial response $q^\star$ from the transit
+time series (Equation~\ref{eq:qstar-fit}), a flare can bias that step
+before the spectrum is fitted. The estimation of $q^\star$ will therefore
+be repeated with the variability model included, and alternative
+estimates tested when the transit is too weak to constrain it.
 
 Spots and faculae change the apparent spectrum because the transit chord
 differs from the disc average \citep{RackhamEtAl2018,RackhamEtAl2019}, and
@@ -328,10 +331,11 @@ The positive depth parameters become signed eclipse amplitudes. Noise can
 place a weak measurement below zero; retaining that estimate lets the
 atmospheric fit use the full measurement uncertainty, while the physical
 atmosphere still predicts nonnegative flux. Depth relative to the star is
-distinguished from depth relative to star and planet together. Response
-estimation needs its own tests, since a weak eclipse may contain too
-little variation to calibrate the response through the event; the mean
-stellar image and the instrument's optical model are the alternatives.
+distinguished from depth relative to star and planet together. Estimating
+the spatial response $q^\star$ needs its own tests, since a weak eclipse
+may contain too little variation to calibrate it through the event; the
+mean stellar image and the instrument's optical model are the
+alternatives.
 
 The eclipse injector adds a known planetary contribution to a star-only
 baseline. The added light disappears during eclipse, and star, background
