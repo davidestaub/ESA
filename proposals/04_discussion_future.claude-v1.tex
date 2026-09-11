@@ -87,15 +87,19 @@ visible \citep{LouieEtAl2025}; the JExoRES treatment shows that a
 template-based correction is possible when more of it is
 \citep{HolmbergMadhusudhan2023}.
 
-The current policy is conservative: contaminated detector columns are
-excluded and the lost wavelength coverage is reported, rather than
-modelled. Scene inventories built from out-of-transit frames and F277W
-exposures exist for all six benchmark visits. F277W images locate
-contaminants, but their brightness cannot be transferred directly to the
-science exposures because the filter changes the transmitted light
-\citep{HolmbergMadhusudhan2023}. Where the coverage loss matters for a
-scientific question, I will extend the model with an additive template per
-contaminant. Its spatial shape follows the visible part of the contaminant
+In the current analysis no scene mask is applied to the fitted pixels:
+NOVA excludes pixels only through detector-quality flags and calibration
+limits, so that every method sees the same detector information, and the
+comparison pipelines apply their own contaminant handling. Maps of where
+the contaminating sources fall do exist for all six benchmark visits,
+built from out-of-transit frames. Where an F277W exposure accompanies the
+observation it locates contaminants, but their brightness cannot be
+transferred directly to the science exposures because the filter changes
+the transmitted light \citep{HolmbergMadhusudhan2023}. Where a
+contaminant must be treated, the first choice is conservative: the
+affected detector columns are excluded and the lost wavelength coverage
+is reported. Where that coverage loss matters for a scientific question,
+I will extend the model with an additive template per contaminant. Its spatial shape follows the visible part of the contaminant
 trace, projected under the target by the instrument model; its amplitude
 is a nuisance parameter anchored like the background, so that it cannot
 trade against the transit. A template prototype and a held-out likelihood
