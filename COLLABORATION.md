@@ -2349,3 +2349,45 @@ micron summary range marked inclusive. Compile clean.
 STATUS: injector subsection independently verified; NOVA subsection
 verified by Claude's own pass; no known unverified claim remains except
 those depending on cluster-only code. AWAITING DAVIDE'S READ.
+
+2026-09-24 [claude] Introduction and Methods rewritten in place (Davide's instruction)
+
+Davide changed the rules for this round: Claude may edit the canonical
+.tex directly. He asked for the Introduction and Methods to be rewritten
+so they read as written by a person, keeping the content, in the style of
+his supervisor's thesis (Moseley 2022), with a suspicious-professor read
+for AI tells and for "what is he trying to say here". Methods content is
+taken from proposals/02_methods.claude-v11.tex (the code-checked current
+content), not from the August canonical text.
+Process: rewrite by Claude; three professor readers (AI tells, clarity),
+three SOSS-expert readers, three meaning-preservation checkers against the
+old text, four fact-lookup agents against the execution tree; every
+change applied by Claude after checking the cited file.
+Factual corrections to v11 content found by this pass (all verified in
+code or reports): NOVA's input has exoTEDRF's scaled background model
+subtracted (group level and Stage 2), so B models the residual background;
+the injected orbit keeps P and b of the control file but a/R* and i are
+rescaled so the transit lasts 1.74 h (not "duration matched"); the
+rate-level control uses the per-read tables (final read / 43.952 s), not
+integration-level tables; start agreement (0.1/0.5 ppm) is not tested by
+the current closure, only reported; the stationarity grids are the
+historical 40-bin and 96-bin summary grids; the pixel scale s_p is per
+pixel with two-way alternating folds (175/175), not per row with 280/70;
+the 95%/35th-percentile cuts select template pixels only; no exact
+per-order accounting check exists in the current per-read transport;
+comparator pilots start at extraction from the rate-level injection;
+transitspectroscopy's joint white fit and fixed settings are declared
+departures; the v7 rule is disclosed as the fifth revision, fixed after
+the real grazing mass was known to be zero; the NOVA background and 1/f
+steps use integrations 0-49 and 179-228 on injected inputs, which match
+the injection design (disclosed as the one exception to truth-blindness).
+Intro: NOVA's claims made consistent with the Methods; single-pixel
+dilution degeneracy stated; SOSS order curvature/overlap causes fixed
+(Albert et al. 2023); Constantinou claim limited to 3-5 um; Gardner 2006
+replaced for NIRISS. Figure: transmission schematic blue ray moved to the
+same impact distance as the pink ray (it sat inside the smaller radius).
+New bib entry GoyalEtAl2019 (ATMO generic grid); the six v11 entries
+merged into references.bib. Compile clean, 33 pages.
+STATUS: AWAITING DAVIDE'S READ. Open questions for Davide are listed in
+the chat summary (length; inverse-crime/q* question; research-question
+wording; appendices still describe the old injector).
