@@ -2255,3 +2255,59 @@ adoption). Compile clean: no errors, undefined references or overfull
 boxes; section on pages 13 to 18, Gantt on page 18.
 STATUS: paragraph pass in progress from the Paper 5 mode paragraph
 onward; AWAITING DAVIDE to continue.
+
+---
+2026-09-23 [claude] Methods rewrite, proposals/02_methods.claude-v11.tex (v10 kept as the writer's draft)
+
+Complete replacement for sections/02_methods.tex in two parts, NOVA and
+The injector, rewritten from the code and reports in
+NOVA_ASTRA_EXECUTION_20260905_R1 as of 23 September 2026. What changed
+against the canonical text: the injector subsection now describes the
+group-level raw-ramp injector (pre-transit raw segment and matched null,
+three source zones with the measured far-light fraction and the two
+bracketing assumptions, per-read transit signal, transport to raw counts,
+native detector processing, delivery checks, endpoint protocol and
+envelope rule); NOVA gains two subsubsections, the joint two-order
+white-light geometry inference (priors, nested sampler, grazing-mass
+acceptance rule, median handoff) and the uncertainty ensemble (352
+realisations, generator construction, finite-ensemble likelihood,
+held-out validation); the orbit is no longer fixed; the order-discrepancy
+term is removed exactly; reporting is on 147 bins (0 to 146) instead of
+141; comparators run the authors' protocols with shared declared
+geometry priors. Outcome and progress statements are kept out of Methods
+per the 28 August register ruling. The injected geometry is given by
+provenance only until the W17 production recoveries close.
+
+New bibliography entries (verified against ADS, arXiv and journal pages)
+are in proposals/references.methods.claude-v11.bib: MorelloEtAl2020,
+KostogryzEtAl2022, KostogryzEtAl2023, Speagle2020, SellentinHeavens2016,
+ForemanMackeyEtAl2013. Merge into references.bib on adoption.
+
+Verification status, stated plainly: the injector subsection was
+re-verified claim by claim against local code and reports by an
+independent pass; compile, labels, citations and nomenclature were
+checked; most numbers in both subsections were swept. The NOVA
+subsection's structural statements had one evidence pass only, and v11
+itself has not been re-reviewed after the revision. Four transport
+details live only in cluster-side code and are written at the level the
+local files support. Not yet fully verified: "no gain conversion is
+applied"; transitspectroscopy limb darkening from MPS-ATLAS set 2 (approved
+and submitted, no completed spectral result on disk); the clause that the
+ensemble sampler did not reach 50 autocorrelation lengths on raw-level
+inputs; the inclusive upper bound of the 2.12 to 2.76 micron summary range.
+
+Flagged for the appendix round, not changed here (frozen files):
+appendix_benchmarking.tex describes the integration-level injector, 141
+bins and a shared cube (lines 9 to 20, 42 to 44, 65 to 70, 86 to 103);
+appendix_nova.tex states NOVA-S as the evaluated configuration, a fixed
+orbit, the pinned order term, 143/141 bins and the 229/127/102 window
+(lines 6 to 7, 21 to 26, 36 to 44, 53 to 60, 190, 212 to 216); main.tex
+still dates the assessment August 2026. Length: prose 4,525 words against
+4,688 in the canonical file; a shorter version would drop method-defining
+statements and needs Davide's call.
+
+Compile: full document with v11 swapped in and the proposal .bib appended
+builds clean, 28 pages, no errors, undefined references, citations or
+overfull boxes.
+STATUS: AWAITING DAVIDE. Adoption requires his reading and approval; the
+NOVA subsection should get an independent second pass before adoption.
