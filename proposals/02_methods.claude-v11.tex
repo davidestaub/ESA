@@ -76,8 +76,7 @@ Because the background is never multiplied by the transit or by
 $\gamma_t$, dimming it cannot imitate a change in depth. Valid samples have finite values,
 positive uncertainties, and no \texttt{DO\_NOT\_USE} flag. On every
 input, 97{,}557 pixels per integration are retained in 2{,}720 groups,
-after six edge groups without an established wavelength mapping are
-excluded.
+after six unsupported detector-edge groups are excluded.
 
 \subsubsection{The shared spectrum and transit model}
 
@@ -132,8 +131,7 @@ Its theory reference is computed from STAGGER specific intensities
 $T_{\mathrm{eff}}=6550$~K, and interpolated bilinearly in $\log g$ and
 $[\mathrm{Fe}/\mathrm{H}]$ to $\log g=4.149$ and
 $[\mathrm{Fe}/\mathrm{H}]=-0.25$. The reference file is pinned by
-content hash. Six
-knots per order carry each transformed coordinate. Per coordinate and
+content hash. Per coordinate and
 order the fit has one offset and one normalised log-wavelength slope,
 eight coordinates in all, penalised for deviation from theory with scale
 0.5 in logit space and for curvature with scale
@@ -206,8 +204,7 @@ temporal pattern $G_1(t)$, and an expectation
 $\bm{\alpha}_{\mathrm{off}}$ with precision $\bm{N}_{\mathrm{off}}$.
 $G_1$ is the first of the eight leading principal components of the
 off-trace time series whose absolute correlation with the empirical
-transit template is at most 0.25. On the real visit the leading
-component correlates with the transit at $|r|=0.950$ and is vetoed. The
+transit template is at most 0.25. The
 expectation enters the objective as a soft anchor, and the background is
 refitted jointly with the continuum at every step. No fixed background is subtracted at any stage, the likelihood
 contains no Gaussian-process term, and outliers are handled by the Huber
@@ -353,17 +350,8 @@ pass every gate, the one with the lowest Huber objective is selected.
 NOVA infers $t_0$, $a/R_\star$, and the inclination $i$, hence
 $b=(a/R_\star)\cos i$ for $e=0$, from its own detector data before the
 spectral fit, without any value from another pipeline or from the
-injector. For each order $o$ a white-light curve is built from its
-retained groups $\mathcal{G}_o$,
-\begin{equation}
- F_{to}=\sum_{g\in\mathcal{G}_o}
- \frac{\sum_{p\in P_g}\pi_{pg}\,Y_{tp}/\sigma_{tp}^2}
-      {\sum_{p\in P_g}\pi_{pg}^2/\sigma_{tp}^2},
- \label{eq:white-curve}
-\end{equation}
-where $\pi_{pg}$ is a spatial profile estimated on the same input. Each
-term is the inverse-variance amplitude of that profile in the group, and
-pixels shared by both orders are excluded from both curves. The
+injector. For each order a white-light curve is built per integration
+from the retained detector samples of that order on the same input. The
 two curves are fitted jointly with the public Eureka! light-curve stage
 \citep{BellEtAl2022} as two channels sharing one geometry. Common to
 both are $t_0$, $a/R_\star$, and $i$. Free per order are the radius

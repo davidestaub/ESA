@@ -2311,3 +2311,21 @@ builds clean, 28 pages, no errors, undefined references, citations or
 overfull boxes.
 STATUS: AWAITING DAVIDE. Adoption requires his reading and approval; the
 NOVA subsection should get an independent second pass before adoption.
+
+2026-09-23 [claude] v11 post-push corrections (same file, no new version)
+
+Four edits after reading the NOVA subsection against the code: removed
+the real-visit veto-correlation outcome sentence (0.950) that had survived
+the register pass; removed the white-light-curve construction equation
+and the six-knot limb-darkening clause, neither of which could be
+verified from the local files (the white extraction lives on the
+cluster); restored the handoff wording for the six excluded
+detector-edge groups. Spot checks that passed: calibration transfer
+list (ensemble config estimator.rebuild), quadrature orders 10 and 21,
+limb-darkening penalty scales 0.5 and 2.0, background basis (anchor plus
+seven polynomial surfaces), third-start midpoint, own-white priors
+including baseline and noise, depth handoff 1e6 k^2 and equal-order mean,
+acceptance-rule constants (200 replicates, 0.01 half-width, 1% and 5%
+tiers, b > 1 - max k), validation thresholds (one-sided exact joint-95
+p < 0.025; Mardia two-sided p < 0.025 against 512 simulations).
+Compile clean after the edits.
