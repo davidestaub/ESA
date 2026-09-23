@@ -167,9 +167,9 @@ lie above the 35th percentile of baseline brightness. The response is the
 normalised amplitude,
 $q^\star_{pg}=A_{pg}/\sum_{p'\in P_g}A_{p'g}$, so total group brightness
 remains with the continuum. Two alternating folds, stratified across the
-transit phases, provide independent estimates. A second-difference
-smoother along detector column and integer trace rank takes its strength
-from the opposite fold, and the response is accepted only if the folds
+transit phases, provide independent estimates. A smoother along
+detector column and integer trace rank takes its strength from the
+opposite fold, and the response is accepted only if the folds
 agree in flux distribution and centroid (Appendix~\ref{app:nova}). Its
 integer trace-relative smoothing coordinate produces occasional centroid
 resets and an amplitude excess at the reddest columns, which biases the
@@ -329,8 +329,8 @@ along scaled Cauchy and Gauss--Newton directions
 independently: at the white-light depth with zero morphology and the
 theory limb darkening, and with a fixed 250~ppm morphology perturbation
 and small limb-darkening offsets. These two starts must agree to within
-0.1 and 0.5~ppm on the same summaries; injected recoveries add a third
-start at the midpoint of the two start vectors. Among the starts that
+0.1 and 0.5~ppm on the same summaries; the pilot endpoint recoveries
+add a third start at the midpoint of the two start vectors. Among the starts that
 pass every gate, the one with the lowest Huber objective is selected.
 
 \subsubsection{White-light geometry inference}
@@ -430,8 +430,8 @@ standardised out-of-transit residual $z$ from donor integration
 $d_k(t)$. Donors are whole frames drawn in circular blocks of 64
 integrations within one of the two out-of-transit intervals, $[0,230)$
 and $[600,720)$, never across the transit. The same schedule feeds the
-trace and off-trace pixels, and the real ERR and quality arrays are
-kept.
+trace and off-trace pixels. The real ERR array is kept, and the quality
+array is kept with any sample invalid in the draw flagged.
 
 The ensemble has 352 realisations with fixed seeds and roles: 256 for
 estimation, 32 held out for validation, and 32 each at block lengths 128
@@ -660,7 +660,7 @@ pipeline's group-level preprocessing up to the reference-pixel
 correction. A Newton solve of the pipeline's linearity polynomial then
 finds the raw count whose linearised value is the original one plus
 $\Delta Y^{\mathrm{raw}}$, and the inverse bridge returns to the raw
-file. No gain conversion is applied. The round trip must close to
+file. The round trip must close to
 0.015625~DN, the inverse linearity to $10^{-8}$, and the per-order
 accounting exactly. Samples flagged saturated in the native group
 quality array, or non-finite at the linearity input, keep their values,
@@ -770,11 +770,11 @@ Ahsoka fits the two orders separately with the Eureka! ensemble sampler
 \citep{ForemanMackeyEtAl2013} at 200 walkers, 1{,}000 steps, and 500
 burn-in. It fixes each order's native median $t_0$, $a/R_\star$, and $i$
 into that order's spectral fit. exoTEDRF fits a joint two-order white
-curve with its native nested sampler and 13 free parameters.
+curve with its native nested sampler.
 transitspectroscopy traces the median image with its double-Gaussian
 template and extracts a box aperture of 15-pixel radius. Its joint
 two-order white curve is fitted with juliet \citep{EspinozaEtAl2019}
-nested sampling, 17 free parameters and a Mat\'ern-3/2 process per
+nested sampling and a Mat\'ern-3/2 process per
 order; its spectral fit uses ExoTETHyS limb darkening from MPS-ATLAS set
 2 in Kipping coordinates. In every white fit only three prior lines are
 replaced, by the priors NOVA uses for this observation. These are $t_0$
@@ -829,7 +829,7 @@ separates a constant offset from an incorrect shape. No offset
 correction is applied to a reported spectrum. The same scores are
 reported on six contiguous ranges with boundaries at 1.0, 1.6, 1.8, 2.3,
 and 2.7~$\mu\mathrm{m}$, and on two summary ranges, below
-2.1~$\mu\mathrm{m}$ and 2.12 to 2.76~$\mu\mathrm{m}$. The injected
+2.1~$\mu\mathrm{m}$ and 2.12 to 2.76~$\mu\mathrm{m}$ inclusive. The injected
 spectrum is opened only after a recovery's prediction on all 147 bins is
 recorded; until then every calibration, modelling, and starting choice
 rests on the data and the instrument references alone

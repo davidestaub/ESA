@@ -2329,3 +2329,23 @@ acceptance-rule constants (200 replicates, 0.01 half-width, 1% and 5%
 tiers, b > 1 - max k), validation thresholds (one-sided exact joint-95
 p < 0.025; Mardia two-sided p < 0.025 against 512 simulations).
 Compile clean after the edits.
+
+2026-09-23 [claude] v11 second pass: NOVA claims re-derived, whole-file consistency read
+
+Claude re-derived the remaining NOVA statements from the code and read
+v11 end to end. Verified against files: q-star qualification rules and
+opposite-fold smoothing, curvature fold-correlation gate 0.95 (real
+reference) versus diagnostic (ensemble), generator v2 draw (accepted
+model + uncentered static residual + transit-only component + ERR times
+centred standardised donor residual, circular 64-integration blocks,
+DQ flagging of invalid draw samples), emcee autocorrelation lengths
+20.5 to 26.8 against 50, the third-start rule. Edits: "second-difference"
+dropped from the smoother (not confirmed); the third start restricted to
+the pilot endpoint recoveries, since production uses two starts (the
+two halves had disagreed); DQ sentence made precise; "no gain conversion"
+removed (unverified); the exoTEDRF and transitspectroscopy free-parameter
+counts removed (unconfirmed, not method-defining); the 2.12 to 2.76
+micron summary range marked inclusive. Compile clean.
+STATUS: injector subsection independently verified; NOVA subsection
+verified by Claude's own pass; no known unverified claim remains except
+those depending on cluster-only code. AWAITING DAVIDE'S READ.
