@@ -2225,3 +2225,33 @@ inherited F277W product was empty; the July builder falls back to
 out-of-transit auto-detection). Compile clean; Gantt now floats to
 page 19 after the section grew.
 STATUS: AWAITING DAVIDE's review of the PDF.
+
+### 2026-09-23 — claude — Future work v1: paragraph-by-paragraph revision with Davide (Papers 1 to 4 and start of 5)
+
+Davide and Claude went through the section paragraph by paragraph
+(14 to 16 September, continued 23 September). Every paragraph up to the
+Paper 5 motivation now carries Davide's wording decisions. Main changes:
+opening rewritten in Davide's words; Paper 1 reduced to its research
+question plus a TODO for the post-assessment paragraph; Paper 2 targets,
+contamination, transfer and interpretation paragraphs rewritten (published
+pipelines run on the same data and on the injection tests; procedure
+fixed on WASP-39 b, applied unchanged to WASP-96 b); contamination
+paragraphs corrected from Astra's answers (background set excludes
+detected contaminants; native F277W veto on in 1/f; injector source
+calibration still open) and marked with a large TODO because the policy
+is under active work; HAT-P-14 b removed entirely; Paper 3 reframed
+around building a reusable stellar-activity component (GJ 9827 d for
+flares, LHS 1140 b for spots and activity, TRAPPIST-1 f as stress test);
+Paper 4 shortened to four paragraphs with HAT-P-26 b and WASP-80 b added
+to the sample; Paper 5 research question and WASP-39 b motivation
+rewritten around injection tests for NIRSpec before any cross-instrument
+comparison, with a TODO on the mode order in the next paragraph.
+Simpler-language rule applied throughout at Davide's request.
+
+Citations no longer used by the section: KeersEtAl2024, SingEtAl2026,
+LiuEtAl2025, BainesEtAl2025, DholakiaEtAl2026, FuEtAl2025, IhKempton2021
+(all still in proposals/references.future_work.claude-v1.bib; prune on
+adoption). Compile clean: no errors, undefined references or overfull
+boxes; section on pages 13 to 18, Gantt on page 18.
+STATUS: paragraph pass in progress from the Paper 5 mode paragraph
+onward; AWAITING DAVIDE to continue.

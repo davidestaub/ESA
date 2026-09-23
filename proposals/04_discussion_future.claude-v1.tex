@@ -6,284 +6,268 @@
 % assessment date go here, once the benchmark and the WASP-17 b analysis
 % are closed. The rest of the section does not depend on that wording.
 
-I plan six papers. The first reports NOVA, the benchmark and the WASP-17~b
-analysis, and answers objectives 1 to 3 of
-Section~\ref{sec:research-question}. The next three stay with NIRISS/SOSS
-transmission spectroscopy and address objective 4: transfer to other
-targets, repeated visits and stellar variability, and a uniform reanalysis
-of the published SOSS sample. The last two extend NOVA to NIRSpec and to
-secondary eclipses. Each paper has a stated research question, a defined
-data set and a validation step that must pass before its scientific
-results are interpreted. Figure~\ref{fig:gantt} gives the schedule.
+In total, I plan to publish six papers that all tie back to NOVA. The
+first presents NOVA itself, the injection benchmark and the WASP-17~b
+analysis, including a comparison with published transmission spectra. The
+next two apply NOVA to other selected SOSS targets, addressing transfer to
+other targets, repeated visits of the same planet and stellar variability.
+Once that is done, I aim to reanalyse a broad range of published SOSS
+transmission spectra with NOVA. The final two papers extend NOVA to
+NIRSpec and to secondary eclipses. Figure~\ref{fig:gantt} shows the
+planned schedule.
 
 \subsection{Paper 1: NOVA, the benchmark and WASP-17~b}
 \label{subsec:fw_benchmark}
 
-\noindent\textbf{Research question:} \textit{Does NOVA recover more
-accurate transmission spectra with reliable uncertainties than
-extraction-based analyses, and does its application change the
-atmospheric interpretation of WASP-17~b?}
+\noindent\textbf{Research question:} \textit{Does NOVA recover
+transmission spectra more accurately, and with more reliable
+uncertainties, than extraction-based pipelines, and does it change what we
+conclude about the atmosphere of WASP-17~b?}
 
-The method, the benchmark and the WASP-17~b analysis will be complete
-before the assessment. The paper reports the benchmark of
-Section~\ref{sec:methods}, the comparison with Ahsoka,
-\texttt{transitspectroscopy} and exoTEDRF, each run as its own end-to-end
-analysis \citep{LouieEtAl2025,Espinoza2022TransitSpectroscopy,Radica2024},
-and the WASP-17~b transmission spectrum with an atmospheric retrieval. A
-comparison with JExoRES \citep{HolmbergMadhusudhan2023} is planned for a
-later release of the benchmark.
-
-What remains after the assessment is submission in 2026 Q4, the referee
-process and the public release of the benchmark package: the injector, the
-injected spectra, the recovery configurations, the fixed predictions and
-the score tables needed to reproduce every figure. The benchmark injects
-known spectra into the out-of-transit data of six SOSS visits, of
-HAT-P-26~b, WASP-17~b, WASP-39~b, HAT-P-18~b, WASP-96~b and WASP-80~b, so
-the detector scenes of the first targets of Papers 2 and 4 are
-characterised before those analyses begin.
+% TODO (Davide): one paragraph on what remains for Paper 1 after the
+% assessment (submission quarter, benchmark package release, whether the
+% six-visit matrix is in). Depends on what is finished in the next month.
 
 \subsection{Paper 2: Transfer to other SOSS targets}
 \label{subsec:fw_transfer}
 
-\noindent\textbf{Research question:} \textit{Which atmospheric conclusions
-change when other SOSS observations are analysed with NOVA, and what
-causes those changes?}
+\noindent\textbf{Research question:} \textit{Do the atmospheric
+conclusions for other SOSS targets change when their observations are
+analysed with NOVA, and if so, why?}
 
-I will begin with WASP-39~b and WASP-96~b. Both are gas giants with
-well-studied SOSS observations, so the first transfer stays within the
-class of planet used for development. WASP-39~b has strong water features
-and published constraints on water abundance and clouds
-\citep{FeinsteinEtAl2023,CarterEtAl2024}. WASP-96~b offers a specific
-disagreement: \citet{TaylorEtAl2023} favoured an enhanced scattering slope
-at short wavelengths, whereas \citet{WangEtAl2026} found no haze
-signature. Both fields contain contaminating stars.
+I will start with WASP-39~b and WASP-96~b. Both are hot gas giants with
+well-studied SOSS observations, so the first transfer stays close to
+WASP-17~b. WASP-39~b has strong water features and published constraints
+on its water abundance and clouds \citep{FeinsteinEtAl2023,CarterEtAl2024}.
+WASP-96~b is interesting because the published analyses disagree:
+\citet{TaylorEtAl2023} found an enhanced scattering slope at short
+wavelengths, whereas \citet{WangEtAl2026} found no sign of haze. Both
+fields contain contaminating stars.
 
-\paragraph{Transfer.}
-NOVA's transit model, detector likelihood, estimation of the spatial
-response $q^\star$ and covariance propagation carry over unchanged. Each visit needs its own
-transit geometry, limb darkening, integration timing, excluded pixels,
-trace position and background estimate. These are estimated from the new
-observations by the procedures used for WASP-17~b, and the benchmark
-injections of Paper 1 already test whether those procedures recover known
-spectra in these two detector scenes, including weak features. Any change
-to the procedure of Paper 1 will be recorded and its effect on the
-WASP-17~b result reported.
-
+% ============================================================
+% TODO (Davide): BIG ONE. The three contamination paragraphs below
+% describe the state on 14 September 2026 and the contamination policy
+% is under active work with Astra. Re-verify every factual statement
+% before the ESA is handed in, in particular:
+%   - whether contaminant pixels inside the aperture are excluded from
+%     the fit by default (three-arm aperture test pending);
+%   - whether the injector's source calibration excludes contaminant
+%     light (Full-light / Penumbra work, in progress);
+%   - the fairness sentence (same injected data, own native processing);
+%   - the WASP-96 b template prototype claim.
+% ============================================================
 \paragraph{Field-star contamination.}
-NOVA has no explicit model for contaminating stars. Three properties of
-the method limit their effect. The spatial response $q^\star_{pg}$ is
-estimated from the transit-shaped variation of each pixel
-(Equation~\ref{eq:qstar-fit}): only light that dims with the transit
-enters the amplitude $A_{pg}$, while steady contaminant light is absorbed
-by the pixel level $m_p$ and never enters $q^\star$. The additive
-background is a smooth low-order surface, anchored on a fixed set of
-off-trace pixels chosen away from the traces and from contaminating
-sources detected in the out-of-transit frames, and it cannot represent a
-dispersed contaminant trace. Pixels flagged by the detector-quality mask
-are excluded. Contaminating light that falls under the target trace therefore
-remains in the transit fit, where the model can attribute it only to the
-star, and the depth is diluted. The WASP-17~b comparison shows how
-difficult a correction becomes when little of the contaminant trace is
-visible \citep{LouieEtAl2025}; the JExoRES treatment shows that a
-template-based correction is possible when more of it is
+NOVA has no explicit model for contaminating stars. Two parts of the
+method are insensitive to their light. The spatial response $q^\star$ is
+estimated from how much each pixel dims during transit
+(Equation~\ref{eq:qstar-fit}), so the steady light of a field star ends up
+in the constant term of that fit and never enters $q^\star$. The
+background is a smooth surface fitted on pixels far from the traces and
+from any detected contaminant, so it cannot bend into the shape of a
+contaminant trace. The transit fit itself is not protected. Contaminant
+light that lands under the target trace stays in the data, the only model
+term that can absorb it is the star, and the measured transit depth comes
+out too shallow. \citet{LouieEtAl2025} show for WASP-17~b how hard a
+correction is when only a small part of the contaminant trace is visible;
+JExoRES shows that a template correction works when more of it is visible
 \citep{HolmbergMadhusudhan2023}.
 
-In the current analysis no scene mask is applied to the fitted pixels:
-NOVA excludes pixels only through detector-quality flags and calibration
-limits, so that every method sees the same detector information, and the
-comparison pipelines apply their own contaminant handling. Maps of where
-the contaminating sources fall exist for all six benchmark visits, built
-from out-of-transit frames. Where an F277W exposure accompanies the
-observation it locates them independently: the filter suppresses the
-target spectrum below about 2.4~$\mu$m, so field-star images and parts
-of their traces are seen directly, although their brightness cannot be
-transferred to the science exposures because the filter changes the
-transmitted light \citep{HolmbergMadhusudhan2023}. For each visit, the
-contaminant footprint from the F277W exposure and the out-of-transit
-detection will be used in three places that do not touch the fitted
-pixels: to define the off-trace pixels on which the background is
-calibrated, to veto contaminated pixels from the regions in which the
-$1/f$ noise is estimated, as exoTEDRF does natively, and to exclude
-contaminant light from the stellar source and wing calibration of the
-injector. Where a contaminant must be treated in the fit itself, the
-first choice is conservative: the affected pixels are excluded, at pixel
-level where the footprint allows and by whole detector columns otherwise,
-and the lost wavelength coverage is reported. Where that coverage loss
-matters for a scientific question, I will extend the model with an
-additive template per contaminant. Its spatial shape follows the visible
-part of the contaminant trace, projected under the target by the
-instrument model; its amplitude is a nuisance parameter anchored like the
-background, so that it cannot trade against the transit. A template
-prototype and a held-out likelihood test already exist for WASP-96~b.
+NOVA applies no field-star mask to the pixels it fits: a pixel is
+excluded only by the fitting aperture, the detector validity flags and
+the calibrated wavelength support. The comparison with other pipelines is
+fair not because every pipeline fits the same pixels, but because all of
+them receive the same injected detector data and then apply their own
+declared processing, including their own contaminant handling.
+Contaminants are located in two ways: from the science frames themselves,
+by segmenting the median image, and from the F277W exposure, in which the
+filter blocks the target spectrum below about 2.4~$\mu$m so that field
+stars and parts of their traces are seen directly. Their brightness
+cannot simply be transferred from the F277W image to the science
+exposures, because the filter changes the transmitted light
+\citep{HolmbergMadhusudhan2023}. Such maps exist for all six benchmark
+visits.
+
+These contaminant maps already enter NOVA in two places that do not touch
+the fitted pixels. The off-trace pixels on which the background is
+calibrated exclude the detected contaminants with a margin around each,
+together with the trace cores and their wings. The $1/f$ noise estimate
+rejects the F277W contaminant pixels, as exoTEDRF does natively. The
+third place is the injector, and this one is still open: the stellar
+source model must be calibrated so that contaminant light is not injected
+as target light. For the fit itself, where a contaminant has to be
+treated, I will first simply exclude the affected pixels, or whole columns
+where the map is not precise enough, and report the lost wavelength
+coverage. Where that loss matters for the science, I will add an additive
+template per contaminant to the model. Its shape follows the visible part
+of the contaminant trace, projected under the target with the instrument
+model; its amplitude is a nuisance parameter anchored like the background,
+so it cannot trade against the transit depth. A first prototype of such a
+template exists for WASP-96~b.
+
+\paragraph{Transfer.}
+NOVA itself does not change: the transit model, the detector likelihood,
+the estimation of $q^\star$ and the covariance carry over as they are.
+What changes from visit to visit is the input: transit geometry, limb
+darkening, integration timing, excluded pixels, trace position and
+background. I will estimate these from each new observation with the same
+procedures as for WASP-17~b. The benchmark injections of Paper 1 already
+test whether those procedures recover known spectra in these two detector
+scenes, including weak features. If a procedure has to change, I will
+record the change and report what it does to the WASP-17~b result.
 
 \paragraph{Testing the transfer.}
-Tests will inject known planetary spectra into the target star only,
-leaving contaminant light in place, including in excluded pixels, and will
-repeat the background, white-light, response and spectral fits. They
-compare plain exclusion with the template correction on depth error,
-uncertainty coverage and retained wavelength range. WASP-39~b will be used
-to fix the decision rules. WASP-96~b will then be analysed under those
-rules without further changes, as a test of transfer to a different
-detector scene.
+I will test the transfer with injection tests of the same kind as in
+Paper 1. The procedure is fixed on WASP-39~b and then applied unchanged
+to WASP-96~b, as a test of transfer to a different detector scene.
 
 \paragraph{Atmospheric interpretation.}
-For each planet I will compare NOVA with a conventional reduction that
-uses the same calibration files, then apply matched atmospheric models and
-priors, and examine whether water abundance, cloud constraints and
-spectral slopes are consistent across reductions. For WASP-96~b, the
-contamination treatment, limb darkening and slow brightness trends will
-be varied separately to identify which choices move the short-wavelength
-slope. The result may support either published interpretation or leave the
-slope uncertain.
-
-\paragraph{A geometry test.}
-HAT-P-14~b transits at grazing geometry, where planet radius, transit path
-and limb darkening have similar effects on the light curve. Its
-observations also saturate, and updated processing removed much of the
-spectral structure first reported \citep{LiuEtAl2025}. It tests how
-geometric and limb-darkening uncertainty propagate into the recovered
-spectrum, using a three-parameter law where the quadratic law is
-insufficient \citep{KeersEtAl2024} and the empirical JWST results on FGK
-limb darkening as a reference \citep{SingEtAl2026}. HAT-P-14~b will be
-included in Paper 2 if it adds a distinct result.
+For each planet I will compare the NOVA spectrum with the published
+spectra and, where those pipelines are available, with my own runs of the
+pipelines used in the published analyses on the same data. The same
+pipelines are also run on the injection tests for that target, so that
+their accuracy in that detector scene is known before the real spectra
+are compared. The same atmospheric retrieval is then run on all spectra,
+to check whether the water abundance, the cloud constraints and the
+spectral slopes agree. WASP-96~b is the clearest case: its two published
+analyses used different pipelines and reached different conclusions about
+the slope, so this comparison tests directly whether the disagreement
+comes from the reduction. The outcome may support either published
+interpretation, or show that the slope cannot be decided from these data.
 
 \subsection{Paper 3: Repeated visits and stellar variability}
 \label{subsec:fw_repeats}
 
-\noindent\textbf{Research question:} \textit{Can independent visits
-recover a consistent planetary spectrum once visit-specific instrumental
-and stellar effects are accounted for, and are the remaining differences
-explained by the uncertainties?}
+\noindent\textbf{Research question:} \textit{Do repeated visits of the
+same planet give the same spectrum once instrumental and stellar effects
+are accounted for, and if not, do the error bars explain the difference?}
 
-GJ 9827~d has two SOSS visits and a published water-rich interpretation
-\citep{PiauletGhorayebEtAl2024}. It extends the application to a smaller
-planet and gives a direct repeatability test. I will first reproduce a
-conservative analysis that excludes flare-affected integrations, then fit
-the visits separately and examine how shared geometric information changes
-their agreement. Injection tests remain necessary because repeated
-observations can share a bias.
+I will start with GJ 9827~d. It has two SOSS visits and a published
+water-rich interpretation \citep{PiauletGhorayebEtAl2024}, it is a much
+smaller planet than the gas giants of Paper 2, and two visits give a
+direct test of repeatability. I will first analyse each visit on its own,
+excluding the integrations affected by flares, and compare the two
+spectra. I will then let the visits share the orbital geometry and see how
+much that improves their agreement. I will also run injection tests on
+both visits, since agreement between two visits does not by itself show
+that either spectrum is right.
 
-I will then add a flare model fitted alongside the transit, with timing
-shared across wavelengths and amplitude and colour free. This tests
-whether integrations discarded by masking carry planetary information.
-Because NOVA estimates the spatial response $q^\star$ from the transit
-time series (Equation~\ref{eq:qstar-fit}), a flare can bias that step
-before the spectrum is fitted. The estimation of $q^\star$ will therefore
-be repeated with the variability model included, and alternative
-estimates tested when the transit is too weak to constrain it.
+Next I will add a flare model to the fit instead of throwing the flared
+integrations away. The flare happens at the same moment at every
+wavelength, so its timing is shared across the spectrum, but its
+brightness is fitted separately at each wavelength. The point is to find
+out whether the integrations that masking discards still contain useful
+information about the planet. One complication is specific to NOVA:
+$q^\star$ is estimated from how each pixel dims during transit, and a
+flare changes the brightness in the same time series, so it can distort
+$q^\star$ before the spectrum is even fitted. I will therefore redo the
+$q^\star$ estimation with the flare model included, and test other ways of
+estimating $q^\star$ for cases where the transit is too weak to pin it
+down on its own. If the flare model works, it becomes a standard part of
+NOVA and is available for every later target.
 
-Spots and faculae change the apparent spectrum because the transit chord
-differs from the disc average \citep{RackhamEtAl2018,RackhamEtAl2019}, and
-a spot crossing produces a feature inside the transit. These will be
-modelled separately from flares and instrumental trends. Their light falls
-on the same trace as the rest of the star, so separation relies on timing,
-wavelength dependence and physically constrained stellar models. Simulated
-flares and surface features will test whether the model recovers the
-planetary signal or absorbs it.
+The second main target is LHS 1140~b, which has four SOSS visits spread
+over different dates. Flares are not the only stellar effect. Dark spots
+and bright faculae change the apparent transmission spectrum, because the
+part of the star the planet crosses is not the same as the average of the
+visible disc \citep{RackhamEtAl2018,RackhamEtAl2019}, and a planet
+crossing a spot leaves a bump in the light curve. Where GJ 9827~d tests
+the flare model, LHS 1140~b is the case for the rest of the stellar
+model: unocculted spots and faculae, and an activity level that changes
+from visit to visit, modelled separately from flares and from
+instrumental trends. Together the two targets are meant to leave NOVA
+with a stellar-activity component that later targets can use without new
+development. The two most recent analyses agree that helium is
+not detected \citep{GressierEtAl2026,BennettEtAl2026}, while the first
+study reported tentative absorption features, favouring a nitrogen-rich
+atmosphere at low significance, together with signs of stellar
+contamination \citep{CadieuxEtAl2024}. I will check whether those
+tentative features are still there once the stellar changes between
+visits are accounted for. Where a visit has a known complication, such as
+a displaced trace or a second planet transiting during the observation, I
+will model it explicitly.
 
-LHS 1140~b will be the second main target. Four SOSS visits allow a test
-across observing dates. Recent analyses agree that helium is not detected
-\citep{GressierEtAl2026,BennettEtAl2026}, while the first broadband study
-reported tentative spectral structure and stellar contamination
-\citep{CadieuxEtAl2024}. I will examine whether weak broadband features
-persist after accounting for stellar changes. Visit-specific complications
-reported in the published analyses, such as a displaced trace or an
-overlapping transit of another planet, will be modelled explicitly or
-excluded under a stated rule.
-
-TRAPPIST-1~f is the more demanding case. Its five visits contain flares,
-although the published spectrum shows no evidence of contamination from
-unocculted stellar structure \citep{LimEtAl2026}. It tests whether the
-model developed on the first two systems handles these data without
-suppressing the planetary signal; visits with too little clean data may
-yield only limits or a restricted wavelength range. GJ 9827~d and
-LHS 1140~b form the main paper. TRAPPIST-1~f is included if the same
-extension handles it.
-
-For each system, the separate visit spectra will be compared before any
-joint fit. Planetary information from some visits will also be used to
-predict another visit while that visit's own stellar and instrumental
-effects are fitted. These checks establish whether the visits support a
-common planetary spectrum and a common atmospheric interpretation.
+TRAPPIST-1~f is the hardest case and the stress test for the combined
+model. It has five SOSS visits, every one of them with flares, although
+the published spectrum shows no sign of contamination from unocculted
+spots \citep{LimEtAl2026}. The question is whether the stellar model
+built on the first two systems copes with these data while leaving the
+planetary signal intact. Some visits may have too little clean data and
+give only upper limits or a reduced wavelength range.
 
 \subsection{Paper 4: A uniform reanalysis of SOSS transmission spectra}
 \label{subsec:fw_atlas}
 
-\noindent\textbf{Research question:} \textit{Which differences between
-published SOSS transmission spectra remain after a uniform reanalysis, and
-which atmospheric conclusions are sensitive to the observations or to the
-analysis choices?}
+\noindent\textbf{Research question:} \textit{Once NOVA is robust, which
+atmospheric features change when a broad range of published SOSS
+transmission spectra is reanalysed with it, and which published
+conclusions hold up?}
 
-Once transfer and repeatability are established, I will apply NOVA to the
-public SOSS sample. Uniform reanalyses with HST have shown the value of a
-consistent treatment across planets \citep{TsiarasEtAl2018,SabaEtAl2025}.
-This catalogue does the same for SOSS and adds a validation report for
-each observation. The first release covers planets with public SOSS
-transmission analyses and public transit observations available when the
-work starts in 2028 Q1. Selection rules, non-detections, incomplete
-observations and every exclusion will be documented.
+Once Papers 2 and 3 have shown that NOVA transfers between targets and
+copes with stellar activity, I will apply it to a broad, selected sample
+of the public SOSS transmission observations. Uniform reanalyses of this
+kind have been done with Hubble data \citep{TsiarasEtAl2018,SabaEtAl2025}.
+When every planet is analysed with the same pipeline, a difference between
+two spectra is a difference between two planets and not between two
+reductions, which makes trends across the population visible. This
+catalogue does the same for SOSS.
 
-The sample covers problems beyond those used to develop NOVA. HAT-P-18~b
-and WASP-52~b test stellar surface effects, unocculted heterogeneity in
-one case and spot crossings in the other
+The sample deliberately includes cases that NOVA was not developed on.
+HAT-P-18~b and WASP-52~b have active hosts, with unocculted spots in one
+case and spot crossings in the other
 \citep{FournierTondreauEtAl2024,FournierTondreauEtAl2025}. GJ 357~b and
-LTT 9779~b test small or muted signals
-\citep{TaylorEtAl2025,RadicaEtAl2024}. K2-18~b provides a comparison with
-an existing study of sensitivity to reduction and modelling choices
-\citep{SchmidtEtAl2025}. Some targets will be held back until the
-processing settings are fixed, as an independent test of the workflow.
+LTT 9779~b have small or muted signals
+\citep{TaylorEtAl2025,RadicaEtAl2024}. K2-18~b has already been studied
+for how much its spectrum depends on reduction and modelling choices, so
+it gives a direct comparison \citep{SchmidtEtAl2025}. HAT-P-26~b and
+WASP-80~b are two of the six benchmark hosts, so their detector scenes
+are already characterised, and together with HAT-P-18~b they are the
+first entries of the catalogue.
 
-The catalogue requires a workflow that prepares each observation,
-identifies contaminating sources from the F277W exposure and the
-out-of-transit frames, fits the spectrum and runs its validation tests
-without manual changes to the code. It reuses the
-contamination policy of Paper 2, with source positions, masks and template
-amplitudes determined per observation. HAT-P-18~b, HAT-P-26~b and
-WASP-80~b are already prepared as benchmark hosts. Order overlap and the
-dispersed zodiacal background will be tested against the established
-treatments \citep{DarveauBernierEtAl2022,BainesEtAl2025}, and the
-calibration will account for the count-dependent nonlinearity of the
-NIRISS analogue-to-digital conversion \citep{DholakiaEtAl2026}.
-Conventional reductions with matched calibration are retained for a
-representative subset and wherever NOVA changes an important conclusion.
+A catalogue of this size needs a workflow that takes an observation from
+the raw files to a validated spectrum without anyone editing code along
+the way: locating the contaminating stars, fitting the spectrum, running
+the injection tests. The contamination treatment is the one settled in
+Paper 2, applied to each observation with its own source positions and
+masks. For a subset of targets, and for every case where NOVA changes an
+important conclusion, I will also run a conventional reduction of the
+same data for comparison.
 
-Every released spectrum will carry injection tests: weak and strong
-features, broad bands, slopes and a flat spectrum, with the
-data-dependent calibration steps repeated for each test. Injecting a
-change into real observations tests recovery of that change; absolute
-depth requires a baseline whose truth is known, and the two kinds of test
-are kept distinct. Further tests vary trace motion, bad pixels,
-saturation, background structure, contamination and the length of the
-pre- and post-transit baseline. A visit may pass at some wavelengths and
-fail at others, and those restrictions are carried into the released
-spectrum.
+Every spectrum in the catalogue comes with its own injection tests, of
+the same kind as in Paper 1. The tests may show that a spectrum is
+reliable at most wavelengths but not at all of them, for example where a
+contaminant crosses the trace. Those wavelengths are flagged in the
+released spectrum.
 
-The atmospheric comparison begins with quantities measured directly from
-the spectra, water band contrasts and short-wavelength slopes,
-distinguishing an overall depth shift from a change of shape, as in
-earlier comparative studies \citep{SingEtAl2016,FuEtAl2025}. Retrievals
-then test what the differences imply for gases and clouds, with consistent
-assumptions within comparable planet classes and identical assumptions
-when reductions of one planet are compared. Correlations between
-wavelength bins will be retained because they affect the retrieval
-\citep{IhKempton2021}. The products are separate-visit spectra, justified
-combined spectra, uncertainties with their correlations, quality flags,
-injection reports and the software and calibration versions used.
-Spectra corrected for stellar contamination are labelled separately from
-the apparent spectra measured in each visit.
+For each planet I will compare the NOVA spectrum with the published one
+at two levels: first on the spectra themselves, asking whether the
+absorption features or the slope of the spectrum change, and then with
+retrievals, asking whether the inferred gas abundances and cloud
+properties change.
 
 \subsection{Paper 5: Joint NIRISS and NIRSpec analysis}
 \label{subsec:fw_nirspec}
 
-\noindent\textbf{Research question:} \textit{Can NIRISS and NIRSpec
-observations be explained by one planetary transmission spectrum after
-accounting for their separate instrumental and stellar effects?}
+\noindent\textbf{Research question:} \textit{Once NOVA is extended to
+NIRSpec, can observations of the same planet with both instruments be
+explained by one transmission spectrum?}
 
-The WASP-39~b benchmark spectrum improved agreement across instruments
-through a consistent analysis but left discrepancies in partially
-saturated PRISM data \citep{CarterEtAl2024}. I will test whether a
-detector-level analysis changes that agreement and whether combining
-instruments produces a more reliable spectrum.
+A first test will be WASP-39~b. It was observed with four JWST instrument
+modes, and \citet{CarterEtAl2024} reanalysed all four with the same
+orbital parameters, limb darkening and treatment of systematics, after
+which the spectra agreed much better where their wavelengths overlap.
+Better agreement is not the same as a correct spectrum, though: once
+every data set is analysed with the same choices, the spectra will agree
+whether or not those choices are right. So I will build injection tests
+for the NIRSpec observations of WASP-39~b, as Paper 1 does for SOSS,
+extend NOVA to the two NIRSpec modes, and check on injected spectra that
+each extension recovers the truth. Only then will I compare the three
+real spectra, SOSS and the two NIRSpec modes, and ask whether they agree.
+If they do, the agreement means something, because each spectrum has
+been validated on its own.
+% TODO (Davide): the next paragraph still orders the NIRSpec modes as
+% G235H on LHS 1140 b first, then G395H, then PRISM. WASP-39 b's NIRSpec
+% modes are G395H and PRISM, so the order and the first target must change
+% to match this paragraph. Not yet reviewed in the paragraph pass.
 
 NIRSpec G235H/F170LP comes first because its band overlaps SOSS
 substantially. LHS 1140~b already has G235H and G395H observations
