@@ -2391,3 +2391,27 @@ merged into references.bib. Compile clean, 33 pages.
 STATUS: AWAITING DAVIDE'S READ. Open questions for Davide are listed in
 the chat summary (length; inverse-crime/q* question; research-question
 wording; appendices still describe the old injector).
+
+2026-09-24 [claude] Second pass after a final adversarial check
+
+Final check (two fact-checkers against the code, one professor read) found
+further errors, now corrected: the Cauchy/Gauss-Newton descent audit is not
+run by the current solver (current checks listed instead); exoTEDRF's
+group-level background step adds the model back after the 1/f estimate,
+so the background is subtracted once, in Stage 2; NOVA's order supports
+share no pixel (overlap sentences removed); a failed estimation or
+held-out realisation makes the ensemble incomplete (no covariance), it is
+not "counted as not covered"; the real-visit reference spectrum was fitted
+at an earlier emcee geometry (nested fit reproduces it); the curvature
+correlation gate also applies to injected inputs; the red-end q* bias is
+from the earlier release's audits, not re-measured; the TS grid was changed
+after its white fit had run (before any spectrum or score); the far and
+wing zones share one nonnegative outer estimate; f_p is the effective flat
+(flagged pixels = 1); a missing bin makes a method a failure (not scored).
+Disclosed for the first time: every white-light t0 prior is centred on,
+and started at, the window midpoint, which equals the injected mid-transit
+time by construction; injector and NOVA share the trace/wavelength
+calibration and ATOCA kernel (an error there is invisible to the
+benchmark); TS's MPS-ATLAS set 2 is from the same model family as the
+injected intensities. Compile clean, 34 pages.
+STATUS: AWAITING DAVIDE'S READ.
