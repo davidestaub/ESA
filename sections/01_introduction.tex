@@ -749,9 +749,9 @@ For SOSS, this condition is harder to meet where the first and second
 spectral orders overlap on the detector, since some pixels there contain
 light from both. The ATOCA extraction algorithm addresses this by building a
 linear model for every detector pixel, in which both orders are produced by
-one underlying incident spectrum, which is solved for directly; if the order
-contamination were ignored, it would bias transit spectra by about 1\% of
-the strength of their spectral features \citep{DarveauBernierEtAl2022}. Its accuracy depends on the trace profiles,
+one underlying incident spectrum, which is solved for directly; for a typical box extraction, ignoring the contamination between the orders
+would bias transit spectra by about 1\% of the strength of their spectral
+features \citep{DarveauBernierEtAl2022}. Its accuracy depends on the trace profiles,
 wavelength maps, throughputs and spectral-resolution kernels, and the
 APPLESOSS package \citep{RadicaEtAl2022} estimates the spatial profiles that
 ATOCA needs directly from the observation.
@@ -789,12 +789,10 @@ field sources come from a real observation, whilst the injected transit, and
 hence the spectrum of the planet, is known. The injected transit dims only
 the light which the injector assigns to the target, and since it is not
 known how much of the faint light far from the traces belongs to the star,
-this assignment is bracketed (Section~\ref{sec:injector}). In production, every recovery method receives the same injected raw frames,
-and all methods share the geometry priors declared in advance; in the first
-tests, the comparison pipelines instead start at their extraction step
-(Section~\ref{sec:detector-processing}). In both cases the injected spectrum
-is only revealed once each method has fixed its prediction, so that it
-cannot influence the analysis. The recovery error can then be measured directly, as a function of
+this assignment is bracketed (Section~\ref{sec:injector}). Every recovery method receives the same injected raw frames, and all methods
+share the priors on the transit geometry, which are fixed in advance. The
+injected spectrum is only revealed once each method has fixed its
+prediction, so that it cannot influence the analysis. The recovery error can then be measured directly, as a function of
 wavelength, spectral shape, order, signal level, background structure and
 detector condition.
 
