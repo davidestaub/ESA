@@ -1,6 +1,8 @@
 # Content changes to the ESA Introduction and Methods (24 Sept 2026)
 
 Every place where the rewrite changed what the text says (not just wording), with the audit verdict.
+
+Note: line numbers refer to commit 03164b3. In the later style pass, most settings and tolerances named below moved (unchanged) into appendices/appendix_implementation.tex; the Methods now points to it.
 Verdicts come from independent verifiers who were told to defend the ORIGINAL text against the code.
 NEW = the new text is right; PARTLY = merged (both had something right); OLD = the original was already right, the change is a clarification.
 

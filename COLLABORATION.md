@@ -2415,3 +2415,21 @@ calibration and ATOCA kernel (an error there is invisible to the
 benchmark); TS's MPS-ATLAS set 2 is from the same model family as the
 injected intensities. Compile clean, 34 pages.
 STATUS: AWAITING DAVIDE'S READ.
+
+2026-09-24 [claude] Style pass: Methods and Introduction rewritten towards the supervisor's thesis voice
+
+Per-paragraph style judges (1-5 against Moseley 2022, Ch. 1 and 4.3)
+scored the previous version at: Introduction 3.56, NOVA 2.90, injector 2.92.
+Methods paragraphs now give the reason before the mechanism; settings,
+tolerances and checks moved, unchanged, into a new appendix
+(appendices/appendix_implementation.tex, \label{app:implementation},
+\input in main.tex after appendix_benchmarking). Eight weakest Introduction
+paragraphs rewritten. Re-score: Introduction 3.61, NOVA 3.32, injector 3.38.
+A meaning check against the pre-style text found reasons I had added that
+were wrong (continuum coefficients "barely interact": they are coupled by
+the line-spread kernel; off-trace pixels "see almost no starlight": the
+far-light dip contradicts it; start agreement "1e-3 ppm": up to 0.01 ppm)
+and several dropped qualifiers; all fixed. Comparators are now described
+as current public versions (exoTEDRF 2.5.0 is not an exact replication of
+paper-era supreme-SPOON). Compile clean, 37 pages (Methods ~7,800 words,
+new appendix ~3,300). STATUS: AWAITING DAVIDE'S READ.

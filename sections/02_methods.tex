@@ -6,19 +6,20 @@
 % writes a known transit into the raw ramps of real JWST data so that
 % recovery accuracy can be measured absolutely.
 % Evidence: The structure of this section; NOVA_ASTRA_EXECUTION_20260905_R1/
-% STATUS.md.
+% STATUS.md. Settings and tolerances: appendices/appendix_implementation.tex.
 
 In this section I describe the two methods developed in this project.
-Firstly, NOVA (Section~\ref{sec:nova}) fits a forward model of the
-calibrated detector time series directly to the detector pixels, with the
-transit geometry inferred from the same data. Secondly, the injector
-(Section~\ref{sec:injector}) writes a known transit into the raw ramps of
-the first 229 integrations of the real WASP-17 visit, all of which were
-taken before the real transit, so that the accuracy of a recovery can be
-measured against a known spectrum. The constants of an earlier, frozen
-release of NOVA (26 August 2026) are listed in Appendix~\ref{app:nova};
-where the present configuration differs from that release, the values given
-in this section are the current ones.
+Firstly, NOVA (Section~\ref{sec:nova}) fits a forward model of the detector
+time series directly to the detector pixels, with the transit geometry
+inferred from the same data. Secondly, the injector
+(Section~\ref{sec:injector}) writes a known transit into the raw ramps of a
+real observation, so that the accuracy of a recovery can be measured against
+a known spectrum. Both are described as they are currently configured. NOVA
+grew out of an earlier release, frozen on 26 August 2026, whose constants
+are listed in Appendix~\ref{app:nova}; where the two differ, the values
+given here are the current ones. To keep the explanation readable, the
+individual settings, tolerances and checks are collected in
+Appendix~\ref{app:implementation}.
 
 \subsection{\nova{}}
 \label{sec:nova}
@@ -30,36 +31,35 @@ in this section are the current ones.
 % Evidence: Sections 1.3 and 1.4; config/MATCHED_COVARIANCE_ENSEMBLE_R1.json
 % (estimator.rebuild).
 
-NOVA describes the observation with a single forward model of the detector
-data. The model maps the transmission spectrum $D(\lambda)$, the limb
-darkening $\bm{u}(\lambda)$, the stellar continuum and the additive
-background, through a spatial response, to a prediction for every retained
-detector sample, and all four are then estimated together by minimising one
-objective over these samples. The fit is conditional on quantities which
-are estimated beforehand from the same data and then held fixed: the
-spatial response, the transit geometry from NOVA's white-light fit, a
-source-curvature factor which corrects for slow curvature in the brightness
-of the star, the temporal pattern and anchor of the background, and the
-per-pixel uncertainty factors. No one-dimensional spectrum is extracted for
-the spectral fit, and the spectrum is only mapped onto wavelength bins at the
-very end, for reporting (Section~\ref{sec:reporting}). The one place where
-NOVA does extract is the white-light fit which provides the geometry, whose
-light curves are sums of profile-weighted amplitudes
-(Section~\ref{sec:own-white}).
+The aim of NOVA is to infer the transmission spectrum from the detector
+pixels themselves, so that the split between starlight and background is
+decided in the same fit as the transit. To do this, NOVA describes the
+observation with a single forward model, which maps the transmission
+spectrum $D(\lambda)$, the limb darkening $\bm{u}(\lambda)$, the brightness
+of the star and the additive background to a prediction for every retained
+detector sample, and all four are estimated together by minimising one
+objective over these samples. No one-dimensional spectrum is extracted for
+this fit, and the spectrum is only mapped onto wavelength bins at the very
+end, for reporting (Section~\ref{sec:reporting}).
 
-I run NOVA both on the real WASP-17 visit, using all 720 integrations after
-detector processing, and on the injected inputs of
+Some ingredients of the model are, however, estimated beforehand from the
+same data and then held fixed: the way the starlight is spread over the
+pixels, a correction for slow changes in the brightness of the star, the
+temporal pattern and expected level of the background, the uncertainty
+scales, and the transit geometry. The geometry comes from a separate fit to
+white-light curves, and this is the one place where NOVA does extract
+(Section~\ref{sec:own-white}). I run NOVA on the real WASP-17 visit, using
+all 720 integrations, and on the injected inputs of
 Section~\ref{sec:injector}, which are built from the first 229 integrations
-of the same visit. Three calibration products are carried over from the
-earlier release: the eight spatial background maps, the two per-order
-uncertainty scales and the functional form of the source-curvature factor;
-the pixel layout of the model and the set of off-trace background pixels are
-also fixed. Every other fitted calibration product, and the white-light
-geometry, is re-estimated on each input. In the rest of this section I describe the
-forward model and each of its components, the objective which NOVA
-minimises and how it is minimised, the white-light fit which provides the
-transit geometry and, finally, how the uncertainty of the recovered spectrum
-is estimated.
+of the same visit. A few calibration products are carried over from the
+earlier release, namely the spatial maps of the background, the two
+per-order uncertainty scales and the functional form of the brightness correction, together with the pixel
+layout of the model and the set of off-trace pixels used for the background; every other fitted
+calibration product, and the white-light geometry, is re-estimated on each
+input. In the rest of this section I describe the
+forward model and each of its components, the objective and how it is
+minimised, the white-light fit which provides the geometry and, finally, how
+the uncertainty of the recovered spectrum is estimated.
 
 \subsubsection{The detector forward model}
 
@@ -71,15 +71,15 @@ is estimated.
 % Evidence: proposals/NOMENCLATURE_PRESENTATION.md; proposals/
 % handoff_nova_s_20260828/01_EXACT_NOVA_S_METHOD.md section 3;
 % NOVA_SP_NOVA_S_SCIENCE_FREEZE_20260826_R1/code/sparse_varpro/
-% fine_grid_transit_adapter.py (5,454 fine nodes) and response_aware_varpro.py;
-% reports/OFFTRACE_TRANSIT_COMPONENT_DIAGNOSIS_20260921.md section 2.
+% fine_grid_transit_adapter.py and response_aware_varpro.py.
 
-To build the model, the retained detector samples are organised into
-wavelength groups, where a group $g$ contains the pixels $P_g$ of one
-spectral order which lie in the same detector column, and I write $g(p)$
-for the group of a given order which contains pixel $p$. Denoting by
-$Y_{tp}$ the calibrated count rate recorded in pixel $p$ during integration
-$t$, NOVA predicts
+The light of each spectral order falls on the detector as a curved trace,
+and within one detector column the pixels of a trace see nearly the same
+wavelength. NOVA therefore organises the detector samples into groups, where
+a group $g$ contains the pixels $P_g$ of one order which lie in the same
+column, and I write $g(p)$ for the group which contains pixel $p$. Denoting
+by $Y_{tp}$ the calibrated count rate recorded in pixel $p$ during
+integration $t$, NOVA predicts
 \begin{equation}
  \widehat Y_{tp}
  = \gamma_t\, C_{tg}\,
@@ -88,59 +88,52 @@ $t$, NOVA predicts
  + B_{tp},
  \label{eq:nova-forward}
 \end{equation}
-where $C_{tg}$ is the brightness of the stellar continuum in group $g$ at
-time $t$, $\mathcal{T}_{tg}$ is the transit factor, which dims this light
+where $C_{tg}$ is the brightness of the star in group $g$ at time $t$ (the
+continuum), $\mathcal{T}_{tg}$ is the transit factor, which dims this light
 according to the depth $D$ and limb darkening $\bm{u}$ at the wavelengths of
-the group and the orbital state $\Omega$, $\gamma_t$ is the source-curvature
-factor, $q^\star_{pg}$ is the spatial response, which distributes the light
-of the group over its pixels, with $\sum_{p\in P_g} q^\star_{pg}=1$, and
-$B_{tp}$ is the additive background. The supports of the two orders do not
-share any pixel, so no pixel is modelled as containing light from both
-orders.
+the group and the orbital state $\Omega$, $\gamma_t$ is a small correction
+for slow curvature in the brightness of the star, $q^\star_{pg}$ is the
+spatial response, which distributes the light of the group over its pixels,
+with $\sum_{p\in P_g} q^\star_{pg}=1$, and $B_{tp}$ is the additive
+background. The transit factor and $\gamma_t$ multiply only the stellar
+term, so any light which the model assigns to the background is treated as
+light which does not dim during the transit.
 
-Equation~\ref{eq:nova-forward} is written per group for clarity. In the
-implementation, the continuum of each column is first spread onto a fine
-grid of 5{,}454 wavelength nodes, the transit is evaluated at each node, and
-the result is projected onto the pixels through the spectral-response
-(line-spread) kernel and the spatial response, so that each column receives
-light from a small range of wavelengths. The positions of the groups on the
-detector, their wavelengths and the kernel follow the public trace and
-wavelength calibration \citep{BainesEtAl2023Trace,BainesEtAl2023Wavelength}
-and the associated spectral-response kernel
-\citep{DarveauBernierEtAl2022,JWSTPipeline2025}. Note that the transit
-factor and $\gamma_t$ multiply only the stellar term, so any light which is
-assigned to the background is treated as light that does not dim during the
-transit.
-
-The support of the model contains 97{,}557 pixel positions per integration,
-in 2{,}720 groups, after six groups at the edge of the detector without a
-reliable wavelength mapping have been excluded. Individual samples are then
-removed if their value is not finite, their uncertainty is not positive, or
-they carry the \texttt{DO\_NOT\_USE} flag of the JWST data-quality array.
+Equation~\ref{eq:nova-forward} is written per group for clarity. In
+practice, each column receives light from a small range of wavelengths, and
+so the continuum of each column is spread onto a fine wavelength grid, the
+transit is evaluated at each wavelength of that grid, and the result is
+projected onto the pixels through the spectral-response (line-spread)
+kernel and the spatial response. The positions of the groups, their
+wavelengths and the kernel follow the public trace and wavelength
+calibration \citep{BainesEtAl2023Trace,BainesEtAl2023Wavelength} and the
+associated spectral-response kernel
+\citep{DarveauBernierEtAl2022,JWSTPipeline2025}. The supports of the two
+orders do not share any pixel, so no pixel is modelled as containing light
+from both orders. The support and the rules for removing individual samples
+are given in Appendix~\ref{app:implementation}.
 
 \subsubsection{The shared spectrum and transit model}
 
 % Question: How are the depths and the transit generated?
 % Answer: One spectrum of 160 piecewise-constant coefficients shared by both
 % orders, an exact Keplerian transit averaged over each exposure at the
-% geometry from NOVA's own white-light fit, and small penalised
-% limb-darkening deviations around a STAGGER theory reference.
+% geometry from NOVA's own white-light fit, and penalised limb-darkening
+% deviations around a STAGGER theory reference.
 % Evidence: NOVA_SP_NOVA_S_SCIENCE_FREEZE_20260826_R1/reporting/
-% v50_cycle2_reporting_inputs/shared_adaptive_observed_k160.json (basis type,
-% widths, domains); configuration/variant_E12.json; reports/
-% ONEOVERF_CAUSAL_INVESTIGATION_20260909.md (Delta bound); NOVA_SP_NOVA_S_
-% SCIENCE_FREEZE_20260826_R1/code/project_sources/nonlinear_detector_sp_
-% v0p1_20260720_src/nonlinear_sp/limb_darkening.py (lines 9-12, 935-965);
-% reports/NOVA_LIMB_DARKENING_WORDING_CORRECTION_20260923.md; public Ahsoka
-% S5_fit_par_wasp17_230320_nirissO1.epf (period); appendices/appendix_nova.tex.
+% v50_cycle2_reporting_inputs/shared_adaptive_observed_k160.json;
+% configuration/variant_E12.json; reports/ONEOVERF_CAUSAL_INVESTIGATION_20260909.md
+% (Delta); code/project_sources/nonlinear_detector_sp_v0p1_20260720_src/
+% nonlinear_sp/limb_darkening.py (lines 9-12, 935-965); reports/
+% NOVA_LIMB_DARKENING_WORDING_CORRECTION_20260923.md; public Ahsoka epf (period).
 
-Both orders see the same transmission spectrum $D(\lambda)$. It is
-represented by $K=160$ piecewise-constant (top-hat) basis functions in
-wavelength, which span 0.62 to 2.84~$\mu\mathrm{m}$ and are about
+A planet has one transmission spectrum, whichever order its light is
+recorded in, and so both orders see the same spectrum $D(\lambda)$. It is
+represented by $K=160$ top-hat basis functions in wavelength, about
 0.01~$\mu\mathrm{m}$ wide below 2~$\mu\mathrm{m}$ and about
-0.04~$\mu\mathrm{m}$ wide above it, so that the depth at any wavelength is
-the coefficient of the basis function which contains it. The coefficients
-are parameterised as
+0.04~$\mu\mathrm{m}$ wide above it, so that the depth at any wavelength is the
+coefficient of the basis function which contains it. The coefficients are
+parameterised as
 \begin{equation}
   D_j = D_{\mathrm{global}}\,
   \frac{\exp\!\left[(\bm{H}_v\bm{v})_j\right]}
@@ -150,35 +143,27 @@ are parameterised as
 where $D_{\mathrm{global}}$ is the achromatic depth, $\bm{v}$ are the free
 shape coordinates, $\bm{H}_v$ maps them onto the subspace orthogonal to a
 constant, and $w_k$ are fixed basis-width weights. This form separates the
-achromatic depth from a chromatic shape whose weighted mean is zero, and it
-keeps every depth positive. The two coefficients above
-2.76~$\mu\mathrm{m}$ lie where the validated wavelength calibration gives no
-response support, and so they are held constant, which leaves 158 free depth
-coordinates. Together with the eight limb-darkening coordinates described
-below, these form the nonlinear parameters of the fit. Apart from this
-parameterisation the spectrum is left free, i.e.\ no atmospheric template,
-no smoothing between neighbouring wavelengths and no prior on its shape is
-imposed. No term allows the depths of the two orders to differ. The earlier release
-had an order-difference term, an offset and a slope in log-wavelength added
-to order 1 and subtracted from order 2, which was disabled by bounds of
-$\pm10^{-12}$; it is now fixed at exactly zero, because at those small but
-nonzero bounds the derivatives of the penalty terms were not exactly those
-of a model without it.
+overall depth from the shape of the spectrum, whose weighted mean is zero,
+and it keeps every depth positive. Two coefficients at the red end have no
+response support and are held constant, which leaves 158 free depth
+coordinates. Beyond this parameterisation the spectrum is left free: I
+impose no atmospheric template, no smoothing between neighbouring
+wavelengths and no prior on its shape. The model also contains no term which
+allows the depths of the two orders to differ; the order-difference term of
+the earlier release is now fixed at exactly zero
+(Appendix~\ref{app:implementation}).
 
 The orbital state is
 $\Omega=(P,\,a/R_\star,\,e,\,\omega_{\mathrm{peri}},\,b,\,t_0)$. The period
-$P=3.73548546$~d is fixed at the value of the public Ahsoka configuration of
-\citet{LouieEtAl2025}, and the orbit is taken to be circular, $e=0$, with
-$\omega_{\mathrm{peri}}=90^\circ$ (which has no effect for a circular orbit,
-so the value of zero listed for the earlier release in
-Appendix~\ref{app:nova} is equivalent). The mid-transit time $t_0$, the
-scaled semi-major axis $a/R_\star$ and the impact parameter $b$ come from
-NOVA's white-light fit to the same input (Section~\ref{sec:own-white}), and
-they are held fixed during the spectral fit. The limb-darkened transit is
-computed with jaxoplanet \citep{Jaxoplanet2025}, which solves the Keplerian
-orbit exactly and evaluates the occulted flux with a quadrature of order 10,
-and $\mathcal{T}_{tg}$ is its average over each exposure, evaluated with 21
-Gauss--Legendre samples per integration. The limb darkening follows the
+is fixed at the value used by \citet{LouieEtAl2025} and the orbit is taken to
+be circular, whilst the mid-transit time $t_0$, the scaled semi-major axis
+$a/R_\star$ and the impact parameter $b$ come from NOVA's white-light fit to
+the same input (Section~\ref{sec:own-white}) and are held fixed during the
+spectral fit. Because each integration lasts about 44~s, during which the
+planet moves across the stellar disc, $\mathcal{T}_{tg}$ is not the transit
+at a single instant but its average over the exposure. The instantaneous
+limb-darkened transit is computed with jaxoplanet \citep{Jaxoplanet2025},
+which solves the Keplerian orbit exactly. The limb darkening follows the
 quadratic law \citep{MandelAgol2002}, whose coefficients $u_1$ and $u_2$ are
 written in terms of the coordinates $q_1$ and $q_2$ of \citet{Kipping2013},
 which each lie between 0 and 1,
@@ -188,23 +173,18 @@ which each lie between 0 and 1,
  \label{eq:kipping-coordinates}
 \end{equation}
 
-In the spectral fit, the limb darkening may deviate from a theory reference,
-but these deviations are penalised. The reference is computed from STAGGER
-specific intensities \citep{MagicEtAl2015}, using the 6500~K plane of the
-grid, which is the closest complete plane to the stellar effective
-temperature of 6550~K, interpolated bilinearly in $\log g$ and
-$[\mathrm{Fe}/\mathrm{H}]$ to $\log g=4.149$ and
-$[\mathrm{Fe}/\mathrm{H}]=-0.25$. The reference file is fixed and identified by its content hash. Around this reference, the fit has one offset and one
-slope in normalised log-wavelength for each coordinate and order, i.e.\
-eight coordinates in total. These are penalised in two ways: for deviating
-from the theory, with a scale of 0.5 in logit space, and for curvature in
-wavelength, with a scale of $2.0\,\mu\mathrm{m}^{-2}$. Fine wavelength nodes
-which fall outside the wavelength range of the theory grid are excluded, and
-the theory is never extrapolated. Only the spectral fit uses this reference;
-the white-light fit leaves the limb darkening free. The injector, by
-contrast, computes its transit from MPS-ATLAS intensities
-(Section~\ref{sec:per-read}), so this reference is independent of the limb
-darkening of the injected signal.
+Limb darkening and transit depth are partly degenerate, and so, instead of
+fitting the limb darkening freely at every wavelength, the spectral fit
+allows only a smooth deviation from a theoretical reference and penalises
+it. The reference is computed from STAGGER specific intensities
+\citep{MagicEtAl2015}, as close to the stellar parameters of WASP-17 as the
+grid allows. Around it, the fit has one offset and one slope in normalised log-wavelength for each
+coordinate and order, eight coordinates in total, and these are penalised both for
+deviating from the theory and for curvature in wavelength
+(Appendix~\ref{app:implementation}). The white-light fit, by contrast,
+leaves the limb darkening free. The injector computes its transit from a
+different stellar model, MPS-ATLAS (Section~\ref{sec:per-read}), so this
+reference is independent of the limb darkening of the injected signal.
 
 \subsubsection{The empirical spatial response}
 
@@ -216,65 +196,51 @@ darkening of the injected signal.
 % Evidence: products/original_v45_reference_qstar_r1_package/source/
 % build_v47_empirical_template.py and aggregate_v47_qstar.py; products/
 % original_A_group_calibration_adaptation_r1/build_nova_s_real_wasp17_responses_r1.py;
-% products/w17_measured_production_recovery_20260923_v7_r1_package/recipes/qstar/
-% source/run_original_A_current_input_qstar.py (tau); proposals/
-% handoff_nova_s_20260828/01_EXACT_NOVA_S_METHOD.md section 6 (red-end bias).
+% NOVA-S handoff 01_EXACT_NOVA_S_METHOD.md section 6 (red-end limitation).
 
-The spatial response $q^\star$ is estimated from the data themselves.
-Because starlight dims during the transit whilst the additive background
-does not, the part of a pixel's time series which follows the transit
-measures how much starlight lands on that pixel. Firstly, for each order
-$o$, I build a template $\phi_o(t)$ of the shape of the transit. I select
-the bright, stable pixels of the order, i.e.\ those with at least 95\% of
-their out-of-transit samples valid, a positive baseline, and an
-out-of-transit level above the 35th percentile of the stable pixels of that
-order. For each selected pixel I compute its fractional departure from its
-own linear out-of-transit baseline, and the template is the median of these
-departures at each integration, with any linear trend removed and scaled so
-that its deepest point is exactly $-1$, so that it carries the shape of the
-transit but no information about its depth. Secondly, every pixel of the model support is
-fitted, with Huber weights, as
+To distribute the light of a group over its pixels, NOVA needs to know where
+the starlight lands, and this is estimated from the data themselves. Because
+starlight dims during the transit whilst the background does not, the part
+of a pixel's time series which follows the transit measures how much
+starlight falls on that pixel. I first build, for each order $o$, a template
+$\phi_o(t)$ of the shape of the transit, from the median behaviour of the
+bright, stable pixels of the order, scaled so that it carries the shape of
+the transit but no information about its depth. Every pixel of the support is
+then fitted, with Huber weights, as
 \begin{equation}
  Y_{tp} = A_{pg}\,\phi_{o}(t) + \ell_p + \kappa_p\,\tau_t + \varepsilon_{tp},
  \label{eq:qstar-fit}
 \end{equation}
 where $A_{pg}$ is the transit-correlated amplitude of the pixel, $\ell_p$ is
-its level, $\kappa_p\tau_t$ is a linear drift, $\tau_t$ is the time of
-integration $t$ measured from the mean out-of-transit time in units of the
-out-of-transit time span, and $\varepsilon_{tp}$ is the residual. The
-response is the normalised amplitude,
+its level, $\kappa_p\tau_t$ is a linear drift in the time $\tau_t$, and
+$\varepsilon_{tp}$ is the residual. The response is the normalised
+amplitude,
 \begin{equation*}
  q^\star_{pg}=\frac{A_{pg}}{\sum_{p'\in P_g}A_{p'g}},
 \end{equation*}
-so that $q^\star$ only describes how the light of a group is distributed over
-its pixels, whilst the total brightness of the group is carried entirely by
-the continuum $C_{tg}$.
+so that $q^\star$ only describes how the light of a group is spread over its
+pixels, whilst the total brightness of the group is carried by the continuum
+$C_{tg}$.
 
-The normalised amplitudes are smoothed across neighbouring detector
-columns, i.e.\ along the dispersion direction, with a robust
-second-difference penalty applied at a fixed position within the trace (the
-rank of the pixel when the pixels of each group are numbered by detector
-row). The strength of the smoothing is chosen by
-cross-validation. The integrations are split into two alternating folds,
-stratified across the transit phases, and the strength is the one for which
-the response smoothed on one fold best predicts the unsmoothed response of
-the other. The response used in the fit is built from all integrations with
-this strength, and it is only accepted if the two fold estimates agree in
-their flux distribution and centroid (Appendix~\ref{app:nova}). Negative values are set to zero, the response of each column is combined
-with the positive transit-correlated amplitudes measured in the wings of the
-same column, in proportion to their amplitude, and the result is
-renormalised within each group; groups without a smoothed response use the
-amplitudes alone.
+Each amplitude is measured from a dip of only about one and a half per cent,
+and so the individual values are noisy. The normalised amplitudes are
+therefore smoothed across neighbouring columns, at a fixed position within
+the trace, and the strength of the smoothing is chosen by cross-validation
+between two halves of the integrations. The same two halves also serve as a
+check: the response is only accepted if they agree in how they distribute
+the flux and where they place its centre. The details, including how the
+response is combined with the amplitudes measured in the wings of the trace,
+are given in Appendix~\ref{app:implementation}.
 
 This approach has a known limitation. Because the smoothing works at a fixed
-integer position relative to the trace, the centroid of the response
-occasionally jumps. In the audits of the earlier release, this defect came
-with a response at the faintest red columns which placed roughly 1--2\% more
-amplitude inside the fitted pixels than the light actually delivered there,
-and this biased the recovered transit to be too shallow at these columns
-(Appendix~\ref{app:nova}). The same estimator is used on every input, but
-the size of the effect has not yet been re-measured for the response built
-on each input.
+integer position relative to the trace, the centre of the response
+occasionally jumps from one column to the next. In the audits of the earlier
+release, this defect came with a response at the faintest red columns which
+placed roughly 1--2\% more amplitude inside the fitted pixels than the light
+actually delivered there, and this biased the recovered transit to be too
+shallow at those columns (Appendix~\ref{app:nova}). The same estimator is
+used on every input, but the size of the effect has not yet been re-measured
+for the response built on each input.
 
 \subsubsection{The continuum and the additive background}
 
@@ -282,118 +248,103 @@ on each input.
 % calibrated?
 % Answer: A level and slope per group for the continuum; eight fixed spatial
 % maps with a constant and one temporal pattern for the residual background
-% left after the detector processing, the temporal pattern and anchor
-% recomputed on the off-trace pixels of each input.
+% left after the detector processing, the pattern and anchor recomputed on
+% the off-trace pixels of each input.
 % Evidence: build_e13b_basis_products.py (cluster-only); products/
-% original_A_group_calibration_adaptation_r1/build_nova_s_real_wasp17_e13b_r1.py
-% (per-integration fits, 244,657 safe pixels, SVD, reference transit);
-% source/run_nova_original_A_group_detector.py (exoTEDRF background steps);
-% reports/OFFTRACE_TRANSIT_COMPONENT_DIAGNOSIS_20260921.md section 2.
+% original_A_group_calibration_adaptation_r1/build_nova_s_real_wasp17_e13b_r1.py;
+% source/run_nova_original_A_group_detector.py; reports/
+% OFFTRACE_TRANSIT_COMPONENT_DIAGNOSIS_20260921.md section 2.
 
-The continuum of each group is linear in time,
-$C_{tg}=\beta_{0g}+\beta_{1g}\tau_t$, where $\beta_{0g}$ and $\beta_{1g}$
-are its level and slope, which gives two coefficients for each of the
-2{,}720 groups, i.e.\ 5{,}440 linear coefficients in total. The background is
-modelled as a sum of eight fixed spatial maps $\Phi_{pk}$, each with a
-constant amplitude and an amplitude which follows one temporal pattern
-$G_1(t)$,
+Over the course of a visit, the brightness of the star in each group can
+drift slowly, and so the continuum of each group is taken to be linear in
+time, $C_{tg}=\beta_{0g}+\beta_{1g}\tau_t$, where $\beta_{0g}$ and
+$\beta_{1g}$ are its level and slope. With 2{,}720 groups this gives 5{,}440
+linear coefficients. The background is modelled as a sum of eight fixed
+spatial maps $\Phi_{pk}$, each with a constant amplitude and an amplitude
+which follows one temporal pattern $G_1(t)$,
 \begin{equation}
  B_{tp}=\sum_{k=1}^{8}\Phi_{pk}
  \left[\alpha_{k0}+\alpha_{k1}\,G_1(t)\right],
  \label{eq:background-model}
 \end{equation}
 where $\alpha_{k0}$ and $\alpha_{k1}$ are the constant and time-varying
-amplitudes of map $k$, sixteen coefficients in total. Note that the input images have already had a scaled model of the zodiacal
-background subtracted in Stage~2 of the detector processing
+amplitudes of map $k$, sixteen coefficients in total. Note that the images
+which NOVA receives have already had a scaled model of the zodiacal
+background subtracted during the detector processing
 (Section~\ref{sec:detector-processing}), and so $B_{tp}$ describes the
 background which remains after that subtraction, including any error in the
-scaling of the model. The first map is a standardised map of the
-calibration background and the other seven are low-order polynomial
-surfaces, orthonormalised on the off-trace pixels. The maps were chosen by
-blocked cross-validation on the off-trace pixels of the earlier release, and
-are carried over unchanged.
+scaling of the model. The first map is a standardised map of the calibration
+background and the other seven are smooth polynomial surfaces; they were
+chosen by cross-validation on the pixels away from the traces in the earlier
+release, and are carried over unchanged.
 
-All other parts of the background model are estimated from the off-trace
-pixels of the input being analysed. Firstly, the eight maps are fitted by
-weighted least squares to the 244{,}657 off-trace background pixels of each
-integration separately, which gives a time series of eight coefficients.
-The temporal pattern $G_1$ is then the first of the principal components of
-this time series whose absolute correlation with the transit template (the
-mean of $\phi_o$ over the two orders) is at most 0.25, which limits how much
-transit-shaped variation the background can absorb. On the real visit, the
-leading component itself follows the transit closely, and so this criterion
-keeps it out of the background model; it returns in the uncertainty
-ensemble (Section~\ref{sec:ensemble}). Part of the off-trace light therefore
-does dim with the star, which is the situation that the far-light family of
-the injector is designed to bracket (Section~\ref{sec:dimmed-light}). Secondly, one joint weighted fit of
-all sixteen coefficients to every off-trace pixel of every integration gives
-an expected coefficient vector $\bm{\alpha}_{\mathrm{off}}$ with precision
-matrix $\bm{N}_{\mathrm{off}}$. These enter the objective as a soft anchor,
-i.e.\ a quadratic penalty on the background coefficients, and the background
-is refitted together with the continuum at every step, so that no background
-is held fixed within the fit. The objective contains no Gaussian-process
-term, and outliers are down-weighted by the Huber weights described below.
+The rest of the background model is learnt from the pixels away from the
+traces. The eight maps are
+fitted to these off-trace pixels in every integration, and the temporal
+pattern $G_1$ is the first principal component of the resulting time series
+whose correlation with the shape of the transit is weak (an absolute value
+of at most 0.25). This restriction limits how much transit-shaped variation the background can
+absorb. On the real visit, the leading component itself
+follows the transit closely, which means that part of the off-trace light
+does dim with the star. The criterion keeps this component out of the
+background model, the uncertainty ensemble puts it back
+(Section~\ref{sec:ensemble}), and the far-light family of the injector is
+designed to bracket its effect (Section~\ref{sec:dimmed-light}). A joint fit
+to all off-trace pixels also gives an expected value
+$\bm{\alpha}_{\mathrm{off}}$ of the sixteen coefficients, with precision
+matrix $\bm{N}_{\mathrm{off}}$. This enters the objective as a soft anchor,
+i.e.\ a quadratic penalty on the background coefficients, so that the
+background is refitted together with the continuum at every step but cannot
+wander far from what the off-trace pixels show.
 
 \subsubsection{The source-curvature factor and detector uncertainties}
 
 % Question: What are gamma_t and sigma_tp?
 % Answer: An out-of-transit curvature correction of fixed common form,
-% recomputed on each input, and per-sample uncertainties scaled per order
-% and per pixel from two-way out-of-transit cross-validation.
+% recomputed and cross-checked on each input, and per-sample uncertainties
+% scaled per order and per pixel.
 % Evidence: products/original_A_group_calibration_adaptation_r1/
 % build_nova_s_real_wasp17_source_curvature_r1.py; config/
-% CURVATURE_POLICY_AUTHORIZATION_20260919.json; reports/
-% SOURCE_FREEZE_EXECUTION_AUTHORIZATION_20260919.md; NOVA_SP_NOVA_S_SCIENCE_FREEZE_
-% 20260826_R1/code/runtime/N_SCALE_CONTRACT.json (outside the execution root);
-% reports/offtrace_transit_diagnosis_20260921/sources/v47_oot_guard.py and
-% original_A_group_nova_binding.py (per-pixel scale, response-weighted N).
+% CURVATURE_POLICY_AUTHORIZATION_20260919.json; NOVA_SP_NOVA_S_SCIENCE_FREEZE_
+% 20260826_R1/code/runtime/N_SCALE_CONTRACT.json; reports/
+% offtrace_transit_diagnosis_20260921/sources/v47_oot_guard.py.
 
-The factor $\gamma_t$ corrects for slow curvature in the brightness of the
-star over the visit. To build it, the background-subtracted flux of the
-stable trace pixels of each order, i.e.\ those which are valid in every
-out-of-transit integration, is summed in each out-of-transit integration,
-and the resulting light curve is fitted with a weighted quadratic in time.
-The ratio of this quadratic to its straight-line (affine) approximation,
-normalised to unit mean out of transit, describes only the curvature of the
-stellar flux, since the linear trend is already carried by the continuum.
-The factor used by NOVA is the geometric mean of the factors of the two
-orders. This form, a single factor common to both orders, was chosen on the
-earlier release by comparing its held-out $\chi^2$ on two folds with that of
-no correction and of a separate factor for each order
-(Appendix~\ref{app:nova}), and it is carried over.
+A linear continuum cannot follow a gentle curvature in the brightness of the
+star over the visit, and a curvature of this kind can leak into the depth.
+The factor $\gamma_t$ corrects for it. The out-of-transit flux of the trace
+of each order is fitted with a quadratic in time, and $\gamma_t$ is the
+ratio of this quadratic to its straight-line approximation, normalised to
+unit mean out of transit, so that it contains only the curvature, since the
+linear trend is already carried by the continuum. The same factor is used
+for both orders, a choice made on the earlier release by comparing it with no correction and
+with a separate factor for each order (Appendix~\ref{app:nova}). The factor
+multiplies only the stellar term of Equation~\ref{eq:nova-forward} and adds
+no fitted parameters.
 
-On each input, the factor itself is recomputed from that input's
-out-of-transit integrations, and two further factors are computed from two
-alternating folds of these integrations (175 integrations each for the real
-visit). The factor is only accepted if the means of the two fold factors
-over the in-transit integrations differ by at most 250~ppm, and if its
-largest deviation from unity is at most 1000~ppm. For the real visit and the injected inputs, the two fold factors must also
-be correlated with a coefficient of at least 0.95, whereas for the
-realisations of the uncertainty ensemble (Section~\ref{sec:ensemble}) this
-correlation is only reported. This rule was
-changed after the correlation was found to reject realisations whose
-corrections were only 1--15~ppm, since two negligible corrections of
-opposite sign in the two folds are strongly anticorrelated even when both
-amplitude limits are met. The factor multiplies only the stellar term of
-Equation~\ref{eq:nova-forward} and adds no fitted parameters.
+A correction of this kind is only useful if it describes the star, and not
+the noise of one particular set of integrations. On each input, the factor
+is therefore also computed from two alternating halves of the out-of-transit
+integrations, and it is only accepted if the two halves predict nearly the
+same correction during the transit and if the correction itself stays small
+(Appendix~\ref{app:implementation}). For the real visit and the injected
+inputs, the two halves must also be strongly correlated. For the
+realisations of the uncertainty ensemble this correlation is only reported,
+a rule which was changed after the correlation was found to reject
+realisations whose corrections were only 1--15~ppm, since two negligible
+corrections of opposite sign are anticorrelated even when both are
+harmless.
 
 The uncertainty of each sample is
 \begin{equation*}
  \sigma_{tp}=\mathrm{ERR}_{tp}\,N_{o}\,s_{p},
 \end{equation*}
-where $\mathrm{ERR}_{tp}$ is the calibrated uncertainty array from the
-pipeline, and $N_o$ is a per-order scale carried over from the earlier
-release, equal to 3.07 for order 1 and 4.19 for order 2
-(Appendix~\ref{app:nova}). The factor $s_p\geq1$
-is a scale for each pixel, estimated by two-way cross-validation on the
-out-of-transit integrations of each input. These are split into two
-alternating folds, a level and a slope in time are fitted to each pixel on
-one fold and used to predict the other, and vice versa, and $s_p$ is set by
-the scatter of the standardised prediction residuals, with a minimum of
-one. Pixels whose out-of-transit residuals exceed their nominal
-uncertainties are therefore down-weighted. These scales only set the
-weights of the fit; the uncertainty of the recovered spectrum comes from the
-ensemble of Section~\ref{sec:ensemble}.
+where $\mathrm{ERR}_{tp}$ is the uncertainty array from the pipeline, $N_o$
+is a scale for order $o$ carried over from the earlier release (3.07 for order 1 and 4.19 for order 2; Appendix~\ref{app:nova}), and $s_p\geq1$ is a scale for each pixel,
+estimated on each input by predicting one half of the out-of-transit
+integrations from the other. Pixels whose out-of-transit behaviour is noisier
+than their nominal uncertainties suggest are therefore down-weighted. These
+scales only set the weights of the fit; the uncertainty of the recovered
+spectrum comes from the ensemble of Section~\ref{sec:ensemble}.
 
 \subsubsection{The complete objective}
 
@@ -403,7 +354,7 @@ ensemble of Section~\ref{sec:ensemble}.
 % Evidence: NOVA_SP_NOVA_S_SCIENCE_FREEZE_20260826_R1/code/sparse_varpro/
 % production_irls.py and code/project_sources/nonlinear_detector_sp_v0p3_
 % huber_discrepancy_factorial_20260722_r4_src/nonlinear_sp_huber_factorial/
-% robust.py (HUBER_DELTA 1.345), both outside the execution root.
+% robust.py (HUBER_DELTA 1.345).
 
 Writing the standardised residual as
 \begin{equation}
@@ -428,33 +379,35 @@ after it, the NOVA estimate is
  \label{eq:objective}
 \end{equation}
 where $\mathcal{M}$ is the mask of retained samples, $\rho_{1.345}$ is the
-Huber loss, which is quadratic for $|r_{tp}|\leq1.345$ and linear beyond
-(Appendix~\ref{app:nova}), and $\bm{r}_{\mathrm{LD,theory}}$ and
-$\bm{r}_{\mathrm{LD,curv}}$ are the deviations of the limb darkening from
-theory and its curvatures in wavelength, each divided by its scale. The first
-term measures the mismatch between the model and the detector data, the
-second is the soft anchor on the background, and the last two are the
-limb-darkening penalties.
+Huber loss, which is quadratic for $|r_{tp}|\leq1.345$ and linear beyond, so
+that outliers do not dominate the fit (Appendix~\ref{app:nova}), and
+$\bm{r}_{\mathrm{LD,theory}}$ and $\bm{r}_{\mathrm{LD,curv}}$ are the
+deviations of the limb darkening from theory and its curvatures in
+wavelength, each divided by its scale. The first term measures the mismatch between the model and the detector
+data, the second is the soft anchor on the background, and the last two are
+the limb-darkening penalties. The objective contains no Gaussian-process term
+for correlated noise; outliers are handled by the Huber loss alone.
 
 \subsubsection{The nested solver}
 
 % Question: How is the objective minimised, and what counts as convergence?
 % Answer: Huber weights outside, bounded trust-region steps in the middle,
-% an exact linear solve inside; acceptance requires convergence checks on
-% two fixed summary grids; among eligible starts the lowest objective wins.
-% Evidence: NOVA_SP_NOVA_S_SCIENCE_FREEZE_20260826_R1/code/sparse_varpro/
-% production_irls.py (_rms_change, common40/legacy_f2 gates) and code/runtime/
-% STRICT_IRLS_POLICY.json (outside the execution root); products/
-% w17_measured_production_recovery_20260923_v7_r1_package/recipes/closure/source/
-% close_causal_reduced_starts.py (selection rule); reports/
-% PHYSICAL_ENDPOINT_THIRD_START_20260918.md; reports/
-% PHYSICAL_INJECTOR_PROTOCOL_20260918.md section 4.
+% an exact linear solve inside; acceptance requires convergence checks; among
+% strict starts the lowest objective wins, agreement is reported.
+% Evidence: code/sparse_varpro/production_irls.py and code/runtime/
+% STRICT_IRLS_POLICY.json; products/w17_measured_production_recovery_20260923_
+% v7_r1_package/recipes/closure/source/close_causal_reduced_starts.py;
+% reports/PHYSICAL_ENDPOINT_THIRD_START_20260918.md.
 
-The parameters split into a nonlinear block $\bm{\theta}=(D,\bm{u})$ and a
-linear block $(\bm{\beta},\bm{\alpha})$, and the objective is minimised in
-three nested loops. In the innermost loop, with $\bm{\theta}$ and the
-weights held fixed, variable projection \citep{GolubPereyra1973} solves the
-linear problem exactly,
+The model has thousands of parameters, but most of them enter linearly: for
+given depths and limb darkening, the prediction is linear in the continuum
+and background coefficients, whereas the depths and limb-darkening
+coordinates enter nonlinearly, through the transit. NOVA
+exploits this by splitting the parameters into a nonlinear block
+$\bm{\theta}=(D,\bm{u})$ and a linear block $(\bm{\beta},\bm{\alpha})$ and
+minimising the objective in three nested loops. In the innermost loop, with
+$\bm{\theta}$ and the weights held fixed, variable projection
+\citep{GolubPereyra1973} solves the linear problem exactly,
 \begin{equation}
 \begin{split}
  (\widehat{\bm{\beta}},\widehat{\bm{\alpha}})=
@@ -466,42 +419,33 @@ linear problem exactly,
 \end{split}
  \label{eq:varpro}
 \end{equation}
-by factorising the sparse continuum block and reducing the coupling to the
-background to a sixteen-dimensional Schur complement. The Jacobian of the
-profiled residual with respect to $\bm{\theta}$ is obtained by
-differentiating through this exact inner solution, so that it includes the
-response of the continuum and background coefficients to a change in
+which remains tractable because the continuum block is sparse, each
+coefficient being coupled only to those of neighbouring columns through the
+line-spread kernel, and the sixteen background coefficients are handled
+separately through a Schur complement. The
+nonlinear search then only has to explore $\bm{\theta}$, and its Jacobian is
+obtained by differentiating through this exact inner solution, so that it
+includes how the continuum and background respond to a change in
 $\bm{\theta}$ (Appendix~\ref{app:nova}). In the middle loop, bounded
 trust-region reflective least squares \citep{BranchColemanLi1999} minimises
-the profiled objective over $\bm{\theta}$. In the outer loop, the Huber
-weights \citep{Huber1964} of Equation~\ref{eq:varpro} are updated as
-$w_{tp}=\min(1,\,1.345/|r_{tp}|)$, and they are held fixed during each
-trust-region solve.
+this profiled objective over $\bm{\theta}$. In the outer loop, the Huber
+weights $w_{tp}=\min(1,\,1.345/|r_{tp}|)$ \citep{Huber1964} are updated, and
+they are held fixed during each trust-region solve.
 
-A fit is only accepted once the weights, the objective and the spectrum have
-converged. Between successive outer iterations, the Huber weights must change
-by less than $10^{-3}$ and the objective by less than $10^{-8}$ in relative
-terms, and the spectrum, mapped onto two fixed summary grids inherited from
-the earlier release (one of 40 bins and one of 96 bins), must change by less
-than 0.01~ppm and 0.05~ppm root-mean-square on the two grids. In addition,
-first-order optimality must be satisfied, the rank of the linear block must
-be stable, the solution must be physically feasible, and a confirmation
-cycle with the recomputed final weights must reproduce it. An earlier, factorial version of the optimiser also searched along scaled
-Cauchy and Gauss--Newton directions for any remaining decrease of the
-objective (Appendix~\ref{app:nova}); the production solver, used for the
-August release and for all current results, does not.
-
-To see whether the solution depends on where the optimiser starts, every
-analysis is run from at least two starting points. The first starts
-from the white-light depth with a flat spectral shape and the theory limb
-darkening, whilst the second adds a fixed 250~ppm perturbation to the
-spectral shape and small offsets to the limb darkening. I refer to starts
-which pass all of the checks above as strict. For the pilot recoveries of
-the injector (Section~\ref{sec:envelope}), the validation protocol adds a
-third start at the midpoint of the first two, a rule which uses no
-information from the injected spectrum. Among the strict starts, the one with the lowest value of the objective of
-Equation~\ref{eq:objective} is selected; the agreement between the starts is
-reported, but it is not required for acceptance.
+Because the weights and the spectrum are updated in turn, a fit could stop
+whilst one of them is still drifting, and so a fit is only accepted once the
+weights, the objective and the spectrum have all settled, first-order
+optimality is reached, and a final cycle with the recomputed weights
+reproduces the solution (Appendix~\ref{app:implementation}). To see whether
+the solution depends on where the optimiser starts, every analysis is run
+from at least two starting points: one from the white-light depth with a flat
+spectral shape, and one with a fixed perturbation of the shape and of the
+limb darkening. I call a start strict if it passes all of these checks, and
+among the strict starts the one with the lowest value of
+Equation~\ref{eq:objective} is selected. The agreement between the starts is
+reported but is not required for acceptance; in the cases run so far they agree to within about 0.01~ppm. For the pilot recoveries of the injector
+(Section~\ref{sec:envelope}), a third start is added at the midpoint of the
+first two.
 
 \subsubsection{White-light geometry inference}
 \label{sec:own-white}
@@ -509,95 +453,71 @@ reported, but it is not required for acceptance.
 % Question: Where do t0, a/R* and b come from?
 % Answer: From NOVA's own joint two-order white-light fit on optimally
 % weighted curves built from its own detector data, sampled with nested
-% sampling through public Eureka!, accepted by a grazing-mass rule (the fifth
-% version, fixed before calibration but not blind to the real posterior),
-% and handed over as whole-posterior weighted medians.
-% Evidence: source/nova_own_white_eureka.py, source/
-% nova_own_white_nested_20260922_r5.py, source/nova_own_white_geometry.py,
+% sampling through public Eureka!, accepted by a grazing-mass rule, and
+% handed over as whole-posterior weighted medians.
+% Evidence: source/nova_own_white_eureka.py, source/nova_own_white_geometry.py,
 % source/v7_grazing_statistic_20260923.py; evidence/
-% group_ownwhite_native_sources_r1/white_light.py (build_order_white_light_curves);
-% config/V7_GEOMETRY_GATE_REGISTRATION_20260923.json (substantive revision 5,
-% real grazing mass known zero before registration); reports/
-% V7_CALIBRATION_RESULT_20260923.md; public Ahsoka WhiteLightCurve_Fits epf files
-% (k and noise priors).
+% group_ownwhite_native_sources_r1/white_light.py; config/
+% V7_GEOMETRY_GATE_REGISTRATION_20260923.json; reports/V7_CALIBRATION_RESULT_20260923.md;
+% reports/SIZED_WHITE_CONTINUATION_RESULTS_20260921.json; public Ahsoka epf files.
 
-The spectral fit holds the transit geometry fixed, and so this geometry must
-first be estimated. Before the spectral fit, NOVA therefore infers $t_0$,
-$a/R_\star$ and the inclination $i$ from the same detector data, and hence
-the impact parameter $b=(a/R_\star)\cos i$ for a circular orbit, without using any fitted value from another pipeline or any value from the
-injector; the fixed period and the priors other than those on the geometry
-are taken from the public Ahsoka configuration, as described below. For each
-order, the white-light flux of an integration is the sum over detector
-columns of a profile-weighted (optimal) amplitude, computed from the retained
-samples of the column with an out-of-transit spatial profile built on the
-same input. The two
-curves are fitted jointly with the light-curve stage of the public Eureka!
-package \citep{BellEtAl2022}, as two channels which share $t_0$, $a/R_\star$
-and $i$, whilst each order has its own radius ratio $k_o$, two quadratic
-limb-darkening coefficients $u_1$ and $u_2$ \citep{MandelAgol2002}, a linear
-baseline and a white-noise multiplier; $P$, $e$ and $\omega_{\mathrm{peri}}$
-are fixed as above.
+The spectral fit holds the transit geometry fixed, and so the geometry must
+be estimated first. NOVA infers $t_0$, $a/R_\star$ and the inclination $i$
+from its own detector data, and hence $b=(a/R_\star)\cos i$ for a circular orbit, without using any
+fitted value from another pipeline or any value from the injector. For
+each order, I build a white-light curve by summing, over the detector
+columns, a profile-weighted (optimal) estimate of the light in each column,
+using an out-of-transit spatial profile from the same input. The two curves
+are fitted jointly with the light-curve stage of the public Eureka! package
+\citep{BellEtAl2022}, as two channels which share $t_0$, $a/R_\star$ and $i$,
+whilst each order has its own radius ratio $k_o$, two quadratic
+limb-darkening coefficients \citep{MandelAgol2002}, a linear baseline and a white-noise multiplier; the period, eccentricity and
+argument of periastron are fixed as in the spectral fit. The priors on the
+geometry are deliberately wide:
+$t_0$ is uniform over the observed window, $a/R_\star$ uniform on
+$[1.01,\,100]$ and $i$ uniform on $[0^\circ,\,90^\circ]$. The remaining priors are copied from the public Ahsoka configuration of
+\citet{LouieEtAl2025} and use no fit to these data
+(Appendix~\ref{app:implementation}).
 
-The priors on the geometry are wide: $t_0$ is uniform over the observed
-window, $a/R_\star$ is uniform on $[1.01,\,100]$ and $i$ is uniform on
-$[0^\circ,\,90^\circ]$. The other priors are copied from the public Ahsoka
-white-light configuration of \citet{LouieEtAl2025} and use no fit to these
-data: $k_o$ is normal with mean 0.1255 and standard deviation 0.085, $u_1$
-and $u_2$ are each uniform on $[0,1]$, the baseline level and slope are
-normal about 1 and 0 with standard deviations 0.05 and 0.01, and the noise
-multiplier is normal with mean 1.4 and standard deviation 2.0. The posterior
-is sampled with dynesty \citep{Speagle2020} through Eureka!, using 2{,}048
-live points, multi-ellipsoid bounds and random-walk proposals, and sampling
-stops when the estimated contribution of the remaining prior volume to the
-evidence, $\Delta\ln Z$, falls below 0.01. I use nested sampling for the white-light fits of all injected inputs and
+The posterior is sampled with the nested sampler dynesty \citep{Speagle2020},
+run through Eureka!. I use nested sampling for all injected inputs and
 ensemble realisations because, on the inputs injected at the raw level, the
 affine-invariant ensemble sampler emcee \citep{ForemanMackeyEtAl2013} did not
-reach the required 50 autocorrelation lengths (the three failed chains
-reached only about 20 to 27). Some of its walkers had become stranded, and a
-later check found about 12\% of the samples of each failed chain on grazing
-or non-transiting geometries.
+reach the required 50 autocorrelation lengths: some of its walkers became
+stranded, and a later check found about 12\% of the samples of each failed
+chain on grazing or non-transiting geometries.
 
-Before a white-light fit is used, it must pass an acceptance rule which
-tests directly for this failure, by measuring how much of the posterior lies
-on grazing or non-transiting geometries. For every posterior sample, $b$ is
-computed from that sample's $a/R_\star$ and $i$, and the sample counts as
-grazing or non-transiting if
+Such geometries are the failure that matters here, and so a white-light fit
+is only used if little of its posterior lies on them. For every posterior
+sample, $b$ is computed from that sample's $a/R_\star$ and $i$, and the
+sample counts as grazing or non-transiting if
 \begin{equation}
- b > 1-\max(k_1,\,k_2).
+ b > 1-\max(k_1,\,k_2),
  \label{eq:grazing}
 \end{equation}
-All samples are kept, each with its nested-sampling weight. The grazing mass
-is the weighted fraction of grazing samples, and its central 95\% interval is
-estimated from 200 bootstrap resamplings of the nested-sampling run, made
-with dynesty's own resampling; the half-width of this interval must be at
-most 0.01. If no sample with positive weight is grazing, the upper end of the
-interval is instead set to $\min(1,\,3/\lfloor N_{\mathrm{ESS}}\rfloor)$,
-where $N_{\mathrm{ESS}}$ is the Kish effective sample size; this ``rule of
-three'' is only an approximation here, since nested samples are not
-independent. A fit passes if the upper end of the interval is below 1\%, and
-passes with its grazing mass reported if it lies between 1 and 5\%. It fails
-if the upper end is 5\% or more, if the sampler did not reach its stopping
-criterion, or if the interval is too wide. A failed fit is recorded as a
-failure: the run is not continued, reseeded or trimmed, and no geometry from
-elsewhere is used in its place.
+i.e.\ if the planet's disc is not wholly inside the stellar disc at
+mid-transit. The grazing mass is the weighted fraction of such samples, with
+an uncertainty estimated by resampling the nested-sampling run. A fit passes
+if the upper end of its 95\% interval is below 1\%, and passes with its
+grazing mass reported if it lies between 1 and 5\%; otherwise it fails. A failed fit is recorded as a failure: the run is not continued, reseeded or
+trimmed, and no geometry from elsewhere is used in its place.
 
-This rule is the fifth revision of the acceptance criterion for the
-white-light geometry. I fixed it before testing it on saved posteriors,
-where it had to reject the three emcee chains which had failed their length
-assessment, whose grazing masses were about 12\%, and to accept both the
-emcee chains which had passed that assessment and the nested posterior of
-the real visit. The rule is not blind to the real data, however: I wrote it
-after the earlier versions had been abandoned and after it was known that
-the real posterior contains no grazing samples of positive weight.
+This rule has an important limitation: it is not blind to the real data. It
+is the fifth revision of the acceptance criterion for the white-light
+geometry, and I wrote it after the earlier versions had been abandoned and
+after it was known that the real posterior contains no grazing samples of
+positive weight. I did, however, fix it before testing it on saved
+posteriors, where it had to reject the three emcee chains which had failed
+their length assessment and to accept both the chains which had passed that
+assessment and the nested posterior of the real visit.
 
 When a fit is accepted, the weighted medians of $t_0$, $a/R_\star$, $i$ and
-each $k_o$ over the whole posterior are passed to the spectral fit, and $b$
-is computed from the medians of $a/R_\star$ and $i$. The white-light depth of each order is $10^6k_o^2$~ppm, and the spectral fit
-starts from the mean of the two. The accepted NOVA spectrum of the real visit,
-which is also the reference of the uncertainty ensemble below, was fitted at
-the geometry of an earlier accepted emcee fit; the later nested fit of the
-real visit passes the rule above and reproduces that geometry closely. Diagnostics of multimodality and of the posterior tails are also
-reported, although they play no part in acceptance.
+each $k_o$ over the whole posterior are passed to the spectral fit, which
+starts from the mean white-light depth of the two orders, $10^6k_o^2$~ppm.
+One caveat applies to the real visit: its accepted NOVA spectrum, which is
+also the reference of the uncertainty ensemble below, was fitted at the geometry of an earlier accepted emcee fit. The later nested
+fit of the real visit passes the rule above and reproduces that geometry
+closely.
 
 \subsubsection{The uncertainty ensemble}
 \label{sec:ensemble}
@@ -607,16 +527,16 @@ reported, although they play no part in acceptance.
 % real model plus resampled real residual blocks; the ensemble errors define
 % a finite-ensemble Student likelihood that must pass held-out coverage.
 % Evidence: config/MATCHED_COVARIANCE_ENSEMBLE_R1.json; products/
-% generator_v2_20260923_v7_r2_package (REGISTRY.json, source/
-% generator_v2_draw_20260922.py, pilot_noise.py circular_oot_schedule); source/
-% finite_ensemble_likelihood.py; source/covariance_validation.py; config/
-% COVARIANCE_ANALYSIS_PROTOCOL_R1.json; reports/COVARIANCE_VALIDATION_RESULT_20260921.md;
+% generator_v2_20260923_v7_r2_package (REGISTRY.json, generator_v2_draw_20260922.py,
+% pilot_noise.py); source/finite_ensemble_likelihood.py; source/
+% covariance_validation.py; config/COVARIANCE_ANALYSIS_PROTOCOL_R1.json;
 % evidence/reviewer_plan_reporting_rank_20260920_r1.json (rank 128).
 
-The profiled normal equations give a covariance for the spectrum, but only
-conditional on one fixed set of calibration products. I therefore estimate
-the spectral uncertainty of NOVA by repeating the whole analysis on
-simulated realisations of the real visit,
+The covariance which comes out of a single fit is conditional on its
+calibration products, such as the spatial response and the geometry, which
+are themselves uncertain. I therefore estimate the uncertainty of NOVA's
+spectrum by repeating the whole analysis on simulated realisations of the
+real visit,
 \begin{equation}
  Y^{(n)}_{tp}=\widehat Y^{\mathrm{ref}}_{tp}+\bar r_p+a_p\,\psi_t
  +\mathrm{ERR}_{tp}\,z_{d_n(t),\,p},
@@ -627,61 +547,47 @@ final prediction for the real visit on the trace pixels, together with the
 fitted mean background off the trace, and $\bar r_p$ is the mean, in each
 pixel, of the real out-of-transit residual, which is added back so that any
 static mismatch between the model and the real data is also present in the
-realisations. The term $a_p\psi_t$ puts back the leading off-trace temporal component,
-which the correlation criterion of the background model keeps out of the fit
-because it resembles the transit. Only its transit-shaped part is put back:
+realisations. The term $a_p\psi_t$ puts back the transit-shaped off-trace
+component which the background model keeps out of the fit:
 $\psi_t=\mathcal{T}^{\mathrm{w}}_t-1$ is the transit decrement of the
 accepted white-light fit, which is exactly zero outside the transit, and
 $a_p$ is the amplitude obtained, in each off-trace pixel, by projecting the
 component onto $\psi_t$; on the trace pixels, $a_p$ is the extension of the
-eight-map background model under the trace, not a measured amplitude. The last term is the real ERR array
-multiplied by a centred, standardised out-of-transit residual $z$ taken from
-a donor integration $d_n(t)$.
+background model under the trace, not a measured amplitude. The last term
+adds real noise: the real ERR array multiplied by a centred, standardised
+out-of-transit residual $z$ taken from a donor integration $d_n(t)$.
 
-The donors are whole frames, drawn in blocks of 64 consecutive
-integrations. Each block starts at a randomly chosen out-of-transit
-integration and continues within the same out-of-transit interval,
-$[0,230)$ or $[600,720)$, wrapping round to the start of that interval if
-necessary, so that no block spans the transit, and blocks are placed one
-after another until all 720 integrations are filled. The same donor schedule
-is used for the trace and the off-trace pixels. Each realisation keeps the
-real ERR and data-quality arrays, and any sample which becomes invalid in the
-draw is also flagged.
-
-The ensemble contains 352 realisations, each with a fixed random seed and a
-fixed role. 256 are used to estimate the covariance and 32 are held out to
-validate it, whilst two further sets of 32 reuse the held-out seeds with
-blocks of 128 and 192 integrations, to test how sensitive the result is to
-the block length. Such a block, if drawn from the 120-integration
-interval $[600,720)$, wraps round and repeats some of its frames. Each
-realisation is analysed from scratch, with a fresh spatial response,
-background pattern and anchor, curvature factor and uncertainty scales, its
-own nested white-light fit under the rule of Section~\ref{sec:own-white},
-and two strict starts. No failed realisation is replaced or dropped: a realisation whose
-white-light fit fails or whose starts are not strict is recorded as a
-failure. The covariance and its validation are only formed once all 256
+Real detector noise is correlated between neighbouring integrations, and so
+the donors are whole frames drawn in blocks of 64 consecutive
+integrations, each taken from within one of the two out-of-transit intervals
+so that no block spans the transit. The ensemble contains 352 realisations,
+each with a fixed seed and a fixed role. Of these, 256 are used to estimate
+the covariance and 32 are held out to test it, whilst two further sets of 32
+reuse the held-out seeds with longer blocks, of 128 and 192 integrations, to
+check whether the result depends on the block length
+(Appendix~\ref{app:implementation}). Each realisation is analysed from
+scratch, with its own spatial response, background pattern and anchor,
+curvature factor and uncertainty scales, its own nested white-light fit, and
+two strict starts. Because a realisation which fails may differ
+systematically from one which succeeds, no failed realisation is replaced or
+dropped: the covariance and its validation are only formed once all 256
 estimation and all 32 held-out realisations have completed and passed their
-checks, and if any of them fails, the ensemble is reported as incomplete. In
-the two block-length sets, a failed realisation stays in the registered
-denominator of 32.
+checks, and otherwise the ensemble is reported as incomplete.
 
 The error of a realisation is its recovered spectrum minus the reference
-spectrum, i.e.\ the accepted NOVA spectrum of the real visit from which
-$\widehat Y^{\mathrm{ref}}$ was built. The 147 reported bins are produced
-from the 160 native coefficients by the fixed linear map of
-Section~\ref{sec:reporting}. Below 1~$\mu\mathrm{m}$ and above
-2~$\mu\mathrm{m}$ the reporting bins are narrower than the native basis
-functions, so this map has rank 128, and the bin errors contain only
-$N_{\mathrm{m}}=128$ independent modes; I express each error in these modes.
-From the $N=256$ estimation errors, I form the sample mean $\bm{\mu}$ and the
-unbiased sample covariance $\bm{S}$ directly, without shrinkage or jitter and
-keeping all 128 modes. Because $\bm{S}$ is itself estimated from a finite
-number of realisations, a Gaussian likelihood with this covariance would be
-too narrow. For the likelihood of a new error $\bm{x}$ I therefore use the
-multivariate Student distribution of \citet{SellentinHeavens2016}, with an
-additional factor $1+1/N$ because the mean $\bm{\mu}$ is also estimated,
-i.e.\ a distribution centred on $\bm{\mu}$ with $N-N_{\mathrm{m}}$ degrees
-of freedom and scale matrix
+spectrum, i.e.\ the accepted NOVA spectrum of the real visit. The 147
+reported bins are produced from the 160 native coefficients by the fixed map
+of Section~\ref{sec:reporting}, which has rank 128, so the bin errors contain
+only $N_{\mathrm{m}}=128$ independent modes, and I express each error in
+these modes. From the $N=256$ estimation errors, I form the sample mean
+$\bm{\mu}$ and the unbiased sample covariance $\bm{S}$ directly, without shrinkage or jitter
+and keeping all 128 modes. Because $\bm{S}$ is itself estimated from a finite number of
+realisations, a Gaussian likelihood with this covariance would be too narrow.
+For the likelihood of a new error $\bm{x}$ I therefore use the multivariate
+Student distribution of \citet{SellentinHeavens2016}, with an additional
+factor $1+1/N$ because the mean $\bm{\mu}$ is also estimated, i.e.\ a
+distribution centred on $\bm{\mu}$ with $N-N_{\mathrm{m}}$ degrees of freedom
+and scale matrix
 \begin{equation}
  \bm{\Sigma}=\left(1+\frac{1}{N}\right)\frac{N-1}{N-N_{\mathrm{m}}}\,\bm{S},
  \label{eq:finite-ensemble}
@@ -690,15 +596,13 @@ so that $(\bm{x}-\bm{\mu})^{\mathsf T}\bm{\Sigma}^{-1}(\bm{x}-\bm{\mu})/
 N_{\mathrm{m}}$ follows an $F(N_{\mathrm{m}},\,N-N_{\mathrm{m}})$
 distribution.
 
-The likelihood is validated on the 32 held-out realisations. A held-out error
-is covered if its statistic lies below the 95th percentile of this $F$
-distribution, and the validation fails if a one-sided exact binomial test
-rejects 95\% coverage at a significance level of 0.025, which happens when
-27 or fewer of the 32 are covered. In addition, the Mardia skewness and
-kurtosis of the 256 estimation errors are compared with those of 512
-simulated Gaussian ensembles of the same size, and a departure at the same
-significance level is reported as a warning. The validation is run once all
-352 realisations have finished, and the likelihood is only used for
+A likelihood is only useful for a retrieval if its error bars are honest, and
+so it is tested on the 32 held-out realisations, which played no part in
+estimating it. If the likelihood is right, about 95\% of their errors should
+fall inside its 95\% region, and it fails the test if significantly fewer do.
+The shape of the distribution of the estimation errors is also compared with
+simulated Gaussian ensembles, as a warning sign rather than a condition
+(Appendix~\ref{app:implementation}). The likelihood is only used for
 atmospheric retrieval if it passes.
 
 \subsection{The injector}
@@ -710,66 +614,55 @@ atmospheric retrieval if it passes.
 % detector processing, background and noise are real and the truth is known.
 % Evidence: source/emit_original_A_group_segment.py, source/
 % original_v45_group_signal.py, source/group_accumulated_transport.py;
-% evidence/matrix_trip_bindings_r2.json; reports/rate_native_pilot_preparation_20260921/
-% ENTRY_STAGE_DECISION.md (pilot input).
+% evidence/matrix_trip_bindings_r2.json.
 
 The injector addresses the validation problem of
 Section~\ref{sec:detector-to-validation}. Real observations come with no
 ground truth, and so I create one by writing a transit with a known spectrum
-into real JWST data. The transit is written into the raw detector ramps,
-before any calibration, so that each recovery method can run its own
-detector processing, including its own group-level $1/f$ correction, on the
-same injected frames. The injector is used in two stages. In the pilot, a
-few injected cases are recovered to test the injector and to measure how
-sensitive the recovered spectra are to its assumptions; in production, a larger set of atmospheres is to be injected into each of
-six visits, subject to the per-visit checks of Section~\ref{sec:envelope},
-and recovered by every method. The subsections below describe,
-in turn, the real data which carry the signal, which light is dimmed, how the
-transit is computed and written into the raw counts, the detector processing,
-the checks that the signal was delivered, and how the recoveries are run,
-compared and scored.
+into real JWST data. The transit is written into the raw detector ramps (the
+uncal files), before any calibration, so that every recovery method can run
+its own detector processing, including its own group-level correction of the $1/f$ noise, on the same
+injected frames. The injector is used in two stages. In
+the pilot, a few injected cases are recovered with NOVA to test the injector
+and to measure how sensitive the recovered spectra are to its assumptions;
+in production, a larger set of atmospheres is to be injected into each of six
+visits and recovered by every method. The subsections below describe, in
+turn, the real data which carry the signal, which light is dimmed, how the
+transit is computed and written into the raw counts, the detector
+processing, the checks that the signal was delivered, and how the recoveries
+are run, compared and scored.
 
 \subsubsection{Baseline and null}
 \label{sec:baseline}
 
-% Question: Which real data carry the injected signal, and what is the
-% control?
+% Question: Which real data carry the injected signal, and what are the
+% controls?
 % Answer: The first 229 raw integrations of the WASP-17 visit, all before
-% the real transit; the null is the same frames through the same processing
-% with nothing injected, and a rate-level control adds the final-read change
-% after ramp fitting.
+% the real transit; the null is the same frames with nothing injected, and a
+% rate-level control adds the final-read change after ramp fitting.
 % Evidence: evidence/matrix_trip_bindings_r2.json (baseline_provenance);
 % reports/PHYSICAL_MATCHED_NATIVE_NULL_20260918.md; products/
 % w17_measured_raw_emission_20260923_v7_r3_prepared/source/
-% emit_conditional_matched_rate_20260920.py and fixed_primary_family_signal_20260920.py
-% (final cumulative read change divided by its accumulated seconds, flat of ones).
+% emit_conditional_matched_rate_20260920.py.
 
 The injected transit needs real data which contain no transit of their own.
-For this I use the raw, group-level NIRISS/SOSS observation of WASP-17
-(program 1353, observation 101, visit 1), restricted to its first 229
-integrations (numbered 0 to 228), which I refer to as the baseline; they are
-stored in two raw segments of 178 and 51 integrations. The real transit,
-together with buffer integrations on either side of it, occupies
-integrations 230 to 599 of the 720-integration visit, so every baseline
-integration was taken before the real transit. Each integration consists of
-eight nondestructive reads of the $256\times2048$ subarray, with one frame per
-group, a group time of 5.494~s and no dropped frames, so the accumulated
-exposure times run from 5.494 to 43.952~s.
+For this I use the raw NIRISS/SOSS observation of WASP-17, restricted to its
+first 229 integrations, which I refer to as the baseline. The real transit,
+together with buffer integrations on either side of it, only begins at
+integration 230, so every baseline integration was taken before it. Each
+integration consists of eight nondestructive reads of the detector, about
+5.5~s apart (Appendix~\ref{app:implementation}).
 
-I also pass the same 229 raw integrations, with nothing injected, through the
-identical detector processing, and refer to this as the null. As a control,
-the signal is also injected at the rate level, i.e.\ after ramp fitting: the
-count change accumulated by the final read, divided by its accumulated
-exposure time of 43.952~s, is added to the calibrated rate images of the
-null. Since these images have already been flat-fielded, the flat-field
-factor which returns the raw-level signal to raw counts
-(Section~\ref{sec:transport}) is omitted, and the uncertainty and quality
-arrays of the null are left untouched. The difference between the raw-level
-and rate-level recoveries measures what the group-level processing does to
-the injected signal, together with the effect of adding the signal as a
-final-read average instead of through the ramp: in integrations in which the
-transit changes, a ramp fit to the injected reads does not return exactly
-this average.
+Two controls are built from the same data. The first, which I call the null,
+is the baseline passed through the identical detector processing with
+nothing injected, and it shows what the processing does to the data alone.
+The second adds the signal after ramp fitting instead of before it: the count
+change accumulated by the final read, divided by its exposure time, is added
+to the calibrated rate images of the null. Comparing recoveries from the two
+injections shows what the group-level processing does to the injected
+signal. The comparison also contains the effect of adding the signal as an
+average over the whole integration, since a ramp fit to reads during which
+the transit changes does not return exactly this average.
 
 \subsubsection{Which light is dimmed}
 \label{sec:dimmed-light}
@@ -782,157 +675,111 @@ this average.
 % Evidence: products/light_based_family_20260921_r1/FAMILY.json and
 % FAR_PIXEL_ACCOUNTING.json; products/full_light_outer_shape_controls_20260916_r1/
 % SOURCE_ESTIMATE.json; products/full_photon_source_projection_diagnostic_r1/
-% SOURCE_PROJECTION.npz and job 4015158 (core); products/measured_per_column_20260922_r1/
-% REGISTRATION.json (depth definition, upper bound pending pre-1/f);
-% source/freeze_measured_columns_20260922.py; reports/
-% EVENING_FAR_LIGHT_AND_WHITE_CHECKS_20260921.md (safe pixels); products/
-% w17_measured_raw_emission_20260923_v7_r3_prepared/source/
-% fixed_primary_family_signal_20260920.py; reports/ENDPOINT_HOLD_VERIFICATION_20260920.md.
+% SOURCE_PROJECTION.npz; products/measured_per_column_20260922_r1/REGISTRATION.json;
+% reports/EVENING_FAR_LIGHT_AND_WHITE_CHECKS_20260921.md.
 
 In a real transit only the light of the target star is dimmed, and so the
 injector needs a map of where on the detector the starlight of the target
-falls. This map, which I call the source, gives the count rate of the
-target in each pixel, in $\mathrm{DN\,s^{-1}}$ at a reference time, and it is
-divided into three zones according to the distance $d$ of each pixel from
-the nearer of the order-1 and order-2 traces. In the core, $d\leq16$ pixels
-(119{,}277 pixels), the source is a projection of the stellar spectrum
-through the public ATOCA spectral-trace model \citep{DarveauBernierEtAl2022},
-with a wing correction, a per-column flux normalisation and a per-pixel
-out-of-transit response calibrated on the same data; this projection was made
-earlier in the project and is reused exactly as it was. Outside the core, the source is a single estimate of the out-of-transit
-light measured on the same data after background subtraction, made without
-smoothing in bands of 64 columns and separately for odd and even rows.
-Because background subtraction leaves some pixels negative, this estimate is
-constrained to be nonnegative, whilst the signed total of each band over the
-whole region outside the core is preserved. The wings, $16<d\leq80$ pixels,
-take the part of this estimate within 80 pixels of the traces (257{,}554
-eligible pixels), and the far region, $d>80$ pixels, the part beyond
-(121{,}811 eligible pixels). Whether this light belongs to the target has not been
-established, so it is injected at a fraction $m$ of the measured field.
+falls. This map, which I call the source, gives the count rate of the target in
+each pixel, in $\mathrm{DN\,s^{-1}}$ at a reference time, and it is divided into three zones according to the distance
+$d$ of each pixel from the nearer of the two traces. In the core, within 16
+pixels of a trace, the source is a projection of the stellar spectrum through
+the public ATOCA model of the traces \citep{DarveauBernierEtAl2022},
+calibrated on the same data. Further out, the source is measured directly from the data: it is the out-of-transit light which remains after background subtraction,
+estimated without smoothing and constrained to be nonnegative, since
+background subtraction leaves some pixels negative, whilst the total light of
+each band of columns is preserved (Appendix~\ref{app:implementation}). The wings, between 16 and 80 pixels, take this
+estimate as it stands.
 
-This defines a family of injectors which differ only in $m$. Two members
-bracket the possibilities, one which injects none of the far light ($m=0$)
-and one which injects all of it ($m=1$). A third, midpoint member ($m=0.5$)
-is only used in the delivery check. Far pixels with no measured light
-(33{,}758) receive nothing in every member.
+In the far region, more than 80 pixels from the traces, it is not known how
+much of the remaining light belongs to the target and how much to the sky,
+and so this light is injected at a fraction $m$ of the measured field. This
+defines a family of injectors which differ only in $m$. Two members bracket
+the possibilities, one which injects none of the far light ($m=0$) and one
+which injects all of it ($m=1$), and a third, midpoint member ($m=0.5$) is
+only used in the delivery check. Pixels which are not eligible for the
+measured estimate, for example because they are contaminated by field stars
+identified in the F277W exposure, keep the modelled light of the core
+projection (Appendix~\ref{app:implementation}).
 
 A fourth member uses a measured far-light fraction. The idea is that far
 light which belongs to the star dims by the same fraction as the star during
-the transit, whereas the sky background does not, so if all of the far-light
-dimming came from starlight, the ratio of the far-light dip to the transit
-depth would equal the stellar share of that light. I measure the dip on the final calibrated images of the full real visit, in
-the 102{,}308 far pixels which lie inside the pipeline's background mask,
-comparing 315 in-transit with 350 out-of-transit integrations and excluding 55
-buffer integrations. Averaged over all of these pixels, their signal drops by
-0.834\% during the real transit. For the member, the dip is measured in each
-detector column and divided by the mean
-fractional decrement of the accepted real white-light model over the same
-315 integrations, averaged over the two orders (0.013629); a later refit of
-the white-light curve changes this value by only $3\times10^{-7}$, which
-leaves the member unchanged. The same achromatic value is used for every
-column. The ratio is averaged over a 128-column window, using only the
-1{,}884 columns with a direct measurement, and bounded to $[0,1]$. The
-resulting multiplier $m_x$, where $x$ denotes the detector column, has a
-minimum of 0.103, a median of 0.606 and a maximum of 1, with 84 columns at
-the upper bound, and in total this member injects 61.5\% of the measured far
-light. Since $m_x$ is measured after the $1/f$ correction of the pipeline, which
-may imprint on the statistic measured in the far rows, it is treated as an
-upper bound on the stellar fraction of the far light, pending a repeat of
-the measurement before that correction, and not as a measurement of it. Every pixel outside the core which is not eligible for the empirical
-estimate keeps the modelled target light of the core projection. These are
-10{,}838 pixels flagged in the F277W exposure, a direct image used to locate
-contaminating field sources (of the 12{,}808 flagged pixels, 1{,}820 lie in
-the core and 150 are reference pixels), and 4{,}600 pixels without a finite
-out-of-transit measurement. The 10{,}208 reference pixels receive no
-light.
+the transit, whereas the sky does not, so if all of the far-light dimming
+came from starlight, the ratio of the far-light dip to the transit depth
+would equal the stellar share of that light. On the calibrated images of the
+full real visit, the far pixels do dim during the real transit, by 0.834\% on
+average. I measure this dip in each detector column, divide it by the mean fractional
+dimming of the star in the white-light model over the same integrations, a
+single value used for every column, average the ratio over
+128 columns and bound it to $[0,1]$. The resulting multiplier $m_x$, where
+$x$ denotes the detector column, has a median of 0.606, and in total this
+member injects 61.5\% of the measured far light. Because $m_x$ is measured
+after the $1/f$ correction of the pipeline, which may imprint on the far-row
+statistic, it is treated as an upper bound on the stellar fraction of the
+far light, pending a repeat of the measurement before that correction, and
+not as a measurement of it.
 
-Each zone also needs a description of how its light is distributed in
-wavelength and between the two orders. The core keeps the wavelength and
-order kernels of its original projection, whilst the wings and the far region
-take their mixture from a separate model of the outer light, rescaled pixel
-by pixel to the measured map, so that the outer light has its own spectrum
-and rate of change in time whilst its brightness is set entirely by the
-measured map. As a check, the two components are projected separately and
-summed, and the sum must reproduce the source map to a relative precision of
-$5\times10^{-13}$ (an absolute precision of $10^{-10}\,\mathrm{DN\,s^{-1}}$).
-In the core, the stellar spectrum $S(\lambda,\tau)$, where $\tau$ is time,
-varies linearly between two calibrated endpoint spectra, and outside the
-calibration interval it is held at the endpoint value, which only affects
-the reads of integration~0. The outer component also varies linearly in
-time, but its two endpoints are defined at the start and the end of the full
-interval covered by the reads.
+Each zone also needs a description of how its light is spread in wavelength
+and between the two orders. The core keeps the wavelength and order
+structure of its projection, whilst the wings and the far region take theirs
+from a separate model of the outer light, rescaled pixel by pixel to the
+measured map. The stellar spectrum of the core varies linearly in time between two
+calibrated spectra (Appendix~\ref{app:implementation}).
 
 \subsubsection{The per-read transit signal}
 \label{sec:per-read}
 
 % Question: How is the transit computed?
-% Answer: With ExoTETHyS TRIP on MPS-ATLAS intensities (official routines,
-% with a row-wise occulted-flux step regression-tested bit for bit), averaged
-% over each of the eight reset-to-read windows of every integration, at the
-% control-file orbit with a/R* rescaled so that the transit fits the baseline.
+% Answer: With ExoTETHyS TRIP on MPS-ATLAS intensities, averaged over each of
+% the eight reset-to-read windows of every integration, at the control-file
+% orbit with a/R* rescaled so that the transit fits the baseline.
 % Evidence: products/original_A_causal_validation_trip_reference_r1_package/
-% source/run_original_v45_group_trip.py (official_fast_trip_regression,
-% final-read check against integration-level reference); source/
-% B_mixed_native_trip.py (integration-level tables, 5e-13 edge gate); evidence/
-% matrix_trip_bindings_r2.json (geometry: target_T14, b retained); reports/
-% ENDPOINT_NULL_ROUNDOFF_CONSULTATION_20260920.json (three audited packets).
+% source/run_original_v45_group_trip.py; source/B_mixed_native_trip.py;
+% evidence/matrix_trip_bindings_r2.json (geometry); config/
+% COMPARATOR_SHARED_GEOMETRY_PRIORS_20260923_R1.json (t0 prior).
 
-The injected spectrum $D(\lambda)$ is defined on the injector's own
-wavelength grid of 15{,}326 nodes, and the radius ratio at each node is
-$\sqrt{D(\lambda)}$. The fraction of the stellar flux which remains visible,
-$T(\lambda,\tau)$, is computed with the TRIP routine of ExoTETHyS
-\citep{MorelloEtAl2020} using 20{,}000 annuli. The injector calls the public
-ExoTETHyS code for the stellar intensity profile and the total stellar flux,
-and replaces only the calculation of the occulted flux with a version which
-evaluates the same expression one planet position at a time; before every
-run, a regression test requires this version to reproduce the public routine
-bit for bit. The stellar intensities come from the MPS-ATLAS grid (set~1)
-\citep{KostogryzEtAl2022,KostogryzEtAl2023} for $T_{\mathrm{eff}}=6550$~K,
-$\log g=4.149$ and $[\mathrm{M}/\mathrm{H}]=-0.25$.
+To write a transit into the data, the injector first needs the fraction of
+the star's light which remains visible, $T(\lambda,\tau)$, at every
+wavelength $\lambda$ and time $\tau$. For the injected spectrum $D(\lambda)$
+the radius ratio at each wavelength is $\sqrt{D(\lambda)}$, and $T$ is
+computed with the TRIP routine of ExoTETHyS \citep{MorelloEtAl2020}, which
+integrates the occulted light over thin annuli of the stellar disc. The
+stellar intensities come from the MPS-ATLAS grid (set~1)
+\citep{KostogryzEtAl2022,KostogryzEtAl2023} at the stellar parameters of
+WASP-17.
 
 The injected orbit keeps the period, the circular orbit and the impact
 parameter ($b\simeq0.339$) of the public control file of the published
 WASP-17~b analysis \citep{LouieEtAl2025}. The real transit of WASP-17~b,
 however, lasts about 4.3~h and would not fit into the 229-integration
 baseline, and so $a/R_\star$ and the inclination are rescaled, with $b$ held
-fixed, until the transit lasts about 1.74~h, from the start of
-integration~51 to the end of integration~177, with mid-transit at the centre of this span. None of the recovery methods
-is given the rescaled $a/R_\star$ or inclination. Note, however, that the
-recoveries share the period, eccentricity and argument of periastron of the
-injected orbit, and that the prior on $t_0$ of every white-light fit is
-centred on, and started at, the middle of the observed window, which is the
-injected mid-transit time by construction.
+fixed, until the transit lasts about 1.74~h, with mid-transit at the centre
+of the baseline. None of the recovery methods is given the rescaled
+$a/R_\star$ or inclination. Note, however, that the recoveries share the period, eccentricity and argument of periastron of
+the injected orbit, and that the prior on $t_0$ of every white-light fit is
+centred on, and started at, the middle of the observed window, which
+is the injected mid-transit time by construction.
 
-Each read $n$ of integration $t$ records the charge accumulated since the
-detector was reset, and so it sees the transit averaged over the window from
-the reset to the end of that read. The transit is averaged over each of these
-eight nested windows by Gauss--Legendre quadrature, using the same window
-for every pixel, and grids of 41 and 61 nodes must agree to better than
-1~ppm; the 61-node result is used. The results are stored in precomputed
-transit tables, which hold, for each integration, read and wavelength node,
-the window mean $\langle T\rangle_{tn}(\lambda)$ and the first time moment
-about the integration midpoint $\tau_t$,
+Each read of an integration records the charge accumulated since the
+detector was reset, and so read $n$ of integration $t$ sees the transit
+averaged over the window from the reset to the end of that read. The
+transit is therefore averaged over each of these eight nested windows, by
+Gauss--Legendre quadrature, and stored in precomputed transit tables. For
+each integration, read and wavelength, a table holds the window mean
+$\langle T\rangle_{tn}(\lambda)$ and the first time moment about the
+integration midpoint $\tau_t$,
 $\mu_{tn}(\lambda)=\langle(\tau-\tau_t)(T-1)\rangle_{tn}$; the moment is
 needed because the stellar source itself changes during the integration
-(Section~\ref{sec:transport}).
-
-These tables are checked against independently computed tables of the
-transit averaged over each whole integration: the final read window of each
-integration must reproduce the integration average to within
-$10^{-6}$~ppm, and in the integration-averaged tables the first and last
-integrations must be unocculted to within $5\times10^{-13}$. Integration~0,
-the only integration whose read windows extend beyond the calibration
-interval of the stellar spectrum, must carry no transit signal at all, i.e.\
-its remaining fraction must be exactly 1 and its time moment exactly zero.
-In the three tables used in the pilot, integration~0 carried a round-off
-error of $2\times10^{-16}$ in this fraction, which was verified to be harmless
-and set to exactly 1 with explicit approval; in all new tables, any such
-departure is recorded as a failure. On the 229-integration baseline, the grey signal used in the delivery check
-affects integrations 51 to 177 (127 integrations). Because the contact times
-depend on the radius ratio, wavelengths at which an atmospheric spectrum is
-deeper are occulted slightly earlier and for slightly longer, and so the
-transit of an atmospheric spectrum reduces the flux in integrations 50 to 178
-(129 integrations) and leaves the other 100 unaffected.
+(Section~\ref{sec:transport}). The tables are checked against
+independently computed transit averages over whole integrations, and
+integration~0, the only one whose reads extend beyond the time range of the
+stellar calibration, must carry no transit signal at all
+(Appendix~\ref{app:implementation}). On the 229-integration baseline, the
+grey signal used in the delivery check affects integrations 51 to 177.
+Because the contact times depend on the radius ratio, wavelengths at which
+an atmospheric spectrum is deeper are occulted slightly earlier and for
+slightly longer, and so an atmospheric transit affects integrations 50 to
+178 and leaves the other 100 unaffected.
 
 \subsubsection{Transport to raw counts}
 \label{sec:transport}
@@ -942,14 +789,12 @@ transit of an atmospheric spectrum reduces the flux in integrations 50 to 178
 % detector, returned to unflattened counts, and written as floats through the
 % inverse of the pipeline's linearity correction via an affine bridge.
 % Evidence: source/original_v45_group_signal.py; source/
-% group_accumulated_transport.py; config/DEVELOPMENT_GROUP_TRANSPORT_R1.json
-% (tolerances); NOVA_SP_MULTIVISIT_SCENE_ROBUSTNESS_20260826_R1/source/
-% stage3b_detector_transport_r2.py (affine bridge, step sequence); evidence/
-% exo250_raw_configuration_bindings_20260923_r1.json (scale 1.0, flat range);
-% stage3b_float_sci_persistence_adapter_r2.py (float writing, protected masks).
+% group_accumulated_transport.py; config/DEVELOPMENT_GROUP_TRANSPORT_R1.json;
+% NOVA_SP_MULTIVISIT_SCENE_ROBUSTNESS_20260826_R1/source/
+% stage3b_detector_transport_r2.py; stage3b_float_sci_persistence_adapter_r2.py.
 
-For a source which is linear in time, the count change accumulated by read
-$n$ of integration $t$ at wavelength node $\lambda$ is the integral of
+For a source which varies linearly in time, the count change accumulated by
+read $n$ of integration $t$ at wavelength $\lambda$ is the integral of
 $S\,(T-1)$ over the read window, and its projection onto the detector gives
 the change in the counts of pixel $p$,
 \begin{equation}
@@ -962,53 +807,36 @@ the change in the counts of pixel $p$,
 \end{split}
  \label{eq:v45-injector}
 \end{equation}
-where $\Delta N_{tn}(\lambda)$ is the count change at node $\lambda$ before
-projection, $\Delta Y^{\mathrm{raw}}_{tnp}$ is the resulting change in the
-linearised counts of pixel $p$ before flat-fielding, $s_n=5.494\,n$~s is the accumulated exposure time of
-read $n$, which is the same in every integration, $S_t$ is the stellar
-spectrum at the midpoint of the integration, $\dot S$ is its rate of change,
-$\langle T\rangle_{tn}$ and $\mu_{tn}$ are the window mean and time moment
-defined above, $\bm{A}_o$ is the detector projection of order $o$, and $f_p$
-is the flat-field coefficient of pixel $p$. The projection $\bm{A}_o$
-combines the sparse spectral-response matrix of the public ATOCA kernel, a
-wing correction, a per-column normalisation and a per-pixel out-of-transit
-response calibrated on the data. The equation is evaluated separately for
-the core and the outer components, each with its own spectrum and
-projection, and the results are summed. The projection gives the loss in flat-fielded counts, and multiplying by
-$f_p$ undoes the flat field. Here $f_p$ is the effective flat applied by the pipeline's flat-field step
-with the reference file \texttt{jwst\_niriss\_flat\_0275}, which equals one
-at pixels flagged in that file, whose flags are left in place; on the
-original two-order support of 507{,}606 pixels it ranges from 0.2021 to
-1.5027. The count change is zero on the reference pixels and must be
-nonpositive in every pixel, since a transit can only remove light; otherwise
-the injection stops.
+where $\Delta N_{tn}(\lambda)$ is the count change at wavelength $\lambda$
+before projection, $\Delta Y^{\mathrm{raw}}_{tnp}$ is the resulting change in
+the linearised counts of pixel $p$ before flat-fielding, $s_n=5.494\,n$~s is
+the accumulated exposure time of read $n$, $S_t$ is the stellar spectrum at
+the midpoint of the integration, $\dot S$ is its rate of change, $\bm{A}_o$
+is the detector projection of order $o$, and $f_p$ is the flat-field
+coefficient of pixel $p$. The projection $\bm{A}_o$ combines the
+spectral-response matrix of the public ATOCA kernel, a wing correction and
+the calibrations of the source map; it is applied separately to the core and
+outer components, each with its own spectrum, and the results are summed.
+The projection gives the loss in flat-fielded counts, and multiplying by the
+effective flat $f_p$ of the pipeline's flat-field step converts it back. The
+count change is zero on the reference pixels and must be nonpositive in every pixel, since a transit can only remove
+light; otherwise the injection stops.
 
-The change $\Delta Y^{\mathrm{raw}}$ is defined in linearised counts,
-whereas the raw ramp records counts before the linearity correction, and so
-it has to be passed through the inverse of that correction. To do this, the
-raw counts are first carried to the input of the pipeline's linearity step,
-i.e.\ through its data-quality initialisation, saturation, superbias and
-reference-pixel steps. Since the superbias and reference-pixel corrections
-act on each sample as fixed additive offsets, this bridge is affine, and its
-offsets are computed once from a pair of raw and pre-linearity frames of the
-baseline; it remains valid because the injection never changes the reference
-pixels. Newton's method is then used to solve the pipeline's linearity polynomial
-for the input value whose linearised value equals the original linearised
-value plus $\Delta Y^{\mathrm{raw}}$, and the inverse bridge maps this value
-back to the raw sample. The modified ramps are written as
-floating-point values, so the injected change is not rounded to integer DN.
-The bridge must reproduce the input of the pipeline's linearity step to
-within 0.015625~DN, the delivered change must match the requested change to
-within the same tolerance, and the linearity polynomial must be inverted to
-within $10^{-8}$~DN. The two orders are summed before this transport.
-Samples which are flagged as saturated in the group quality array, or which
-are not finite at the linearity input, keep their original values, and the
-part of the decrement which could not be delivered is recorded. In NOVA's own detector processing, moreover, the group-level $1/f$
-correction is applied between the reference-pixel correction and the
-linearity step, so the counts which its linearity step sees differ from those
-used in the inversion by this correction. Everything else in the raw data, i.e.\
-the observed noise, background and field sources, is left untouched, and no
-scene mask is used anywhere in the injection.
+The injected change is defined in linearised counts, whereas the raw ramp
+records counts before the linearity correction, and so the change has to be
+passed through the inverse of that correction. To do this, the raw counts are
+first carried to the input of the pipeline's linearity step. The steps
+before it only add fixed offsets to each sample, so this bridge is affine,
+and it remains valid because the injection never changes the reference
+pixels. Newton's method then solves the pipeline's linearity polynomial for
+the input value whose linearised value equals the original one plus
+$\Delta Y^{\mathrm{raw}}$, and the inverse bridge maps this value back to
+the raw sample. The modified ramps are written as floating-point values, so
+the injected change is not rounded to integer counts. Samples which are
+saturated keep their original values, and the part of the decrement which
+could not be delivered is recorded. Everything else in the raw data, i.e.\
+the observed noise, background and field stars, is left untouched. The
+tolerances of each step are given in Appendix~\ref{app:implementation}.
 
 \subsubsection{Detector processing}
 \label{sec:detector-processing}
@@ -1016,85 +844,65 @@ scene mask is used anywhere in the injection.
 % Question: What happens to the injected ramps before recovery?
 % Answer: NOVA's input runs jwst group steps to refpix, exoTEDRF 2.4.3
 % group-level background and 1/f steps, jwst linearity/jump/ramp/gain, then
-% exoTEDRF Stage 2 (including background, flat and bad-pixel steps); the
-% comparator pilots start at extraction from the rate-level injection, and in
-% production each comparator runs its own Stage 1 on the raw frames.
-% Evidence: source/run_nova_original_A_group_detector.py (lines 55-100,
-% baseline_ints [50,-50], space/time thresholds 15, skip_steps);
+% exoTEDRF Stage 2 (background, flat and bad-pixel steps); each comparison
+% pipeline runs its own processing from the same raw frames.
+% Evidence: source/run_nova_original_A_group_detector.py (lines 55-100);
 % reports/PHYSICAL_MATCHED_NATIVE_NULL_20260918.md (exoTEDRF 2.4.3); evidence/
-% native_null_completion_20260918_r1.json (NATIVE_F277W_MASK_USED.json is
-% cluster-only); reports/rate_native_pilot_preparation_20260921/ENTRY_STAGE_DECISION.md.
+% native_null_completion_20260918_r1.json.
 
 NOVA's input is prepared from the injected raw segments with the same
-processing chain that it uses for the real data, which combines public steps
-from two packages. Firstly, the group-level steps of Stage~1 of the JWST
-calibration pipeline \citep{JWSTPipeline2025}, the stage which turns raw
-ramps into count-rate images, are run up to and including the
-reference-pixel correction. Secondly, the group-level background and $1/f$ steps of exoTEDRF 2.4.3
-\citep{Radica2024} are applied; the background step subtracts a scaled model
-of the zodiacal background only so that the $1/f$ noise can be estimated,
-and adds it back afterwards. This is the version with which NOVA's input has
-always been prepared, and it differs from the release 2.5.0 which is run as a
-comparison pipeline. Thirdly, the
-pipeline's linearity, jump-detection, ramp-fitting and gain steps are run,
-without a dark-current subtraction. Finally, Stage~2 of exoTEDRF, which subtracts the scaled background model,
-applies the flat field and corrects bad pixels with thresholds of 15 in space
-and time, gives rate images in $\mathrm{DN\,s^{-1}}$. On the injected inputs, the background and $1/f$ steps take the first and
-last 50 integrations as their out-of-transit reference, which are exactly
-the integrations that the injected transit leaves unaffected. The $1/f$ step masks the contaminating
-sources identified in the F277W exposure, and I check that the mask built
-when the pipeline runs is identical to the reference mask of 12{,}808
-pixels. No scene mask of the project's own, i.e.\ a veto of whole detector
-columns affected by field stars, is applied, and the null follows exactly the
-same chain.
-
-Each comparison pipeline takes the same injected raw frames and runs its
-own detector processing from the raw ramps onwards, including its own
-group-level $1/f$ treatment (Section~\ref{sec:comparison}).
+processing chain as for the real data, which combines public steps from the
+JWST calibration pipeline \citep{JWSTPipeline2025} and from exoTEDRF
+\citep{Radica2024}. Firstly, the pipeline's group-level steps are run up to
+and including the reference-pixel correction. Secondly, exoTEDRF removes the
+$1/f$ noise at group level: it temporarily subtracts a scaled model of the
+zodiacal background so that the stripes can be estimated, removes them, and
+adds the background back. Thirdly, the pipeline's linearity, jump-detection,
+ramp-fitting and gain steps turn the ramps into count rates. Finally, Stage~2
+of exoTEDRF subtracts the scaled background model, applies the flat field
+and corrects bad pixels, giving the rate images which NOVA fits. The $1/f$
+step masks the field stars identified in the F277W exposure, and I apply no
+further scene mask of my own. On the injected inputs, the background and
+$1/f$ steps take the first and last 50 integrations as their out-of-transit
+reference, which are exactly the integrations that the injected transit
+leaves unaffected. The null follows exactly the same chain. Each comparison
+pipeline instead takes the same injected raw frames and runs its own
+detector processing from the raw ramps onwards, including its own group-level treatment of the $1/f$ noise
+(Section~\ref{sec:comparison}).
 
 \subsubsection{Delivery checks}
 
 % Question: How is it known that the requested signal reached the data?
-% Answer: Protected-pixel, read and positivity checks on the written files,
-% an exact aperture-sum check inside the 1/f step, and a grey linearity test:
-% a constant 16,000 ppm depth injected under none, half and all of the far
-% light must respond linearly to within 10 ppm in 2,188 order-column pairs.
-% Evidence: reports/LIGHT_BASED_GREY_DELIVERY_RESULT_20260921.md;
-% reports/MEASURED_GREY_DELIVERY_RESULT_20260922.md; source/
-% run_fixed_family_delivery_report_20260920.py and run_measured_grey_report_20260922.py
-% (pairs, gains, secant residual); stage3b_float_sci_persistence_adapter_r2.py
-% (protected masks); products/light_based_family_20260921_r1/FAMILY.json (delivery).
+% Answer: Checks on the written files, an exact aperture-sum check inside the
+% 1/f step, and a grey linearity test across the family.
+% Evidence: reports/LIGHT_BASED_GREY_DELIVERY_RESULT_20260921.md; reports/
+% MEASURED_GREY_DELIVERY_RESULT_20260922.md; source/
+% run_fixed_family_delivery_report_20260920.py; stage3b_float_sci_persistence_adapter_r2.py.
 
-Every injection run must pass a set of checks before its files are used. The
-written files must have the expected number of reads, the count changes must
-be nonpositive, and the protected pixels, i.e.\ the reference pixels and
-every pixel outside the support of the injected light, must be bit-for-bit
-identical to the input, as must all other extensions of the raw files and
-every saturated or inactive sample. During the detector processing, the
-aperture sums of each order and column are also recorded before and after
-the $1/f$ step, and the frames written by the step must reproduce the
-recorded sums exactly, which shows that the recorded sums are those of the frames actually
-written.
+Before an injection is used, I check that it changed only what it was meant
+to change. The written files must have the expected number of reads, every
+count change must be nonpositive, and every pixel outside the support of the
+injected light, including the reference pixels, must be identical to the
+input bit for bit. During the detector processing, the light in each order
+and column is also recorded before and after the $1/f$ step, so that its
+effect on the injected signal can be measured.
 
 The family is then tested with a grey signal, i.e.\ a constant depth of
-16{,}000~ppm at every wavelength node, injected under each of the three
-far-light assumptions and processed with the detector chain above. In each
-pair of order and column, a gain $g_m$ is measured by regressing the aperture
-signal after the $1/f$ step on that before it over integrations 50 to 178,
-where each signal is the difference between the injected run and the null.
-If the delivered response is linear in the far-light fraction, the gain at
-$m=0.5$ should lie on the straight line (the secant) between the gains at
-$m=0$ and $m=1$. The departure from this secant, expressed as an equivalent
-depth, $16{,}000\,[g_{0.5}-(g_0+g_1)/2]$~ppm, is evaluated in 2{,}188 pairs
-of order and column (1{,}742 in order 1 between 1.0 and 2.7~$\mu\mathrm{m}$,
-and 446 in order 2 between 0.65 and 0.85~$\mu\mathrm{m}$), in which all three
-gains are finite and the signal before the correction exceeds
-1~$\mathrm{DN\,s^{-1}}$, and delivery only passes if the largest departure is
-below 10~ppm. The measured-fraction member is checked in the same way,
-against the secant evaluated at its own $m_x$, with the same 10~ppm limit.
-Passing this check only shows that the signal is delivered
-consistently across the family; whether the far light actually comes from
-the star remains open.
+16{,}000~ppm at every wavelength, injected under each of the three far-light
+assumptions and processed with the chain above. The concern is that the
+$1/f$ correction, which is estimated partly from the far rows, might respond
+to the far light in a non-linear way, so that results obtained with one
+member could not be interpolated to another. For each order and column, I
+measure how much of the injected signal survives the $1/f$ step, i.e.\ its
+gain $g_m$. If the response is linear in the far-light fraction, the gain at
+$m=0.5$ lies on the straight line between the gains at $m=0$ and $m=1$, and
+the check requires the largest departure from this line, expressed as an
+equivalent depth, to be below 10~ppm in every order and column, within fixed wavelength ranges
+of the two orders, in which the signal is measurable
+(Appendix~\ref{app:implementation}). The member with the measured fraction is checked in
+the same way, at its own $m_x$. Passing this check only shows that the signal
+is delivered consistently across the family; whether the far light actually
+comes from the star remains open.
 
 \subsubsection{Carrying the far-light uncertainty into the results}
 \label{sec:envelope}
@@ -1104,128 +912,108 @@ the star remains open.
 % members; the spread between its two raw-level recoveries decides how the
 % family's results are described, not whether they are released.
 % Evidence: products/light_based_family_20260921_r1/FAMILY.json
-% (endpoint_criterion: 10 ppm budget for an intended 30 ppm claim;
-% chromatic.cases); reports/PHYSICAL_INJECTOR_PROTOCOL_20260918.md section 5;
-% reports/PHYSICAL_EMISSION_RUNTIME_AND_ARMS_20260918.md (dga_00, dga_01);
-% reports/OVERNIGHT_PRODUCTION_ADDENDUM_20260921.md; reports/
-% W17_PRODUCTION_BINDING_INVENTORY_20260923.md; reports/
-% SOURCE_MAP_A_DECISION_20260920_R2.json (core and wing checks).
+% (endpoint_criterion, chromatic.cases); reports/
+% PHYSICAL_INJECTOR_PROTOCOL_20260918.md section 5; reports/
+% PHYSICAL_EMISSION_RUNTIME_AND_ARMS_20260918.md; reports/
+% SOURCE_MAP_A_DECISION_20260920_R2.json.
 
 Because the stellar share of the far light is not known, its effect is
 carried into the results as an envelope. In the pilot, a reference
-atmosphere is injected under both bracketing assumptions, $m=0$ and $m=1$,
-at both the raw and the rate level, and recovered with NOVA, and the
-envelope is the root-mean-square difference between its two raw-level
-recoveries over the 147 reporting bins. The reference atmosphere is a member
-of the generic ATMO grid of transmission spectra \citep{GoyalEtAl2019},
-rescaled to WASP-17~b, with rainout condensation, a temperature of 2600~K, a
-surface gravity of $5\,\mathrm{m\,s^{-2}}$, 200 times solar metallicity,
-$\mathrm{C/O}=0.56$, a haze factor of 1100 and a cloud factor of 1. A
-second pilot atmosphere from the same grid, with local condensation, 2400~K,
-$10\,\mathrm{m\,s^{-2}}$, 200 times solar metallicity, $\mathrm{C/O}=1.0$, a
-haze factor of 10 and a cloud factor of 0.2, is recovered at the raw level
-only, and only at $m=1$; it was chosen, before any score had been seen, as
-the first distinct case of the existing list of atmospheres. Each pilot case
-gets its own calibration products, its own white-light geometry and three
-strict starts (Section~\ref{sec:nova}).
+atmosphere, a member of the generic ATMO grid of transmission spectra
+\citep{GoyalEtAl2019} rescaled to WASP-17~b, is injected under both
+bracketing assumptions, at both the raw and the rate level, and recovered
+with NOVA. The envelope is the root-mean-square difference between its two
+raw-level recoveries over the 147 reporting bins. A second atmosphere from the same grid, with different chemistry, is also
+recovered, but only at the raw level and only at $m=1$, and so it does not
+contribute to the envelope. Each
+pilot case gets its own calibration products, its own white-light geometry
+and three strict starts; the parameters of both atmospheres are given in
+Appendix~\ref{app:implementation}.
 
 If the envelope is 10~ppm or less, I describe results obtained with the
-family as validated within the scope of the source family, in the limited sense that the root-mean-square difference between NOVA's
-spectra under the two bracketing assumptions is at most 10~ppm over the 147
-bins; if it is larger, I describe them as usable and quote the
-envelope alongside them. The envelope changes how results are described, but
-no result is withheld because of it. The two endpoints bracket the far-light
-assumption, and they are not confidence bounds. The envelope measures how
-sensitive NOVA is to this assumption, which is separate both from the
-accuracy of the core map and from the sensitivity of the comparison
-pipelines, whose own detector processing may respond differently to the far
-light. The 10~ppm threshold is a design choice, made as a budget for an
-intended claim about differences of 30~ppm between pipelines.
+family as validated within the scope of the source family, in the limited
+sense that NOVA's spectra under the two bracketing assumptions differ by at
+most 10~ppm root-mean-square; if it is larger, I describe them as usable and
+quote the envelope alongside them. The envelope changes how results are
+described, but no result is withheld because of it. The two endpoints
+bracket the far-light assumption and are not confidence bounds. The envelope
+also measures only how sensitive NOVA is to this assumption; it says
+nothing about the accuracy of the core map, and the comparison pipelines,
+whose own processing may respond differently to the far light, are not
+covered by it. The threshold of 10~ppm is a design choice, made as a budget
+for an intended claim about differences of 30~ppm between pipelines.
 
 In production, each atmosphere will be recovered once, with the
 measured-fraction member, and its results will be described according to the
 envelope measured in the pilot. There are 24 atmospheres per visit, drawn from
-the same generic grid, twelve with local condensation and twelve with
-rainout chemistry, and each is fitted with two strict starts. The programme
-contains six visits, of WASP-17, HAT-P-26, WASP-39, HAT-P-18, WASP-96 and
-WASP-80. The production analysis of each visit only goes ahead once its own
-white-light geometry has been accepted and it has passed the same checks as
-WASP-17: its core map must not exceed the observed out-of-transit aperture light in
-any of five registered regions (order 1 at 1.0--1.8, 1.8--2.3 and
-2.3--2.7~$\mu\mathrm{m}$, and order 2 at 0.65--0.85 and
-0.85--1.0~$\mu\mathrm{m}$), its wing map must be stable between two
-folds of the data (a difference in source fraction of at most 0.15\%, with
-a held-out wing residual within 0.25\%), and its family must pass the grey
-delivery check. Any exception to these rules is declared and reported with
-the results.
+the same grid, twelve with local condensation and twelve with rainout
+chemistry, and each is fitted with two strict starts. The programme contains
+six visits, of WASP-17, HAT-P-26, WASP-39, HAT-P-18, WASP-96 and WASP-80. A
+source map which works for WASP-17 need not work for another visit, and so
+each visit only enters production once its own white-light geometry has been
+accepted and its own maps pass the checks applied to WASP-17: the core map
+must not exceed the light observed in the aperture, the wing map must be
+stable between two halves of the data, and the family must pass the grey
+delivery check (Appendix~\ref{app:implementation}). Any exception to these
+rules is declared and reported with the results.
 
 \subsubsection{Comparison pipelines and fairness}
 \label{sec:comparison}
 
 % Question: Against what is NOVA compared, and on what terms?
-% Answer: Three public pipelines run as their authors run them, on the same
-% injected data, each with its own white-light inference; only the geometry
-% priors are shared, and the transitspectroscopy joint white fit and
-% unspecified settings are declared departures.
+% Answer: The three pipelines of the published WASP-17 b analysis, run end to
+% end on the same injected raw frames as their authors run them, each with its
+% own white-light inference; only the geometry priors are shared.
 % Evidence: reports/COMPARATOR_AUTHOR_PROTOCOL_AUTHORIZATION_20260923.md;
 % config/COMPARATOR_SHARED_GEOMETRY_PRIORS_20260923_R1.json; reports/
 % TRANSITSPECTROSCOPY_JOINT_WHITE_AUTHORIZATION_20260922.md; reports/
 % TRANSITSPECTROSCOPY_REMAINING_CONFIGURATION_20260922.md; reports/
-% TS_MPS2_SPECTRAL_CONTINUATION_PREPARATION_20260923_R1.md; public Ahsoka
-% S5_wasp17_230320_nirissO1.ecf and epf files; reports/EXOTEDRF_AUTHOR_RATE_RESULT_20260923.md.
+% TS_AUTHOR_WHITE_COMPLETE_LD_SUPPORT_FAILURE_20260923.md.
 
-NOVA is compared with three public pipelines, each run end to end on the
-same injected raw frames in the way its authors run it: the Ahsoka analysis behind the published
-WASP-17~b spectrum \citep{LouieEtAl2025}, exoTEDRF 2.5.0 \citep{Radica2024}
-and \texttt{transitspectroscopy} 0.3.12
-\citep{Espinoza2022TransitSpectroscopy}. Each keeps the sampler, run length
-and acceptance criteria of its authors. Ahsoka fits the two orders separately
-with the \texttt{emcee} ensemble sampler \citep{ForemanMackeyEtAl2013} in
-Eureka! \citep{BellEtAl2022}, using 200 walkers and 1{,}000 steps, of which
-the first 500 are discarded, and in the spectral fit of each order it fixes
-$t_0$, $a/R_\star$ and $i$ to the posterior medians of that order's
-white-light fit. The exoTEDRF pipeline fits a joint two-order white-light
-curve with its own nested sampler. The \texttt{transitspectroscopy} pipeline
-traces the median image with its double-Gaussian template, extracts a box
-aperture with a radius of 15 pixels, and fits the spectral light curves with
-ExoTETHyS limb darkening from MPS-ATLAS set~2, in Kipping coordinates. Its
-white-light fit is a declared departure from the published analysis:
-\citet{LouieEtAl2025} fitted the white-light curves of the two orders
-separately, whereas here the two are fitted jointly, following the package
-author's own joint two-order implementation, with \texttt{juliet}
-\citep{EspinozaEtAl2019} nested sampling and a Mat\'ern-3/2 process for each
-order. Where the published description leaves a setting of
-\texttt{transitspectroscopy} open, I fixed it before any recovery: ten
-spline knots, a 5-sample, $5\sigma$ temporal outlier filter, top-hat
-passbands and the STAGGER limb-darkening grid. ExoTETHyS, however,
-interpolates its grid at the stellar parameters and needs models on both
-sides of them, and the STAGGER grid has none at this star's gravity above
-6500~K, so the spectral stage of the first pilot failed after its
-white-light fit had run. The grid was then replaced by MPS-ATLAS set~2,
-before any spectral estimate or score existed; NOVA avoids the problem by
-adopting the nearest complete STAGGER plane. Note that MPS-ATLAS set~2 comes
-from the same model family as the intensities of the injected transit
-(set~1), so, unlike NOVA's, the limb-darkening reference of
+NOVA is compared with current public versions of the three pipelines used in
+the published analysis of WASP-17~b \citep{LouieEtAl2025}: the Ahsoka
+analysis, \texttt{transitspectroscopy} 0.3.12
+\citep{Espinoza2022TransitSpectroscopy} and exoTEDRF 2.5.0 \citep{Radica2024},
+the current release of supreme-SPOON. Because exoTEDRF 2.5.0 is the current
+release, its runs are not an exact replication of the paper-era
+supreme-SPOON reduction. A
+comparison is only fair if each pipeline is run as its authors run it, and so
+each is run end to end on the same injected raw frames, with its own
+sampler, run length and acceptance criteria (Appendix~\ref{app:implementation}).
+Ahsoka fits the two orders separately with the \texttt{emcee} sampler
+\citep{ForemanMackeyEtAl2013} in Eureka! \citep{BellEtAl2022}, exoTEDRF fits
+a joint two-order white-light curve with its own nested sampler, and
+\texttt{transitspectroscopy} extracts a box aperture and fits its light
+curves with \texttt{juliet} \citep{EspinozaEtAl2019}.
+
+Two further departures from the published configurations are needed.
+Firstly, \citet{LouieEtAl2025} fitted the white-light curves of the two
+orders separately in \texttt{transitspectroscopy}, whereas here the two are
+fitted jointly, following the package author's own joint two-order
+implementation, and the settings which the paper leaves open are fixed in
+advance. One of these, the limb-darkening grid, had to be changed: the
+STAGGER grid has no models at this star's gravity above 6500~K, which
+ExoTETHyS needs in order to interpolate, so the spectral stage of the first
+run failed after its white-light fit, and the grid was replaced by
+MPS-ATLAS set~2 before any spectral estimate or score existed. NOVA avoids
+this problem by adopting the nearest complete STAGGER plane. MPS-ATLAS set~2
+comes from the same model family as the intensities of the injected transit,
+so, unlike NOVA's, the limb-darkening reference of
 \texttt{transitspectroscopy} is closely related to that of the injected
-signal.
+signal. Secondly, the published priors describe the real planet: those of
+Ahsoka, for example, place the mid-transit time about 2.5~h after the end of
+the injected window. In every white-light fit, the priors on $t_0$,
+$a/R_\star$ and $i$ are therefore set to the wide priors which NOVA uses, so
+that all four methods infer the geometry under the same assumptions.
 
-The published priors of Ahsoka describe the real planet: its mid-transit
-time lies about 2.5~h after the end of the injected window, and its
-$a/R_\star$ of about 7 is inconsistent with the injected orbit. In every
-white-light fit, the priors on $t_0$, $a/R_\star$ and $i$ are therefore set
-to those which NOVA uses for this observation, i.e.\ $t_0$ uniform over the
-observed window, $a/R_\star$ uniform on $[1.01,\,100]$ and $i$ uniform on
-$[0^\circ,\,90^\circ]$, with $P$, $e$ and $\omega_{\mathrm{peri}}$ fixed, so
-that all four methods infer the geometry under the same wide priors. No pipeline receives the rescaled injected geometry or the fit of another
+No pipeline receives the rescaled injected geometry or the fit of another
 pipeline. The injector and NOVA do, however, use the same public trace and
 wavelength calibration and the same ATOCA spectral-response kernel, so an
 error in these would be written into the injected data and assumed again in
-NOVA's recovery, and the benchmark could not detect it. For
-each comparison pipeline I also compute my own convergence statistics, but
-these are reported for information only and are not used to reject any of
-its results, and failed runs are reported alongside the successful ones.
-Every method has an estimate in every reporting bin, or is recorded as a
-failure, before the injected spectrum is opened.
+NOVA's recovery, and the benchmark could not detect it. For each comparison
+pipeline I also compute my own convergence statistics, which are reported
+for information only and are not used to reject any of its results, and
+failed runs are reported alongside the successful ones.
 
 \subsubsection{Reporting support and evaluation metrics}
 \label{sec:reporting}
@@ -1237,28 +1025,21 @@ failure, before the injected spectrum is opened.
 % unweighted bin average of the injected spectrum.
 % Evidence: products/w17_frozen_postclosure_score_20260923_r1_prepared/source/
 % score_w17_frozen147.py, original_score_reference.py and
-% original_truth_averaging.py, and config/CASE_TEMPLATE_UNBOUND.json (regions);
-% source/run_aperture_terminal_covariance_r1.py (overlap-weighted map);
-% products/control_B_scored_20260921_r1/COMPARISON.npz; AGENTS.md (8 September
-% decision); reports/CLAUDE_SECOND_REVIEW_20260918.md (origin of the summary
-% ranges); appendices/appendix_nova.tex (bin 149).
+% original_truth_averaging.py; config/CASE_TEMPLATE_UNBOUND.json; source/
+% run_aperture_terminal_covariance_r1.py; AGENTS.md (8 September decision).
 
-Recovered and injected spectra are compared on a common $R=100$ grid of 150
-bins between 0.63 and 2.81~$\mu\mathrm{m}$. NOVA's 160 native coefficients
-are mapped onto this grid by a fixed map, in which each bin takes the mean of the
-native coefficients it overlaps, weighted by the length of the overlap, and
-every retained bin must be completely covered; for the comparison
-pipelines, the coverage of each bin by their native channels is reported. Bins 147 and 148 are
-excluded because their detector support lies beyond the validated range of
-the public wavelength calibration, where the calibration is only an
-extrapolation, and bin 149, the reddest bin of the grid, is excluded by
-construction, as in the earlier release. The retained support is therefore
-bins 0 to 146, i.e.\ 147 bins, the last of which ends at
-$2.740\,\mu\mathrm{m}$. The same support is used for every method, and only at the reporting
-stage. No interpolation or gap filling is allowed, so a method which has no
-estimate in a retained bin is recorded as a failure and is not scored.
-The injected depth in each bin, $D_i^{\mathrm{inj}}$, is the unweighted
-average of $D(\lambda)$ over the bin.
+Each method reports its spectrum on its own wavelength grid, and so all
+spectra are compared on a common grid of bins at a resolving power of
+$R=100$. NOVA's 160 coefficients are mapped onto it by a fixed map in which
+each bin takes the mean of the coefficients it overlaps, weighted by the
+length of the overlap. The reddest bins lie beyond the range over which the
+public wavelength calibration is validated, where it is only an
+extrapolation, and they are excluded, which leaves 147 bins ending at
+$2.740\,\mu\mathrm{m}$ (Appendix~\ref{app:implementation}). The same bins are used for every method, only at the reporting stage, and no
+estimate is interpolated or filled in: a
+method which has no estimate in one of them is recorded as a failure and is
+not scored. The injected depth in each bin, $D_i^{\mathrm{inj}}$, is the
+unweighted average of $D(\lambda)$ over the bin.
 
 I score each recovery with the root-mean-square error
 \begin{equation}
@@ -1275,34 +1056,30 @@ and the shape RMS
 where $e_i=\widehat D_i-D_i^{\mathrm{inj}}$ is the difference between the
 recovered depth $\widehat D_i$ and the injected depth in retained bin $i$,
 $N_{\mathrm{b}}$ is the number of retained bins, and $\bar e$, the mean of
-the $e_i$, is the mean bias. I also report $\bar e$ itself and the maximum
-absolute error. Since
-$\mathrm{RMSE}^2=\bar e^{\,2}+\mathrm{RMS}_{\mathrm{shape}}^2$, these
-scores separate a constant offset from an error in the shape of the
+the $e_i$, is the mean bias, which I also report together with the maximum
+absolute error. Since $\mathrm{RMSE}^2=\bar e^{\,2}+\mathrm{RMS}_{\mathrm{shape}}^2$,
+these scores separate a constant offset from an error in the shape of the
 spectrum, and no offset correction is applied to any reported spectrum. The
-same scores are also reported on six contiguous wavelength ranges, with
-boundaries at 1.0, 1.6, 1.8, 2.3 and 2.7~$\mu\mathrm{m}$, and on two summary
-ranges, below 2.1~$\mu\mathrm{m}$ (120 bins) and from 2.12 to
-2.76~$\mu\mathrm{m}$ inclusive (26 bins, ending in practice at
-2.740~$\mu\mathrm{m}$). The two summary ranges separate the red end, where
-earlier comparisons showed the largest differences, and the one bin whose
-centre lies between 2.10 and 2.12~$\mu\mathrm{m}$ belongs to neither.
+same scores are also given on six contiguous wavelength ranges and on two
+summary ranges, below 2.1~$\mu\mathrm{m}$ and from 2.12 to
+2.76~$\mu\mathrm{m}$, which separate the red end of the spectrum, where
+earlier comparisons showed the largest differences.
 
 The injected spectrum is only compared with a recovery once that recovery's
-estimates in all 147 bins have been recorded. Until then, no choice of
-calibration, model or starting point uses the injected spectrum: each
-depends only on the data, the instrument reference files, the published
-priors and theory references given above, and the products carried over from
-the earlier release (Appendix~\ref{app:benchmarking}). There are two exceptions, both of which coincide with the design of the
-injection, although neither uses the injected spectrum: the out-of-transit
-reference integrations of the
+estimates in all 147 bins have been recorded, so that it cannot influence any
+choice of calibration, model or starting point. These choices depend only on
+the data, the instrument reference files, the published priors and theory
+references given above, and the products carried over from the earlier
+release (Appendix~\ref{app:benchmarking}). There are two exceptions, both of
+which coincide with the design of the injection, although neither uses the
+injected spectrum: the out-of-transit reference integrations of the
 background and $1/f$ steps (Section~\ref{sec:detector-processing}), and the
-centre of the prior on $t_0$ (Section~\ref{sec:per-read}). Each score is reported
-together with the standardised residuals of the fit which produced it, its
-covariance conditional on the calibration products, and its weight,
-conditioning and convergence diagnostics. For NOVA's spectrum of the real visit, the uncertainty which I quote is the
-one from the ensemble of Section~\ref{sec:ensemble}, once it has passed its
-validation; since the ensemble simulates the full 720-integration visit, the
-injected recoveries are reported with their covariance conditional on the
-calibration products. For the comparison pipelines, their own reported
-uncertainties are used, and these are not validated in the same way.
+centre of the prior on $t_0$ (Section~\ref{sec:per-read}). For NOVA's
+spectrum of the real visit, the uncertainty which I quote is the one from the
+ensemble of Section~\ref{sec:ensemble}, once it has passed its validation.
+The ensemble simulates the full 720-integration visit, and so the injected
+recoveries are instead reported with the covariance of their fit conditional
+on the calibration products, together with their standardised residuals and
+their weight, conditioning and convergence diagnostics. For the comparison pipelines, their own
+reported uncertainties are used, and these are not validated in the same
+way.
