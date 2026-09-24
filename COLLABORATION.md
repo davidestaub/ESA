@@ -2433,3 +2433,34 @@ and several dropped qualifiers; all fixed. Comparators are now described
 as current public versions (exoTEDRF 2.5.0 is not an exact replication of
 paper-era supreme-SPOON). Compile clean, 37 pages (Methods ~7,800 words,
 new appendix ~3,300). STATUS: AWAITING DAVIDE'S READ.
+
+2026-09-24 [claude] Report cut to 20 pages; appendices rewritten, current and non-contradictory
+
+Davide: "rewrite the appendix ... not contradictory, also the report should
+be 20 pages max!", then "you can also shrink future work". Read as the whole
+PDF (references and appendix included), as when the ESA last compiled at 20
+pages. 37 -> 20 pages. Introduction 5,727 -> ~3,300 words (argument, research
+question verbatim and objectives kept; background merged; limb darkening now
+defined). Methods 7,784 -> ~5,100 words (all equation labels kept except the
+displayed inner least-squares problem, now in words; all disclosures kept).
+Appendices A (NOVA-S release) and B (rateints benchmark) deleted: they
+described an old injector, a fixed orbit, 141/143 bins and a per-row
+uncertainty scale. One current appendix (app:implementation) now holds the
+carried-over choices with their evidence and two compact settings lists.
+Research Plan ~1,570 -> ~800 words, Gantt compacted; WP1 aligned with the
+current Methods (no "response-consistent injector", start agreement not
+required). Bibliography set in \scriptsize with tight spacing.
+A seven-agent check (fidelity vs the pre-cut text, whole-document
+contradictions, Moseley style judge, SOSS expert, adversarial verifier)
+confirmed 26 of 27 medium/high findings, all fixed, among them a
+contradiction I had introduced (Ahsoka's published a/R*~7 priors read as
+kept), f_p "back to raw counts" (it only undoes the flat), the grazing 1-5%
+tier attached to the wrong quantity, a two-sided reading of the one-sided
+coverage test, the emcee 12% finding presented as the reason for switching
+sampler, an invented WP1 deadline for ensemble validation, and "the
+atmosphere is what distinguishes them" / "found no atmosphere" overclaims.
+Style scores: Introduction 4, Methods 3, appendix 3, plan 4.
+Not touched (not authorised): Results, abstract, conclusions, which still
+describe the older rateints results and now contradict the Methods; title
+date still August 2026. Compile clean, 20 pages, no undefined references.
+STATUS: AWAITING DAVIDE'S READ.

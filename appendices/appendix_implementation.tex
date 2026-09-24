@@ -1,356 +1,141 @@
-\section{Implementation details of NOVA and the injector}
+\section{Implementation details}
 \label{app:implementation}
 
-% Question: Where are the settings, tolerances and checks of the current
-% configuration recorded?
-% Answer: Here, so that the Methods can explain the ideas while every number
-% remains available. Each subsection mirrors a subsection of the Methods.
-% Evidence: As listed in the comment blocks of sections/02_methods.tex; the
-% content-change table proposals/CONTENT_CHANGES_20260924.md.
-
-This appendix collects the settings, tolerances and checks of the current
-configuration which are referred to, but not listed, in
-Section~\ref{sec:methods}. The subsections follow the order of that section.
+% Question: What does this appendix contain?
+% Answer: The settings, tolerances and checks of the current configuration
+% which Section 2 refers to, and the choices carried over from the August
+% release with the evidence for them. It replaces the former appendices on
+% the NOVA-S release and on the rateints benchmark, whose content is either
+% restated here in its current form or no longer applies.
+% Evidence: As for Section 2; NOVA-S release manifest
+% (NOVA_SP_NOVA_S_SCIENCE_FREEZE_20260826_R1); proposals/
+% handoff_nova_s_20260828/01_EXACT_NOVA_S_METHOD.md.
+This appendix records the choices carried over from the earlier release of
+NOVA, with their evidence, and the settings of the current configuration.
 
 \subsection{NOVA}
+\label{app:nova}
 
-\paragraph{Support and wavelength grid.}
-The support of the model contains 97{,}557 pixel positions per integration,
-in 2{,}720 groups, after six groups at the edge of the detector without a
-reliable wavelength mapping have been excluded. Individual samples are
-removed if their value is not finite, their uncertainty is not positive, or
-they carry the \texttt{DO\_NOT\_USE} flag of the JWST data-quality array. The
-supports of the two orders share no pixel. The transit is evaluated on a
-fine grid of 5{,}454 wavelength nodes.
+Three choices were made on the earlier release and are carried over.
+Firstly, of background families of rank 2, 4 and 8, compared by blocked
+cross-validation on the off-trace pixels, rank 8 was the smallest whose
+worst-fold error lay within 5\% of the minimum. Secondly, the curvature factor
+is common to the orders: its held-out $\chi^2$ was 3.26065 without a
+correction, 3.21178 with a common factor and 3.15235 with one per order, but a
+separate factor had to improve on the common one by at least 2\% and in each
+order, but it improved by only 1.85\% and was worse in order~2. Finally, the
+per-order scales $N_o$, the pixel layout and the off-trace pixel set were
+fixed on that release. One choice has changed. The earlier release had an order-difference
+term, an offset and a slope in log-wavelength added to order~1 and
+subtracted from order~2, which was disabled by bounds of $\pm10^{-12}$; it is
+now fixed at exactly zero, because at those small but nonzero bounds the
+derivatives of the penalty terms were not exactly those of a model without
+it.
 
-\paragraph{Spectral basis.}
-The 160 top-hat basis functions span 0.62 to 2.84~$\mu\mathrm{m}$; they are
-about 0.01~$\mu\mathrm{m}$ wide below 2~$\mu\mathrm{m}$ and about
-0.04~$\mu\mathrm{m}$ wide above it. The two coefficients above
-2.76~$\mu\mathrm{m}$ have no response support inside the validated
-wavelength calibration and are held constant, which leaves 158 free depth
-coordinates. The earlier release had an order-difference term, an offset and
-a slope in log-wavelength added to order 1 and subtracted from order 2,
-which was disabled by bounds of $\pm10^{-12}$. It is now fixed at exactly
-zero, because at those small but nonzero bounds the derivatives of the
-penalty terms were not exactly those of a model without it.
+The template $\phi_o$ of the spatial response is the median, at each
+integration, of the fractional departures of its pixels from their own linear
+out-of-transit baselines, detrended and scaled so that its deepest point is
+exactly $-1$; the pixel cuts listed below apply to the template only. The
+amplitudes are smoothed with a robust second-difference penalty across
+columns, at a fixed rank of the pixel within its group, with the strength for
+which the response smoothed on one fold best predicts the unsmoothed response
+of the other. Negative values are then set to zero, the response of each
+column is combined with the positive amplitudes measured in the wings of the
+same column, and the result is renormalised within each group. The audit of
+the earlier release found 14 centroid resets larger than 0.5 pixel and a
+median registration difference of 0.234 pixel relative to the delivered
+source, besides the red-end excess of Section~\ref{sec:nova}.
 
-\paragraph{Orbit and transit model.}
-The period, $P=3.73548546$~d, is the value of the public Ahsoka configuration
-of \citet{LouieEtAl2025}. The argument of periastron is set to $90^\circ$,
-which has no effect for a circular orbit, so the value of zero listed for
-the earlier release in Appendix~\ref{app:nova} is equivalent. jaxoplanet
-evaluates the occulted flux with a quadrature of order 10, and the average
-over each exposure uses 21 Gauss--Legendre samples per integration.
+The policy files still list agreement tolerances between starts of 0.1 and
+0.5~ppm, but the current closure does not test them. When no posterior sample
+of positive weight is grazing, the upper end of the interval is set by a rule
+of three on the Kish effective sample size, which is only approximate, since
+nested samples are not independent. An ensemble realisation whose white-light
+fit fails or whose starts are not strict is a failure, and in the two
+block-length sets it stays in the denominator of 32. The reporting map has
+rank 128 because the 147 bins are finer than the basis functions below
+1~$\mu\mathrm{m}$ and above 2~$\mu\mathrm{m}$.
 
-\paragraph{Limb-darkening reference.}
-The STAGGER reference uses the 6500~K plane of the grid, the closest complete
-plane to the stellar effective temperature of 6550~K, interpolated
-bilinearly in $\log g$ and $[\mathrm{Fe}/\mathrm{H}]$ to $\log g=4.149$ and
-$[\mathrm{Fe}/\mathrm{H}]=-0.25$. The reference file is fixed and identified
-by its content hash. The deviation from theory is penalised with a scale of
-0.5 in logit space, and its curvature in wavelength with a scale of
-$2.0\,\mu\mathrm{m}^{-2}$. Fine wavelength nodes outside the range of the
-theory grid are excluded, and the theory is never extrapolated.
+Several model classes were tested on the earlier release and are kept, with
+the evidence against them, as negative results: free or priored differences
+between the depths of the orders, continuum and order-contrast priors,
+residual recentring, median source profiles, extra temporal background
+modes, a narrow-response swap, local smoothing patches,
+continuous-coordinate responses, explicit order-overlap modelling
+and red-end transit templates.
 
-\paragraph{Spatial response.}
-The template $\phi_o$ is built from the bright, stable pixels of each order:
-those with at least 95\% of their out-of-transit samples valid, a positive
-baseline, and an out-of-transit level above the 35th percentile of the
-stable pixels of that order. For each, the fractional departure from its own
-linear out-of-transit baseline is computed; the template is the median of
-these departures at each integration, with any linear trend removed and
-scaled so that its deepest point is exactly $-1$. Every pixel of the support
-is then fitted with Equation~\ref{eq:qstar-fit}. The time coordinate
-$\tau_t$ is measured from the mean out-of-transit time, in units of the
-out-of-transit time span. The normalised amplitudes are smoothed across
-neighbouring columns with a robust second-difference penalty, at a fixed
-rank of the pixel when the pixels of each group are numbered by detector row.
-The smoothing strength is the one for which the response smoothed on one of
-two alternating folds, stratified across the transit phases, best predicts
-the unsmoothed response of the other. The response used in the fit is built
-from all integrations with this strength, and it is only accepted if the two
-fold estimates agree in their flux distribution and centroid
-(Appendix~\ref{app:nova}). Negative values are then set to zero, the
-response of each column is combined with the positive transit-correlated
-amplitudes measured in the wings of the same column, in proportion to their
-amplitude, and the result is renormalised within each group; groups without
-a smoothed response use the amplitudes alone.
-
-\paragraph{Background.}
-The eight maps are fitted by weighted least squares to the 244{,}657
-off-trace background pixels of each integration separately, which gives a
-time series of eight coefficients. The seven polynomial maps are
-orthonormalised on the off-trace pixels. $G_1$ is the first of the principal
-components of this series whose absolute correlation with the mean of
-$\phi_o$ over the two orders is at most 0.25. The anchor
-$\bm{\alpha}_{\mathrm{off}}$ and its precision $\bm{N}_{\mathrm{off}}$ come
-from one joint weighted fit of all sixteen coefficients to every off-trace
-pixel of every integration.
-
-\paragraph{Source-curvature factor.}
-The factor is built from the background-subtracted flux of the stable trace
-pixels of each order, i.e.\ those which are valid in every out-of-transit
-integration, and NOVA uses the geometric mean of the factors of the two
-orders. Its common form was chosen on the earlier release by comparing its
-held-out $\chi^2$ on two folds with that of no correction and of a separate
-factor for each order. On each input, two further factors are computed from
-two alternating folds of the out-of-transit integrations (175 each for the
-real visit). The factor is accepted only if the means of the two fold
-factors over the in-transit integrations differ by at most 250~ppm and if
-its largest deviation from unity is at most 1000~ppm. For the real visit and
-the injected inputs, the two fold factors must also be correlated with a
-coefficient of at least 0.95; for the ensemble realisations this correlation
-is only reported. That rule was changed after the correlation was found to
-reject realisations whose corrections were only 1--15~ppm, since two
-negligible corrections of opposite sign are strongly anticorrelated even
-when both amplitude limits are met.
-
-\paragraph{Uncertainties.}
-The per-order scales are $N_1=3.07$ and $N_2=4.19$. The per-pixel factor
-$s_p$ is estimated by two-way cross-validation on alternating folds of the
-out-of-transit integrations: a level and a slope in time are fitted to each
-pixel on one fold and used to predict the other, and vice versa, and $s_p$
-is set by the scatter of the standardised prediction residuals, with a
-minimum of one.
-
-\paragraph{Convergence and starts.}
-Between successive outer iterations, the Huber weights must change by less
-than $10^{-3}$ and the objective by less than $10^{-8}$ in relative terms,
-and the spectrum, mapped onto two fixed summary grids inherited from the
-earlier release (40 and 96 bins), must change by less than 0.01 and
-0.05~ppm root-mean-square. First-order optimality must also be satisfied,
-the rank of the linear block must be stable, the solution must be physically
-feasible, and a confirmation cycle with the recomputed final weights must
-reproduce it. An earlier, factorial version of the optimiser also searched
-along scaled Cauchy and Gauss--Newton directions for any remaining decrease
-of the objective (Appendix~\ref{app:nova}); the production solver, used for
-the August release and for all current results, does not. The first start
-begins at the white-light depth with a flat spectral shape and the theory
-limb darkening; the second adds a fixed 250~ppm perturbation to the shape and
-small offsets to the limb darkening. For the pilot recoveries, a third start
-is placed at the midpoint of the first two, a rule which uses no information
-from the injected spectrum. Among the strict starts, the one with the lowest
-value of the objective is selected. The policy files still list agreement
-tolerances between starts of 0.1 and 0.5~ppm on the two summary grids, but
-the current closure does not test them; the agreement is reported instead.
-
-\paragraph{White-light fit.}
-Besides the wide geometry priors, $k_o$ is normal with mean 0.1255 and
-standard deviation 0.085, $u_1$ and $u_2$ are each uniform on $[0,1]$, the
-baseline level and slope are normal about 1 and 0 with standard deviations
-0.05 and 0.01, and the noise multiplier is normal with mean 1.4 and standard
-deviation 2.0, all copied from the public Ahsoka white-light configuration of
-\citet{LouieEtAl2025}. dynesty runs with 2{,}048 live points, multi-ellipsoid
-bounds and random-walk proposals, and stops when the estimated remaining
-contribution to the evidence, $\Delta\ln Z$, falls below 0.01. The three
-failed emcee chains reached only about 20 to 27 autocorrelation lengths.
-
-\paragraph{Grazing-mass rule.}
-The central 95\% interval of the grazing mass is estimated from 200 bootstrap
-resamplings of the nested-sampling run, made with dynesty's own resampling,
-and its half-width must be at most 0.01. If no sample with positive weight is
-grazing, the upper end of the interval is set to
-$\min(1,\,3/\lfloor N_{\mathrm{ESS}}\rfloor)$, where $N_{\mathrm{ESS}}$ is
-the Kish effective sample size; this ``rule of three'' is only an
-approximation, since nested samples are not independent. A fit fails if the
-upper end is 5\% or more, if the sampler did not reach its stopping
-criterion, or if the interval is too wide. In the test on saved posteriors,
-the three failed emcee chains had grazing masses of about 12\%. The impact parameter passed to the spectral fit is computed from the weighted
-medians of $a/R_\star$ and $i$. Diagnostics of multimodality and of the
-posterior tails are reported, but play no part in acceptance.
-
-\paragraph{Uncertainty ensemble.}
-Each block of 64 donor integrations starts at a randomly chosen
-out-of-transit integration and continues within the same out-of-transit
-interval, $[0,230)$ or $[600,720)$, wrapping round to the start of that
-interval if necessary; blocks are placed one after another until all 720
-integrations are filled. A block of 128 or 192 integrations drawn from the
-120-integration interval $[600,720)$ therefore repeats some of its frames.
-Each realisation keeps the real ERR and data-quality arrays, and any sample
-which becomes invalid in the draw is also flagged. A realisation whose
-white-light fit fails or whose starts are not strict is recorded as a
-failure; in the two block-length sets it stays in the registered denominator
-of 32. The 147 reporting bins are finer than the native basis functions
-below 1~$\mu\mathrm{m}$ and above 2~$\mu\mathrm{m}$, which is why the
-reporting map has rank 128. A held-out error counts as covered if its
-statistic lies below the 95th percentile of the $F$ distribution, and the
-validation fails if a one-sided exact binomial test rejects 95\% coverage at
-a significance level of 0.025, which happens when 27 or fewer of the 32 are
-covered. The Mardia skewness and kurtosis of the 256 estimation errors are
-compared with those of 512 simulated Gaussian ensembles of the same size, and
-a departure at the same significance level is reported as a warning. The
-validation is run once all 352 realisations have finished.
+\paragraph{Settings of the current NOVA configuration.}\label{tab:nova-settings}
+{\footnotesize
+\begin{description}[font=\normalfont\itshape,leftmargin=0pt,itemsep=0pt,topsep=2pt]
+  \item[Support.] 97{,}557 pixels per integration in 2{,}720 groups; six edge groups without a reliable wavelength mapping excluded (order-1 columns 23, 24, 2043; order-2 columns 974, 1677, 1678); samples removed if not finite, with nonpositive uncertainty, or flagged \texttt{DO\_NOT\_USE}.
+  \item[Spectral basis.] 160 top-hats over 0.62--2.84~$\mu\mathrm{m}$; the two above 2.76~$\mu\mathrm{m}$ held constant; transit evaluated on 5{,}454 wavelength nodes.
+  \item[Orbit and transit.] $P=3.73548546$~d (public Ahsoka configuration); $\omega=90^\circ$, without effect for $e=0$; jaxoplanet quadrature of order 10; 21 Gauss--Legendre samples per exposure.
+  \item[Limb-darkening reference.] STAGGER 6500~K plane (closest complete plane to $T_{\mathrm{eff}}=6550$~K), bilinear in $\log g$ and $[\mathrm{Fe}/\mathrm{H}]$ to 4.149 and $-0.25$; file fixed by content hash; scales 0.5 (logit, theory) and $2.0\,\mu\mathrm{m}^{-2}$ (curvature); no extrapolation beyond the grid.
+  \item[Response template.] pixels with $\geq95\%$ valid out-of-transit samples, positive baseline, level above the 35th percentile of the stable pixels of the order.
+  \item[Response fit and folds.] Huber threshold 1.345; $\tau_t$ from the mean out-of-transit time in units of its span; two alternating folds stratified across transit phases; accepted if the 95th percentile of the half-$L_1$ flux-distribution difference is $\leq0.15$ and centroids differ by $\leq0.5$~pixel.
+  \item[Background.] calibration background plus $1,y,x,xy,y^2,x^2,xy^2$, orthonormalised on the 244{,}657 off-trace pixels; $G_1$: first principal component with $|\mathrm{corr}|\leq0.25$ to the mean of $\phi_o$ ($-0.0735$ on the earlier release); anchor from one joint weighted fit of all 16 coefficients.
+  \item[Curvature factor.] geometric mean of the factors of the two orders, from trace pixels valid in every out-of-transit integration; fold means over the transit differ by $\leq250$~ppm; $\max|\gamma_t-1|\leq1000$~ppm; fold correlation $\geq0.95$ for real and injected inputs (175 integrations per fold on the real visit).
+  \item[Uncertainty scales.] $N_1=3.0746905465$, $N_2=4.1917779190$; $s_p$ from two-way cross-validation of a level and slope per pixel on alternating out-of-transit folds, minimum one.
+  \item[Closure.] maximum weight change $<10^{-3}$; relative objective change $<10^{-8}$; spectrum change $<0.01$ and $0.05$~ppm RMS on 40- and 96-bin summary grids; first-order optimality; stable rank; physical feasibility; confirmation cycle; no dense Jacobian formed.
+  \item[Starts.] the second adds a fixed 250~ppm shape perturbation and small limb-darkening offsets to the first.
+  \item[White-light priors.] $k_o\sim\mathcal N(0.1255,\,0.085)$; $u_1,u_2\sim\mathcal U[0,1]$; baseline level $\mathcal N(1,\,0.05)$ and slope $\mathcal N(0,\,0.01)$; noise multiplier $\mathcal N(1.4,\,2.0)$.
+  \item[White-light sampler.] dynesty with 2{,}048 live points, multi-ellipsoid bounds, random-walk proposals, stop at $\Delta\ln Z<0.01$; failed emcee chains reached about 20--27 autocorrelation lengths.
+  \item[Grazing mass.] 200 bootstrap resamplings with dynesty's own resampling; half-width of the 95\% interval $\leq0.01$; zero-count upper end $\min(1,\,3/\lfloor N_{\mathrm{ESS}}\rfloor)$; failure also if the stopping criterion is not reached; multimodality and tail diagnostics reported only.
+  \item[Ensemble.] blocks start at a random out-of-transit integration and wrap within $[0,230)$ or $[600,720)$, so that longer blocks repeat frames; real ERR and quality arrays kept; covered if below the 95th percentile of $F$; fails if $\leq27$ of 32 covered (one-sided exact binomial, 0.025); Mardia skewness and kurtosis against 512 simulated Gaussian ensembles as a warning.
+\end{description}
+}
 
 \subsection{The injector}
+\label{app:injector}
 
-\paragraph{Baseline.}
-The baseline is program 1353, observation 101, visit 1, integrations 0 to 228,
-stored in two raw segments of 178 and 51 integrations. Each integration has
-eight nondestructive reads of the $256\times2048$ subarray, with one frame per
-group, a group time of 5.494~s and no dropped frames, so the accumulated
-exposure times run from 5.494 to 43.952~s. The real transit and its buffer integrations occupy integrations 230 to 599.
-In the rate-level control, the count change of the final read is divided by
-its accumulated exposure time of 43.952~s and added to the calibrated rate
-images of the null without the flat-field factor, since those images are
-already flat-fielded; the uncertainty and quality arrays of the null are left
-untouched.
+The core projection, with a wing correction, a per-column flux
+normalisation and a per-pixel out-of-transit response calibrated on the same
+data, was made earlier in the project and is reused exactly; its spectrum is
+held at its endpoint value outside its calibration interval, which only
+affects the reads of integration~0, whilst the outer spectrum is linear over
+all reads. The injector uses the public ExoTETHyS
+code, except that the occulted flux is evaluated one planet position at a
+time by a version which must reproduce the public routine bit for bit before
+every run. In the three
+transit tables of the pilot, integration~0 carried a round-off error of
+$2\times10^{-16}$ in its visible fraction, which was verified to be harmless
+and set to exactly 1 as a declared exception; in new tables any such
+departure is a failure. NOVA's input is prepared with exoTEDRF 2.4.3, the version with which it has
+always been prepared, whereas the exoTEDRF comparison uses 2.5.0. Because NOVA's
+chain applies its $1/f$ correction between the reference-pixel correction and
+the linearity step, the counts which its linearity step sees differ from those
+used in the inversion by this correction. Besides the pixels outside the injected support, all
+other extensions of the raw files and every saturated or inactive sample must
+be bit-for-bit identical to the input, and the frames written by the $1/f$
+step must reproduce the aperture sums of each order and column recorded
+before and after it exactly. The second pilot
+atmosphere was chosen, before any score had been seen, as the first distinct
+case of the existing list.
 
-\paragraph{Source zones.}
-The core is a projection of the stellar spectrum through the public ATOCA
-spectral-trace model with a wing correction, a per-column flux normalisation
-and a per-pixel out-of-transit response calibrated on the same data; this
-projection was made earlier in the project and is reused exactly as it was.
-Outside the core, the measured light is estimated in bands of 64 columns and
-separately for odd and even rows, and the nonnegativity constraint preserves
-the signed total of each band over the whole region outside the core. The
-zones contain 119{,}277 core pixels and 257{,}554 wing and 121{,}811 far
-pixels eligible for the empirical estimate. Far pixels with no measured
-light (33{,}758) receive nothing. Every pixel outside the core which is not
-eligible for the empirical estimate keeps the modelled target light of the
-core projection: these are 10{,}838 pixels flagged in the F277W exposure, a direct image used
-to locate contaminating field sources (of
-the 12{,}808 flagged pixels, 1{,}820 lie in the core and 150 are reference
-pixels) and 4{,}600 pixels without a finite out-of-transit measurement. The
-10{,}208 reference pixels receive no light. The core and outer components
-are projected separately and summed, and the sum must reproduce the source
-map to a relative precision of $5\times10^{-13}$ (an absolute precision of
-$10^{-10}\,\mathrm{DN\,s^{-1}}$). In the core, the stellar spectrum is held
-at its endpoint value outside its calibration interval, which only affects
-the reads of integration~0; the outer component varies linearly between
-endpoints defined at the start and the end of the full interval covered by
-the reads.
+If inspection of a recovered-minus-injected residual motivates a change to a
+method, including a future repair of the spatial-response defect, the revised
+method is evaluated on a new hidden injection before it contributes to an
+accuracy claim. Because the injector and NOVA share the trace, wavelength and
+kernel calibration, the programme will also include hidden injections with
+deliberately mismatched profiles, wavelength maps, line-spread functions,
+throughputs, backgrounds and temporal systematics. Every recovery is archived with
+its inputs, code, configuration, diagnostics and scores.
 
-\paragraph{Measured far-light member.}
-The far-light dip is measured in the 102{,}308 far pixels which lie inside
-the pipeline's background mask, comparing 315 in-transit with 350
-out-of-transit integrations and excluding 55 buffer integrations; averaged
-over all of these pixels, the signal drops by 0.834\% during the real
-transit. The dip of each column is divided by the mean fractional decrement
-of the accepted real white-light model over the same 315 integrations,
-averaged over the two orders (0.013629), and the same achromatic value is
-used for every column; a later refit of the white-light curve changes this
-value by only $3\times10^{-7}$, which leaves the member unchanged. The ratio is averaged
-over a 128-column window, using only the 1{,}884 columns with a direct
-measurement, and bounded to $[0,1]$. The resulting multiplier has a minimum
-of 0.103, a median of 0.606 and a maximum of 1, with 84 columns at the upper
-bound, and this member injects 61.5\% of the measured far light in total.
-
-\paragraph{Transit tables.}
-The injected spectrum is defined on 15{,}326 wavelength nodes. The TRIP
-routine uses 20{,}000 annuli; the injector calls the public ExoTETHyS code for
-the stellar intensity profile and the total stellar flux, and replaces only
-the occulted-flux calculation with a version which evaluates the same
-expression one planet position at a time, and which must reproduce the
-public routine bit for bit in a regression test before every run. The
-MPS-ATLAS intensities are those for $T_{\mathrm{eff}}=6550$~K, $\log g=4.149$
-and $[\mathrm{M}/\mathrm{H}]=-0.25$. Grids of 41 and 61 Gauss--Legendre nodes
-must agree to better than 1~ppm, and the 61-node result is used; the same
-read window is used for every pixel. The per-read tables are checked against
-independently computed tables of the transit averaged over whole
-integrations: the final read window of each integration must reproduce the
-integration average to within $10^{-6}$~ppm, and the integration-averaged
-tables must be unocculted in the first and last integrations to within
-$5\times10^{-13}$. Integration~0 must carry no transit signal at all, i.e.\ a
-remaining fraction of exactly 1 and a time moment of exactly zero. In the
-three tables used in the pilot, integration~0 carried a round-off error of
-$2\times10^{-16}$ in this fraction, which was verified to be harmless and set
-to exactly 1 with explicit approval; in all new tables, any such departure
-is recorded as a failure.
-
-\paragraph{Transport.}
-The bridge from raw counts to the input of the linearity step passes through
-the pipeline's data-quality initialisation, saturation, superbias and
-reference-pixel steps; its offsets are computed once from a pair of raw and
-pre-linearity frames of the baseline. The bridge must reproduce the input of
-the linearity step to within 0.015625~DN, the delivered change must match
-the requested change to within the same tolerance, and the linearity
-polynomial must be inverted to within $10^{-8}$~DN. The two orders are summed
-before transport. Samples flagged as saturated in the group quality array,
-or not finite at the linearity input, keep their original values, and the
-part of the decrement which could not be delivered is recorded. The
-effective flat equals one at pixels flagged in \texttt{jwst\_niriss\_flat\_0275},
-whose flags are left in place, and on the original two-order support of
-507{,}606 pixels it ranges from 0.2021 to 1.5027. The modified ramps are written as floating-point values. No scene mask is used anywhere in the
-injection. In NOVA's own detector processing, the group-level $1/f$
-correction is applied between the reference-pixel correction and the
-linearity step, so the counts which its linearity step sees differ from those
-used in the inversion by this correction.
-
-\paragraph{Detector processing.}
-NOVA's chain runs the JWST pipeline \citep{JWSTPipeline2025} up to and
-including the reference-pixel correction, then the group-level background and
-$1/f$ steps of exoTEDRF 2.4.3 \citep{Radica2024}, then the pipeline's
-linearity, jump-detection, ramp-fitting and gain steps, without a dark-current
-subtraction, and finally Stage~2 of exoTEDRF, which subtracts the scaled
-background model, applies the flat field and corrects bad pixels with
-thresholds of 15 in space and time. The group-level background step
-subtracts the scaled background only to estimate the $1/f$ noise and adds it
-back afterwards. On the injected inputs, the background and $1/f$ steps take
-the first and last 50 integrations as their out-of-transit reference. The mask built by the $1/f$ step at run time must be identical to the
-reference F277W mask of 12{,}808 pixels. No scene mask of the project's own,
-i.e.\ a veto of whole detector columns affected by field stars, is
-applied. exoTEDRF 2.4.3 is the version with which
-NOVA's input has always been prepared; the comparison pipeline is the later
-release 2.5.0.
-
-\paragraph{Delivery checks.}
-The written files must have the expected number of reads, the count changes
-must be nonpositive, and the protected pixels (the reference pixels and every
-pixel outside the support of the injected light) must be bit-for-bit
-identical to the input, as must all other extensions of the raw files and
-every saturated or inactive sample. The aperture sums of each order and
-column are recorded before and after the $1/f$ step, and the frames written
-by the step must reproduce the recorded sums exactly. In the grey test, the
-gain $g_m$ of each pair of order and column is the regression of the
-aperture signal after the $1/f$ step on that before it over integrations 50
-to 178, each signal being the difference between the injected run and the
-null. The departure from the secant, $16{,}000\,[g_{0.5}-(g_0+g_1)/2]$~ppm, is
-evaluated in 2{,}188 pairs of order and column (1{,}742 in order 1 between 1.0
-and 2.7~$\mu\mathrm{m}$ and 446 in order 2 between 0.65 and
-0.85~$\mu\mathrm{m}$), in which all three gains are finite and the signal
-before the correction exceeds 1~$\mathrm{DN\,s^{-1}}$.
-
-\paragraph{Pilot atmospheres and per-visit checks.}
-The reference atmosphere assumes rainout condensation, a temperature of
-2600~K, a surface gravity of $5\,\mathrm{m\,s^{-2}}$, 200 times solar
-metallicity, $\mathrm{C/O}=0.56$, a haze factor of 1100 and a cloud factor of
-1. The second atmosphere assumes local condensation, 2400~K,
-$10\,\mathrm{m\,s^{-2}}$, 200 times solar metallicity, $\mathrm{C/O}=1.0$, a
-haze factor of 10 and a cloud factor of 0.2; it was chosen, before any score
-had been seen, as the first distinct case of the existing list of
-atmospheres. For each further visit, the core map must not exceed the
-observed out-of-transit aperture light in any of five regions (order 1 at
-1.0--1.8, 1.8--2.3 and 2.3--2.7~$\mu\mathrm{m}$, and order 2 at 0.65--0.85
-and 0.85--1.0~$\mu\mathrm{m}$), and the wing map must differ between two folds
-of the data by at most 0.15\% in source fraction, with a held-out wing
-residual within 0.25\%.
-
-\paragraph{Comparison pipelines.}
-Ahsoka fits each order with the \texttt{emcee} sampler in Eureka!, using 200
-walkers and 1{,}000 steps, of which the first 500 are discarded, and fixes
-$t_0$, $a/R_\star$ and $i$ in the spectral fit of each order to the posterior
-medians of that order's white-light fit. exoTEDRF fits a joint two-order
-white-light curve with its own nested sampler.
-\texttt{transitspectroscopy} traces the median image with its
-double-Gaussian template, extracts a box aperture with a radius of 15 pixels,
-fits its joint two-order white-light curve by nested sampling with
-\texttt{juliet} and a Mat\'ern-3/2 process for each order, fits the spectral
-light curves with ExoTETHyS limb darkening in Kipping coordinates, and uses
-ten
-spline knots, a 5-sample, $5\sigma$ temporal outlier filter and top-hat
-passbands. The published Ahsoka priors put the mid-transit time about 2.5~h
-after the end of the injected window, with $a/R_\star\approx7$.
-
-\paragraph{Reporting.}
-The reporting grid has 150 bins at $R=100$ between 0.63 and
-2.81~$\mu\mathrm{m}$. Bins 147 and 148 lie beyond the validated range of the
-public wavelength calibration, and bin 149 is excluded by construction, as in
-the earlier release, so the last retained bin ends at $2.740\,\mu\mathrm{m}$.
-NOVA's map requires every retained bin to be completely covered; for the
-comparison pipelines, the coverage of each bin by their native channels is
-reported. The six contiguous reporting ranges have boundaries at 1.0, 1.6,
-1.8, 2.3 and 2.7~$\mu\mathrm{m}$, and the two summary ranges are below
-2.1~$\mu\mathrm{m}$ (120 bins) and from 2.12 to 2.76~$\mu\mathrm{m}$ inclusive
-(26 bins); the one bin whose centre lies between 2.10 and
-2.12~$\mu\mathrm{m}$ belongs to neither.
+\paragraph{Settings of the current injector and of the benchmark.}\label{tab:injector-settings}
+{\footnotesize
+\begin{description}[font=\normalfont\itshape,leftmargin=0pt,itemsep=0pt,topsep=2pt]
+  \item[Baseline.] programme 1353, observation 101, visit 1, integrations 0--228 in two raw segments (178 and 51); eight reads of the $256\times2048$ subarray, one frame per group, group time 5.494~s, no dropped frames; real transit and buffers at integrations 230--599.
+  \item[Rate-level control.] final-read change divided by 43.952~s, added without the flat-field factor; uncertainty and quality arrays of the null unchanged.
+  \item[Source zones.] outer light estimated in bands of 64 columns, separately for odd and even rows; 119{,}277 core pixels; 257{,}554 wing and 121{,}811 far pixels eligible; 33{,}758 far pixels without measured light receive nothing; modelled light kept in 10{,}838 F277W-flagged outer pixels (of 12{,}808 flagged: 1{,}820 in the core, 150 reference pixels) and 4{,}600 without a finite out-of-transit value; 10{,}208 reference pixels receive nothing; components reproduce the map to $5\times10^{-13}$ (relative).
+  \item[Measured far light.] 102{,}308 far pixels inside the pipeline's background mask; 315 in-transit against 350 out-of-transit integrations, 55 buffer integrations excluded; white-light decrement 0.013629 (mean of both orders; a later refit changes it by $3\times10^{-7}$); 1{,}884 measured columns; $m_x$ between 0.103 and 1, with 84 columns at the bound.
+  \item[Transit tables.] 15{,}326 wavelength nodes; TRIP with 20{,}000 annuli; MPS-ATLAS at $T_{\mathrm{eff}}=6550$~K, $\log g=4.149$, $[\mathrm{M}/\mathrm{H}]=-0.25$; 41- and 61-node quadratures agree to $<1$~ppm (61 used); final read reproduces the integration average to $10^{-6}$~ppm; integration~0 exactly unocculted.
+  \item[Transport.] bridge through data-quality initialisation, saturation, superbias and reference-pixel steps, offsets from one raw and pre-linearity frame pair; bridge and delivered change within 0.015625~DN; inversion within $10^{-8}$~DN; orders summed before transport; saturated or non-finite samples unchanged; effective flat 1 at pixels flagged in \texttt{jwst\_niriss\_flat\_0275}, 0.2021--1.5027 on the 507{,}606-pixel support.
+  \item[NOVA's processing.] exoTEDRF 2.4.3; no dark subtraction; bad-pixel thresholds 15 in space and time; run-time $1/f$ mask identical to the F277W mask of 12{,}808 pixels.
+  \item[Grey test.] gain: regression of the aperture signal after the $1/f$ step on that before it, each as injected minus null, over integrations 50--178; secant departure $16{,}000\,[g_{0.5}-(g_0+g_1)/2]$~ppm in 2{,}188 order--column pairs (1{,}742 in order~1 at 1.0--2.7~$\mu\mathrm{m}$, 446 in order~2 at 0.65--0.85~$\mu\mathrm{m}$) with finite gains and a signal above 1~$\mathrm{DN\,s^{-1}}$.
+  \item[Pilot atmospheres.] reference: rainout, 2600~K, $5\,\mathrm{m\,s^{-2}}$, $200\times$ solar, $\mathrm{C/O}=0.56$, haze 1100, cloud 1; second: local, 2400~K, $10\,\mathrm{m\,s^{-2}}$, $200\times$ solar, $\mathrm{C/O}=1.0$, haze 10, cloud 0.2.
+  \item[Per-visit checks.] core map below the observed aperture light in order~1 at 1.0--1.8, 1.8--2.3 and 2.3--2.7~$\mu\mathrm{m}$ and order~2 at 0.65--0.85 and 0.85--1.0~$\mu\mathrm{m}$; wing map differs between folds by $\leq0.15\%$ in source fraction, held-out wing residual $\leq0.25\%$.
+  \item[Ahsoka.] 200 \texttt{emcee} walkers, 1{,}000 steps, first 500 discarded; spectral fit of each order fixes $t_0$, $a/R_\star$, $i$ to that order's white-light medians; its published priors, with $a/R_\star\approx7$, replaced for $t_0$, $a/R_\star$ and $i$.
+  \item[\texttt{transitspectroscopy}.] double-Gaussian trace of the median image; box radius 15 pixels; joint white light with \texttt{juliet} and a Mat\'ern-3/2 process per order; ExoTETHyS limb darkening in Kipping coordinates; ten spline knots; 5-sample, $5\sigma$ outlier filter; top-hat passbands.
+  \item[Reporting.] 150 bins at $R=100$ over 0.63--2.81~$\mu\mathrm{m}$; order-1 calibration anchors end at $x=73.62893$ ($2.75977449\,\mu\mathrm{m}$), so columns 38--73 are extrapolated and bins 147 (71.7\% inside) and 148 are excluded whole, bin 149 by construction; last bin (146) ends at $2.740018\,\mu\mathrm{m}$; NOVA requires full coverage of each bin, comparison coverage is reported; ranges bounded at 1.0, 1.6, 1.8, 2.3, 2.7~$\mu\mathrm{m}$; summary ranges of 120 and 26 bins, one bin (centre 2.10--2.12~$\mu\mathrm{m}$) in neither.
+\end{description}
+}
