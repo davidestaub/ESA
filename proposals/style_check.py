@@ -55,6 +55,11 @@ def report(path):
     for w, limit in [('rather than', 0.3), ('in other words', 0.3)]:
         if 1000 * low.count(w) / n > limit + 1e-9 and low.count(w) > 1: hits.append(f'{w} (x{low.count(w)}, judgment)')
     print('  banned or internal words found:', ', '.join(hits) if hits else 'none')
+    # repeated sentences or repeated 8-word openings (catches duplicated fragments)
+    from collections import Counter
+    starts = Counter(' '.join(x.split()[:8]).lower() for x in S if len(x.split()) >= 8)
+    dups = [k for k, v in starts.items() if v > 1]
+    print('  repeated sentence openings:', '; '.join(dups) if dups else 'none')
 
 for p in sys.argv[1:]:
     report(p)
