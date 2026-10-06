@@ -27,9 +27,9 @@ light curves (Section~\ref{sec:own-white}).
 NOVA's input is prepared from the raw ramps with the JWST calibration pipeline
 \citep{JWSTPipeline2025} and exoTEDRF \citep{Radica2024}. The group steps of
 the JWST pipeline run first, up to and including the reference-pixel
-correction. exoTEDRF then removes the $1/f$ noise in each group, after
-temporarily subtracting a scaled model of the zodiacal background so that the
-stripes can be estimated. The linearity, jump-detection, ramp-fitting and gain
+correction. The $1/f$ noise in each group is then removed with exoTEDRF,
+after a scaled model of the zodiacal background has been subtracted
+temporarily so that the stripes can be estimated. The linearity, jump-detection, ramp-fitting and gain
 steps give count rates, and Stage~2 of exoTEDRF subtracts the scaled
 background model, applies the flat field and corrects bad pixels. The $1/f$
 step masks the field stars identified in the F277W exposure, and I apply no
@@ -318,8 +318,9 @@ $z$ of a donor integration $d_n(t)$. Donors are drawn in blocks of 64
 consecutive integrations within one out-of-transit interval, because real
 noise is correlated in time.
 
-The proposed ensemble has 352 realisations. 256 estimate the covariance, 32
-are held out to test it, and two further sets of 32 test the block length. Each is
+The proposed ensemble has 352 realisations. Of these, 256 estimate the
+covariance, 32 are held out to test it, and two further sets of 32 test the
+block length. Each is
 analysed from scratch, with its own calibration products, white-light fit and
 two starts, and no failed realisation is replaced or dropped. The error of a
 realisation, its spectrum minus that of the real visit, is expressed in
