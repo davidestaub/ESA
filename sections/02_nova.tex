@@ -2,7 +2,7 @@
 \label{sec:nova}
 
 In this section, I describe NOVA as it is currently implemented. It grew out
-of an earlier release of August 2026, from which the pixel layout, the
+of an earlier version of August 2026, from which the pixel layout, the
 off-trace pixel set, the background maps, the per-order uncertainty scales and
 the form of the curvature correction are carried over. Every other fitted
 product, including the transit geometry, is estimated again for each input.
@@ -25,12 +25,12 @@ light curves (Section~\ref{sec:own-white}).
 \label{sec:detector-processing}
 
 NOVA's input is prepared from the raw ramps with the JWST calibration pipeline
-\citep{JWSTPipeline2025} and exoTEDRF \citep{Radica2024}. Firstly, the group
-steps of the JWST pipeline run up to and including the reference-pixel
-correction. Secondly, exoTEDRF removes the $1/f$ noise in each group, after
+\citep{JWSTPipeline2025} and exoTEDRF \citep{Radica2024}. The group steps of
+the JWST pipeline run first, up to and including the reference-pixel
+correction. exoTEDRF then removes the $1/f$ noise in each group, after
 temporarily subtracting a scaled model of the zodiacal background so that the
 stripes can be estimated. The linearity, jump-detection, ramp-fitting and gain
-steps then give count rates. Finally, Stage~2 of exoTEDRF subtracts the scaled
+steps give count rates, and Stage~2 of exoTEDRF subtracts the scaled
 background model, applies the flat field and corrects bad pixels. The $1/f$
 step masks the field stars identified in the F277W exposure, and I apply no
 further mask to the scene.
@@ -103,11 +103,11 @@ free. There is no atmospheric template, no smoothing between wavelengths, no
 prior on its shape and no term that lets the depths of the two orders
 differ.
 
-The orbital state is
-$\Omega=(P,\,a/R_\star,\,e,\,\omega_{\mathrm{peri}},\,b,\,t_0)$. The period is
-that used by \citet{LouieEtAl2025} and the orbit is circular. The mid-transit
-time $t_0$, the scaled semi-major axis $a/R_\star$ and the impact parameter
-$b$ come from NOVA's own white-light fit. Each integration lasts about 44~s,
+The orbital state $\Omega$ comprises the period $P$, the eccentricity $e$, the
+argument of periastron $\omega_{\mathrm{peri}}$, the scaled semi-major axis
+$a/R_\star$, the impact parameter $b$ and the mid-transit time $t_0$. The
+period is that used by \citet{LouieEtAl2025} and the orbit is circular,
+whilst $t_0$, $a/R_\star$ and $b$ come from NOVA's own white-light fit. Each integration lasts about 44~s,
 during which the planet moves, so $\mathcal{T}_{tg}$ is the transit averaged
 over the exposure, computed with jaxoplanet \citep{Jaxoplanet2025}. The limb
 darkening follows the quadratic law \citep{MandelAgol2002}, written in the
@@ -147,7 +147,7 @@ columns at a fixed integer position within the trace. The strength of the
 smoothing is chosen by cross-validation between two halves of the
 integrations, which must also agree in how they distribute the flux and where
 they place its centre. The fixed integer position makes the centre of the
-response occasionally jump between columns. In audits of the earlier release,
+response occasionally jump between columns. In audits of the earlier version,
 this came with a response at the faintest red columns that placed roughly 1
 to 2\% more amplitude inside the fitted pixels than the light delivered to
 them, and so made the transit too shallow there. The effect has not yet been
@@ -175,8 +175,8 @@ variation the background can absorb. On the real visit, the leading
 off-trace component is strongly correlated with the transit. Whether this
 signal is starlight is the question that Section~\ref{sec:which-light}
 discusses. The criterion keeps
-this component out of the background model, and the uncertainty ensemble puts
-it back (Section~\ref{sec:ensemble}). Finally, a joint fit to all off-trace
+this component out of the background model, and the design of the ensemble
+restores it (Section~\ref{sec:ensemble}). Finally, a joint fit to all off-trace
 pixels gives an expected value $\bm{\alpha}_{\mathrm{off}}$ of the sixteen
 amplitudes, with precision matrix $\bm{N}_{\mathrm{off}}$. It acts as a soft
 anchor, since the background is refitted at every step but cannot wander far
@@ -297,9 +297,9 @@ posterior to the spectral fit.
 \label{sec:ensemble}
 
 The covariance of a single fit is conditional on uncertain calibration
-products, such as the response and the geometry. I therefore estimate the
-uncertainty of NOVA's spectrum by repeating the whole analysis on simulated
-realisations of the real visit,
+products, such as the response and the geometry. I therefore designed an
+ensemble to estimate the uncertainty of NOVA's spectrum, by repeating the
+whole analysis on simulated realisations of the real visit,
 \begin{equation}
  Y^{(n)}_{tp}=\widehat Y^{\mathrm{ref}}_{tp}+\bar r_p+a_p\,\psi_t
  +\mathrm{ERR}_{tp}\,z_{d_n(t),\,p},

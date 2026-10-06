@@ -1,7 +1,7 @@
 \section{Building a Benchmark with Known Truth}
 \label{sec:benchmark}
 
-In this section, I describe what a benchmark of SOSS pipelines requires, the
+This section describes what a benchmark of SOSS pipelines requires, the
 injectors I built during the first year to provide one, and what their
 failures taught me. The last of these lessons determines the design of the
 benchmark in Section~\ref{sec:measured-benchmark}.
@@ -17,8 +17,8 @@ with the injected one. For this comparison to be useful, the test has to meet
 four conditions. Firstly, the injected truth must be known exactly. Secondly,
 the data should be real wherever possible, so that the noise, detector flags,
 background and field stars are those of an actual observation. Every method
-must also receive identical inputs, infer its own transit geometry, and see
-the truth only after its prediction is fixed. Finally, the comparison must
+must also start from the same injected raw data, infer its own transit
+geometry, and see the truth only after its prediction is fixed. Finally, the comparison must
 include a construction of the source that is independent of the assumption
 being tested. Generating synthetic data with the same model that is later
 used to analyse them is known as an inverse crime
@@ -30,13 +30,14 @@ model.
 
 My first injector added the transit to the calibrated integrations, after the
 detector stages of the pipeline. This made it fast, but it bypassed the
-detector stages, where the methods differ in their treatment of $1/f$ noise,
-saturated pixels and cosmic rays, and where the detector processing of \nova{}
-borrows steps from exoTEDRF (Section~\ref{sec:nova}). I therefore moved the
-injection to the raw ramps. Each method then receives its own native input
-product, derived from the common injected ramps. The injector takes the real integrations of WASP-17~b recorded before
-the transit and removes, read by read, the light that the injected transit
-would block.
+stages in which the methods differ in their treatment of $1/f$ noise,
+saturated pixels and cosmic rays, and in which the detector processing of
+\nova{} borrows steps from exoTEDRF (Section~\ref{sec:nova}). I therefore
+moved the injection to the raw ramps. The new injector took the real
+integrations of WASP-17~b recorded before the transit and removed, read by
+read, the light that the injected transit would block, and each method
+received its own native input product derived from the common injected
+ramps.
 
 \subsection{Which light belongs to the star}
 \label{sec:which-light}

@@ -17,7 +17,7 @@ fig, ax = plt.subplots(figsize=(3.35, 1.9))
 for o, c in ((1, '#2a78d6'), (2, '#eb6834')):
     s = order == o
     ax.bar(0.5 * (lo[s] + hi[s]), dep[s], width=(hi[s] - lo[s]), color=c, edgecolor='none', label=f'order {o}')
-ax.set_xlabel('Wavelength ($\\mu$m)'); ax.set_ylabel('Predicted depth dilution (ppm)')
+ax.set_xlabel('Wavelength ($\\mu$m)'); ax.set_ylabel('Predicted depth\ndilution (ppm)')
 ax.set_xlim(0.6, 2.85)
 ax.grid(axis='y', color='#e6e6e6', lw=0.4)
 for s in ['top', 'right']:

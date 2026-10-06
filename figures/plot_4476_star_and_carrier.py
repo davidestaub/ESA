@@ -28,8 +28,8 @@ plt.rcParams.update({'font.family': 'serif', 'font.size': 8.5})
 fig, axs = plt.subplots(3, 1, figsize=(6.3, 3.5), sharex=True)
 norm = LogNorm(vmin=0.3, vmax=300)
 panels = [(N, normal_src, '(a) Star at the normal position'),
-          (O, offset_src, '(b) Star moved 1,026 rows away: the carrier'),
-          (S, None, '(c) Cleaned image of the star: (a) minus (b), field sources removed, far wings smoothed')]
+          (O, offset_src, '(b) Star moved 1,026 rows away'),
+          (S, None, '(c) Cleaned image of the star')]
 for ax, (img, mask, title) in zip(axs, panels):
     im = ax.imshow(np.clip(img, 0.3, None), origin='lower', aspect='auto', cmap='Greys', norm=norm,
                    extent=(-0.5, 2047.5, 1791.5, 2047.5), interpolation='nearest')

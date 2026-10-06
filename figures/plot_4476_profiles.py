@@ -45,7 +45,7 @@ for ax, ((c0, c1), lab) in zip(axs, bands):
         ax.spines[s].set_visible(False)
 axs[0].set_ylabel('Count rate (DN s$^{-1}$)')
 axs[0].legend(frameon=False, fontsize=6.2, loc='lower left', bbox_to_anchor=(0.0, 1.08), ncol=5, columnspacing=0.8, handlelength=1.8)
-for ax, pk in zip(axs, [[(165, 'order 2')], [(90, 'order 2')], [(65, 'order 3'), (148, 'order 4?')]]):
+for ax, pk in zip(axs, [[(165, 'order 2')], [(90, 'order 2')], [(65, 'order 3'), (148, 'order-4 band')]]):
     for x_, t_ in pk:
         ax.text(x_, 1300, t_, fontsize=6.3, ha='center', color='#444444')
 

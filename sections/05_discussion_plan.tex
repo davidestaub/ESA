@@ -1,16 +1,13 @@
 \section{Discussion and Research Plan}
 \label{sec:research-plan}
 
-In this section, I first discuss what the work so far shows, and then set out
-the plan for the rest of the project.
-
 \subsection{Discussion}
 \label{sec:discussion}
 
 The main lesson of the first year concerns the benchmark rather than any one
 pipeline. An injection test on real SOSS data has to decide which light
-belongs to the star, and for WASP-17~b this decision reversed the ranking of
-the two pipelines I tested (Section~\ref{sec:which-light}). Every injection
+belongs to the star, and for one atmosphere injected into the WASP-17~b data,
+this decision reversed the ranking of the two pipelines I tested (Section~\ref{sec:which-light}). Every injection
 test into real data makes such a decision, whether or not it is stated, and
 its verdict only holds under it. The benchmark of
 Section~\ref{sec:measured-benchmark} constrains this choice with a separate
@@ -40,7 +37,8 @@ unresolved.
 I plan five papers, all built on NOVA and on the benchmark of
 Section~\ref{sec:measured-benchmark}. The first presents the method, the
 benchmark and WASP-17~b. The second applies the same procedure to the five
-other science visits, and the third turns to repeated visits of active stars.
+other science visits, and the third turns to repeated visits of the same
+planets.
 The last two extend NOVA to NIRSpec and to secondary eclipses.
 Figure~\ref{fig:gantt} shows the schedule.
 
@@ -54,8 +52,8 @@ their native workflows run end to end. The benchmark tests
 how each method separates starlight from background and extracts the
 spectrum. The first test uses one common light curve on an A-type star, with
 the limb-darkening controls and limits described in
-Section~\ref{sec:benchmark-limits}, and its verdict applies to the cooler
-hosts of the science targets only by argument. NOVA's spectrum of the real
+Section~\ref{sec:benchmark-limits}, and its results do not by themselves
+validate recovery for the cooler science targets. NOVA's spectrum of the real
 WASP-17~b visit will then be refitted with the current geometry criterion,
 with its uncertainty from an ensemble that corresponds to the updated fit
 and passes its held-out test, and compared with the three published
@@ -65,9 +63,10 @@ present this work.
 
 \paragraph{Paper 2: Five further SOSS visits.} The aim is to find out whether
 the atmospheric conclusions for other SOSS targets change when their
-observations are analysed with NOVA, and if so, why. The five remaining science visits, of HAT-P-26~b, WASP-39~b,
-HAT-P-18~b, WASP-96~b and WASP-80~b, are analysed as real data with NOVA
-and the extraction-based pipelines of Paper 1. They use a common analysis
+observations are analysed with NOVA, and if so, why. The five remaining
+science visits, of HAT-P-26~b, WASP-39~b, HAT-P-18~b, WASP-96~b and
+WASP-80~b, will be analysed as real data with NOVA and the extraction-based
+pipelines of Paper 1. They will use a common analysis
 procedure, with any settings specific to a visit declared before the
 recovered spectra are compared. Agreement or disagreement on real data will
 still not identify the more accurate pipeline. WASP-39~b has strong
@@ -138,7 +137,7 @@ eclipse.
 \ganttgroup[group/.append style={fill=ganttsoss!35,draw=ganttsoss}]
   {SOSS transmission programme}{1}{7}\\
 \ganttbar[bar/.append style={fill=ganttsoss!70,draw=ganttsoss}]
-  {Paper 1: NOVA, benchmark, WASP-17 b}{1}{1}\\
+  {Paper 1: NOVA, benchmark, WASP-17~b}{1}{1}\\
 \ganttmilestone[milestone/.append style={fill=ganttsoss,draw=ganttsoss}]
   {HWO2026, Paris (30 Nov)}{1}\\
 \ganttbar[bar/.append style={fill=ganttsoss!70,draw=ganttsoss}]

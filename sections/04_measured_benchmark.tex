@@ -1,8 +1,8 @@
 \section{A Benchmark with Measured Starlight}
 \label{sec:measured-benchmark}
 
-In this section, I describe the benchmark that I am now building. It uses a
-calibration programme in which the star was observed twice, once at its usual
+The benchmark that I am now building uses a calibration programme in which
+the star was observed twice, once at its usual
 position and once moved off the part of the detector read for SOSS time
 series. The difference between the two exposures measures the light of the
 star, which greatly reduces the reliance of the injector on a fitted split
@@ -27,19 +27,22 @@ however, that this does not apply to the realised read noise, to offsets that
 vary in time or to residual calibration errors. The estimated scales of the
 zodiacal background in the two exposures agree to within about 1\%. The faint
 halo of the moved star still reaches the strip and is subtracted with it, but
-its modelled contribution to the depth of a 1.5\% transit is only 2 to
-19~ppm, depending on wavelength, and it can be restored from a model. The
+its modelled contribution to the depth of a 1.5\% transit, in a 40-row
+extraction box with ideal sky subtraction, is only 2 to 19~ppm, depending on
+wavelength, and it can be restored from a model. The
 other stars in the field do not cancel, since they moved with the telescope.
 
-From this difference I construct a declared image of the star, $S$, and add
-it with a known transit to the raw data of the moved exposure, $O(t)$. For
+From this difference I construct a cleaned count-rate image of the star,
+$S$. I use it to generate starlight with a known transit, which I add to the
+raw reads of the moved exposure. For
 the first, grey case, every pixel of the star follows the same light curve
 $r(t)$, which equals one out of transit, and the expected count rate is
 \begin{equation}
   \mathrm{E}\bigl[D(t)\bigr] = \mathrm{E}\bigl[O(t)\bigr] + S\,r(t),
   \label{eq:4476}
 \end{equation}
-where $D(t)$ is the count rate of the benchmark data. Everything in $O(t)$ is
+where $D(t)$ and $O(t)$ are the count rates of the benchmark data and of the
+moved exposure. Everything in $O(t)$ is
 real, including the sky, the field stars, the $1/f$ noise and the cosmic
 rays, and none of it transits. In practice, photon arrivals from $S$ will be
 drawn for successive time intervals and accumulated into the reads, in the
@@ -48,7 +51,7 @@ will be added to pixels that do not respond to it. The transit case keeps
 only a fraction of the same arrivals, whilst a twin of every case keeps them
 all, so the two are identical on every integration that has lost no light to
 the transit since its reset (Figure~\ref{fig:4476-construction}). The
-injected light curve is therefore known exactly, given the declared image of
+injected light curve is therefore known exactly, given the cleaned image of
 the star. How faithfully this image
 represents the physical star is a separate question, which the next
 subsections address. Atmospheres with spectral features need a declared
@@ -123,7 +126,8 @@ per pixel and shows no compact excess beyond the sources already removed.
 The first exposure has only ten integrations, so the faint wings of the star
 are noisy. The signal-to-noise ratio per pixel is between 112 and 675 in the
 cores of the traces, but only 2 to 3 at 40 to 200 rows from order 1 in the
-red. Beyond 40 rows, I therefore replaced the pixels by a running median along
+red. Beyond 40 rows from the nearest trace, I therefore replaced the pixels by
+a running median along
 each trace over 61 columns, blended with the data between 30 and 40 rows.
 Relative to the measured pixels, this model differs on average by about
 0.16\% at 40 to 100 rows. Figure~\ref{fig:4476-profiles} shows that, after
@@ -131,6 +135,17 @@ the subtraction, the light of the star is measured well into its wings,
 where it is comparable to or fainter than the background. Near the traces, $S$ keeps the measured image, with
 its noise and any field light hidden under the traces. Both are part of the
 injected star, so they do not change the injected light curve.
+
+\begin{figure}[t]
+  \centering
+  \includegraphics[width=\columnwidth]{figures/pid4476_field_dilution.pdf}
+  \caption{Predicted dilution of a 1.5\% transit in each spectral bin by
+  the field sources that remain in the moved exposure, for a fixed extraction
+  box 40 rows wide with ideal sky subtraction. This is a calculation, not a
+  measured recovery error. The peak near $1.9\,\mu\mathrm{m}$ is the second-order spectrum
+  of the field star discussed in the text.}
+  \label{fig:4476-dilution}
+\end{figure}
 
 \begin{figure*}[t]
   \centering
@@ -149,24 +164,14 @@ injected star, so they do not change the injected light curve.
   \label{fig:4476-profiles}
 \end{figure*}
 
-\begin{figure}[t]
-  \centering
-  \includegraphics[width=\columnwidth]{figures/pid4476_field_dilution.pdf}
-  \caption{Predicted dilution of a 1.5\% transit in each spectral bin by
-  the field sources that remain in the moved exposure, for a fixed extraction
-  box 40 rows wide with ideal sky subtraction. This is a calculation, not a
-  measured recovery error. The peak near $1.9\,\mu\mathrm{m}$ is the second-order spectrum
-  of the field star discussed in the text.}
-  \label{fig:4476-dilution}
-\end{figure}
-
 \subsection{Tests before any pipeline is scored}
 \label{sec:tests}
 
 Before the pipelines are run, the injected data must pass three tests.
 Firstly, injecting nothing must return the calibrated ramps and slopes of the
 moved exposure unchanged. Secondly, each case and its twin must be identical
-on every integration that has lost no light to the transit. Finally, the
+on every integration that has lost no light to the transit since its reset.
+Finally, the
 noise added with the star must follow photon statistics. I then plan to score
 each method at two levels. Because every case has a twin, the first level is
 the difference between the extracted light of a case and that of its twin,
@@ -190,7 +195,8 @@ with 5.5~s frames. After the strip's own reference-pixel correction, the
 variance of the noise per read is within 6 to 9\% of that of the SOSS
 subarray. For example, the $1/f$ noise per read is 4.92~DN, compared with
 4.81~DN for WASP-17. An integration has at most five groups, against eight
-for WASP-17, and lasts 64~s rather than 49~s. At five groups the brightest
+for WASP-17, and one integration follows the next every 64~s rather than
+every 49~s. At five groups the brightest
 pixels reach 89\% of saturation, and the saturation rule of one pipeline then
 flags a quarter of the light in the extraction box and changes those flags
 during the transit. I therefore build versions with the first three groups,
@@ -217,11 +223,9 @@ how it treats a star outside its grid. The injected law is therefore a
 specified challenge for the pipelines.
 
 These limitations restrict what the benchmark can show, but they do not
-change the injected light curve. The benchmark has one star, and the six
-science visits of WASP-17, HAT-P-26, WASP-39, HAT-P-18, WASP-96 and WASP-80
-cannot be turned into benchmarks in the same way, since their starlight
-cannot be separated from the background (Section~\ref{sec:which-light}). I
-will therefore analyse them as real data with every method and report where
-the methods disagree. Without a known truth these differences cannot be
-assigned to one method. The benchmark is designed to test, under the declared
-injected conditions, which kind of error each method makes.
+change the injected light curve. It tests recovery for one star under the
+declared injected conditions. The six science visits of WASP-17, HAT-P-26,
+WASP-39, HAT-P-18, WASP-96 and WASP-80 will instead be analysed as real data
+with NOVA and the extraction-based pipelines of Paper~1. Without a known true
+spectrum, their disagreements cannot establish which method is more
+accurate.

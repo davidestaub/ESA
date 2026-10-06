@@ -25,11 +25,11 @@ discard information that the later stages cannot recover. Whether either
 choice biases the recovered spectrum can only be answered with data for
 which the true spectrum is known. In this project I therefore develop two
 connected tools. The first is a benchmark with a known injected transit,
-built from real JWST/NIRISS SOSS data. The second is NOVA, a forward model
+built from real JWST NIRISS/SOSS data. The second is NOVA, a forward model
 which propagates the stellar spectrum and the transit through a model of the
-instrument response. Its spectral fit works directly on the detector pixels,
-together with the background which remains after detector processing,
-without extracting one-dimensional spectra.
+instrument response. Its spectral fit models the detector pixels directly,
+including the background that remains after detector processing, without
+extracting one-dimensional spectra.
 
 \subsection{Exoplanet atmospheres and transmission spectroscopy}
 \label{sec:atmospheres-transmission}
@@ -51,7 +51,7 @@ radius constrain the bulk density, but planets with similar masses and radii
 can be made of different mixtures of rock, ice and gas
 \citep{RogersSeager2010}. The atmosphere helps to distinguish them
 \citep{Madhusudhan2019}. Its chemical inventory may carry information about
-formation, although not a unique history \citep{ObergEtAl2011}, its thermal
+formation, although not a unique history \citep{ObergEtAl2011}. Its thermal
 and cloud structure governs how radiation is transported, and escape traces
 atmospheric loss \citep{VidalMadjarEtAl2003}. Its signal can be separated
 from the light of the star when a planet transits and part of the starlight
@@ -110,12 +110,15 @@ of an exoplanet atmosphere was the sodium absorption of HD~209458~b
 \citep{CharbonneauEtAl2002}. Their strong signals also make errors in data
 reduction easier to diagnose. Methods are therefore best developed on them
 before being tested, and if necessary revalidated, on smaller and cooler
-planets. Transmission is one of three time-series geometries. Secondary
+planets.
+
+Transmission is one of three time-series geometries. Secondary
 eclipses isolate the emission from the dayside
 \citep{DemingEtAl2005,CoulombeEtAl2023,GressierEtAl2024}, and phase curves
 constrain the day--night contrast, heat redistribution and longitudinal
 structure \citep{KnutsonEtAl2007,MikalEvansEtAl2023,KemptonEtAl2023,
-SplinterEtAl2025}. Both are planned as later applications of this work.
+SplinterEtAl2025}. Secondary eclipses are a planned later application of this
+work (Section~\ref{sec:plan}).
 Different combinations of abundances, temperature, clouds, hazes and stellar
 heterogeneity can produce similar spectra
 \citep{RackhamEtAl2018,Madhusudhan2019}, and so atmospheric characterisation
@@ -242,7 +245,7 @@ comparison of methods.
 \begin{figure*}[t]
   \centering
   \input{figures/conventional_reduction_workflow}
-  \caption{Conceptual structure shared by extraction-first JWST/NIRISS SOSS
+  \caption{Conceptual structure shared by extraction-first JWST NIRISS/SOSS
   reductions. (a) Within an integration, the detector is read
   nondestructively several times, and each read (group) samples the
   accumulated charge. A cosmic ray adds a step, which the several groups make
@@ -355,7 +358,9 @@ residual background level together with the fluxes of the overlapping orders
 \citep{HolmbergMadhusudhan2023}. Even there, however, the background is
 fitted during the extraction of a stellar spectrum, and the transit only in
 the next stage. The important question is therefore whether the background
-and the wavelength-dependent transit are inferred together. The transit dims
+and the wavelength-dependent transit are inferred together.
+
+The transit dims
 the starlight but not the additive background, so differences between
 in-transit and out-of-transit images measure the component that follows the
 transit. Interpreting this component as starlight assumes that no other
@@ -477,7 +482,7 @@ by itself say which.
 The central research question of this project is:
 \begin{quote}
 \raggedright\itshape
-How accurately and robustly can JWST/NIRISS SOSS transmission spectra
+How accurately and robustly can JWST NIRISS/SOSS transmission spectra
 be recovered from detector-level time-series observations, and can joint
 detector-level inference reduce biases associated with background treatment and
 extraction-first analysis?

@@ -5,14 +5,13 @@ through a chain of detector calibration, background treatment, spectral
 extraction and light-curve fitting. Independent pipelines can produce
 different spectra from the same observation. Agreement between them cannot
 establish accuracy, because the true spectrum of a real planet is unknown.
-This project asks how accurately JWST/NIRISS SOSS transmission spectra can be
+This project asks how accurately JWST NIRISS/SOSS transmission spectra can be
 recovered from detector-level data, and whether fitting the transit and the
 background jointly in the detector pixels reduces the biases of
 extraction-first analyses. I have developed NOVA, a forward model that fits
 the transit and the background directly in the detector pixels. It
-propagates one transmission spectrum, shared by both spectral
-orders, through an empirical instrument response, and fits it together with
-the stellar continuum. A first, preliminary NOVA spectrum
+propagates one transmission spectrum, shared by both spectral orders, through
+an empirical instrument response. A first, preliminary NOVA spectrum
 of WASP-17~b shows features similar to those of the published spectrum, but
 lies deeper at all wavelengths and most of all in the red. Its full
 uncertainty is not yet validated. Because real data cannot settle such differences, I
@@ -21,11 +20,11 @@ showed that, for one tested atmosphere, the ranking of two pipelines
 reverses with the assumed fraction
 of the observed light that belongs to the star, a quantity that the
 WASP-17~b data do not determine. I am therefore building a benchmark from programme 4476, which observed a
-star at its usual position and displaced from the detector strip. A cleaned
+star at its usual position and again moved off the detector strip. A cleaned
 image of its starlight, with a known light curve and photon noise, will be
-added to the raw data of the displaced exposure, and recovery tests will be
+added to the raw data of the moved exposure, and recovery tests will be
 conditional on this construction. The rest of
 the PhD will use this benchmark to score NOVA against published pipelines,
-apply NOVA to five further SOSS visits and to repeated visits of active
-stars, and extend it to NIRSpec and to secondary eclipses.
+apply NOVA to five further SOSS visits and to repeated visits of the same
+planets, and extend it to NIRSpec and to secondary eclipses.
 \end{abstract}
