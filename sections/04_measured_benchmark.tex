@@ -27,7 +27,8 @@ however, that this does not apply to the realised read noise, to offsets that
 vary in time or to residual calibration errors. The estimated scales of the
 zodiacal background in the two exposures agree to within about 1\%. The faint
 halo of the moved star still reaches the strip and is subtracted with it, but
-it amounts to only about 4~ppm in depth and can be restored from a model. The
+its modelled contribution to the depth of a 1.5\% transit is only 2 to
+19~ppm, depending on wavelength, and it can be restored from a model. The
 other stars in the field do not cancel, since they moved with the telescope.
 
 From this difference I construct a declared image of the star, $S$, and add
@@ -46,12 +47,31 @@ linear domain of the detector, before its nonlinearity is applied. No light
 will be added to pixels that do not respond to it. The transit case keeps
 only a fraction of the same arrivals, whilst a twin of every case keeps them
 all, so the two are identical on every integration that has lost no light to
-the transit since its reset. The injected light curve is therefore known
-exactly, given the declared image of the star. How faithfully this image
+the transit since its reset (Figure~\ref{fig:4476-construction}). The
+injected light curve is therefore known exactly, given the declared image of
+the star. How faithfully this image
 represents the physical star is a separate question, which the next
 subsections address. Atmospheres with spectral features need a declared
 assignment of each pixel's light to an order and a wavelength, and I leave
 them until the grey case has passed its tests.
+
+\begin{figure*}[t]
+  \centering
+  \includegraphics[width=\textwidth]{figures/pid4476_construction.pdf}
+  \caption{Planned construction of the benchmark data. One set of photon
+  arrivals is drawn from the cleaned image of the star for successive time
+  intervals, accumulated into reads in the linear domain of the detector and
+  added to the reads of the moved exposure, which is the same for both cases.
+  The twin keeps all arrivals and the transit case keeps a fraction $r(t)$ of
+  the same arrivals, so the two are identical on every integration that has
+  lost no light to the transit since its reset. The lower panel shows the
+  stellar factor $r(t)$, not the total flux, which also contains light that
+  does not transit.
+  The injected light curve is known exactly, whilst the fidelity of the image
+  to the physical star is a separate question. Field sources in the moved
+  exposure stay there and do not transit. The light curve is schematic.}
+  \label{fig:4476-construction}
+\end{figure*}
 
 \begin{figure*}[t]
   \centering
@@ -84,8 +104,9 @@ subtracted from the star. These sources remain in $O(t)$, where they are real
 light that does not transit, as in any real observation. The largest of them
 is the spectrum of a field star, which crosses order 1 between columns 484
 and 1238 with up to 0.77\% of the flux in a column. At $1.874$ to
-$1.893\,\mu\mathrm{m}$, a fixed extraction box would see it dilute a 1.5\%
-transit by 108~ppm, and the pipelines have to account for it as they would in
+$1.893\,\mu\mathrm{m}$, it would dilute a 1.5\% transit by 96~ppm in a fixed
+extraction box 40 rows wide with ideal sky subtraction
+(Figure~\ref{fig:4476-dilution}), and the pipelines have to account for it as they would in
 real data.
 
 This source is consistent with the second order of a star with $G=17.7$ in
@@ -105,9 +126,39 @@ cores of the traces, but only 2 to 3 at 40 to 200 rows from order 1 in the
 red. Beyond 40 rows, I therefore replaced the pixels by a running median along
 each trace over 61 columns, blended with the data between 30 and 40 rows.
 Relative to the measured pixels, this model differs on average by about
-0.16\% at 40 to 100 rows. Near the traces, $S$ keeps the measured image, with
+0.16\% at 40 to 100 rows. Figure~\ref{fig:4476-profiles} shows that, after
+the subtraction, the light of the star is measured well into its wings,
+where it is comparable to or fainter than the background. Near the traces, $S$ keeps the measured image, with
 its noise and any field light hidden under the traces. Both are part of the
 injected star, so they do not change the injected light curve.
+
+\begin{figure*}[t]
+  \centering
+  \includegraphics[width=\textwidth]{figures/pid4476_profiles.pdf}
+  \caption{Median profiles across the trace of order 1 in three wavelength
+  bands: the exposure with the star at its usual position (grey), the moved
+  exposure, which provides the background at the same pixels (orange), their
+  measured difference (black), and the cleaned image of the star (blue;
+  dashed where the far-wing model is used, which depends on the distance from
+  the nearest trace). The further peaks are order 2 in the left and middle
+  panels, and order 3 and a faint band that is probably order 4 in the right
+  panel. The vertical
+  scale is linear near zero and logarithmic above, so that negative values
+  are kept. The cleaned image is the version of 30 September, before the
+  corrections for the sky and the halo of the moved star.}
+  \label{fig:4476-profiles}
+\end{figure*}
+
+\begin{figure}[t]
+  \centering
+  \includegraphics[width=\columnwidth]{figures/pid4476_field_dilution.pdf}
+  \caption{Predicted dilution of a 1.5\% transit in each spectral bin by
+  the field sources that remain in the moved exposure, for a fixed extraction
+  box 40 rows wide with ideal sky subtraction. This is a calculation, not a
+  measured recovery error. The peak near $1.9\,\mu\mathrm{m}$ is the second-order spectrum
+  of the field star discussed in the text.}
+  \label{fig:4476-dilution}
+\end{figure}
 
 \subsection{Tests before any pipeline is scored}
 \label{sec:tests}

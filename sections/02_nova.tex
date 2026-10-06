@@ -37,9 +37,24 @@ further mask to the scene.
 
 \subsection{The detector forward model}
 
+\begin{figure}[t]
+  \centering
+  \includegraphics[width=\columnwidth]{figures/nova_schematic.pdf}
+  \caption{Schematic of the detector forward model of \nova{}. (a) The
+  retained pixels are grouped by order and column (a sketch, not data); the
+  fitted pixels of the two orders do not overlap. (b) The count rate of each
+  pixel is modelled as starlight, dimmed by the transit, plus a background
+  that is not dimmed. The spectrum is shared by both orders, whilst the limb
+  darkening is fitted for each order as penalised deviations from a
+  theoretical reference. The spatial response, the geometry and the curvature
+  correction are estimated beforehand.}
+  \label{fig:nova-schematic}
+\end{figure}
+
 Within one detector column, the pixels of a trace see nearly the same
 wavelength. NOVA therefore organises the samples into groups, where a group
-$g$ contains the pixels $P_g$ of one order in one column. Denoting by $Y_{tp}$
+$g$ contains the pixels $P_g$ of one order in one column.
+Figure~\ref{fig:nova-schematic} sketches the model. Denoting by $Y_{tp}$
 the calibrated count rate of pixel $p$ in integration $t$, NOVA predicts
 \begin{equation}
  \widehat Y_{tp}
@@ -340,7 +355,11 @@ validated ensemble uncertainty is therefore not yet available.
   a resolving power of 100 (orange; orders 1 and 2 shown separately). The
   \nova{} error bars are conditional on the fitted calibration products and
   geometry, and do not yet include the uncertainty from the ensemble. All
-  points of both spectra are shown.}
+  points of both spectra are shown. The lower panel gives the difference in
+  each NOVA bin after interpolating the published spectrum, with the median in
+  each of five regions (0.63--1.0, 1.0--1.6, 1.6--1.8, 1.8--2.3 and
+  2.3--2.81\,$\mu$m; blue lines); one point near $2.06\,\mu\mathrm{m}$, where a
+  published point lies far below its neighbours, is drawn at the top edge.}
   \label{fig:nova-real}
 \end{figure*}
 
@@ -353,9 +372,10 @@ are conditional on its calibration products and geometry, since no validated
 ensemble uncertainty is available yet. Below about $1.8\,\mu\mathrm{m}$ the
 two spectra show similar features, such as the water bands, but the NOVA
 spectrum is deeper throughout. Interpolating the published spectrum to the
-bins of NOVA, the mean difference is about 250~ppm below
-$1.6\,\mu\mathrm{m}$, 660~ppm between 1.8 and $2.3\,\mu\mathrm{m}$, and
-490~ppm above $2.3\,\mu\mathrm{m}$. Different geometry, limb-darkening and
+bins of NOVA, the median difference is about 230~ppm below
+$1.6\,\mu\mathrm{m}$, 550~ppm between 1.8 and $2.3\,\mu\mathrm{m}$, and
+490~ppm above $2.3\,\mu\mathrm{m}$ (Figure~\ref{fig:nova-real}, lower
+panel). Different geometry, limb-darkening and
 background treatments may all contribute, and this comparison does not
 isolate them. The larger difference in the red matters most, since it lies
 where the starlight is faintest and the background is most important.
