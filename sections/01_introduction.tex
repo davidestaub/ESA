@@ -133,7 +133,7 @@ hazes \citep{AlbertEtAl2023,HolmbergMadhusudhan2023,LouieEtAl2025}. A spectrum c
 and it no longer has to be combined from observations made at different
 times.
 
-In this project, I use this mode of NIRISS, called Single Object Slitless
+In this project, I use a mode of NIRISS, called Single Object Slitless
 Spectroscopy (SOSS) \citep{AlbertEtAl2023}.
 Figure~\ref{fig:soss-detector-orders} shows how the light of a star falls on
 the SOSS detector. An optical element called GR700XD, a grism combined with a
@@ -204,7 +204,7 @@ The levels on the two sides of the step also vary independently, so a model
 of the background should be scaled separately on each side
 \citep{AlbertEtAl2023,LouieEtAl2025}. Subtracting a single constant level
 instead would bias the transit depths by an amount that changes with
-wavelength \citep{RadicaEtAl2023}. Other slitless modes of JWST, such as the wide-field slitless spectroscopy of the Near Infrared Camera (NIRCam), also have structured zodiacal backgrounds whose shape depends on the grism and filter \citep{JDoxNIRCamWFSS2026}. I have not found a description of a sharp step like the SOSS one in any other mode.
+wavelength \citep{RadicaEtAl2023}. 
 
 Despite these difficulties, SOSS has delivered detailed spectra. For example,
 one of the first SOSS analyses recovered the water bands, potassium absorption
@@ -216,15 +216,7 @@ by combining observations made with several instruments between 2012 and 2017
 \citep{AldersonEtAl2022}.
 
 However, that spectrum could not constrain how much water the atmosphere of
-WASP-17~b contains \citep{LouieEtAl2025}. The amount of water is described by
-the water abundance, the fraction of the molecules in the gas that are water
-molecules. It is often compared with the solar value, the water abundance of a
-gas with the same mix of elements as the Sun. The solar value is set mainly by
-the ratio of oxygen to hydrogen in the Sun. A water abundance below the solar
-value therefore means less water than in gas of solar composition. Such a
-value can point to an atmosphere poor in oxygen, or poor in all elements
-heavier than helium. A value above the solar one can point to an atmosphere
-enriched in these elements. Depending on the model, the HST and Spitzer data
+WASP-17~b contains \citep{LouieEtAl2025}. Depending on the model, the HST and Spitzer data
 were consistent with a water abundance below the solar value, with one above
 it, or with two separate solutions, one below and one above
 \citep{AldersonEtAl2022,LouieEtAl2025}.
@@ -333,7 +325,7 @@ each pixel is relative to the others, and dividing each image by it removes
 these differences in sensitivity \citep{JWSTPipeline2025,LouieEtAl2025}. The
 background is removed by subtracting a model of the zodiacal background,
 scaled to match the observed images \citep{LouieEtAl2025}. Bad pixels are
-then flagged and replaced. A bad pixel is one whose value cannot be trusted.
+then flagged and replaced. 
 Ahsoka, for example, used the bad-pixel step of supreme-SPOON. This step
 flags a pixel of the median out-of-transit image if its value is negative or
 undefined. It also flags a pixel that differs from the nearby pixels in its
