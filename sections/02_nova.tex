@@ -1,39 +1,37 @@
 \section{NOVA}
 \label{sec:nova}
 
-In this section, I describe NOVA as it is currently implemented. It grew out
-of an earlier version of August 2026, from which the pixel layout, the
-off-trace pixel set, the background maps, the per-order uncertainty scales and
-the form of the curvature correction are carried over. Every other fitted
-product, including the transit geometry, is estimated again for each input.
-The section ends with a first, preliminary spectrum of the real WASP-17~b
-visit.
+NOVA infers the transmission spectrum from the detector pixels themselves, so
+that the split between starlight and background is decided in the same fit as
+the transit. A single forward model maps the spectrum $D(\lambda)$, the limb
+darkening $\bm{u}(\lambda)$, the stellar brightness and the additive
+background onto every retained detector sample. All four are estimated by
+minimising one objective. Other ingredients are estimated beforehand from the
+same data and held fixed, namely the spatial response, a curvature correction,
+the temporal pattern and expected level of the background, the uncertainty
+scales and the transit geometry. The geometry comes from a white-light fit,
+the one place where NOVA extracts light curves (Section~\ref{sec:own-white}).
 
-The aim of NOVA is to infer the transmission spectrum from the detector pixels
-themselves, so that the split between starlight and background is decided in
-the same fit as the transit. A single forward model maps the transmission
-spectrum $D(\lambda)$, the limb darkening $\bm{u}(\lambda)$, the brightness of
-the star and the additive background onto every retained detector sample. All
-four are estimated by minimising one objective. Other ingredients are
-estimated beforehand from the same data and then held fixed. These are the
-spatial response, a curvature correction, the temporal pattern and expected
-level of the background, the uncertainty scales and the transit geometry. The
-geometry comes from a white-light fit, the one place where NOVA does extract
-light curves (Section~\ref{sec:own-white}).
+In this section, I describe NOVA as currently implemented, ending with a
+first, preliminary spectrum of the real WASP-17~b visit. This implementation
+grew out of an earlier version of August 2026, from which the pixel layout,
+the off-trace pixel set, the background maps, the per-order uncertainty scales
+and the form of the curvature correction are carried over. Every other fitted
+product, including the transit geometry, is estimated again for each input.
 
 \subsection{Detector processing}
 \label{sec:detector-processing}
 
 NOVA's input is prepared from the raw ramps with the JWST calibration pipeline
-\citep{JWSTPipeline2025} and exoTEDRF \citep{Radica2024}. The group steps of
-the JWST pipeline run first, up to and including the reference-pixel
+\citep{JWSTPipeline2025} and exoTEDRF \citep{Radica2024}. The JWST pipeline
+first runs its group steps, up to and including the reference-pixel
 correction. The $1/f$ noise in each group is then removed with exoTEDRF,
-after a scaled model of the zodiacal background has been subtracted
-temporarily so that the stripes can be estimated. The linearity, jump-detection, ramp-fitting and gain
-steps give count rates, and Stage~2 of exoTEDRF subtracts the scaled
-background model, applies the flat field and corrects bad pixels. The $1/f$
-step masks the field stars identified in the F277W exposure, and I apply no
-further mask to the scene.
+after a scaled zodiacal background model has been subtracted temporarily so
+that the stripes can be estimated. The linearity, jump-detection,
+ramp-fitting and gain steps give count rates, and Stage~2 of exoTEDRF
+subtracts the scaled background model, applies the flat field and corrects bad
+pixels. The $1/f$ step masks the field stars identified in the F277W exposure,
+and I apply no further mask to the scene.
 
 \subsection{The detector forward model}
 
@@ -51,11 +49,14 @@ further mask to the scene.
   \label{fig:nova-schematic}
 \end{figure}
 
-Within one detector column, the pixels of a trace see nearly the same
-wavelength. NOVA therefore organises the samples into groups, where a group
-$g$ contains the pixels $P_g$ of one order in one column.
-Figure~\ref{fig:nova-schematic} sketches the model. Denoting by $Y_{tp}$
-the calibrated count rate of pixel $p$ in integration $t$, NOVA predicts
+The count-rate images of Section~\ref{sec:detector-processing} have already had a scaled zodiacal background model subtracted. NOVA fits
+the residual background, including any error in that scaling, together with
+the transit. Figure~\ref{fig:nova-schematic} sketches its forward model.
+Within one detector column, the pixels of a trace see nearly the
+same wavelength. NOVA therefore organises the samples into non-overlapping
+groups $g$, each containing the pixels $P_g$ of one order in one column.
+Denoting by $Y_{tp}$ the calibrated count rate of pixel $p$ in integration
+$t$, NOVA predicts
 \begin{equation}
  \widehat Y_{tp}
  = \gamma_t\, C_{tg}\,
@@ -64,26 +65,25 @@ the calibrated count rate of pixel $p$ in integration $t$, NOVA predicts
  + B_{tp},
  \label{eq:nova-forward}
 \end{equation}
-where $g$ is the group containing pixel $p$, $C_{tg}$ is the brightness of
-the star in that group at time $t$ (the continuum), and $\mathcal{T}_{tg}$ is
-the transit factor. The transit factor dims this light according to the depth
-$D$ and limb darkening $\bm{u}$ at the wavelengths of the group and the
-orbital state $\Omega$. Furthermore, $\gamma_t$ is a small correction for slow
-curvature in the brightness of the star, $q^\star_{pg}$ is the spatial
-response, which distributes the light of the group over its pixels with
-$\sum_{p\in P_g} q^\star_{pg}=1$, and $B_{tp}$ is the additive background.
-Only the stellar term is dimmed, so any light that the model assigns to the
-background does not dim during the transit. In practice, the transit is
-evaluated on a fine wavelength grid and projected onto the pixels through the
-line-spread kernel and the spatial response. This follows the public trace
-and wavelength calibration \citep{BainesEtAl2023Trace,BainesEtAl2023Wavelength}
-and its kernel \citep{DarveauBernierEtAl2022,JWSTPipeline2025}. The pixels
-fitted for the two orders do not overlap.
+where $g$ is the group containing pixel $p$, $C_{tg}$ is the stellar
+brightness in that group at time $t$ (the continuum), and the transit factor
+$\mathcal{T}_{tg}$ dims this light according to the depth $D$ and limb
+darkening $\bm{u}$ at the wavelengths of the group and the orbital state
+$\Omega$. Furthermore, $\gamma_t$ is a small correction for slow curvature in
+the stellar brightness, $q^\star_{pg}$ is the spatial response, which
+distributes the light of the group over its pixels with
+$\sum_{p\in P_g} q^\star_{pg}=1$, and $B_{tp}$ is the additive residual
+background. Only the stellar term is dimmed, so light that the model assigns
+to the background does not dim during the transit. The transit is evaluated
+on a fine wavelength grid and projected onto the pixels through the
+line-spread kernel and the spatial response, following the public trace and
+wavelength calibration \citep{BainesEtAl2023Trace,BainesEtAl2023Wavelength} and its kernel
+\citep{DarveauBernierEtAl2022,JWSTPipeline2025}.
 
 \subsection{The shared spectrum and transit model}
 
-A planet has one transmission spectrum, whichever order records its light, and
-so both orders share $D(\lambda)$. It is represented by $K=160$ top-hat basis
+A planet has one transmission spectrum, whichever order records its light, so
+both orders share $D(\lambda)$. It is represented by $K=160$ top-hat basis
 functions, about $0.01\,\mu\mathrm{m}$ wide below $2\,\mu\mathrm{m}$ and about
 $0.04\,\mu\mathrm{m}$ above, whose coefficients are
 \begin{equation}
@@ -95,23 +95,24 @@ $0.04\,\mu\mathrm{m}$ above, whose coefficients are
 where $D_{\mathrm{global}}$ is the achromatic depth, $\bm{v}$ are the free
 shape coordinates, $\bm{H}_v$ maps them onto the subspace orthogonal to a
 constant, and $w_k$ are fixed basis-width weights. In this form,
-$\sum_j w_j D_j = D_{\mathrm{global}}$ sets the overall depth, the shape is
-carried by coordinates without a constant component, and every depth stays
-positive. Two red coefficients have no response support, and I hold them
-constant, which leaves 158 free depth coordinates. Otherwise the spectrum is
-free. There is no atmospheric template, no smoothing between wavelengths, no
-prior on its shape and no term that lets the depths of the two orders
-differ.
+$\sum_j w_j D_j = D_{\mathrm{global}}$ sets the overall depth, the constant-free
+coordinates carry the shape, and every depth stays positive. I hold constant
+the two red coefficients that have no response support, which leaves 158 free
+depth coordinates. Otherwise the spectrum is free, with no atmospheric
+template, no smoothing between wavelengths, no prior on its shape and no term
+that lets the depths of the two orders differ.
 
 The orbital state $\Omega$ comprises the period $P$, the eccentricity $e$, the
 argument of periastron $\omega_{\mathrm{peri}}$, the scaled semi-major axis
 $a/R_\star$, the impact parameter $b$ and the mid-transit time $t_0$. The
 period is that used by \citet{LouieEtAl2025} and the orbit is circular,
-whilst $t_0$, $a/R_\star$ and $b$ come from NOVA's own white-light fit. Each integration lasts about 44~s,
-during which the planet moves, so $\mathcal{T}_{tg}$ is the transit averaged
-over the exposure, computed with jaxoplanet \citep{Jaxoplanet2025}. The limb
-darkening follows the quadratic law \citep{MandelAgol2002}, written in the
-coordinates $q_1,q_2\in[0,1]$ of \citet{Kipping2013},
+whilst $t_0$, $a/R_\star$ and $b$ come from NOVA's own white-light fit. Each
+integration lasts about 44~s, during which the planet moves, so
+$\mathcal{T}_{tg}$ is the transit averaged over the exposure, computed with
+jaxoplanet \citep{Jaxoplanet2025}.
+
+The limb darkening follows the quadratic law \citep{MandelAgol2002}, written
+in the coordinates $q_1,q_2\in[0,1]$ of \citet{Kipping2013},
 \begin{equation}
  u_1=2\sqrt{q_1}\,q_2, \qquad
  u_2=\sqrt{q_1}\,(1-2q_2).
@@ -127,13 +128,15 @@ free.
 
 \subsection{The empirical spatial response}
 
+The transit model specifies how the light changes in time. The spatial
+response $q^\star_{pg}$ specifies how it is distributed over the pixels.
 Because the starlight dims during the transit whilst the background does not,
 the part of a pixel's time series that follows the transit measures how much
 starlight falls on that pixel. This assumes that only starlight shares the
 time dependence of the transit. For each order $o$, I therefore build a
-template $\phi_o(t)$ of the shape of the transit from the median behaviour of
-its bright, stable pixels. The template is scaled so that it carries no
-information about the depth, and every pixel is fitted, with Huber weights, as
+template $\phi_o(t)$ of the transit shape from the median behaviour of
+its bright, stable pixels. The template is scaled to carry no information
+about the depth, and every pixel is fitted, with Huber weights, as
 \begin{equation}
  Y_{tp} = A_{pg}\,\phi_{o}(t) + \ell_p + \kappa_p\,\tau_t + \varepsilon_{tp},
  \label{eq:qstar-fit}
@@ -143,69 +146,69 @@ its level, $\kappa_p\tau_t$ is a linear drift in time $\tau_t$, and
 $\varepsilon_{tp}$ is the residual. The response is the normalised amplitude,
 $q^\star_{pg}=A_{pg}/\sum_{p'\in P_g}A_{p'g}$. Each amplitude comes from a dip
 of only about 1.5\%, so the amplitudes are smoothed across neighbouring
-columns at a fixed integer position within the trace. The strength of the
-smoothing is chosen by cross-validation between two halves of the
-integrations, which must also agree in how they distribute the flux and where
-they place its centre. The fixed integer position makes the centre of the
-response occasionally jump between columns. In audits of the earlier version,
-this came with a response at the faintest red columns that placed roughly 1
-to 2\% more amplitude inside the fitted pixels than the light delivered to
-them, and so made the transit too shallow there. The effect has not yet been
-measured again for each input.
+columns at a fixed integer position within the trace. The smoothing strength
+is chosen by cross-validation between two halves of the integrations, which
+must also agree in how they distribute the flux and where they place its
+centre. The fixed integer position makes the centre of the response
+occasionally jump between columns. In audits of the earlier version, this came
+with a response at the faintest red columns that placed roughly 1 to 2\% more
+amplitude inside the fitted pixels than the light delivered to them, and so
+made the transit too shallow there. The effect has not yet been measured
+again for each input.
 
 \subsection{The continuum, the background and the noise}
 
-The continuum of each group is linear in time,
-$C_{tg}=\beta_{0g}+\beta_{1g}\tau_t$. The background is a sum of eight fixed
-spatial maps $\Phi_{pk}$, each with a constant amplitude $\alpha_{k0}$ and one
-amplitude, $\alpha_{k1}$, that follows a temporal pattern $G_1(t)$,
+With that response held fixed, the joint fit must distinguish variations in
+stellar brightness from those in the residual background. The continuum
+of each group is linear in time, $C_{tg}=\beta_{0g}+\beta_{1g}\tau_t$. A
+linear continuum cannot follow a gentle curvature in the stellar brightness,
+and this curvature could leak into the depth. The factor $\gamma_t$, shared
+by both orders, is therefore the ratio of a quadratic fit to the
+out-of-transit flux of each order's trace to its straight-line approximation,
+normalised to unit mean out of transit. It is only accepted if two
+alternating halves of the out-of-transit integrations predict nearly the
+same, small correction during the transit.
+
+The background is a sum of eight fixed spatial maps $\Phi_{pk}$, each with a
+constant amplitude $\alpha_{k0}$ and one amplitude, $\alpha_{k1}$, that
+follows a temporal pattern $G_1(t)$,
 \begin{equation}
  B_{tp}=\sum_{k=1}^{8}\Phi_{pk}
  \left[\alpha_{k0}+\alpha_{k1}\,G_1(t)\right].
  \label{eq:background-model}
 \end{equation}
-Because a scaled zodiacal model has already been subtracted from the images,
-$B_{tp}$ describes what remains, including any error in that scaling. The
-first map is a standardised calibration background and the other seven are
-smooth polynomial surfaces. Fitting the maps to the off-trace pixels of every
-integration gives a time series of amplitudes. $G_1$ is the first principal
-component of this series whose correlation with the shape of the transit is
-at most 0.25 in absolute value, which limits how much transit-shaped
-variation the background can absorb. On the real visit, the leading
-off-trace component is strongly correlated with the transit. Whether this
-signal is starlight is the question that Section~\ref{sec:which-light}
-discusses. The criterion keeps
-this component out of the background model, and the design of the ensemble
-restores it (Section~\ref{sec:ensemble}). Finally, a joint fit to all off-trace
-pixels gives an expected value $\bm{\alpha}_{\mathrm{off}}$ of the sixteen
+The first map is a standardised calibration background and
+the other seven are smooth polynomial surfaces. Fitting the maps to the off-trace pixels of every integration gives a time series of amplitudes.
+$G_1$ is the first principal component of this series whose correlation with
+the shape of the transit is at most 0.25 in absolute value, which limits how
+much transit-shaped variation the background can absorb. On the real visit,
+the leading off-trace component is strongly correlated with the transit.
+Whether this signal is starlight is the question that
+Section~\ref{sec:which-light} discusses. The criterion keeps this component
+out of the background model, and the design of the ensemble restores it
+(Section~\ref{sec:ensemble}). Finally, a joint fit to all off-trace pixels
+gives an expected value $\bm{\alpha}_{\mathrm{off}}$ of the sixteen
 amplitudes, with precision matrix $\bm{N}_{\mathrm{off}}$. It acts as a soft
 anchor, since the background is refitted at every step but cannot wander far
 from what the off-trace pixels show.
 
-A linear continuum cannot follow a gentle curvature in the brightness of the
-star, and this curvature could leak into the depth. The factor $\gamma_t$ is
-therefore the ratio of a quadratic fit to the out-of-transit flux of each
-order's trace to its straight-line approximation, normalised to unit mean out
-of transit, and one factor is shared by both orders. It is only accepted if
-two alternating halves of the out-of-transit integrations predict nearly the
-same, small correction during the transit. Each sample has the uncertainty
-$\sigma_{tp}=\mathrm{ERR}_{tp}\,N_{o}\,s_{p}$, where $\mathrm{ERR}_{tp}$ is
+Each sample has the uncertainty $\sigma_{tp}=\mathrm{ERR}_{tp}\,N_{o}\,s_{p}$, where $\mathrm{ERR}_{tp}$ is
 the pipeline uncertainty, $N_o$ is a scale for order $o$ (3.07 and 4.19) and
-$s_p\geq1$ is a scale for each pixel. The pixel scale is estimated by
-predicting one half of the out-of-transit integrations from the other. These
-scales only set the weights of the fit. The ensemble is intended to estimate
-the uncertainty of the real spectrum.
+$s_p\geq1$ is a scale for each pixel, estimated by predicting one half of the
+out-of-transit integrations from the other. These scales only set the weights
+of the fit. The ensemble is intended to estimate the uncertainty of the real
+spectrum.
 
 \subsection{The objective and its minimisation}
 
-Writing the standardised residual as
+The standardised residual of each sample is
 \begin{equation}
  r_{tp}=\frac{Y_{tp}-\widehat Y_{tp}
  (D,\bm{u},\bm{\beta},\bm{\alpha};\,q^\star,\Omega)}{\sigma_{tp}},
  \label{eq:residual}
 \end{equation}
 where the fitted parameters appear before the semicolon and the fixed inputs
-after it, the NOVA estimate is
+after it. The NOVA estimate is
 \begin{equation}
 \begin{split}
  &(\widehat D,\widehat{\bm{u}},\widehat{\bm{\beta}},
@@ -233,16 +236,14 @@ parameters into a nonlinear block $\bm{\theta}=(D,\bm{u})$ and a linear block
 $(\bm{\beta},\bm{\alpha})$, and minimises in three nested loops. In the
 innermost loop, with $\bm{\theta}$ and the Huber weights $w_{tp}$ held fixed,
 variable projection \citep{GolubPereyra1973} solves exactly for the linear
-block. This is the least-squares problem with weights $w_{tp}/\sigma_{tp}^2$,
-together with the background anchor. It is tractable because each continuum
-coefficient is coupled only to neighbouring columns through the line-spread
-kernel, and the sixteen background coefficients are handled through a Schur
-complement. The Jacobian with respect to $\bm{\theta}$ is obtained by
+block, a least-squares problem with weights $w_{tp}/\sigma_{tp}^2$ together
+with the background anchor. It is tractable because each continuum coefficient is coupled only to neighbouring columns. The Jacobian with respect to $\bm{\theta}$ is obtained by
 differentiating through this exact solution. In the middle loop, bounded
 trust-region reflective least squares \citep{BranchColemanLi1999} minimises
 this profiled objective over $\bm{\theta}$. In the outer loop, the Huber
-weights $w_{tp}=\min(1,\,1.345/|r_{tp}|)$ \citep{Huber1964} are updated. A fit
-is accepted only if the weights, the objective and the spectrum have all
+weights $w_{tp}=\min(1,\,1.345/|r_{tp}|)$ \citep{Huber1964} are updated.
+
+A fit is accepted only if the weights, the objective and the spectrum have all
 settled, first-order optimality is reached, and a final cycle with recomputed
 weights reproduces the solution. Every analysis is run from at least two
 starts, one at the white-light depth with a flat shape and one with a fixed
@@ -253,28 +254,25 @@ lowest objective is selected. So far the starts agree to within about
 \subsection{White-light geometry inference}
 \label{sec:own-white}
 
-NOVA infers $t_0$, $a/R_\star$ and the inclination $i$, and hence
-$b=(a/R_\star)\cos i$, from its own detector data, without using any fitted
-value from another pipeline or from an injector. For each order, a
-white-light curve is built by summing a profile-weighted (optimal) estimate of
-the light in each column, using an out-of-transit profile from the same
-input. The two curves are fitted jointly with the light-curve stage of
-Eureka! \citep{BellEtAl2022}. They share $t_0$, $a/R_\star$ and $i$, whilst
-each order has its own radius ratio $k_o$, quadratic limb darkening with
-uniform priors between 0 and 1 on both coefficients, linear baseline and
-white-noise multiplier. The geometry priors are deliberately
-wide, with $t_0$ uniform over the observed window, $a/R_\star$ on
-$[1.01,\,100]$ and $i$ on $[0^\circ,\,90^\circ]$. The other priors use no fit
-to these data and are copied from the public Ahsoka configuration of
-\citet{LouieEtAl2025}. The posterior is sampled with the nested sampler
-dynesty \citep{Speagle2020}. On injected inputs, the ensemble sampler emcee
-\citep{ForemanMackeyEtAl2013} did not reach 50 autocorrelation lengths, and a
-later check found about 12\% of the samples of each failed chain on grazing
-or non-transiting geometries.
+The spectral fit holds the orbital geometry fixed. I obtain
+that geometry from a joint white-light fit to the same input. This fit infers
+$t_0$, $a/R_\star$ and the inclination $i$, and hence $b=(a/R_\star)\cos i$,
+without using any fitted value from another pipeline or an injector. For
+each order, a white-light curve is built by summing a profile-weighted
+(optimal) estimate of the light in each column, using an out-of-transit
+profile from the same input. The two curves are fitted jointly with the light-curve
+stage of Eureka! \citep{BellEtAl2022}. They share $t_0$, $a/R_\star$ and $i$,
+whilst each order has its own radius ratio $k_o$, quadratic limb darkening
+with uniform priors between 0 and 1 on both coefficients, linear baseline and
+white-noise multiplier. The geometry priors are deliberately wide, with $t_0$
+uniform over the observed window, $a/R_\star$ on $[1.01,\,100]$ and $i$ on
+$[0^\circ,\,90^\circ]$. The other priors use no fit to these data and are
+copied from the public Ahsoka configuration of \citet{LouieEtAl2025}. The posterior is sampled with the nested sampler dynesty \citep{Speagle2020}, which replaced the ensemble sampler emcee \citep{ForemanMackeyEtAl2013}. On injected inputs, emcee had not reached 50 autocorrelation lengths, and a later check found about 12\% of
+the samples of each failed chain on grazing or non-transiting geometries.
 
-Such geometries are the failure that matters here. For every posterior
-sample, $b$ is computed from that sample's $a/R_\star$ and $i$, and the
-sample counts as grazing or non-transiting if
+Such geometries are the failure that matters here. For every posterior sample,
+$b$ is computed from that sample's $a/R_\star$ and $i$, and the sample counts
+as grazing or non-transiting if
 \begin{equation}
  b > 1-\max(k_1,\,k_2),
  \label{eq:grazing}
@@ -283,15 +281,15 @@ that is, if the planet's disc is not wholly inside the stellar disc at
 mid-transit. A fit passes if the upper end of the 95\% interval of the
 weighted fraction of such samples is below 1\%. It passes with the fraction
 reported if that upper end lies between 1 and 5\%. Otherwise the fit is held
-and not used, and it is not continued, reseeded, trimmed or replaced by
-another geometry. Note that this rule is not blind to the real data. It is the fifth
-version of the criterion, written after it was known that the real posterior
-contains no grazing samples of positive weight. Before using it, however, I
-tested it on saved posteriors, where it had to reject the three emcee chains
-that had failed their length assessment and accept both those that had passed
-and the nested posterior of the real visit. An accepted fit passes the
-weighted medians of $t_0$, $a/R_\star$, $i$ and $k_o$ over the whole
-posterior to the spectral fit.
+and not used, and is not continued, reseeded, trimmed or replaced by
+another geometry. Note that this rule is not blind to the real data. It is
+the fifth version of the criterion, written after it was known that the real
+posterior contains no grazing samples of positive weight. Before using it,
+however, I tested it on saved posteriors, where it had to reject the three
+emcee chains that had failed their length assessment and accept both those
+that had passed and the nested posterior of the real visit. An accepted fit
+passes the weighted medians of $t_0$, $a/R_\star$, $i$ and $k_o$ over the
+whole posterior to the spectral fit.
 
 \subsection{The uncertainty ensemble}
 \label{sec:ensemble}
@@ -320,16 +318,15 @@ noise is correlated in time.
 
 The proposed ensemble has 352 realisations. Of these, 256 estimate the
 covariance, 32 are held out to test it, and two further sets of 32 test the
-block length. Each is
-analysed from scratch, with its own calibration products, white-light fit and
-two starts, and no failed realisation is replaced or dropped. The error of a
-realisation, its spectrum minus that of the real visit, is expressed in
-$N_{\mathrm{m}}=128$ modes, the rank of the map onto the 147 reporting bins.
-Because the covariance $\bm{S}$ of the $N=256$ estimation errors is itself
-estimated, a Gaussian likelihood would be too narrow. For a new error
-$\bm{x}$ I therefore use the multivariate Student distribution of
-\citet{SellentinHeavens2016}, centred on the sample mean $\bm{\mu}$, with
-$N-N_{\mathrm{m}}$ degrees of freedom and scale matrix
+block length. Each is analysed from scratch, with its own calibration
+products, white-light fit and two starts, and no failed realisation is
+replaced or dropped. The error of a realisation, its spectrum minus that of
+the real visit, is expressed in $N_{\mathrm{m}}=128$ modes, the rank of the
+map onto the 147 reporting bins. Because the covariance $\bm{S}$ of the
+$N=256$ estimation errors is itself estimated, a Gaussian likelihood would be
+too narrow. For a new error $\bm{x}$ I therefore use the multivariate Student
+distribution of \citet{SellentinHeavens2016}, centred on the sample mean
+$\bm{\mu}$, with $N-N_{\mathrm{m}}$ degrees of freedom and scale matrix
 \begin{equation}
  \bm{\Sigma}=\left(1+\frac{1}{N}\right)\frac{N-1}{N-N_{\mathrm{m}}}\,\bm{S},
  \label{eq:finite-ensemble}
@@ -337,13 +334,12 @@ $N-N_{\mathrm{m}}$ degrees of freedom and scale matrix
 where the factor $1+1/N$ allows for the estimated mean. This distribution
 still rests on assumptions about the shape of the errors, which the held-out
 realisations test. The likelihood is only used for retrieval if the held-out
-errors pass a prespecified test of coverage for its 95\% region. A first version of the ensemble failed this
-test, with only 21 of 32 held-out errors inside the region. Its realisations
-lacked the static mismatch and the transit-correlated off-trace light that
-Eq.~\eqref{eq:ensemble-draw} now contains, although this difference has not
-been shown to be the cause. The replacement ensemble was started, and 64 of
-its realisations were completed before the remaining work was deferred. A
-validated ensemble uncertainty is therefore not yet available.
+errors pass a prespecified test of coverage for its 95\% region.
+
+A first version of the ensemble failed this test, with only 21 of 32 held-out errors inside the
+region. Its realisations lacked the static mismatch and the
+transit-correlated off-trace light that Eq.~\eqref{eq:ensemble-draw} now
+contains, although this difference has not been shown to be the cause. The replacement ensemble was started, and 64 of its realisations were completed before the remaining work was deferred. A validated ensemble uncertainty is therefore not yet available.
 
 \subsection{A first spectrum of WASP-17~b}
 \label{sec:nova-real}
@@ -365,23 +361,21 @@ validated ensemble uncertainty is therefore not yet available.
 \end{figure*}
 
 Figure~\ref{fig:nova-real} compares a preliminary NOVA spectrum of the real
-WASP-17~b visit with the published Ahsoka spectrum of \citet{LouieEtAl2025}.
-The NOVA spectrum comes from a reduction of 18 September 2026, which used
-NOVA's own joint white-light geometry but was fitted before the criterion of
-Section~\ref{sec:own-white} was written. The error bars of the NOVA spectrum
-are conditional on its calibration products and geometry, since no validated
-ensemble uncertainty is available yet. Below about $1.8\,\mu\mathrm{m}$ the
-two spectra show similar features, such as the water bands, but the NOVA
-spectrum is deeper throughout. Interpolating the published spectrum to the
-bins of NOVA, the median difference is about 230~ppm below
-$1.6\,\mu\mathrm{m}$, 550~ppm between 1.8 and $2.3\,\mu\mathrm{m}$, and
-490~ppm above $2.3\,\mu\mathrm{m}$ (Figure~\ref{fig:nova-real}, lower
-panel). Different geometry, limb-darkening and
-background treatments may all contribute, and this comparison does not
-isolate them. The larger difference in the red matters most, since it lies
-where the starlight is faintest and the background is most important.
-Separate injection tests also found nonzero biases of NOVA, but these cannot
-be subtracted from the difference on real data. Whether NOVA or the published
-reduction is closer to the truth cannot be decided from the real data. This
-motivates the benchmark of the next two sections, which is designed to
-measure the errors of the methods when the injected truth is known.
+WASP-17~b visit, from a reduction of 18 September 2026, with the published
+Ahsoka spectrum of \citet{LouieEtAl2025}. This reduction used NOVA's own joint
+white-light geometry but was fitted before the criterion of
+Section~\ref{sec:own-white} was written. The NOVA error bars are conditional
+on NOVA's calibration products and geometry, since no validated ensemble
+uncertainty is available yet. Below about $1.8\,\mu\mathrm{m}$ the two
+spectra show similar features, such as the water bands, but the NOVA spectrum
+is deeper throughout. Interpolating the published spectrum to the NOVA bins,
+the median difference is about 230~ppm below $1.6\,\mu\mathrm{m}$, 550~ppm
+between 1.8 and $2.3\,\mu\mathrm{m}$, and 490~ppm above $2.3\,\mu\mathrm{m}$
+(Figure~\ref{fig:nova-real}, lower panel).
+
+Different geometry, limb-darkening and background treatments may all
+contribute to this difference, and this comparison does not isolate them. The
+larger difference in the red matters most, since it lies where the starlight
+is faintest and the background is most important. Whether NOVA or the
+published reduction is closer to the truth cannot be decided from the real
+data. Separate injection tests also found nonzero biases of NOVA, but these cannot be subtracted from the difference on real data. This motivates the benchmark of the next two sections, which is designed to measure the errors of the methods when the injected truth is known.
