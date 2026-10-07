@@ -1,34 +1,27 @@
 \begin{abstract}
 The transmission spectrum of an exoplanet, its transit depth as a function of
 wavelength, reveals what its atmosphere is made of. In existing reduction
-pipelines, the detector is calibrated, a background is subtracted from each
+pipelines, the raw data are corrected for known detector effects, a background is subtracted from each
 image, a spectrum is extracted from each image, and then a light curve is
 fitted at each wavelength. Different pipelines can produce different spectra
 from the same dataset. Even when pipelines agree, this does not show that
 their result is right, because the true spectrum of a real planet is unknown.
-Two steps of this process could bias the spectrum. Firstly, the background is subtracted, and any background that remains is not modelled when the transit is fitted. Secondly, each image is compressed into
+I focus on two steps of this process that could bias the spectrum. Firstly, the background is subtracted, and any background that remains is not modelled when the transit is fitted. Secondly, each image is compressed into
 a one-dimensional spectrum. In this project, I ask how accurately a
-transmission spectrum can be recovered from data taken with the NIRISS/SOSS
-mode of JWST, and whether fitting the background and the transit together at
-the pixel level makes it more accurate. To explore this, I have developed a
+transmission spectrum can be recovered from data taken with the NIRISS/SOSS mode of the James Webb Space Telescope (JWST), and whether fitting the background and the transit together at
+the pixel level makes the recovered spectrum more accurate. To explore this, I have developed a
 method called Nonlinear Order-coupled Variable-projection Analysis (NOVA).
 NOVA takes a trial spectrum, shared by both spectral orders, and uses a model
-of the instrument to predict the count rate in each pixel, including the
-background. It then refines the spectrum until this prediction agrees with
+of the instrument to predict the count rate in each pixel, including any background left after the subtraction. It then refines the spectrum until this prediction agrees with
 the data. Applied to the hot Jupiter WASP-17~b, NOVA produced a spectrum
-broadly similar to the published ones but deeper at all wavelengths,
+broadly similar to the published spectra but deeper than the published Ahsoka spectrum at all wavelengths,
 especially at longer wavelengths. Its uncertainties are not yet validated.
 Because real data cannot show which spectrum is correct, I performed tests in
 which I added a known transit to real SOSS data. For one model atmosphere,
-which of two pipelines came closer to the truth depended on how much of the
+which of NOVA and a published pipeline came closer to the truth depended on how much of the
 faint observed light I assumed to come from the star, and the WASP-17~b data
-cannot constrain this fraction. I am now using data from programme 4476, in
-which a star was observed at its usual position on the detector and again
-with the telescope moved so that the star no longer fell on the strip that is
-read out. Subtracting the two exposures measures the light of the star in
-each pixel. I will dim the cleaned image of the star with a known transit, add
-photon noise, and add the result to the raw data of the moved exposure. The
-injected transit is then known exactly for that image. Over the rest of my
+cannot constrain this fraction. I am now using data from JWST calibration programme 4476. In this programme, a star was observed at its usual position on the detector and again
+with the telescope moved so that the star no longer fell on the strip normally used for SOSS time series. Subtracting the two exposures directly measures the light of the star in each pixel. From this difference I have made a first cleaned image of the star. I will dim this image with a known transit, add photon noise, and add the result to the raw data of the moved exposure. The injected transit is then known exactly for the image I construct, whilst how faithfully that image represents the real star is a separate question. Over the rest of my
 PhD, I plan to compare NOVA with published pipelines using this benchmark,
 apply NOVA to five other SOSS visits and to repeated observations of the same
 planets, and adapt it to secondary eclipses and observations with NIRSpec.
