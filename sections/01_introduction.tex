@@ -5,9 +5,7 @@ The transmission spectrum of an exoplanet is the depth of its transit, the
 fraction of starlight that the planet blocks, at each wavelength. It is
 obtained from a time series of detector images through a chain of processing
 steps. Errors could enter at two of these steps. Firstly, the background light
-is subtracted before the transit is fitted. If too much or too little
-background is subtracted, the fitted transit depth is wrong, and the transit
-fit has no way to notice this. Secondly, each image is compressed into a
+is subtracted before the transit is fitted. An error in that subtraction can bias the fitted transit depth, even when the transit model fits the light curve well. Secondly, each image is compressed into a
 one-dimensional spectrum before the transit is fitted, which can lose
 information that the later steps cannot recover. I have therefore developed
 Nonlinear Order-coupled Variable-projection Analysis (NOVA). NOVA does not
