@@ -5,8 +5,7 @@ The transmission spectrum of an exoplanet is the depth of its transit, the
 fraction of starlight that the planet blocks, at each wavelength. It is
 obtained from a time series of detector images through a chain of processing
 steps. Errors could enter at two of these steps. Firstly, the background light
-is subtracted before the transit is fitted. An error in that subtraction can bias the fitted transit depth, even when the transit model fits the light curve well. Secondly, each image is compressed into a
-one-dimensional spectrum before the transit is fitted, which can lose
+is subtracted before the transit is fitted. An error in that subtraction can bias the fitted transit depth, even when the transit model fits the light curve well. Secondly, each image is compressed into a one-dimensional spectrum, which can lose
 information that the later steps cannot recover. I have therefore developed
 Nonlinear Order-coupled Variable-projection Analysis (NOVA). NOVA does not
 compress the images into spectra. It fits the transit to the detector pixels
@@ -131,16 +130,14 @@ and to clouds and hazes
 \begin{figure*}[t]
   \centering
   \includegraphics[width=\textwidth]{figures/niriss_soss_detector_scene.pdf}
-  \caption{Out-of-transit median images of the WASP-17~b SOSS visit at two
-  processing stages, showing the curved traces of the spectral orders.
-  (a) Before the background and $1/f$ corrections. The zodiacal background is
-  brighter to the right of column 700, and the cyan outlines mark the light of
-  field stars identified in the F277W exposure. (b) After detector processing
-  and background subtraction. The cyan and green dashed lines outline the
-  regions fitted by NOVA for orders 1 and 2. The panels use different
-  out-of-transit integration selections and separate display stretches. Both
-  use an inverse hyperbolic sine (\(\operatorname{asinh}\)) stretch, so that
-  the bright cores of the traces and their faint wings are both visible.}
+  \caption{Out-of-transit median image of the WASP-17~b SOSS visit, in count
+  rates before the $1/f$ and background corrections. The traces of orders 1, 2
+  and 3 are labelled. The arrows mark a field star whose light falls on the
+  edge of the order-1 trace, and the step in the zodiacal background near
+  column 700, to the right of which the background is brighter. Flagged pixels
+  are filled with the mean of their neighbours for display, and an inverse
+  hyperbolic sine (\(\operatorname{asinh}\)) stretch keeps both the bright
+  cores of the traces and their faint wings visible.}
   \label{fig:soss-detector-orders}
 \end{figure*}
 
@@ -160,9 +157,9 @@ clearance restricted the angles of the grism and the prism
 separated before either spectrum can be measured. Secondly, the mode has no
 slit to block the light of other stars. The spectra of other stars in the
 field of view, called field stars, therefore also fall on the detector, and
-some of them land on the traces of the target (Figure~\ref{fig:soss-detector-orders}a). Finally, the zodiacal
+some of them land on the traces of the target (Figure~\ref{fig:soss-detector-orders}). Finally, the zodiacal
 background, which is sunlight scattered by dust in the Solar System, is not
-smooth across the detector. Its level changes abruptly near detector column 700 (Figure~\ref{fig:soss-detector-orders}a), so the background model must account for this step
+smooth across the detector. Its level changes abruptly near detector column 700 (Figure~\ref{fig:soss-detector-orders}), so the background model must account for this step
 \citep{AlbertEtAl2023,RadicaEtAl2023,HolmbergMadhusudhan2023,LouieEtAl2025}.
 Despite these difficulties, SOSS has delivered detailed spectra. For example,
 one of the first SOSS analyses recovered the water bands, potassium absorption
@@ -455,10 +452,11 @@ on them.
 The central research question of this project is:
 \begin{quote}
 \raggedright\itshape
-How accurately and robustly can JWST NIRISS/SOSS transmission spectra
-be recovered from detector-level time-series observations, and can joint
-detector-level inference reduce biases associated with background treatment and
-extraction-first analysis?
+How accurately can a transmission spectrum be recovered from the detector
+images of a JWST NIRISS/SOSS transit observation, and does fitting the
+transit and the background together, directly on the pixels, reduce the
+biases that subtracting the background first and extracting a spectrum first
+can cause?
 \end{quote}
 
 To make this question testable, I divide it into four objectives.
