@@ -421,8 +421,7 @@ The second step, compressing each image into a one-dimensional spectrum, can
 lose information that the transit fit cannot recover. However, a suitable
 extraction can preserve the information in the detector pixels, provided that
 its inputs are correct. The extraction needs the profile of the trace, which
-describes how the light of each column is spread across the pixels. The
-extraction also needs the background and the noise of each pixel. The optimal
+describes how the light of each column is spread across the pixels. The extraction also needs the level of any background left under the trace, and the noise of each pixel. The optimal
 extraction of \citet{Horne1986} weights each pixel by the expected profile
 divided by the noise variance of that pixel. Under its model assumptions and
 with correct inputs, Horne's extraction gives the flux in each column with as
@@ -486,9 +485,7 @@ differences across the image together with the dimming in time. Whether such
 a fit can separate the starlight from the background depends on the model
 assumed for how the background varies across the detector and in time. Any
 non-stellar variation sufficiently similar to the transit in time, such as a
-slow electronic drift, could also be mistaken for starlight. The real
-WASP-17~b data alone cannot decide how much of the faint light in the wings
-of the traces belongs to the star (Section~\ref{sec:which-light}).
+slow electronic drift, could also be mistaken for starlight. 
 
 NOVA makes such a joint fit of the transit and the background, directly on
 the detector pixels (Section~\ref{sec:nova}). In every integration, NOVA
@@ -498,8 +495,7 @@ the star, on the limb darkening and on the residual background. All of these
 quantities are adjusted together until the prediction matches the pixels. No
 one-dimensional spectrum is extracted for this fit.
 
-NOVA still depends on three steps taken before its spectral fit, and each
-could bias the NOVA spectrum. Firstly, the detector processing subtracts a
+Three of the steps taken before NOVA's spectral fit could each bias the NOVA spectrum. Firstly, the detector processing subtracts a
 scaled model of the zodiacal background before the fit, as in the other
 pipelines. NOVA then fits only the residual background that the subtraction
 leaves behind. If the model is scaled wrongly, the scaling error becomes part
