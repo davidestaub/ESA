@@ -143,8 +143,7 @@ $\lambda/\Delta\lambda$ of the first order is about 650 at
 $1.25\,\mu\mathrm{m}$ \citep{AlbertEtAl2023}, where $\Delta\lambda$ is the
 smallest difference in wavelength that SOSS can separate. On the detector,
 each order forms a curved stripe of light, called its trace. A weak
-cylindrical lens spreads the light over about 23 detector rows, so that bright
-stars can be observed without saturating the pixels \citep{AlbertEtAl2023}.
+cylindrical lens spreads the light over about 23 detector rows, so that bright stars can be observed without saturating the pixels, and so that errors in the flat field and small pointing jitter matter less \citep{AlbertEtAl2023,JDoxNIRISSSOSS2026}.
 
 \begin{figure*}[t]
   \centering
@@ -177,7 +176,7 @@ analyse for three reasons. Firstly, orders 1 and 2 partly overlap on the
 detector, because limited mechanical clearance restricted the angles of the
 grism and the prism \citep{AlbertEtAl2023}. Where the two orders overlap,
 their light must be separated before either spectrum can be measured.
-Secondly, the mode has no slit to block the light of other stars. SOSS is slitless out of necessity, not by choice. A slit must sit where the optics form an image of the sky before the light is dispersed, and when SOSS was developed, NIRISS had no optics that form such an image \citep{AlbertEtAl2023}. The
+Secondly, the mode has no slit to block the light of other stars. SOSS is slitless out of necessity, not by choice. A slit must sit where the optics form an image of the sky before the light is dispersed, and when SOSS was developed, NIRISS had no optics that form such an image \citep{AlbertEtAl2023}. Being slitless also helps transit observations, because a narrow slit would clip a varying fraction of the starlight as the pointing jitters. For the same reason, NIRSpec observes transits through its widest aperture \citep{JDoxNIRSpecBOTS2026}. The
 spectra of other stars in the field of view, called field stars, therefore
 also fall on the detector, and some of them land on the traces of the target
 (Figure~\ref{fig:soss-detector-orders}).
@@ -658,7 +657,7 @@ The central research question of this project is:
 How accurately can a transmission spectrum be recovered from the detector
 images of a JWST NIRISS/SOSS transit observation, and does fitting the
 transit and the background together, directly on the pixels, reduce the
-biases that leaving the background out of the transit fit and extracting a spectrum first can cause?
+biases that fitting the transit without a background term, and extracting a spectrum first, can cause?
 \end{quote}
 
 To make this question testable, I divide it into four objectives.
