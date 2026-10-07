@@ -4,8 +4,7 @@
 The transmission spectrum of an exoplanet is the depth of its transit, the
 fraction of starlight that the planet blocks, at each wavelength. It is
 obtained from a time series of detector images through a chain of processing
-steps. Errors could enter at many points in this chain, and I focus on two of them. Firstly, the background light
-is subtracted before the transit is fitted. An error in that subtraction can bias the fitted transit depth, even when the transit model fits the light curve well. Secondly, each image is compressed into a one-dimensional spectrum, which can lose
+steps. Errors could enter at many points in this chain, and I focus on two of them. Firstly, the background light is subtracted, and any background that remains is not modelled when the transit is fitted. An error in that subtraction can bias the fitted transit depth, even when the transit model fits the light curve well. Secondly, each image is compressed into a one-dimensional spectrum, which can lose
 information that the later steps cannot recover. I have therefore developed
 Nonlinear Order-coupled Variable-projection Analysis (NOVA). NOVA does not
 compress the images into spectra. It fits the transit to the detector pixels
@@ -76,7 +75,7 @@ eclipses are a planned later application of my methods
 
 Whichever technique is used, the properties of the atmosphere are then
 inferred from the measured spectrum by a statistical fit called a retrieval
-\citep{BarstowHeng2020}. This is an inverse problem, in which the cause, the atmosphere, is inferred from its effect on the spectrum. Like many inverse problems, it does not always have a unique answer, because different combinations of abundances, temperature, clouds, hazes and uneven brightness of the stellar surface can produce similar spectra \citep{RackhamEtAl2018,Madhusudhan2019}. The retrieval also takes the measured
+\citep{BarstowHeng2020}. Inferring the atmosphere from its spectrum is an inverse problem, and it does not always have a unique answer, because different combinations of abundances, temperature, clouds, hazes and uneven brightness of the stellar surface can produce similar spectra \citep{RackhamEtAl2018,Madhusudhan2019}. The retrieval also takes the measured
 spectrum as given, so a bias in the spectrum can propagate into the retrieved atmosphere, however precise the retrieval. This project therefore mainly
 concerns the step before the retrieval, namely how accurately the spectrum
 itself is recovered from the detector data. Objective~4
@@ -178,10 +177,7 @@ analyse for three reasons. Firstly, orders 1 and 2 partly overlap on the
 detector, because limited mechanical clearance restricted the angles of the
 grism and the prism \citep{AlbertEtAl2023}. Where the two orders overlap,
 their light must be separated before either spectrum can be measured.
-Secondly, the mode has no slit to block the light of other stars. SOSS was
-designed to observe single point sources, and it had to be slitless. A slit must sit
-where the optics form an image of the sky before the light is dispersed, and
-NIRISS has no optics that form such an intermediate image \citep{AlbertEtAl2023}. The
+Secondly, the mode has no slit to block the light of other stars. SOSS is slitless out of necessity, not by choice. A slit must sit where the optics form an image of the sky before the light is dispersed, and when SOSS was developed, NIRISS had no optics that form such an image \citep{AlbertEtAl2023}. The
 spectra of other stars in the field of view, called field stars, therefore
 also fall on the detector, and some of them land on the traces of the target
 (Figure~\ref{fig:soss-detector-orders}).
@@ -359,9 +355,7 @@ choice is the model of slow instrumental trends in the light curves, meaning
 changes in brightness caused by the instrument rather than by the planet. The
 three reductions of WASP-17~b differ in several of these choices
 \citep{LouieEtAl2025}. Ahsoka and supreme-SPOON removed the $1/f$ noise from
-each group. To estimate the stripes, they subtracted the background model
-only temporarily. They then subtracted the background from the count-rate
-images. Both scaled the background model separately on the two sides of the
+each group. To estimate the stripes, they subtracted the background model from each group and added it back once the stripes had been removed. The background itself was subtracted later, from the count-rate images. Both scaled the background model separately on the two sides of the
 step in the background near column 700. The \texttt{transitspectroscopy}
 reduction instead used a single scale factor for the background and removed
 the $1/f$ noise from the count-rate images. Ahsoka and
@@ -384,16 +378,12 @@ already subtracted the background from the images.
 Whatever their differences, the three reductions follow the same order. Each
 subtracts the background from the detector images, extracts a one-dimensional
 spectrum from each image, and only then fits the transit. I call analyses that
-follow this order extraction-first. The subtracted background and the
-extracted spectra are therefore both fixed before the transit fit begins.
-Background subtraction and extraction are the two steps on which this project
-focuses.
+follow this order extraction-first. The subtracted background and the extracted spectra are therefore both fixed before the transit fit begins, and the transit fit does not model any background that remains. The treatment of the background and the extraction are the two steps on which this project focuses.
 
 \subsection{Two steps where errors could enter}
 \label{sec:structural-limitations}
 
-The first step, subtracting the background before the transit fit, could bias
-the transit depth. The background adds light to the image, whereas the
+The first step is the treatment of the background. The background is subtracted from the images, and the transit fit does not model any background that remains. Any background that remains after the subtraction could then bias the transit depth. The background adds light to the image, whereas the
 transit dims only the starlight. Suppose that some steady residual background
 remains in the data after the subtraction. If the residual background is
 counted as starlight, the star appears brighter than it is. The light blocked
@@ -521,31 +511,10 @@ retrieved abundances by up to about an order of magnitude
 \citep{ConstantinouEtAl2023}.
 
 Small differences between reductions can also change what is concluded about
-a planet. \citet{KirkEtAl2024} analysed three transits of GJ~341~b, a planet
-smaller than the Earth, observed with NIRCam between 3.9 and
-5.0~$\mu\mathrm{m}$. They reduced the data with three independent pipelines
-called Eureka!, Tiberius and Tswift. The three spectra were consistent with
-one another. None of the three spectra could rule out a flat line, that is, a
-transit depth that does not change with wavelength. The data therefore show
-no evidence of an atmosphere. However, the data do not rule out every
-atmosphere. The spectra exclude a hydrogen-rich atmosphere with less than 350
-times the solar proportion of elements heavier than helium, at $3\sigma$ or
-more. The spectra remain consistent with no atmosphere, with a hazy
-atmosphere, and with an atmosphere made mostly of a gas without strong
-absorption bands at these wavelengths, such as water. Within this overall
-result, two of the spectra showed weak evidence, at $2.3\sigma$ and
-$2.9\sigma$, for a candidate absorption feature. A feature of this kind is a
-range of wavelengths over which the transit is deeper, because a gas in the
-atmosphere absorbs there. The two candidate features lay at different
-wavelengths, near 4.3~$\mu\mathrm{m}$ in the Tiberius spectrum and near
-4.7~$\mu\mathrm{m}$ in the Tswift spectrum. Retrievals explained them with
-different gases, carbon dioxide for Tiberius and ozone for Tswift. The
-Eureka!\ spectrum instead favoured a flat line. Kirk et al.\ therefore
-concluded that the features were not real astrophysical signals. The features
-expected from the atmospheres that they tested were small, about 40~ppm for
-the hydrogen-rich case and about 15~ppm for carbon dioxide. At this level,
-small differences between reductions, caused by random noise or by the
-treatment of the data, led to different interpretations of the planet. A
+a planet. For the sub-Earth GJ~341~b, \citet{KirkEtAl2024} reduced the same NIRCam data with three
+independent pipelines. None found evidence of an atmosphere, but two showed
+weak candidate absorption features at different wavelengths, which retrievals
+assigned to different gases, and the authors concluded that the features were not real astrophysical signals. A
 disagreement of this kind shows that a result depends on the reduction. It
 does not show which reduction, if any, recovered the true spectrum.
 
@@ -569,8 +538,7 @@ each reduction. For the transit fits, Ahsoka used Eureka!, whilst
 \texttt{transitspectroscopy} and supreme-SPOON both used \texttt{juliet}
 \citep{LouieEtAl2025}. Because the three reductions share their order of
 steps and some of their software, an error in a shared step would affect all
-three alike. Their agreement could not reveal such an error. Subtracting the
-background before the transit fit could cause exactly such a shared error.
+three alike. Their agreement could not reveal such an error. Leaving any remaining background out of the transit fit could cause exactly such a shared error.
 
 Crucially, a good fit to the extracted light curves does not show that the
 background was subtracted correctly. Steady background left in a light curve
@@ -690,8 +658,7 @@ The central research question of this project is:
 How accurately can a transmission spectrum be recovered from the detector
 images of a JWST NIRISS/SOSS transit observation, and does fitting the
 transit and the background together, directly on the pixels, reduce the
-biases that subtracting the background first and extracting a spectrum first
-can cause?
+biases that leaving the background out of the transit fit and extracting a spectrum first can cause?
 \end{quote}
 
 To make this question testable, I divide it into four objectives.
