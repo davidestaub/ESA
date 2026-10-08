@@ -5,8 +5,9 @@ NOVA fits the transmission spectrum directly to the detector pixels. Its
 model describes every fitted pixel as starlight, dimmed by the transit, plus
 background, so the split between the two is decided in the same fit as the
 transit. The fit estimates the spectrum, the limb darkening, the brightness of
-the star in each column and the background together. Everything else is fixed.
-Some of them are estimated beforehand from the same data: the spatial
+the star in each column and the background together. Everything else is held
+fixed during the fit. Some of these fixed quantities are estimated beforehand
+from each data set: the spatial
 profile, the stellar spectrum, the curvature of the baseline, the time pattern
 of the background, a noise scale for each pixel and the orbital geometry. The
 others are the same for every data set: the depth bins, the limb-darkening
@@ -78,7 +79,7 @@ it,
  \label{eq:pixel-transit}
 \end{equation}
 where $s_\lambda$ is the spectrum of the star, fitted to the out-of-transit
-data of each input, and $\mathcal{T}_t(\lambda)$ is the transit at wavelength
+data of each data set, and $\mathcal{T}_t(\lambda)$ is the transit at wavelength
 $\lambda$. The line-spread kernel is therefore part of the model.
 
 \subsection{The spectrum and the transit}
@@ -197,7 +198,7 @@ maps and these pixels were chosen once from the WASP-17 visit, where eight
 maps predicted held-out strips of the off-trace image better than two or
 four. Whether more maps, for example sixteen, would do better has not yet
 been tested. The
-time pattern is learned from each input. Fitting the maps to the off-trace
+time pattern is learned from each data set. Fitting the maps to the off-trace
 pixels of every integration gives eight amplitude series, and $G_1$ is their
 strongest principal component that does not look like the transit, with a
 correlation of at most 0.25. On the real visit, the strongest component does
@@ -212,9 +213,9 @@ $\sigma_{tp}=\mathrm{ERR}_{tp}\,N_{p}\,s_{p}$. The factor $N_p$ is fixed for
 each order, 3.07 for order~1 and 4.19 for order~2. It was measured once on the
 WASP-17 visit, from how well a simpler model predicted held-out out-of-transit
 integrations, so it includes model mismatch as well as noise. The factor
-$s_p\geq1$ is measured on each input in a similar way, with a straight line in
+$s_p\geq1$ is measured on each data set in a similar way, with a straight line in
 time, and inflates single pixels that are noisier than the rest of their
-order. Measuring $N_p$ again for each input is future work.
+order. Measuring $N_p$ again for each data set is future work.
 
 \subsection{The fit}
 
@@ -248,7 +249,7 @@ tolerances.
 \label{sec:own-white}
 
 The orbital geometry comes from a joint fit to the white-light curves of the
-two orders of the same input. Each curve is the light of all fitted columns in
+two orders of the same data set. Each curve is the light of all fitted columns in
 each integration, combined by optimal extraction \citep{Horne1986} with the
 median out-of-transit image as the profile. Whether using $q^\star_{pg}$ here
 instead would change the geometry has not been tested. The fit is made with Eureka!
