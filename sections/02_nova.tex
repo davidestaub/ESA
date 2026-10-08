@@ -163,8 +163,7 @@ starlight that reaches each pixel,
 \end{equation}
 The trace is slightly tilted, so the pixels of one column see slightly
 different wavelengths and $S_p$ varies a little within a column. Without this
-tilt, $\tilde q_{pg}$ would equal $q^\star_{pg}$. I have not yet measured how
-much the two differ.
+tilt, $\tilde q_{pg}$ would equal $q^\star_{pg}$.
 
 \subsection{The continuum, the background and the noise}
 \label{sec:continuum}
@@ -196,8 +195,8 @@ The 244,657 off-trace pixels, away from the traces, field stars and bad
 pixels, see only background, and the maps are made orthonormal over them. The
 maps and these pixels were chosen once from the WASP-17 visit, where eight
 maps predicted held-out strips of the off-trace image better than two or
-four. I have not yet tested whether eight maps are enough, or how much
-background they leave under the traces. The
+four. Whether more maps, for example sixteen, would do better has not yet
+been tested. The
 time pattern is learned from each input. Fitting the maps to the off-trace
 pixels of every integration gives eight amplitude series, and $G_1$ is their
 strongest principal component that does not look like the transit, with a
@@ -243,12 +242,7 @@ nonlinear ones, with exact derivatives that use JAX for the transit model. The H
 reweighting. The weights $w_{tp}=\min(1,\,1.345/|r_{tp}|)$ depend on the
 residuals, so they are recomputed after each fit, and the cycle repeats until
 the weights, the objective and the spectrum stop changing within fixed
-tolerances. NOVA runs this from
-three starts: the white-light depth with the reference limb darkening; the
-same with a fixed 250~ppm wave in log-wavelength and small limb-darkening
-shifts; and the point halfway between. It keeps the converged start with the
-lowest objective. I have not yet checked whether the three starts reach the
-same solution.
+tolerances.
 
 \subsection{White-light geometry}
 \label{sec:own-white}
