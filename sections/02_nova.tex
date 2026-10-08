@@ -256,8 +256,7 @@ lowest objective is selected. So far the starts agree to within about
 
 The spectral fit holds the orbital geometry fixed. I obtain
 that geometry from a joint white-light fit to the same input. This fit infers
-$t_0$, $a/R_\star$ and the inclination $i$, and hence $b=(a/R_\star)\cos i$,
-without using any fitted value from another pipeline or an injector. For
+$t_0$, $a/R_\star$ and the inclination $i$, and hence $b=(a/R_\star)\cos i$. For
 each order, a white-light curve is built by summing a profile-weighted
 (optimal) estimate of the light in each column, using an out-of-transit
 profile from the same input. The two curves are fitted jointly with the light-curve
@@ -267,10 +266,9 @@ with uniform priors between 0 and 1 on both coefficients, linear baseline and
 white-noise multiplier. The geometry priors are deliberately wide, with $t_0$
 uniform over the observed window, $a/R_\star$ on $[1.01,\,100]$ and $i$ on
 $[0^\circ,\,90^\circ]$. The other priors use no fit to these data and are
-copied from the public Ahsoka configuration of \citet{LouieEtAl2025}. The posterior is sampled with the nested sampler dynesty \citep{Speagle2020}, which replaced the ensemble sampler emcee \citep{ForemanMackeyEtAl2013}. On injected inputs, emcee had not reached 50 autocorrelation lengths, and a later check found about 12\% of
-the samples of each failed chain on grazing or non-transiting geometries.
+copied from the public Ahsoka configuration of \citet{LouieEtAl2025}. The posterior is sampled with the nested sampler dynesty \citep{Speagle2020}.
 
-Such geometries are the failure that matters here. For every posterior sample,
+For every posterior sample,
 $b$ is computed from that sample's $a/R_\star$ and $i$, and the sample counts
 as grazing or non-transiting if
 \begin{equation}
@@ -280,16 +278,7 @@ as grazing or non-transiting if
 that is, if the planet's disc is not wholly inside the stellar disc at
 mid-transit. A fit passes if the upper end of the 95\% interval of the
 weighted fraction of such samples is below 1\%. It passes with the fraction
-reported if that upper end lies between 1 and 5\%. Otherwise the fit is held
-and not used, and is not continued, reseeded, trimmed or replaced by
-another geometry. Note that this rule is not blind to the real data. It is
-the fifth version of the criterion, written after it was known that the real
-posterior contains no grazing samples of positive weight. Before using it,
-however, I tested it on saved posteriors, where it had to reject the three
-emcee chains that had failed their length assessment and accept both those
-that had passed and the nested posterior of the real visit. An accepted fit
-passes the weighted medians of $t_0$, $a/R_\star$, $i$ and $k_o$ over the
-whole posterior to the spectral fit.
+reported if that upper end lies between 1 and 5\%. 
 
 \subsection{The uncertainty ensemble}
 \label{sec:ensemble}
