@@ -86,12 +86,14 @@ $\lambda$. The line-spread kernel is therefore part of the model.
 A planet has one transmission spectrum, so both orders share $D(\lambda)$. It
 is represented by 160 top-hat bins from 0.62 to $2.84\,\mu\mathrm{m}$. Below
 $2\,\mu\mathrm{m}$ the bins are about $0.01\,\mu\mathrm{m}$ wide and above it
-$0.038\,\mu\mathrm{m}$, and the bluest bin is twice as wide because the bin
+$0.038\,\mu\mathrm{m}$, wider in the red, where the signal-to-noise ratio is
+lower. The bluest bin is twice as wide because the bin
 next to it received no light. The two reddest bins also receive no light in
 the model: order~2 does not reach them, and order~1 is cut at
 $2.758\,\mu\mathrm{m}$, beyond which the public PASTASOSS calibration would
 have to be extrapolated. They are held at the white-light depth and not
-reported. The other 158 depths are written as an overall level times a shape,
+reported. I have not yet tested how the choice of bin widths affects the
+spectrum. The other 158 depths are written as an overall level times a shape,
 \begin{equation}
   D_j = \bar D\,
   \frac{\exp(h_j)}{\sum_{k} w_k \exp(h_k)}, \qquad \bm{h}=\bm{H}\bm{z},
@@ -148,7 +150,9 @@ $\ell_p+\kappa_p\tau_t$ is a straight line in time and $\varepsilon_{tp}$ is
 the residual. The profile is $q^\star_{pg}=A_{pg}/\sum_{p'\in P_g}A_{p'g}$, in
 which the depth cancels. Each amplitude rests on a dip of only 1.5 to 2\%, so
 I smooth the profile across neighbouring columns, with a strength chosen by
-cross-validation between alternate integrations.
+cross-validation between alternate integrations. How accurate the profile is
+in the faintest, reddest columns is not yet known, and the benchmark of
+Section~\ref{sec:measured-benchmark} is designed to measure it.
 
 The share in equation~(\ref{eq:nova-forward}) weights the profile by the
 starlight that reaches each pixel,
@@ -159,7 +163,8 @@ starlight that reaches each pixel,
 \end{equation}
 The trace is slightly tilted, so the pixels of one column see slightly
 different wavelengths and $S_p$ varies a little within a column. Without this
-tilt, $\tilde q_{pg}$ would equal $q^\star_{pg}$.
+tilt, $\tilde q_{pg}$ would equal $q^\star_{pg}$. I have not yet measured how
+much the two differ.
 
 \subsection{The continuum, the background and the noise}
 \label{sec:continuum}
@@ -174,7 +179,8 @@ out-of-transit data and held fixed. For each order, I divide a parabola by a
 straight line, both fitted in time to the background-subtracted out-of-transit
 trace flux, and $\gamma_t$ is the geometric mean of the two orders' ratios,
 normalised to one out of transit. It is used only if it agrees between
-alternate out-of-transit integrations and stays within 0.1\% of one.
+alternate out-of-transit integrations and stays within 0.1\% of one. Its
+uncertainty is not yet propagated into the spectrum.
 
 The background left after Stage~2 is modelled with eight fixed spatial maps:
 the zodiacal-light model that Stage~2 subtracted, and seven smooth polynomials
@@ -190,7 +196,8 @@ The 244,657 off-trace pixels, away from the traces, field stars and bad
 pixels, see only background, and the maps are made orthonormal over them. The
 maps and these pixels were chosen once from the WASP-17 visit, where eight
 maps predicted held-out strips of the off-trace image better than two or
-four. The
+four. I have not yet tested whether eight maps are enough, or how much
+background they leave under the traces. The
 time pattern is learned from each input. Fitting the maps to the off-trace
 pixels of every integration gives eight amplitude series, and $G_1$ is their
 strongest principal component that does not look like the transit, with a
@@ -208,7 +215,7 @@ WASP-17 visit, from how well a simpler model predicted held-out out-of-transit
 integrations, so it includes model mismatch as well as noise. The factor
 $s_p\geq1$ is measured on each input in a similar way, with a straight line in
 time, and inflates single pixels that are noisier than the rest of their
-order.
+order. Measuring $N_p$ again for each input is future work.
 
 \subsection{The fit}
 
@@ -240,7 +247,8 @@ tolerances. NOVA runs this from
 three starts: the white-light depth with the reference limb darkening; the
 same with a fixed 250~ppm wave in log-wavelength and small limb-darkening
 shifts; and the point halfway between. It keeps the converged start with the
-lowest objective.
+lowest objective. I have not yet checked whether the three starts reach the
+same solution.
 
 \subsection{White-light geometry}
 \label{sec:own-white}
@@ -248,7 +256,8 @@ lowest objective.
 The orbital geometry comes from a joint fit to the white-light curves of the
 two orders of the same input. Each curve is the light of all fitted columns in
 each integration, combined by optimal extraction \citep{Horne1986} with the
-median out-of-transit image as the profile. The fit is made with Eureka!
+median out-of-transit image as the profile. Whether using $q^\star_{pg}$ here
+instead would change the geometry has not been tested. The fit is made with Eureka!
 \citep{BellEtAl2022} and sampled with dynesty \citep{Speagle2020}. The two
 orders share $t_0$, $a/R_\star$ and the inclination $i$, and each has its own
 radius ratio $k_o$, limb darkening, linear baseline and noise multiplier. The
@@ -297,7 +306,8 @@ Figure~\ref{fig:nova-real} compares a preliminary NOVA spectrum of the real
 WASP-17~b visit, from a reduction of 18 September 2026, with the published
 Ahsoka spectrum of \citet{LouieEtAl2025}. This reduction used NOVA's own
 white-light geometry, but it was fitted before the acceptance rule of
-Section~\ref{sec:own-white} was written. Below about $1.8\,\mu\mathrm{m}$ the
+Section~\ref{sec:own-white} was written, and a refit under this rule is part
+of the plan (Section~\ref{sec:plan}). Below about $1.8\,\mu\mathrm{m}$ the
 two spectra show similar features, such as the water bands, but the NOVA
 spectrum is deeper throughout. After interpolating the published spectrum to
 the NOVA bins, NOVA is deeper by a median of about 230~ppm
