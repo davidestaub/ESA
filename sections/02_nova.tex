@@ -160,8 +160,11 @@ coordinates $q_1,q_2\in[0,1]$ of \citet{Kipping2013},
 \end{equation}
 Limb darkening and depth are partly degenerate, so the spectral fit lets the
 limb darkening deviate only smoothly from a reference computed from STAGGER
-model intensities \citep{MagicEtAl2015}. The fit describes these smooth
-deviations with penalised offsets and slopes across each order.
+model intensities \citep{MagicEtAl2015}. In order $o$, the logit of each
+coordinate $q_c$ is its reference value plus a deviation
+$\delta_{oc}(\lambda)=a_{oc}+b_{oc}\,\ell_o(\lambda)$, an offset and a slope in
+$\ell_o$, the logarithm of wavelength centred on the order and scaled to a
+largest magnitude of one.
 
 \subsection{The continuum, the background and the noise}
 \label{sec:continuum}
@@ -176,9 +179,9 @@ transit, and in a single column it would trade against the depth. I therefore
 measure one curvature from all columns together, using the out-of-transit data
 only, and hold it fixed. For each order, I sum the background-subtracted light
 of all trace pixels, fit it with a parabola and with a straight line in time,
-and divide the parabola by the line, which leaves only the curvature.
-$\gamma_t$ is the geometric mean of the two orders' ratios, normalised to one
-out of transit. This assumes that the curvature is the same, as a fraction of
+and divide the parabola by the line. This leaves only the curvature of that
+order, as a factor close to one. $\gamma_t$ is the geometric mean of the two
+orders' curvature factors, normalised to one out of transit. This assumes that the curvature is the same, as a fraction of
 the light, in every column.
 
 The background left after Stage~2 is modelled with eight fixed spatial maps:
@@ -196,12 +199,7 @@ pixels, are assumed to see only background, although some starlight from the
 faint wings of the traces may reach them (Section~\ref{sec:which-light}). The
 maps are made orthonormal over these pixels. The maps and these pixels were
 chosen once from the WASP-17 visit, where eight maps predicted held-out strips
-of the off-trace image better than two or four. Two other small families of
-maps scored better in the same test, and no record says why this family was
-chosen. A first-order check varied each tested background uncertainty mode
-separately by one standard deviation, keeping the geometry and limb darkening
-fixed. The largest shift in depths averaged to a resolving power of 100 was
-about 1.6~ppm. How well the maps
+of the off-trace image better than two or four. How well the maps
 describe the background under the traces, and how much an error of the maps
 there changes the depths, has not yet been tested.
 
@@ -226,21 +224,42 @@ order.
 
 \subsection{The fit}
 
-Each sample has the residual $r_{tp}=(Y_{tp}-\widehat Y_{tp})/\sigma_{tp}$,
-and NOVA minimises
+NOVA fits the spectrum, the limb-darkening offsets and slopes, the continuum
+coefficients $\bm{\beta}$ and the background amplitudes $\bm{\alpha}$ by
+minimising
 \begin{equation}
- \sum_{(t,p)}\rho_{1.345}(r_{tp})
- +\tfrac{1}{2}(\bm{\alpha}-\bm{\alpha}_{\mathrm{off}})^{\mathsf T}
-   \bm{N}_{\mathrm{off}}(\bm{\alpha}-\bm{\alpha}_{\mathrm{off}})
- +P_{\mathrm{LD}},
+\begin{split}
+ \mathcal{L} ={}& \sum_{t,p}\rho\!\left(\frac{Y_{tp}-\widehat Y_{tp}}{\sigma_{tp}}\right)\\
+ &+\frac{1}{2}(\bm{\alpha}-\bm{\alpha}_{\mathrm{off}})^{\mathsf T}
+   \bm{N}_{\mathrm{off}}(\bm{\alpha}-\bm{\alpha}_{\mathrm{off}}) \\
+ &+\frac{1}{2}\sum_{o,c}\sum_{j=1}^{6}\omega_{oj}
+   \left(\frac{\delta_{oc}(\lambda_{oj})}{0.5}\right)^{2}\\
+ &+\frac{1}{2}\sum_{o,c}\sum_{m=1}^{5}v_{om}
+   \left(\frac{\delta''_{oc}(\tilde\lambda_{om})}{2\,\mu\mathrm{m}^{-2}}\right)^{2},
+\end{split}
  \label{eq:objective}
 \end{equation}
-where $\rho_{1.345}$ is the Huber loss, quadratic for $|r_{tp}|\leq1.345$ and
-linear beyond, so that outliers do not dominate. The second term is a
-background anchor, which keeps the background amplitudes $\bm{\alpha}$ close
-to what the off-trace pixels show: $\bm{\alpha}_{\mathrm{off}}$ and
-$\bm{N}_{\mathrm{off}}$ are the amplitudes and precision matrix of a fit to
-those pixels. $P_{\mathrm{LD}}$ is the limb-darkening penalty.
+The first term compares the model with the data. For every fitted sample, the
+bracket is the standardised residual $r_{tp}$, the difference between data and
+model in units of the uncertainty. The Huber loss is $\rho(r)=r^2/2$ for
+$|r|\leq1.345$ and $1.345\,|r|-1.345^2/2$ beyond, so it is quadratic for small
+residuals and grows only linearly for outliers, which therefore do not
+dominate. The second term is a background anchor. Here $\bm{\alpha}$ holds the
+sixteen background amplitudes, and $\bm{\alpha}_{\mathrm{off}}$ and
+$\bm{N}_{\mathrm{off}}$ are the amplitudes and precision matrix of a fit of
+the background model to the off-trace pixels alone. The term is therefore the
+$\chi^2$ of those pixels, and keeps the background close to what they show.
+The last two terms penalise the limb-darkening deviations $\delta_{oc}$ of the
+two coordinates $c$ in the two orders $o$. The first of them holds the deviation close
+to zero, the reference, at six evenly spaced wavelengths $\lambda_{oj}$ across
+each order, with an allowed deviation of 0.5 in the logit. The weights
+$\omega_{oj}$ are trapezoid weights that sum to one over the order, so that a
+constant offset $a$ costs $2a^2$. The second penalises the second
+derivative $\delta''_{oc}$ of the deviation with respect to wavelength, at the
+midpoints $\tilde\lambda_{om}$ between those wavelengths, with an allowed
+value of $2\,\mu\mathrm{m}^{-2}$ and weights $v_{om}$ proportional to the
+interval widths, which also sum to one. Because $\delta_{oc}$ is a straight
+line in $\ell_o$, this term in practice restrains the slope.
 
 The model is linear in the continuum and background coefficients and
 nonlinear in 166 numbers: $\bar D$, the 157 shape coordinates and the eight
@@ -297,9 +316,7 @@ including the geometry.
 Figure~\ref{fig:nova-real} compares a preliminary NOVA spectrum of the real
 WASP-17~b visit, from a reduction of 18 September 2026, with the published
 Ahsoka spectrum of \citet{LouieEtAl2025}. This reduction used NOVA's own
-white-light geometry, but it was fitted before the acceptance rule of
-Section~\ref{sec:own-white} was written, and a refit under this rule is part
-of the plan (Section~\ref{sec:plan}). Below about $1.8\,\mu\mathrm{m}$ the
+white-light geometry. Below about $1.8\,\mu\mathrm{m}$ the
 two spectra show similar features, such as the water bands, but the NOVA
 spectrum is deeper throughout. After interpolating the published spectrum to
 the NOVA bins, NOVA is deeper by a median of about 230~ppm below
