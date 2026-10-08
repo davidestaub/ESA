@@ -26,7 +26,7 @@ field stars found in the F277W exposure. For this step only, it subtracts a
 scaled background model beforehand and adds it back afterwards. The remaining
 steps of the JWST pipeline give count rates. Stage~2 of exoTEDRF then applies
 the flat field, subtracts the scaled zodiacal background and corrects bad
-pixels. I add no further mask.
+pixels.
 
 \subsection{The detector model}
 \label{sec:forward}
@@ -93,8 +93,7 @@ next to it received no light. The two reddest bins also receive no light in
 the model: order~2 does not reach them, and order~1 is cut at
 $2.758\,\mu\mathrm{m}$, beyond which the public PASTASOSS calibration would
 have to be extrapolated. They are held at the white-light depth and not
-reported. I have not yet tested how the choice of bin widths affects the
-spectrum. The other 158 depths are written as an overall level times a shape,
+reported.  The other 158 depths are written as an overall level times a shape,
 \begin{equation}
   D_j = \bar D\,
   \frac{\exp(h_j)}{\sum_{k} w_k \exp(h_k)}, \qquad \bm{h}=\bm{H}\bm{z},
@@ -127,8 +126,7 @@ model intensities \citep{MagicEtAl2015}. For each order, the logit of each
 $q$ may change by an offset and a slope in log-wavelength, and both are
 penalised. The logit keeps $q$ between 0 and 1. A slope in log-wavelength
 means the same change for each factor in wavelength, so it treats the blue and
-red ends of order~1, a factor of 3.3 apart, alike. The white-light fit, by
-contrast, leaves $u_1$ and $u_2$ free (Section~\ref{sec:own-white}).
+red ends of order~1, a factor of 3.3 apart, alike. 
 
 \subsection{The spatial profile}
 \label{sec:response}
@@ -178,9 +176,7 @@ curvature $\gamma_t$, shared by all columns, is measured beforehand from the
 out-of-transit data and held fixed. For each order, I divide a parabola by a
 straight line, both fitted in time to the background-subtracted out-of-transit
 trace flux, and $\gamma_t$ is the geometric mean of the two orders' ratios,
-normalised to one out of transit. It is used only if it agrees between
-alternate out-of-transit integrations and stays within 0.1\% of one. Its
-uncertainty is not yet propagated into the spectrum.
+normalised to one out of transit.
 
 The background left after Stage~2 is modelled with eight fixed spatial maps:
 the zodiacal-light model that Stage~2 subtracted, and seven smooth polynomials
@@ -193,7 +189,7 @@ pattern $G_1(t)$,
  \label{eq:background-model}
 \end{equation}
 The 244,657 off-trace pixels, away from the traces, field stars and bad
-pixels, see only background, and the maps are made orthonormal over them. The
+pixels, should see only background, and the maps are made orthonormal over them. The
 maps and these pixels were chosen once from the WASP-17 visit, where eight
 maps predicted held-out strips of the off-trace image better than two or
 four. Whether more maps, for example sixteen, would do better has not yet
@@ -267,14 +263,9 @@ because depth and geometry then trade off. A sample grazes if
 \end{equation}
 with $b=(a/R_\star)\cos i$. The geometry is accepted only if grazing samples
 carry little posterior weight: the upper end of the 95\% interval of their
-weight must be below 1\%, or below 5\% with the weight reported. The sampler
+weight must be below 1\%. The sampler
 must also have converged, and this interval must be known to within one
 percentage point.
-% PROPOSED ADDITION for Davide (next two sentences), delete if not wanted:
-If the upper end is 5\% or more, the fit is not used and no spectrum is
-fitted. An accepted fit hands on the weighted posterior medians of $t_0$,
-$a/R_\star$, $i$ and $k_o$.
-% END PROPOSED ADDITION
 
 \subsection{Uncertainties}
 \label{sec:ensemble}
