@@ -230,7 +230,9 @@ but held close to what they show.
 Each fitted sample has the uncertainty
 $\sigma_{tp}=\mathrm{ERR}_{tp}\,N_{p}\,s_{p}$, where ERR is the pipeline
 uncertainty. The scale $N_p$ mixes two fixed order scales, $N_1=3.07$ and
-$N_2=4.19$, in proportion to the pixel's response to each order. These
+$N_2=4.19$, in proportion to the pixel's calibration response to each order,
+taken before the response is restricted to the pixel's own order. Where both
+responses vanish, $N_p=4.19$. These
 empirical factors were derived from earlier reductions of the out-of-transit
 data of the WASP-17 visit, and they include model mismatch as well as excess
 noise. The pixel scale $s_p\geq1$, from each input, catches single pixels
