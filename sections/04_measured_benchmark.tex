@@ -172,16 +172,23 @@ sky is fainter, at about 2.9~DN\,s$^{-1}$ per pixel compared with 4 to
 brighter relative to the first, which changes the overlap of the orders that
 the pipelines must handle. Secondly, the exposures are full frames read
 through four outputs with 10.7~s frames, whereas SOSS time series read one
-output with 5.5~s frames. After the strip's own reference-pixel correction,
+output with 5.5~s frames. Because the strip is cut from these full frames but
+labelled as a SOSS subarray, a pipeline would by default subtract the bias
+measured for the subarray read-out, so every pipeline instead receives the
+bias reference of the full-frame read-out, the only reference file that
+differs from its native choice. After the strip's own reference-pixel correction,
 the variance of the noise per read is within 6 to 9\% of that of the SOSS
 subarray. For example, the $1/f$ noise per read is 4.92~DN, compared with
 4.81~DN for WASP-17. An integration has at most five groups, against eight for
 WASP-17, and integrations follow each other every 64~s rather than 49~s. At
-five groups the brightest pixels reach 89\% of saturation, and the saturation
-rule of one pipeline then flags a quarter of the light in the extraction box
-and changes those flags during the transit. I therefore build versions with
-the first three groups, where this no longer happens, and the first four,
-where it still affects 0.8\% of the light in the box.
+five groups the brightest pixels reach 89\% of saturation; the saturation
+rule of one pipeline then flags 27\% of the light in the extraction box, and
+the transit changes the flags on 2.3\% of it. I therefore build versions with
+the first four groups, where 4.5\% of the light is flagged and the transit
+changes the flags on 0.8\%, and with the first three, where the star newly
+flags 0.26\% of the light, almost all of it beside known bad pixels that
+received the full star, and the transit changes no flags in a typical
+integration and at most 0.06\% of the light in any.
 
 Thirdly, some effects are absent by construction. The injected star does not
 move, so the jitter and breathing of a real trace are missing, and no
