@@ -196,12 +196,12 @@ electronic response that follows the total illumination is present during the
 transit. The added photons are drawn independently in each pixel, so the
 coupling of their noise between neighbouring pixels is omitted. I add the star
 through the detector's calibrated nonlinearity model, so the injected ramps of
-the brightest pixels curve over at high fill as real ramps do: above
-300~DN\,s$^{-1}$ the changes between consecutive reads agree with the real
-exposure to within 1\%, although the injected ramps lie about 140 to 230~DN
-above the real ones. In the faintest pixels, below 30~DN\,s$^{-1}$, the
-changes between reads differ from the real exposure by up to 8\%, which
-remains a limitation of the test case.
+the brightest pixels curve over at high fill as real ramps do. For pixels
+grouped by brightness, the median changes between consecutive reads agree
+with the real exposure to within 1\% above 300~DN\,s$^{-1}$, although the
+median injected ramp lies about 140 to 230~DN above the real one. In the two
+faintest groups, below 30~DN\,s$^{-1}$, the median changes between reads
+differ by up to 8\%, which remains a limitation of the test case.
 
 The injected transit also specifies the limb-darkening law against which each
 pipeline is tested. This is one quadratic law computed from PHOENIX models
