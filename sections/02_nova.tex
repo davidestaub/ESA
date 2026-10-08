@@ -51,13 +51,13 @@ order~1 and flagged samples are left out. For the count rate $Y_{tp}$ of pixel
 $p$ in integration $t$, NOVA predicts
 \begin{equation}
  \widehat Y_{tp}
- = \gamma_t\, C_{tg}\, \bar{\mathcal{T}}_{tp}\, \tilde q_{pg} + B_{tp},
+ = \gamma_t\, C_{tg}\, \bar{\mathcal{T}}_{tg}\, q^\star_{pg} + B_{tp},
  \label{eq:nova-forward}
 \end{equation}
-where $C_{tg}$ is the brightness of the star in the group of pixel $p$,
-$\tilde q_{pg}$ is the share of that light that falls on pixel $p$
-(Section~\ref{sec:response}), $\bar{\mathcal{T}}_{tp}$ is the dimming of
-pixel $p$ by the transit (Section~\ref{sec:transit}), $\gamma_t$ is a small,
+where $C_{tg}$ is the brightness of the star in the group $g$ of pixel $p$,
+$q^\star_{pg}$ is the share of that light that falls on pixel $p$
+(Section~\ref{sec:response}), $\bar{\mathcal{T}}_{tg}$ is the dimming of
+the group's light by the transit (Section~\ref{sec:transit}), $\gamma_t$ is a small,
 fixed curvature of the baseline and $B_{tp}$ is the background left after
 Stage~2 (Section~\ref{sec:continuum}). Only the starlight is dimmed.
 
@@ -91,50 +91,41 @@ smooth it across neighbouring columns, like a running average. The strength of
 the smoothing is chosen so that the profile smoothed from one half of the
 integrations best predicts the unsmoothed profile from the other half.
 
-The profile alone does not say which wavelengths reach a pixel. For each pixel
-$p$ and wavelength $\lambda$, $K_{p\lambda}$ is how much of the star's light
-at $\lambda$ is recorded in pixel $p$, per unit of profile. It combines three
+The profile does not say which wavelengths reach a column. For each group $g$
+and wavelength $\lambda$, $K_{g\lambda}$ is how much of the star's light at
+$\lambda$ is recorded in the column, per unit of profile. It combines three
 public calibration products: the trace and wavelength calibration, which say
 where each wavelength falls on the detector
 \citep{BainesEtAl2023Trace,BainesEtAl2023Wavelength}; the line-spread kernel,
 which spreads the light of one wavelength over a few neighbouring columns; and
 the throughput, which says how much of the light at each wavelength is
 detected. NOVA combines them with ATOCA, the SOSS extraction code of the JWST
-pipeline \citep{DarveauBernierEtAl2022,JWSTPipeline2025}, and each pixel
-receives light from its own order only. The share in
-equation~(\ref{eq:nova-forward}) is then the profile weighted by the
-starlight that reaches each pixel,
-\begin{equation}
- \tilde q_{pg} = \frac{q^\star_{pg}\, S_p}{\sum_{p'\in P_g} q^\star_{p'g}\, S_{p'}},
- \qquad S_p=\sum_\lambda K_{p\lambda}\, s_\lambda ,
- \label{eq:qtilde}
-\end{equation}
-where $s_\lambda$ is the spectrum of the star, fitted to the out-of-transit
-data of each data set and then held fixed. The trace is slightly tilted, so
-the pixels of one column see slightly different wavelengths and $S_p$ varies a
-little within a column. Without this tilt, $\tilde q_{pg}$ would equal
-$q^\star_{pg}$.
+pipeline \citep{DarveauBernierEtAl2022,JWSTPipeline2025}. In this
+calibration, all pixels of one column see the same wavelengths, and each
+pixel receives light from its own order only. The response of pixel $p$ is
+therefore $q^\star_{pg}K_{g\lambda}$.
 
 \subsection{The transit and the spectrum}
 \label{sec:transit}
 
-Each pixel is dimmed by the transit at the wavelengths that reach it,
+Each group is dimmed by the transit at the wavelengths that reach its column,
 \begin{equation}
- \bar{\mathcal{T}}_{tp}
- = \frac{\sum_{\lambda} K_{p\lambda}\, s_\lambda\, \mathcal{T}_t(\lambda)}
-        {\sum_{\lambda} K_{p\lambda}\, s_\lambda},
- \label{eq:pixel-transit}
+ \bar{\mathcal{T}}_{tg}
+ = \frac{\sum_{\lambda} K_{g\lambda}\, s_\lambda\, \mathcal{T}_t(\lambda)}
+        {\sum_{\lambda} K_{g\lambda}\, s_\lambda},
+ \label{eq:group-transit}
 \end{equation}
-where $\mathcal{T}_t(\lambda)$ is the transit at wavelength $\lambda$. Because
-$K_{p\lambda}$ contains the line-spread kernel, the kernel is part of the
-model.
+where $\mathcal{T}_t(\lambda)$ is the transit at wavelength $\lambda$ and
+$s_\lambda$ is the spectrum of the star, fitted to the out-of-transit data of
+each data set and then held fixed. Because $K_{g\lambda}$ contains the
+line-spread kernel, the kernel is part of the model.
 
 A planet has one transmission spectrum, so both orders share $D(\lambda)$. It
 is represented by 160 top-hat bins from 0.62 to $2.84\,\mu\mathrm{m}$. Below
 $2\,\mu\mathrm{m}$ the bins are about $0.01\,\mu\mathrm{m}$ wide and above it
 $0.038\,\mu\mathrm{m}$, wider in the red, where the signal-to-noise ratio is
-lower. The bluest bin is twice as wide because the bin next to it received no
-light. The two reddest bins also receive no light in the model: order~2 does
+lower. The bluest bin is twice as wide because the original bluest bin
+contained no fitted column wavelengths and was merged with its neighbour. The two reddest bins also receive no light in the model: order~2 does
 not reach them, and order~1 is cut at $2.758\,\mu\mathrm{m}$, beyond which the
 public PASTASOSS calibration would have to be extrapolated. They are held at
 the white-light depth and not reported. The other 158 depths are written as an
@@ -178,7 +169,7 @@ The brightness of the star in each group is a straight line in time,
 $C_{tg}=\beta_{0g}+\beta_{1g}\tau_t$. Its level differs between columns
 because each column sees a different wavelength. It is fitted together with
 the transit, but in practice it is set by the integrations before and after
-the transit. The baseline may also curve slightly. A curvature is much harder
+the transit. The baseline may also curve slightly. A curvature is harder
 than a straight line to measure from the integrations before and after the
 transit, and in a single column it would trade against the depth. I therefore
 measure one curvature from all columns together, using the out-of-transit data
@@ -204,15 +195,17 @@ pixels, are assumed to see only background, although some starlight from the
 faint wings of the traces may reach them (Section~\ref{sec:which-light}). The
 maps are made orthonormal over these pixels. The maps and these pixels were
 chosen once from the WASP-17 visit, where eight maps predicted held-out strips
-of the off-trace image better than two or four. These maps were compared only
-with fewer maps of the same kind. How well they describe the background under
-the traces, and how much any error there changes the depths, has not yet been
-tested.
+of the off-trace image better than two or four. Two other small families of
+maps scored better in the same test, and no record says why this family was
+chosen. A first-order check showed how uncertainty in the fitted background
+amplitudes affects the depths, but how well the maps describe the background
+under the traces, and how much an error of the maps there changes the depths,
+has not yet been tested.
 
 The time pattern is learned from each data set. Fitting the maps to the
 off-trace pixels of every integration gives eight amplitude series, and $G_1$
 is their strongest principal component that does not look like the transit,
-with a correlation of at most 0.25. On the real visit, the strongest component
+with an absolute correlation of at most 0.25. On the real visit, the strongest component
 does look like the transit, with a correlation of 0.95, and is therefore left
 out. Section~\ref{sec:which-light} asks whether that signal is starlight.
 Finally, the fit to the off-trace pixels enters the objective as an anchor,
@@ -274,7 +267,7 @@ to $90^\circ$ and $u_1,u_2$ from 0 to 1.
 
 NOVA currently works only for transits that are not grazing. The white-light
 fit must therefore give little weight to orbits that graze the stellar limb,
-for which depth and geometry cannot be separated.
+for which depth and geometry are hard to separate.
 
 \subsection{Uncertainties}
 \label{sec:ensemble}

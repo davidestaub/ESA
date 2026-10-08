@@ -1,6 +1,6 @@
 """Schematic of NOVA's detector forward model (Section 2, Eq. nova-forward). (a) Retained detector pixels
 grouped by order and column (sketch, not data). (b) The model of each pixel: the stellar term,
-gamma_t C_tg Tbar_tp qtilde_pg, is dimmed by the transit; the background B_tp is not. The spatial
+gamma_t C_tg Tbar_tg q*_pg, is dimmed by the transit; the background B_tp is not. The spatial
 profile q* and the geometry Omega are estimated beforehand; D and u are shared by both orders."""
 import numpy as np, matplotlib
 matplotlib.use('Agg')
@@ -34,7 +34,7 @@ def box(xy, w, h, txt, fc, fs=6.3):
 box((0.15, 3.45), 3.1, 1.55, 'fitted, shared by' + '\n' + r'both orders:' + '\n' + r'spectrum $D(\lambda)$', '#e3eefb')
 box((3.45, 3.45), 3.1, 1.55, 'fitted: limb darkening' + '\n' + r'per order, continuum' + '\n' + r'$C_{tg}$, background $B_{tp}$', '#e3eefb')
 box((6.75, 3.45), 3.1, 1.55, 'estimated beforehand:' + '\n' + r'profile $q^\star_{pg}$, geometry' + '\n' + r'$\Omega$, curvature $\gamma_t$', '#eeeeee')
-box((0.6, 1.2), 8.8, 1.5, r'$\widehat Y_{tp} = \gamma_t\, C_{tg}\, \bar{\mathcal{T}}_{tp}(D,\mathbf{u}_o;\Omega)\, \tilde q_{pg} \;+\; B_{tp}$' + '\n'
+box((0.6, 1.2), 8.8, 1.5, r'$\widehat Y_{tp} = \gamma_t\, C_{tg}\, \bar{\mathcal{T}}_{tg}(D,\mathbf{u}_o;\Omega)\, q^\star_{pg} \;+\; B_{tp}$' + '\n'
     'starlight, dimmed by the transit  +  background, not dimmed', '#fff6ee', fs=6.6)
 for x0 in (1.7, 5.0, 8.3):
     bx.annotate('', xy=(min(max(x0, 2.0), 8.0), 2.75), xytext=(x0, 3.55), arrowprops=dict(arrowstyle='->', lw=0.6, color='#333333'))
