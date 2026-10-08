@@ -19,9 +19,12 @@ implemented, and end with a first, preliminary spectrum of WASP-17~b.
 
 NOVA's input is prepared from the raw ramps with the JWST calibration pipeline
 \citep{JWSTPipeline2025} and exoTEDRF \citep{Radica2024}. After the
-reference-pixel correction, exoTEDRF removes the $1/f$ noise from each group
-by subtracting the median of each column outside the trace cores, leaving out
-field stars found in a separate exposure through the F277W filter. For this step only, it subtracts a
+reference-pixel correction, exoTEDRF removes the $1/f$ noise from each group.
+To estimate it, the step subtracts from the group the median out-of-transit
+image, scaled by a light curve measured from the data, and takes the median of
+what is left in each column outside the trace cores, leaving out field stars
+found in a separate exposure through the F277W filter. It then subtracts this
+column offset from the original group. For this step only, it subtracts a
 scaled background model beforehand and adds it back afterwards. The remaining
 steps of the JWST pipeline give count rates. Stage~2 of exoTEDRF then applies
 the flat field, subtracts the scaled zodiacal background and corrects bad

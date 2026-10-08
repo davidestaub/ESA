@@ -4,42 +4,64 @@
 \subsection{What a benchmark needs}
 \label{sec:benchmark-needs}
 
-An injection test writes a known transmission spectrum into detector data and
-compares the spectrum that each method recovers with it.
-Section~\ref{sec:validation-problem} listed four things that such a test needs
-for SOSS: a real exposure, a measured image of the star, injection into the
-raw reads, and several pipelines that learn the truth only after delivering
-their results. The measured image of the star keeps the injected starlight
-independent of the assumption about starlight that is being tested. Using the
-same model to generate and analyse data can hide that model's errors, a
-problem known as an inverse crime \citep{KaipioSomersalo2007}. The injectors
-I built during the first year to provide such a test failed, and what their
-failures taught me is set out below.
+For a real planet the true spectrum is unknown. An injection test supplies a
+truth: a known transmission spectrum is added to detector data, and the
+spectrum that each method recovers is compared with it.
+Section~\ref{sec:validation-problem} listed what such a test needs for SOSS: a
+real exposure, a measured image of the star, injection into the raw reads,
+and several pipelines that learn the truth only after delivering their
+results. The image of the star matters because only starlight dims during a
+transit, so the injector has to decide which of the observed light is
+starlight. If it decides this with the same kind of model that a pipeline uses
+to separate starlight from background, the errors of that model are hidden and
+the pipeline is favoured, a problem known as an inverse crime
+\citep{KaipioSomersalo2007}. A measured image of the star avoids this
+particular risk. My first
+injectors were built from the WASP-17~b data alone, and this section describes
+what they taught me.
 
-\subsection{Injecting into the raw data}
+\subsection{Injecting into the raw reads}
 \label{sec:raw-injection}
 
-The first lesson concerned where the transit is added. My first injector added
-it to the calibrated integrations, after the detector stages of the pipeline.
-This was fast, but it skipped the stages in which the methods differ in their
-treatment of $1/f$ noise, saturated pixels and cosmic rays. I therefore moved the injection to the
-raw ramps, and each method received its own native input made from the same
-injected ramps. The new injector took the real pre-transit integrations of
-WASP-17~b and removed, read by read, the light that the injected transit would
-block.
+My first injector added the transit to the count-rate images, after the
+detector stages that fit the ramps. This shortcut skipped the stages in which
+the methods differ, such as their treatment of $1/f$ noise, saturated pixels
+and cosmic rays, so I moved the injection to the raw reads. For the reference
+atmosphere, a model atmosphere used throughout these tests, NOVA's
+root-mean-square error then rose from 125 to 182~ppm on the same data, and its
+spectrum was about 90~ppm too deep.
+
+The main identified cause was the $1/f$ correction that NOVA's detector
+processing takes from exoTEDRF (Section~\ref{sec:detector-processing}). It
+estimates a column offset from the difference between each group and a
+reference image scaled by a light curve measured from the data, using pixels
+outside the trace cores. If the injected dimming does not follow that scaled
+reference, part of the transit enters the estimated noise correction, and
+subtracting it makes the transit deeper. In this test the correction deepened
+the injected transit by about 1 to 2\%. Using instead the correction calculated
+from the same data without the injected transit removed this effect and
+lowered NOVA's error to 150~ppm. This was a diagnostic, since such transit-free
+data do not exist for a real transit, and it did not establish which mismatch
+between the injected light and the reference caused the effect.
+
+Injecting into the raw reads therefore tests effects that an injection into
+the count rates misses. Light outside an extraction box can still change the
+recovered spectrum, because it enters the $1/f$ correction.
 
 \subsection{Which light belongs to the star}
 \label{sec:which-light}
 
-To remove this light, the injector needs a map of the starlight on the
-detector. Near the centre of each
-trace the star dominates, and there the map is well determined. Further out, in the faint
-wings of the traces and between them, part of the light may come from the
-zodiacal background, other stars or the detector itself, and the WASP-17~b
-data alone cannot say how much. My first map, the lower estimate, contained 0.9
-to 5.0\% less light than observed in the extraction box and treated the rest
-as background. I therefore bracketed this choice with an upper estimate, in
-which all the light in the box is starlight.
+Near the centre of each trace the star dominates, but in the faint wings and
+between the traces part of the light may come from the zodiacal background,
+other stars or the detector, and the WASP-17~b data alone cannot say how
+much. My lower estimate of the starlight dims a calibrated model of the star
+within 16 pixels of the traces, the measured light after background
+subtraction between 16 and 80 pixels, and nothing further out. In the 40-row
+extraction box of exoTEDRF, its starlight is typically 0.4, 2.2 and 4.0\% below
+the observed light after background subtraction at 1.0 to 1.8, 1.8 to 2.3 and
+2.3 to $2.8\,\mu\mathrm{m}$, and that difference never dims. My upper estimate
+scales the model of the star up, so that approximately all of the remaining
+box light dims.
 
 \begin{figure}[t]
   \centering
@@ -56,47 +78,40 @@ which all the light in the box is starlight.
   \label{fig:flip}
 \end{figure}
 
-Figure~\ref{fig:flip} shows what this choice did for one injected model
-atmosphere, the reference atmosphere.
-Under the lower estimate, \nova{} recovered the injected spectrum with a
-root-mean-square error of 124~ppm and exoTEDRF with 319~ppm. Under the upper
-estimate the order reversed, with 358~ppm for \nova{} and 150~ppm for
-exoTEDRF.
+Figure~\ref{fig:flip} shows what this choice did. Under the lower estimate,
+NOVA recovered the reference atmosphere with an error of 124~ppm and exoTEDRF
+with 319~ppm. Under the upper estimate the order reversed, with 358~ppm for
+NOVA and 150~ppm for exoTEDRF. The two injections share the same
+out-of-transit data, and only the light removed during the transit differs.
+Both errors therefore moved in the same direction, by about 500~ppm in the
+red, whilst the difference between the two pipelines barely changed. The
+benchmark rewarded whichever pipeline agreed with the injector about which
+light is starlight.
 
-The out-of-transit data are identical in the two cases, and only the light
-removed during the transit differs. Each pipeline measures the depth as the
-light lost divided by its own estimate of the starlight. Both errors therefore
-moved in the same direction, by about 500~ppm in the red, whilst the
-difference between their mean errors barely changed, from 276 to 289~ppm. The
-benchmark rewarded the pipeline whose estimate of the starlight agreed with
-the injector's, but the WASP-17~b data could not determine which estimate was
-right. The test showed that the ranking depends on
-this assumption for one atmosphere, but not which pipeline is right on the
-real data.
+exoTEDRF counts all the light left in its box after background subtraction as
+starlight, which matches the upper estimate. Under the lower estimate, a grey
+transit, whose depth is the same at every wavelength, showed the resulting
+dilution: exoTEDRF recovered typically 0.969 of the injected depth in the red.
+Applying this wavelength-dependent response to the known injected spectrum
+predicted most of exoTEDRF's error on the reference atmosphere: removing the
+predicted error left 116 instead of 319~ppm. This was a diagnostic that used
+the known truth. NOVA's smooth background model is of the same kind as the
+background against which the model star of the lower estimate was built, so
+the lower estimate risked favouring NOVA.
 
-This is the danger of an inverse crime (Section~\ref{sec:benchmark-needs}).
-\nova{}'s model of the starlight closely matches the lower estimate,
-which treats about 2 to 4\% of the red light in the box as background, so the
-lower-estimate benchmark risked favouring \nova{}. After its own background
-subtraction, exoTEDRF treats all the remaining light in its box as starlight,
-and so matches the upper estimate. A grey transit, whose depth is the same at
-every wavelength, showed the effect directly. Under the lower estimate,
-exoTEDRF counted light that the injector had treated as background as
-starlight, which diluted the transit: it recovered only 0.969 of the injected
-depth in the red.
-Correcting the reference-atmosphere result for this measured dilution reduced
-exoTEDRF's error from 319 to 116~ppm.
-
-A direct test did not resolve the split between starlight and background in
-the WASP-17~b data. If all the light in the extraction box is starlight,
-the transit dims the box by the same fraction as the centre of the trace, so
-the ratio of the two dips is one. The measured ratios, between 0.995 and
-1.012, could not tell the two estimates apart. Repeating the measurement in
-intervals without a transit produced spurious differences between the box and
-trace-centre depths larger than one per cent of the transit depth, the precision
-needed to distinguish the estimates. More generally, a broad component of the
-starlight can be confused with the background, or with an additive signal that
-partly follows the shape of the transit, such as a slow electronic drift. Separating
-them needs extra information, for example exposures in which the star sits
-elsewhere on the detector. Such calibration observations are the basis of the
-benchmark in the next section.
+I also tested whether the real WASP-17~b data could tell the two estimates
+apart. In each column, I fitted the fractional transit depth of the whole
+extraction box and of its five brightest rows, and divided the first by the
+second. If the brightest rows hold almost only starlight and the processing
+preserves both depths, a ratio of one means that the box light is also all
+starlight, whereas the lower estimate predicts a ratio below one in the red.
+The red ratios were about 0.996 after the $1/f$ correction and about 1.012
+before it. However, the same measurement, repeated in intervals without a
+transit, gave spurious differences between the box and the brightest rows of
+up to about 11\% of the transit depth in the red, against the 1\% needed to
+decide, so the test was inconclusive even without the $1/f$ correction. More generally, a broad
+component of the starlight can be confused with the background, or with a slow
+electronic drift that partly follows the transit. Separating them needs extra
+information, such as exposures in which the star sits elsewhere on the
+detector. Such calibration exposures are the basis of the benchmark in the
+next section.
