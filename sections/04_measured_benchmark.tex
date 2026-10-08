@@ -10,8 +10,8 @@ much less on a fitted split between starlight and background.
 \subsection{Measuring the star}
 \label{sec:measuring-star}
 
-STScI programme 4476 calibrates the SOSS aperture correction
-\citep{VolkEspinoza2023}. On 26 March 2024 it observed TYC 4213-1116-1, an
+On 26 March 2024, programme 4476 \citep{VolkEspinoza2023} observed
+TYC 4213-1116-1, an
 A-type star that gives about 1.6 times as much light per detector column as
 WASP-17, in two full-frame exposures taken about 25 minutes apart. In the
 first, with ten integrations of five groups, the star is at its usual
@@ -38,14 +38,17 @@ transit, to the raw reads of the moved exposure. In the first, grey case,
 every pixel of the star follows the same light curve $r(t)$, which equals one
 out of transit, and the expected count rate is
 \begin{equation}
-  \mathrm{E}\bigl[D(t)\bigr] = \mathrm{E}\bigl[O(t)\bigr] + S\,r(t),
+  \mathrm{E}\bigl[Y(t)\bigr] = \mathrm{E}\bigl[O(t)\bigr] + S\,r(t),
   \label{eq:4476}
 \end{equation}
-where $D(t)$ and $O(t)$ are the count rates of the benchmark data and of the
+where $Y(t)$ and $O(t)$ are the count rates of the benchmark data and of the
 moved exposure. Everything in $O(t)$ is real, including the sky, the field
 stars, the $1/f$ noise and the cosmic rays, and none of it transits.
+Atmospheres with spectral features need each pixel's light to be assigned to
+an order and a wavelength, and I leave them until the grey case has passed its
+tests.
 
-In practice, photons from $S$ will be drawn for successive short time
+In practice, photons from $S$ are drawn for successive short time
 intervals and added to the reads before the detector's nonlinearity is
 applied, as real light would be. No light is added to pixels that do not
 respond to light. Every transit case has a twin made from the same photons:
@@ -53,16 +56,14 @@ the transit case keeps only a fraction $r(t)$ of them, and the twin keeps them
 all. The two are therefore identical in every integration that has lost no
 light to the transit since its reset (Figure~\ref{fig:4476-construction}).
 This makes the injected light curve exactly known, given the cleaned image of
-the star. Atmospheres with spectral features need each pixel's light to be
-assigned to an order and a wavelength, and I leave them until the grey case
-has passed its tests. How faithfully the image represents the real star is a
+the star. How faithfully the image represents the real star is a
 separate question, which Sections~\ref{sec:cleaning-star}
 and~\ref{sec:benchmark-limits} address.
 
 \begin{figure*}[t]
   \centering
   \includegraphics[width=\textwidth]{figures/pid4476_construction.pdf}
-  \caption{Planned construction of the benchmark data. One set of photon
+  \caption{Construction of the benchmark data. One set of photon
   arrivals is drawn from the cleaned image of the star for successive time
   intervals, accumulated into reads in the linear domain of the detector and
   added to the reads of the moved exposure, which is the same for both cases.
@@ -84,7 +85,7 @@ and~\ref{sec:benchmark-limits} address.
   its usual position. (b) The exposure with the star moved 1,026 rows lower,
   into which the star is injected. (c) The cleaned image of the star, given by
   the difference between (a) and (b) with the field sources removed and the
-  far wings smoothed (the version of 30 September, before the corrections for
+  far wings smoothed (a preliminary version, made before the corrections for
   the sky and the halo of the moved star). Orange outlines mark the field
   sources found in each exposure. Blue dashed lines are traces of Gaia DR3
   stars with $G\leq20.5$, predicted with an empirical mapping from WASP-17,
@@ -116,7 +117,9 @@ the Gaia catalogue \citep{GaiaDR3}: over the 26 columns checked, its median
 separation from the predicted trace is 1.8 detector rows. The 13 compact
 sources of the first pointing could not be matched securely to Gaia stars, so
 their nature is unknown. Field stars lying exactly under the traces of the
-target move with it, and these two exposures cannot separate them. Near the
+target move with it, and these two exposures cannot separate them. Their
+light stays in $S$ and becomes part of the injected star, so it does not
+change the injected light curve. Near the
 trace cores, the measured image differs from a smooth profile built from
 neighbouring columns with a scatter of 2.4 to 2.9\% per pixel, and this
 comparison found no further compact source beyond those removed.
@@ -130,9 +133,8 @@ only 2 to 3 at 40 to 200 rows from order~1 in the red. Beyond 40 rows from the
 nearest trace, I therefore replaced the pixels by a running median along the
 trace over 61 columns, blended with the data between 30 and 40 rows. On
 average, this model differs from the measured pixels by about 0.16\% at 40 to
-100 rows. Near the traces, $S$ keeps the measured image, with its noise and
-any field light hidden beneath the traces. Both become part of the injected
-star, so they do not change the injected light curve.
+100 rows. Near the traces, $S$ keeps the measured image with its noise, which
+becomes part of the injected star in the same way.
 
 \begin{figure*}[t]
   \centering
@@ -145,7 +147,7 @@ star, so they do not change the injected light curve.
   the nearest trace). The further peaks are order 2 in the left and middle
   panels, and order 3 and a faint band that is probably order 4 in the right
   panel. The vertical scale is linear near zero and logarithmic above, so that
-  negative values are kept. The cleaned image is the version of 30 September,
+  negative values are kept. The cleaned image is a preliminary version, made
   before the corrections for the sky and the halo of the moved star.}
   \label{fig:4476-profiles}
 \end{figure*}
@@ -160,8 +162,8 @@ in every integration that has lost no light to the transit since its reset.
 Finally, the noise added with the star must follow photon statistics.
 
 I then plan to score each method at two levels. At the first level, I
-subtract the light extracted from the transit case from that extracted from
-its twin, and fit the size of the known injected loss of light. The shape of
+subtract the light that each method assigns to the star in the transit case
+from that in its twin, and fit the size of the known injected loss of light. The shape of
 the light curve is fixed, so neither the transit geometry nor the limb
 darkening is fitted. The second level is the spectrum from
 each pipeline's own transit fit. A pipeline that fails to recover the injected
@@ -187,7 +189,7 @@ subarray, so a pipeline would by default subtract the bias of the subarray
 readout. Every pipeline therefore receives the bias reference of the full-frame
 readout, the only reference file that differs from its native choice. After
 the strip's own reference-pixel correction, the variance of the noise per read
-is 6 to 9\% higher than in the SOSS subarray. For example, the $1/f$ noise per read is
+is 6 to 9\% higher than in the SOSS subarray. The $1/f$ noise per read is
 4.92~DN, compared with 4.81~DN for WASP-17. An integration has at most five
 groups, against eight for WASP-17, and integrations follow each other every
 64~s rather than 49~s. At five groups the brightest pixels reach 89\% of
@@ -205,9 +207,12 @@ construction also omits any electronic response to the injected change in
 illumination. The added photons are drawn independently in each pixel, so
 their noise lacks the coupling between neighbouring pixels that a real
 detector introduces. The real noise already present in the moved exposure is
-kept. I add the star
-through the detector's calibrated nonlinearity model, so the injected ramps of
-the brightest pixels curve over at high fill as real ramps do. For pixels
+kept.
+
+I also compared the shapes of the injected and observed ramps. Because the
+star is added before the detector's nonlinearity is applied
+(Section~\ref{sec:measuring-star}), the injected ramps of the brightest pixels
+curve over at high fill as real ramps do. For pixels
 grouped by brightness, the median changes between consecutive reads agree
 with those of the exposure with the star at its usual position to within 1\%
 above 300~DN\,s$^{-1}$, although the
@@ -227,12 +232,6 @@ native setup will state how it treats a star outside its grid. The injected
 limb darkening is therefore a stated challenge for the pipelines.
 
 These limitations restrict what the benchmark can show, but they leave the
-injected light curve unchanged. The benchmark tests recovery for one star
-under stated conditions. The six science visits, of WASP-17, HAT-P-26,
-WASP-39, HAT-P-18, WASP-96 and WASP-80, have no independently measured image of
-the star, and the WASP-17 case shows why a fitted split between star and
-background is not enough to establish the truth for an injection
-(Section~\ref{sec:which-light}). These visits will therefore be analysed as
-real data with \nova{} and the extraction-based pipelines
-(Section~\ref{sec:plan}). Without a known true spectrum, their disagreements
-cannot show which method is more accurate.
+injected light curve unchanged. The six science visits have no independently
+measured image of the star, so the benchmark cannot be repeated on them, and
+they will be analysed as real data (Section~\ref{sec:plan}).

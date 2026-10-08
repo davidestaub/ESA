@@ -466,10 +466,10 @@ scaled model of the zodiacal background before the fit, as in the other
 pipelines. NOVA then fits only the residual background that the subtraction
 leaves behind. If the model is scaled wrongly, the scaling error becomes part
 of the residual background that NOVA must fit, and could bias the NOVA
-spectrum. Secondly, NOVA needs a spatial response, which describes how the
-light of each wavelength is spread over the pixels of a column. The spatial
-response plays the same role as the profile of the trace in an extraction.
-NOVA estimates the spatial response from the observation being analysed,
+spectrum. Secondly, NOVA needs a spatial profile, which describes how the
+starlight of each order in a column is spread over the pixels of that column.
+The spatial profile plays the same role as the profile of the trace in an
+extraction. NOVA estimates the spatial profile from the observation being analysed,
 before the spectral fit, by measuring how strongly each pixel dims during the
 transit. The estimate therefore also assumes that only the starlight follows
 the transit. Finally, NOVA takes the transit geometry, meaning the timing of
@@ -616,10 +616,10 @@ this strip, and then again with the star moved off the strip. On the strip,
 the difference between the two exposures measures the light of the star. This
 difference greatly reduces the need to split the observed light into
 starlight and background with a fit. I will build the benchmark from this
-difference (Section~\ref{sec:measured-benchmark}). I first turn the difference into a clean image of the star, by removing the field sources (field stars and any other objects in the field) and smoothing the faint outer wings. I will then dim this image with a known
+difference (Section~\ref{sec:measured-benchmark}). I first turn the difference into a clean image of the star, by removing the field sources (field stars and any other objects in the field) and smoothing the faint outer wings. I then dim this image with a known
 transit and add it to the raw reads of the exposure in which the star was
 moved off the strip. The noise, the background and the field stars of that
-exposure are real. Because I will apply the transit to the constructed image
+exposure are real. Because I apply the transit to the constructed image
 myself, the injected signal will be known exactly for that image. The
 benchmark is designed to show whether the established pipelines recover a
 known transit without a detectable bias, and whether NOVA improves on them.
