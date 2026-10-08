@@ -108,10 +108,8 @@ normalised over $I$, and $\bm{z}$ are 157 free shape coordinates. The fixed
 $158\times157$ matrix $\bm{H}$ comes from a QR decomposition of a vector of
 ones. Its columns are orthonormal and each sums to zero. Adding the same
 constant to every $h_j$ would not change the depths. $\bm{H}$ excludes this
-direction, so each spectrum has exactly one set of coordinates. The fit varies
-$\bar D$ and $\bm{z}$. There is no atmospheric template, no smoothing between
-wavelengths, no prior on the shape, and no term that lets the two orders have
-different depths.
+direction, so each spectrum has exactly one set of coordinates. The fitted values are only
+$\bar D$ and $\bm{z}$. 
 
 The orbital state $\Omega$ is a circular orbit with the period of
 \citet{LouieEtAl2025}, and with the mid-transit time $t_0$, scaled semi-major
@@ -290,8 +288,7 @@ own two continuum coefficients, so the groups are coupled only through the
 sixteen background amplitudes. The derivatives with respect to $\bm{\theta}$
 are exact: JAX differentiates the transit model automatically, and the
 derivative of the linear solution is analytic. In the middle loop, the
-trust-region reflective method \citep{BranchColemanLi1999}, the default
-least-squares method of SciPy, adjusts $\bm{\theta}$. It takes steps within a
+trust-region reflective method \citep{BranchColemanLi1999},  adjusts $\bm{\theta}$. It takes steps within a
 region where a quadratic approximation of the objective is trusted, and keeps
 the mean depth positive. In the outer loop, the weights
 $w_{tp}=\min(1,\,1.345/|r_{tp}|)$ \citep{Huber1964} are updated.
@@ -303,14 +300,10 @@ successive cycles that each pass the following tests. No weight changes by
 spectrum changes by less than 0.01~ppm RMS on a 40-bin grid and 0.05~ppm RMS
 on a 96-bin grid. The optimiser reports success, the parameters stay within
 their bounds and pass the physical checks, and the rank of the linear solve
-does not change. Finally, each component of the objective gradient is
-projected at active bounds and divided by the norm of its Jacobian column. Its
-absolute value must be at most $10^{-6}$ or at most 0.002 times the norm of
-the optimiser's residual vector, which includes the penalty terms. These are numerical tolerances, not
-a proof that no better minimum exists.
+does not change. 
 
 NOVA runs three starts and keeps the accepted one with the lowest objective.
-No check compares the three solutions. The first start has the white-light
+The first start has the white-light
 depth and the reference limb darkening. The second adds a 250~ppm wave in
 log-wavelength and small limb-darkening shifts, fixed in advance for every
 input. The third lies halfway between them.
