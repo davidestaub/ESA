@@ -5,59 +5,85 @@
 \label{sec:discussion}
 
 The main lesson of the first year concerns the benchmark rather than any one
-pipeline. An injection test on real SOSS data has to decide which light belongs to the star. For one atmosphere injected into the WASP-17~b data, this decision reversed the ranking of the two
-pipelines I tested (Section~\ref{sec:which-light}). Every injection test into real data makes such a decision, stated or not, and its verdict only holds
-under it. The benchmark of Section~\ref{sec:measured-benchmark} constrains this decision with a separate measurement of the star. The price is a different
-star, field and readout and, at first, a grey transit, so it cannot say how
-the pipelines behave on WASP-17 itself. It is designed instead to test which
-kinds of error each method makes when the injected light curve is known. The
-comparison of the six science visits will be read against these errors.
+pipeline. An injection test on real SOSS data has to decide which light
+belongs to the star. For one atmosphere injected into the WASP-17~b data, this
+decision reversed the ranking of the two pipelines I tested
+(Section~\ref{sec:which-light}). Every injection into real data makes this
+decision, stated or not, and its verdict holds only under it. The benchmark of
+Section~\ref{sec:measured-benchmark} bases this decision on a separate
+measurement of the star, so it depends much less on a fitted split between
+starlight and background. The
+price is a different star, field and readout and, at first, a grey transit,
+so it cannot say how the pipelines behave on WASP-17 itself. It is designed
+instead to measure which kinds of error each method makes when the injected
+light curve is known. The comparison of the six science visits will be read
+against these errors.
 
-NOVA's first spectrum of the real WASP-17~b visit lies above the published
-spectrum at every wavelength and most in the red
-(Section~\ref{sec:nova-real}). Its uncertainty is not yet validated, since the
-first ensemble failed its held-out test and the second was not completed. One further lead remains open. In the red, the faint light far from the traces of WASP-17 appears to dim during the transit by more than predictions of the stellar halo suggest. This excess is sensitive to the baseline and the processing, and whether it comes from the star, the background or the detector is unresolved. The new benchmark will measure recovery errors under its declared conditions, but the accuracy of either real WASP-17~b spectrum remains unknown.
+NOVA's first spectrum of the real WASP-17~b visit is deeper than the published
+Ahsoka spectrum at every wavelength, and most in the red
+(Section~\ref{sec:nova-real}). Its uncertainty is not yet validated, and
+Section~\ref{sec:nova} lists choices in NOVA that have not yet been tested,
+such as how well the background under the traces is modelled. One further
+lead remains open. In the red, the faint light far from the traces of WASP-17
+appears to dim during the transit by more than models of the stellar halo
+predict. This excess depends on the baseline and the processing, and whether
+it comes from the star, the background or the detector is unresolved. The new
+benchmark will measure recovery errors under its stated conditions, but the
+accuracy of either real WASP-17~b spectrum remains unknown.
 
 \subsection{Research plan}
 \label{sec:plan}
 
-The plan therefore begins with the measured-starlight benchmark and a refit of WASP-17~b whose uncertainty will be tested on held-out realisations.
-These form the first of five papers (Figure~\ref{fig:gantt}), all built on
-NOVA and this benchmark (Section~\ref{sec:measured-benchmark}). The second
-applies the same procedure to the five other science visits, and the third
-turns to repeated visits of the same planets. The last two extend NOVA to
-NIRSpec and to secondary eclipses.
+The plan therefore begins with the measured-starlight benchmark. Everything
+that follows uses it: to compare NOVA with the other pipelines, and to test
+whether changes improve NOVA. Together with
+a refit of WASP-17~b, it forms the first of five papers
+(Figure~\ref{fig:gantt}), all built on NOVA and this benchmark. The second
+paper applies the same procedure to the five other science visits, and the
+third turns to repeated visits of the same planets. The last two extend NOVA
+to NIRSpec and to secondary eclipses.
 
-\paragraph{Paper 1: NOVA, the benchmark and WASP-17~b.} The aim is to test
-whether NOVA recovers transmission spectra more accurately than the
-extraction-based pipelines, and whether it changes the conclusions about
-WASP-17~b. Firstly, I will build and test the benchmark of
-Section~\ref{sec:measured-benchmark} and score NOVA and exoTEDRF on it,
-together with Ahsoka and \texttt{transitspectroscopy} where their native
-workflows run end to end. The benchmark tests how each method separates
-starlight from background and extracts the spectrum. Its first test uses one
-common light curve on an A-type star, with the limb-darkening controls and
-limits of Section~\ref{sec:benchmark-limits}, and does not by itself validate
-recovery for the cooler science targets. Secondly, I will refit NOVA's
-spectrum of the real WASP-17~b visit with the current geometry criterion and
-compare it with the three published reductions. Its uncertainty will come from
-an ensemble that corresponds to the updated fit and passes its held-out test.
-I aim to finish this paper before the HWO2026 conference in Paris at the
-end of November 2026, where I will present this work.
+\paragraph{Paper 1: NOVA, the benchmark and WASP-17~b.} The aim is to measure
+how accurately NOVA and the extraction-based pipelines recover a known
+transmission spectrum, and whether NOVA changes the conclusions about
+WASP-17~b. Firstly, I will finish and test the benchmark of
+Section~\ref{sec:measured-benchmark} and run NOVA and exoTEDRF on it, together
+with Ahsoka and \texttt{transitspectroscopy} where their native workflows run
+end to end. The benchmark tests how each method separates starlight from
+background and extracts the spectrum. Its first case is one grey light curve
+on an A-type star, with the limb-darkening controls and limits of
+Section~\ref{sec:benchmark-limits}, so it does not by itself validate recovery
+for the cooler science targets. Secondly, I will use the benchmark to improve
+NOVA, starting with the untested choices listed in Section~\ref{sec:nova}. A
+change will be kept only if it reduces the errors on benchmark cases that were
+not used to develop it, and the current version of NOVA will be scored
+alongside every changed version. Thirdly, I will refit NOVA's spectrum of the
+real WASP-17~b visit under the geometry acceptance rule of
+Section~\ref{sec:own-white} and compare it with the three published
+reductions. Its uncertainty will come from an ensemble of simulated
+observations that matches the updated fit. The error bars from this ensemble
+will be checked against simulated observations held back for that purpose. I aim to finish this
+paper before the HWO2026 conference in Paris at the end of November 2026,
+where I will present this work.
 
 \paragraph{Paper 2: Five further SOSS visits.} The aim is to find out whether
 NOVA changes the atmospheric conclusions for other SOSS targets, and if so,
 why. The five remaining science visits, of HAT-P-26~b, WASP-39~b, HAT-P-18~b,
-WASP-96~b and WASP-80~b, will be analysed as real data with NOVA and the extraction-based pipelines of Paper~1. WASP-39~b has strong water features and well-studied spectra
-\citep{FeinsteinEtAl2023,CarterEtAl2024}, whilst the published analyses of
-WASP-96~b disagree on whether its spectrum shows a scattering slope
-\citep{TaylorEtAl2023,WangEtAl2026}. Neither agreement nor disagreement on real data will identify the more accurate pipeline, so the differences between the pipelines will be read against the errors measured in Paper~1. All five will use a common
-analysis procedure, with any visit-specific settings declared before the
-recovered spectra are compared. Applying the same procedure to these visits also requires a declared treatment of field stars, which NOVA does not
-yet model. Where they contaminate the traces, I will first exclude the
-affected columns, and model their spectra only where the loss of coverage
-matters for the science. This procedure can later be extended to the rest of
-the public SOSS archive, as was done for Hubble data \citep{TsiarasEtAl2018}.
+WASP-96~b and WASP-80~b, will be analysed as real data with NOVA and the
+extraction-based pipelines of Paper~1. WASP-39~b has strong water features and
+well-studied spectra \citep{FeinsteinEtAl2023,CarterEtAl2024}, whilst the
+published analyses of WASP-96~b disagree on whether its spectrum shows a
+scattering slope \citep{TaylorEtAl2023,WangEtAl2026}. Neither agreement nor
+disagreement on real data identifies the more accurate pipeline, so the
+differences between the pipelines will be read against the errors measured in
+Paper~1. All five visits will use one common analysis procedure, with any
+visit-specific settings declared before the spectra are compared. The common
+procedure also requires a declared treatment of field stars, which NOVA does
+not yet model.
+Where they contaminate the traces, I will first exclude the affected columns,
+and model their spectra only where the lost coverage matters for the science.
+The procedure can later be extended to the rest of the public SOSS archive, as
+was done for Hubble data \citep{TsiarasEtAl2018}.
 
 \paragraph{Paper 3: Repeated visits and stellar variability.} The aim is to
 test whether repeated visits of the same planet give the same spectrum once
@@ -65,11 +91,11 @@ instrumental and stellar effects are accounted for. I will start with the two
 SOSS transits of GJ~9827~d \citep{PiauletGhorayebEtAl2024}, then turn to the
 four of LHS~1140~b \citep{CadieuxEtAl2024,GressierEtAl2026} and the five of
 TRAPPIST-1~f, each of which contains a flare \citep{LimEtAl2026}. NOVA will
-gain a flare model, with timing shared across wavelengths and brightness
-fitted at each wavelength, and a model of unocculted spots and faculae. Two
-planned MRes projects, starting in January 2027, will study stellar
-variability and flares in the out-of-transit SOSS data, which would feed
-directly into this paper.
+gain a flare model, with its timing shared across wavelengths and its
+brightness fitted at each wavelength, and a model of the spots and bright
+regions on the star that the planet does not cross. Two planned MRes
+projects, starting in January 2027, will study stellar variability and flares
+in the out-of-transit SOSS data, which would feed directly into this paper.
 
 \paragraph{Paper 4: Joint NIRISS and NIRSpec analysis.} The aim is to test
 whether observations of the same planet with both instruments can be explained
@@ -86,7 +112,7 @@ detector-level analysis makes weak eclipse measurements more reliable.
 WASP-17~b is the starting point, since the retrieved properties of its SOSS
 eclipse spectrum were sensitive to whether negative eclipse depths were
 allowed at optical wavelengths \citep{GressierEtAl2024}. NOVA will use an
-eclipse model with signed amplitudes, and the benchmark will add a known
+eclipse model whose depths may be negative, and the benchmark will add a known
 planetary signal that disappears during the eclipse.
 
 \begin{figure*}[t]
@@ -124,7 +150,7 @@ planetary signal that disappears during the eclipse.
 \ganttbar[bar/.append style={fill=ganttsoss!70,draw=ganttsoss}]
   {Paper 3: repeated visits, variability}{5}{7}\\
 \ganttmilestone[milestone/.append style={fill=ganttsoss,draw=ganttsoss}]
-  {SOSS analysis freeze}{7}\\
+  {SOSS analyses complete}{7}\\
 \ganttgroup[group/.append style={fill=ganttgeneral!35,draw=ganttgeneral}]
   {Instrument and geometry extensions}{7}{10}\\
 \ganttbar[bar/.append style={fill=ganttgeneral!70,draw=ganttgeneral}]
@@ -132,7 +158,7 @@ planetary signal that disappears during the eclipse.
 \ganttbar[bar/.append style={fill=ganttgeneral!70,draw=ganttgeneral}]
   {Paper 5: secondary eclipses}{9}{10}\\
 \ganttmilestone[milestone/.append style={fill=ganttgeneral,draw=ganttgeneral}]
-  {Science freeze}{10}\\
+  {Science complete}{10}\\
 \ganttgroup[group/.append style={fill=ganttwrite!35,draw=ganttwrite}]
   {Thesis}{2}{13}\\
 \ganttbar[bar/.append style={fill=ganttwrite!70,draw=ganttwrite}]
@@ -152,26 +178,30 @@ the formal writing-up period runs to 28 October 2029.}
 
 \paragraph{Dependencies and risks.} Paper 1 provides the benchmark that every
 later paper reuses. Paper 2 settles the treatment of field stars, and Paper 3
-the stellar model that the later papers need for active hosts. In every paper,
-the recovered spectra are fixed before any retrieval is run, so that they
-cannot be tuned towards an atmospheric answer.
+the stellar model that the later papers need for active stars. In every paper,
+the recovered spectra are fixed before any atmospheric retrieval is run, so
+that they cannot be tuned towards an atmospheric answer.
 
-The first risk is that an injected case fails one of its tests. Such a case would
-be reported and excluded, with the scope of the remaining benchmark stated,
-whilst a pipeline that fails on a valid case keeps that failure in its score.
-Both the three- and four-group versions of the benchmark will be reported.
+The first risk is that an injected case fails one of its tests. Every
+failure will be reported, and a case will be excluded from any conclusion that
+needs that test to pass. Two additional checks on the cases built so far have
+failed, one on the shape of the faintest ramps and one on the saturation
+flags. Section~\ref{sec:benchmark-limits} states both as limitations. A pipeline that
+fails on a valid case keeps that failure in its score. Both the three- and
+four-group versions of the benchmark will be reported.
 
-A second risk is that the rerun uncertainty ensemble fails its held-out test
-again. The spectrum of WASP-17~b would then be published without a validated
-uncertainty, or not at all, and I would state which. Contamination by field
-stars may also remove more wavelength coverage than a science question can
-tolerate, in which case the affected spectra are released with reduced
-coverage and the limitation stated.
+A second risk is that the uncertainty ensemble for WASP-17~b fails this
+check. The spectrum would then be published without a validated
+uncertainty, or not at all, and I would state which. Excluding the columns
+that field stars contaminate may also remove more wavelength coverage than a
+science question can tolerate. The
+affected spectra would then be released with reduced coverage and the
+limitation stated.
 
 The NIRSpec extension is the largest technical development of the later
-papers. If it does not validate in time, Paper 4 is reduced to comparing
+papers. If it does not validate in time, Paper 4 becomes a comparison of
 independently validated reductions of the two instruments, with their
 limitations stated. Papers 4 and 5 are the adjustable part of the plan.
 Finally, NOVA may not outperform the extraction-based pipelines. A fair
-benchmark would still be useful, because it would document the methods' errors
-under the tested conditions.
+benchmark would still be useful, because it documents the errors of each
+method under the tested conditions.
