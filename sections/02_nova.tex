@@ -250,10 +250,10 @@ increase of the $\chi^2$ of those pixels above their own best fit, so it keeps
 the background close to what they show.
 The last term penalises the limb-darkening deviations $\delta_{oc}$ of the two
 coordinates $c$ in the two orders $o$, where $\langle\cdot\rangle_o$ is the
-average over the wavelengths of order $o$. Its first part keeps the deviation
-close to the reference, on a scale of 0.5 in the logit. Its second part
-penalises the curvature of the deviation in wavelength, on a scale of
-$2\,\mu\mathrm{m}^{-2}$, and in practice restrains the slope.
+average over the wavelengths of order $o$. It acts as a Gaussian prior with
+two parts. The first keeps the deviation close to the reference, with a
+standard deviation of 0.5 in the logit. The second limits the curvature of the
+deviation in wavelength, with a standard deviation of $2\,\mu\mathrm{m}^{-2}$.
 
 The model is linear in the continuum and background coefficients and
 nonlinear in 166 numbers: $\bar D$, the 157 shape coordinates and the eight
