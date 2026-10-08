@@ -182,11 +182,11 @@ subarray. For example, the $1/f$ noise per read is 4.92~DN, compared with
 4.81~DN for WASP-17. An integration has at most five groups, against eight for
 WASP-17, and integrations follow each other every 64~s rather than 49~s. At
 five groups the brightest pixels reach 89\% of saturation; the saturation
-rule of one pipeline then flags 27\% of the light in the extraction box, and
-the transit changes the flags on 2.3\% of it. I therefore build versions with
-the first four groups, where 4.5\% of the light is flagged and the transit
-changes the flags on 0.8\%, and with the first three, where the star newly
-flags 0.26\% of the light, almost all of it beside known bad pixels that
+rule of one pipeline then newly flags 27\% of the star's light in the
+extraction box, and the transit changes the flags on 2.3\% of it. I therefore
+build versions with the first four groups, where the newly flagged fraction
+is 4.5\% and the transit changes the flags on 0.8\%, and with the first
+three, where it is 0.26\%, almost all of it beside known bad pixels that
 received the full star, and the transit changes no flags in a typical
 integration and at most 0.06\% of the light in any.
 
@@ -194,10 +194,14 @@ Thirdly, some effects are absent by construction. The injected star does not
 move, so the jitter and breathing of a real trace are missing, and no
 electronic response that follows the total illumination is present during the
 transit. The added photons are drawn independently in each pixel, so the
-coupling of their noise between neighbouring pixels is omitted. The injected
-ramps of the brightest pixels also do not curve over at high fill as real
-ramps do, and lie 130 to 200~DN above them in the first group, although the
-rates agree to 0.1\%.
+coupling of their noise between neighbouring pixels is omitted. I add the star
+through the detector's calibrated nonlinearity model, so the injected ramps of
+the brightest pixels curve over at high fill as real ramps do: above
+300~DN\,s$^{-1}$ the changes between consecutive reads agree with the real
+exposure to within 1\%, although the injected ramps lie about 140 to 230~DN
+above the real ones. In the faintest pixels, below 30~DN\,s$^{-1}$, the
+changes between reads differ from the real exposure by up to 8\%, which
+remains a limitation of the test case.
 
 The injected transit also specifies the limb-darkening law against which each
 pipeline is tested. This is one quadratic law computed from PHOENIX models
