@@ -1,0 +1,138 @@
+pl_name,hostname,event,program,observation_num,status,facility,instrument,observingmode,gratinggrism,observation_dur,starttime,endtime,ra,dec,st_teff
+"LHS 1140 b","LHS 1140","Transit","GO 7073",21,"Archived","NASA 6.5m James Webb Space Telescope (JWST)","NIRISS","SOSS","N/A",7.04,"Aug 10, 2025 16:44:26","Aug 10, 2025 23:29:27",11.2486320,-15.2741085,3096.00
+"NGTS-11 b","NGTS-11","Transit","GO 7982",1,"Archived","NASA 6.5m James Webb Space Telescope (JWST)","NIRISS","SOSS","N/A",9.78,"Aug 9, 2026 21:40:43","Aug 10, 2026 06:46:44",23.5214497,-14.4191493,5050.00
+"LTT 1445 A c","LTT 1445 A","Transit","GO 7073",12,"Archived","NASA 6.5m James Webb Space Telescope (JWST)","NIRISS","SOSS","N/A",5.22,"Jan 20, 2026 23:50:40","Jan 21, 2026 05:01:28",45.4624781,-16.5944956,3340.00
+"LTT 1445 A c","LTT 1445 A","Transit","GO 7073",11,"Archived","NASA 6.5m James Webb Space Telescope (JWST)","NIRISS","SOSS","N/A",5.22,"Jan 27, 2026 06:14:25","Jan 27, 2026 10:59:06",45.4624781,-16.5944956,3340.00
+"55 Cnc e","55 Cnc","Transit","GO 12237",1,"Implementation","NASA 6.5m James Webb Space Telescope (JWST)","NIRISS","SOSS","N/A",6.40,"N/A","N/A",133.1468373,28.3298154,5172.00
+"55 Cnc e","55 Cnc","Eclipse","GO 9825",1,"Implementation","NASA 6.5m James Webb Space Telescope (JWST)","NIRISS","SOSS","N/A",7.56,"N/A","N/A",133.1468373,28.3298154,5172.00
+"55 Cnc e","55 Cnc","Eclipse","GO 9825",2,"On Hold (Inactive)","NASA 6.5m James Webb Space Telescope (JWST)","NIRISS","SOSS","N/A",7.56,"N/A","N/A",133.1468373,28.3298154,5172.00
+"55 Cnc e","55 Cnc","Eclipse","GO 9825",3,"On Hold (Inactive)","NASA 6.5m James Webb Space Telescope (JWST)","NIRISS","SOSS","N/A",7.56,"N/A","N/A",133.1468373,28.3298154,5172.00
+"55 Cnc e","55 Cnc","Eclipse","GO 9825",4,"On Hold (Inactive)","NASA 6.5m James Webb Space Telescope (JWST)","NIRISS","SOSS","N/A",7.56,"N/A","N/A",133.1468373,28.3298154,5172.00
+"55 Cnc e","55 Cnc","Eclipse","GO 9825",5,"On Hold (Inactive)","NASA 6.5m James Webb Space Telescope (JWST)","NIRISS","SOSS","N/A",7.56,"N/A","N/A",133.1468373,28.3298154,5172.00
+"WASP-131 b","WASP-131","Transit","GO 9709",9,"Implementation","NASA 6.5m James Webb Space Telescope (JWST)","NIRISS","SOSS","N/A",10.87,"N/A","N/A",210.1935714,-30.5836084,5990.00
+"WASP-139 b","WASP-139","Transit","GO 11779",11,"Implementation","NASA 6.5m James Webb Space Telescope (JWST)","NIRISS","SOSS","N/A",10.05,"N/A","N/A",49.5621730,-41.3020235,5310.00
+"TOI-2134 c","TOI-2134","Transit","GO 9709",4,"Implementation","NASA 6.5m James Webb Space Telescope (JWST)","NIRISS","SOSS","N/A",13.70,"N/A","N/A",271.9355015,39.0729269,4580.00
+"TOI-178 d","TOI-178","Transit","GO 10047",15,"Implementation","NASA 6.5m James Webb Space Telescope (JWST)","NIRISS","SOSS","N/A",9.52,"N/A","N/A",7.3020115,-30.4541159,4316.00
+"TOI-178 g","TOI-178","Transit","GO 10047",16,"Implementation","NASA 6.5m James Webb Space Telescope (JWST)","NIRISS","SOSS","N/A",9.12,"N/A","N/A",7.3020115,-30.4541159,4316.00
+"TOI-2374 b","TOI-2374","Transit","GO 11779",7,"Implementation","NASA 6.5m James Webb Space Telescope (JWST)","NIRISS","SOSS","N/A",7.57,"N/A","N/A",319.4982407,-22.0498228,5002.00
+"TOI-181 b","TOI-181","Transit","GO 11779",5,"Implementation","NASA 6.5m James Webb Space Telescope (JWST)","NIRISS","SOSS","N/A",8.73,"N/A","N/A",352.1725409,-34.4914099,4994.00
+"HIP 41378 f","HIP 41378","Transit","GO 11253",1,"Implementation","NASA 6.5m James Webb Space Telescope (JWST)","NIRISS","SOSS","N/A",39.20,"N/A","N/A",126.6158279,10.0803708,6290.00
+"KELT-4 A b","KELT-4 A","Transit","GO 9709",14,"Implementation","NASA 6.5m James Webb Space Telescope (JWST)","NIRISS","SOSS","N/A",9.83,"N/A","N/A",157.0626200,25.5731366,6206.00
+"V1298 Tau b","V1298 Tau","Transit","GO 11831",1,"Archived","NASA 6.5m James Webb Space Telescope (JWST)","NIRISS","SOSS","N/A",17.58,"Sep 7, 2026 19:13:56","Sep 8, 2026 09:57:46",61.3316540,20.1570318,4970.00
+"HD 110067 b","HD 110067","Transit","GO 10047",9,"Implementation","NASA 6.5m James Webb Space Telescope (JWST)","NIRISS","SOSS","N/A",11.29,"N/A","N/A",189.8392243,20.0273377,5266.00
+"HD 110067 d","HD 110067","Transit","GO 10047",11,"Implementation","NASA 6.5m James Webb Space Telescope (JWST)","NIRISS","SOSS","N/A",12.96,"N/A","N/A",189.8392243,20.0273377,5266.00
+"V1298 Tau e","V1298 Tau","Transit","GO 11831",2,"Flight Ready","NASA 6.5m James Webb Space Telescope (JWST)","NIRISS","SOSS","N/A",19.30,"N/A","N/A",61.3316540,20.1570318,4970.00
+"HD 209458 b","HD 209458","Transit","GO 9709",13,"Implementation","NASA 6.5m James Webb Space Telescope (JWST)","NIRISS","SOSS","N/A",9.25,"N/A","N/A",330.7950219,18.8842419,6091.00
+"TOI-1136 d","TOI-1136","Transit","GO 10047",5,"Implementation","NASA 6.5m James Webb Space Telescope (JWST)","NIRISS","SOSS","N/A",13.62,"N/A","N/A",192.1848981,64.8552755,5770.00
+"HD 63935 b","HD 63935","Transit","GO 11962",3,"Implementation","NASA 6.5m James Webb Space Telescope (JWST)","NIRISS","SOSS","N/A",10.78,"N/A","N/A",117.9246417,9.3852412,5513.00
+"TOI-1136 f","TOI-1136","Transit","GO 10047",7,"Implementation","NASA 6.5m James Webb Space Telescope (JWST)","NIRISS","SOSS","N/A",16.06,"N/A","N/A",192.1848981,64.8552755,5770.00
+"TOI-1173 b","TOI-1173","Transit","GO 9709",2,"Implementation","NASA 6.5m James Webb Space Telescope (JWST)","NIRISS","SOSS","N/A",8.00,"N/A","N/A",197.6830975,70.7680117,5350.00
+"TOI-6109 b","TOI-6109","Transit","GO 10047",1,"Implementation","NASA 6.5m James Webb Space Telescope (JWST)","NIRISS","SOSS","N/A",9.34,"N/A","N/A",50.1319206,42.6069564,5660.00
+"TOI-6109 c","TOI-6109","Transit","GO 10047",3,"Implementation","NASA 6.5m James Webb Space Telescope (JWST)","NIRISS","SOSS","N/A",10.03,"N/A","N/A",50.1319206,42.6069564,5660.00
+"TOI-1823 b","TOI-1823","Transit","GO 11779",14,"Implementation","NASA 6.5m James Webb Space Telescope (JWST)","NIRISS","SOSS","N/A",13.24,"N/A","N/A",196.2197201,63.7532610,4927.00
+"HD 110067 f","HD 110067","Transit","GO 10047",13,"Implementation","NASA 6.5m James Webb Space Telescope (JWST)","NIRISS","SOSS","N/A",16.09,"N/A","N/A",189.8392243,20.0273377,5266.00
+"KELT-11 b","KELT-11","Transit","GO 9709",8,"Implementation","NASA 6.5m James Webb Space Telescope (JWST)","NIRISS","SOSS","N/A",17.86,"N/A","N/A",161.7069053,-9.3993646,5375.00
+"HD 63935 c","HD 63935","Transit","GO 11962",4,"Implementation","NASA 6.5m James Webb Space Telescope (JWST)","NIRISS","SOSS","N/A",14.25,"N/A","N/A",117.9246417,9.3852412,5513.00
+"TOI-421 c","TOI-421","Transit","GO 11672",1,"Flight Ready","NASA 6.5m James Webb Space Telescope (JWST)","NIRISS","SOSS","N/A",9.58,"N/A","N/A",81.8532824,-14.2767404,5291.00
+"WASP-193 b","WASP-193","Transit","GO 9709",6,"Implementation","NASA 6.5m James Webb Space Telescope (JWST)","NIRISS","SOSS","N/A",12.00,"N/A","N/A",164.3491401,-29.9971229,6080.00
+"WASP-20 b","WASP-20","Transit","GO 9709",11,"Implementation","NASA 6.5m James Webb Space Telescope (JWST)","NIRISS","SOSS","N/A",9.19,"N/A","N/A",5.1605621,-23.9357894,5940.00
+"WASP-18 b","WASP-18","Transit","COM 1541",2,"Withdrawn","NASA 6.5m James Webb Space Telescope (JWST)","NIRISS","SOSS","N/A",7.05,"N/A","N/A",24.3544618,-45.6777937,6432.00
+"WASP-96 b","WASP-96","Transit","COM 2734",2,"Archived","NASA 6.5m James Webb Space Telescope (JWST)","NIRISS","SOSS","N/A",7.51,"Jun 21, 2022 02:41:18","Jun 21, 2022 10:48:41",1.0465696,-47.3606352,5540.00
+"K2-34 b","K2-34","Transit","COM 1541",3,"Withdrawn","NASA 6.5m James Webb Space Telescope (JWST)","NIRISS","SOSS","N/A",7.23,"N/A","N/A",127.5787231,22.2359194,6168.00
+"WASP-164 b","WASP-164","Transit","COM 1541",4,"Withdrawn","NASA 6.5m James Webb Space Telescope (JWST)","NIRISS","SOSS","N/A",7.38,"N/A","N/A",344.8735878,-60.4478194,5806.00
+"HAT-P-14 b","HAT-P-14","Transit","COM 1541",1,"Archived","NASA 6.5m James Webb Space Telescope (JWST)","NIRISS","SOSS","N/A",7.07,"Jun 8, 2022 05:44:06","Jun 8, 2022 13:24:53",260.1161719,38.2421682,6600.00
+"HAT-P-18 b","HAT-P-18","Transit","COM 2734",1,"Archived","NASA 6.5m James Webb Space Telescope (JWST)","NIRISS","SOSS","N/A",8.18,"Jun 13, 2022 03:11:52","Jun 13, 2022 11:59:06",256.3463760,33.0123251,4870.00
+"WASP-80 b","WASP-80","Eclipse","GTO 1201",7,"Archived","NASA 6.5m James Webb Space Telescope (JWST)","NIRISS","SOSS","N/A",6.97,"Oct 26, 2023 07:33:10","Oct 26, 2023 14:05:03",303.1667996,-2.1444369,4143.00
+"HAT-P-1 b","HAT-P-1","Eclipse","GTO 1201",4,"Archived","NASA 6.5m James Webb Space Telescope (JWST)","NIRISS","SOSS","N/A",8.37,"Jul 12, 2022 22:39:34","Jul 13, 2022 06:21:30",344.4453632,38.6749190,5980.00
+"HAT-P-1 b","HAT-P-1","Transit","GTO 1201",3,"Archived","NASA 6.5m James Webb Space Telescope (JWST)","NIRISS","SOSS","N/A",8.46,"Jul 20, 2023 19:52:28","Jul 21, 2023 03:06:14",344.4453632,38.6749190,5980.00
+"HAT-P-12 b","HAT-P-12","Transit","GTO 1281",3,"Archived","NASA 6.5m James Webb Space Telescope (JWST)","NIRISS","SOSS","N/A",8.25,"Jun 20, 2023 05:47:48","Jun 20, 2023 13:18:29",209.3886452,43.4933100,4650.00
+"WASP-121 b","WASP-121","PhaseC","GTO 1201",1,"Archived","NASA 6.5m James Webb Space Telescope (JWST)","NIRISS","SOSS","N/A",43.85,"Oct 26, 2023 16:33:55","Oct 28, 2023 06:45:13",107.6002312,-39.0972705,6628.00
+"WASP-127 b","WASP-127","Transit","GTO 1201",6,"Archived","NASA 6.5m James Webb Space Telescope (JWST)","NIRISS","SOSS","N/A",11.05,"Dec 3, 2023 07:14:12","Dec 3, 2023 16:29:22",160.5587646,-3.8349989,5620.00
+"LTT 9779 b","LTT 9779","PhaseC","GTO 1201",2,"Archived","NASA 6.5m James Webb Space Telescope (JWST)","NIRISS","SOSS","N/A",26.51,"Jul 7, 2022 00:10:15","Jul 7, 2022 23:30:21",358.6688767,-37.6282237,5443.00
+"WASP-166 b","WASP-166","Transit","GO 2062",4,"Archived","NASA 6.5m James Webb Space Telescope (JWST)","NIRISS","SOSS","N/A",11.50,"Dec 31, 2023 02:28:20","Dec 31, 2023 12:59:55",144.8751047,-20.9824191,6050.00
+"WASP-166 b","WASP-166","Transit","GO 2062",1,"Skipped","NASA 6.5m James Webb Space Telescope (JWST)","NIRISS","SOSS","N/A",11.52,"N/A","N/A",144.8751047,-20.9824191,6050.00
+"WASP-17 b","WASP-17","Transit","GTO 1353",1,"Failed - Archived","NASA 6.5m James Webb Space Telescope (JWST)","NIRISS","SOSS","N/A",12.72,"Feb 18, 2023 12:35:38","Feb 18, 2023 23:57:35",239.9622479,-28.0617941,6550.00
+"HAT-P-26 b","HAT-P-26","Transit","GTO 1312",1,"Archived","NASA 6.5m James Webb Space Telescope (JWST)","NIRISS","SOSS","N/A",8.07,"Jul 2, 2023 01:15:06","Jul 2, 2023 08:37:01",213.1565508,4.0594175,5079.00
+"TRAPPIST-1 f","TRAPPIST-1","Transit","GTO 1201",101,"Archived","NASA 6.5m James Webb Space Telescope (JWST)","NIRISS","SOSS","N/A",5.03,"Oct 28, 2022 08:59:03","Oct 28, 2022 13:48:06",346.6263919,-5.0434618,2566.00
+"TRAPPIST-1 f","TRAPPIST-1","Transit","GTO 1201",105,"Archived","NASA 6.5m James Webb Space Telescope (JWST)","NIRISS","SOSS","N/A",5.13,"Jun 15, 2023 12:35:02","Jun 15, 2023 17:24:06",346.6263919,-5.0434618,2566.00
+"TRAPPIST-1 f","TRAPPIST-1","Transit","GTO 1201",104,"Archived","NASA 6.5m James Webb Space Telescope (JWST)","NIRISS","SOSS","N/A",5.13,"Jun 24, 2023 18:37:49","Jun 24, 2023 22:54:08",346.6263919,-5.0434618,2566.00
+"TRAPPIST-1 f","TRAPPIST-1","Transit","GTO 1201",102,"Archived","NASA 6.5m James Webb Space Telescope (JWST)","NIRISS","SOSS","N/A",5.13,"Jul 3, 2023 23:08:18","Jul 4, 2023 03:16:46",346.6263919,-5.0434618,2566.00
+"TRAPPIST-1 f","TRAPPIST-1","Transit","GTO 1201",103,"Archived","NASA 6.5m James Webb Space Telescope (JWST)","NIRISS","SOSS","N/A",5.13,"Jul 22, 2023 09:05:11","Jul 22, 2023 13:25:36",346.6263919,-5.0434618,2566.00
+"WASP-107 b","WASP-107","Transit","GTO 1201",8,"Archived","NASA 6.5m James Webb Space Telescope (JWST)","NIRISS","SOSS","N/A",8.26,"Jun 11, 2023 18:55:22","Jun 12, 2023 02:26:05",188.3864277,-10.1462141,4425.00
+"K2-18 b","K2-18","Transit","GO 2722",3,"Archived","NASA 6.5m James Webb Space Telescope (JWST)","NIRISS","SOSS","N/A",6.94,"Jun 1, 2023 13:49:20","Jun 1, 2023 19:36:05",172.5601410,7.5878315,3457.00
+"TRAPPIST-1 c","TRAPPIST-1","Transit","GO 2589",4,"Archived","NASA 6.5m James Webb Space Telescope (JWST)","NIRISS","SOSS","N/A",6.76,"Oct 31, 2023 20:16:59","Nov 1, 2023 02:06:43",346.6263919,-5.0434618,2566.00
+"TOI-421 b","TOI-421","Transit","GO 1935",1,"Archived","NASA 6.5m James Webb Space Telescope (JWST)","NIRISS","SOSS","N/A",5.60,"Nov 6, 2023 13:31:05","Nov 6, 2023 18:52:39",81.8532824,-14.2767404,5291.00
+"TRAPPIST-1 c","TRAPPIST-1","Transit","GO 2589",3,"Archived","NASA 6.5m James Webb Space Telescope (JWST)","NIRISS","SOSS","N/A",6.67,"Oct 28, 2022 17:45:31","Oct 28, 2022 23:34:49",346.6263919,-5.0434618,2566.00
+"TRAPPIST-1 b","TRAPPIST-1","Transit","GO 2589",1,"Archived","NASA 6.5m James Webb Space Telescope (JWST)","NIRISS","SOSS","N/A",6.47,"Jul 18, 2022 12:44:20","Jul 18, 2022 18:48:37",346.6263919,-5.0434618,2566.00
+"TRAPPIST-1 b","TRAPPIST-1","Transit","GO 2589",2,"Archived","NASA 6.5m James Webb Space Telescope (JWST)","NIRISS","SOSS","N/A",6.47,"Jul 20, 2022 00:59:56","Jul 20, 2022 07:04:06",346.6263919,-5.0434618,2566.00
+"L 98-59 c","L 98-59","Transit","GTO 1201",301,"Failed - Archived","NASA 6.5m James Webb Space Telescope (JWST)","NIRISS","SOSS","N/A",5.44,"Dec 29, 2023 20:49:57","Dec 29, 2023 22:20:14",124.5328604,-68.3144658,3415.00
+"L 98-59 c","L 98-59","Transit","GTO 1201",302,"Archived","NASA 6.5m James Webb Space Telescope (JWST)","NIRISS","SOSS","N/A",5.44,"Mar 2, 2025 00:14:06","Mar 2, 2025 05:36:16",124.5328604,-68.3144658,3415.00
+"L 98-59 d","L 98-59","Transit","GTO 1201",311,"Archived","NASA 6.5m James Webb Space Telescope (JWST)","NIRISS","SOSS","N/A",4.99,"Dec 28, 2022 16:32:38","Dec 28, 2022 20:55:44",124.5328604,-68.3144658,3415.00
+"GJ 357 b","GJ 357","Transit","GTO 1201",201,"Archived","NASA 6.5m James Webb Space Telescope (JWST)","NIRISS","SOSS","N/A",5.78,"Nov 22, 2023 11:40:30","Nov 22, 2023 17:10:32",144.0074644,-21.6650634,3505.00
+"WASP-17 b","WASP-17","Transit","GTO 1353",101,"Archived","NASA 6.5m James Webb Space Telescope (JWST)","NIRISS","SOSS","N/A",12.72,"Mar 20, 2023 09:44:14","Mar 20, 2023 21:06:25",239.9622479,-28.0617941,6550.00
+"WASP-17 b","WASP-17","Eclipse","GTO 1353",2,"Archived","NASA 6.5m James Webb Space Telescope (JWST)","NIRISS","SOSS","N/A",12.72,"Mar 22, 2023 06:33:33","Mar 22, 2023 17:57:41",239.9622479,-28.0617941,6550.00
+"WASP-18 b","WASP-18","Eclipse","ERS 1366",21,"Archived","NASA 6.5m James Webb Space Telescope (JWST)","NIRISS","SOSS","N/A",8.81,"Aug 11, 2022 03:53:43","Aug 11, 2022 11:58:50",24.3544618,-45.6777937,6432.00
+"WASP-39 b","WASP-39","Transit","ERS 1366",1,"Archived","NASA 6.5m James Webb Space Telescope (JWST)","NIRISS","SOSS","N/A",10.67,"Jul 26, 2022 19:48:02","Jul 27, 2022 05:08:51",217.3266477,-3.4444994,5485.00
+"WASP-52 b","WASP-52","Transit","GTO 1201",5,"Skipped","NASA 6.5m James Webb Space Telescope (JWST)","NIRISS","SOSS","N/A",6.43,"N/A","N/A",348.4947931,8.7610793,5000.00
+"WASP-52 b","WASP-52","Transit","GTO 1201",501,"Archived","NASA 6.5m James Webb Space Telescope (JWST)","NIRISS","SOSS","N/A",6.12,"Nov 27, 2022 05:44:19","Nov 27, 2022 11:36:20",348.4947931,8.7610793,5000.00
+"WASP-63 b","WASP-63","Transit","GO 2113",5,"Archived","NASA 6.5m James Webb Space Telescope (JWST)","NIRISS","SOSS","N/A",13.80,"Sep 28, 2023 18:01:44","Sep 29, 2023 06:11:49",94.3363562,-38.3233826,5550.00
+"GJ 3090 b","GJ 3090","Transit","GO 4098",12,"Archived","NASA 6.5m James Webb Space Telescope (JWST)","NIRISS","SOSS","N/A",5.19,"Dec 6, 2023 04:30:14","Dec 6, 2023 09:34:58",20.4384281,-46.7147234,3707.00
+"GJ 3090 b","GJ 3090","Transit","GO 4098",11,"Skipped","NASA 6.5m James Webb Space Telescope (JWST)","NIRISS","SOSS","N/A",5.19,"N/A","N/A",20.4384281,-46.7147234,3707.00
+"WASP-189 b","WASP-189","Transit","GO 3279",1,"Archived","NASA 6.5m James Webb Space Telescope (JWST)","NIRISS","SOSS","N/A",13.19,"Mar 5, 2024 22:44:55","Mar 6, 2024 10:00:40",225.6867320,-3.0314874,8000.00
+"L 98-59 d","L 98-59","Transit","GO 4098",1,"Archived","NASA 6.5m James Webb Space Telescope (JWST)","NIRISS","SOSS","N/A",4.99,"Dec 28, 2023 17:54:17","Dec 28, 2023 22:48:19",124.5328604,-68.3144658,3415.00
+"LHS 1140 b","LHS 1140","Transit","DD 6543",2,"Archived","NASA 6.5m James Webb Space Telescope (JWST)","NIRISS","SOSS","N/A",7.88,"Dec 25, 2023 23:36:44","Dec 26, 2023 07:00:34",11.2486320,-15.2741085,3096.00
+"TOI-270 d","TOI-270","Transit","GO 3557",10,"Withdrawn","NASA 6.5m James Webb Space Telescope (JWST)","NIRISS","SOSS","N/A",6.33,"N/A","N/A",68.4160804,-51.9573937,3506.00
+"TOI-270 d","TOI-270","Transit","GO 4098",15,"Archived","NASA 6.5m James Webb Space Telescope (JWST)","NIRISS","SOSS","N/A",7.20,"Feb 6, 2024 06:29:19","Feb 6, 2024 13:17:57",68.4160804,-51.9573937,3506.00
+"TOI-270 d","TOI-270","Transit","GTO 2759",1,"Archived","NASA 6.5m James Webb Space Telescope (JWST)","NIRISS","SOSS","N/A",8.53,"Aug 6, 2024 08:37:54","Aug 6, 2024 16:01:47",68.4160804,-51.9573937,3506.00
+"LHS 1140 b","LHS 1140","Transit","DD 6543",1,"Archived","NASA 6.5m James Webb Space Telescope (JWST)","NIRISS","SOSS","N/A",7.88,"Dec 1, 2023 05:56:27","Dec 1, 2023 13:15:22",11.2486320,-15.2741085,3096.00
+"TOI-1130 c","TOI-1130","Transit","GO 3385",3,"Archived","NASA 6.5m James Webb Space Telescope (JWST)","NIRISS","SOSS","N/A",7.74,"Sep 7, 2024 21:26:04","Sep 8, 2024 04:47:01",286.3760037,-41.4376399,4360.00
+"TOI-1231 b","TOI-1231","Transit","GO 3557",1,"Archived","NASA 6.5m James Webb Space Telescope (JWST)","NIRISS","SOSS","N/A",7.66,"Jan 21, 2025 19:04:36","Jan 22, 2025 02:21:43",156.7472600,-52.4678724,3553.00
+"TOI-1685 b","TOI-1685","Transit","GO 4098",4,"Archived","NASA 6.5m James Webb Space Telescope (JWST)","NIRISS","SOSS","N/A",4.45,"Jan 16, 2025 04:08:53","Jan 16, 2025 08:39:47",68.5939529,43.0370395,3470.00
+"TOI-1685 b","TOI-1685","Transit","GO 4098",3,"Archived","NASA 6.5m James Webb Space Telescope (JWST)","NIRISS","SOSS","N/A",4.45,"Jan 15, 2025 12:05:17","Jan 15, 2025 16:36:07",68.5939529,43.0370395,3470.00
+"GJ 3090 b","GJ 3090","Transit","GO 4098",111,"Archived","NASA 6.5m James Webb Space Telescope (JWST)","NIRISS","SOSS","N/A",5.19,"Jul 4, 2024 07:27:13","Jul 4, 2024 12:36:15",20.4384281,-46.7147234,3707.00
+"TOI-1130 b","TOI-1130","Transit","GO 3385",4,"Archived","NASA 6.5m James Webb Space Telescope (JWST)","NIRISS","SOSS","N/A",8.07,"Aug 24, 2024 10:46:04","Aug 24, 2024 18:23:54",286.3760037,-41.4376399,4360.00
+"LTT 3780 c","LTT 3780","Transit","GO 3557",4,"Archived","NASA 6.5m James Webb Space Telescope (JWST)","NIRISS","SOSS","N/A",4.67,"Apr 20, 2024 19:04:33","Apr 20, 2024 23:37:32",154.6449033,-11.7178010,3358.00
+"TOI-1468 c","TOI-1468","Transit","GO 3557",7,"Archived","NASA 6.5m James Webb Space Telescope (JWST)","NIRISS","SOSS","N/A",5.44,"Dec 1, 2024 16:41:02","Dec 1, 2024 22:03:31",16.6538724,19.2249195,3376.00
+"GJ 9827 d","GJ 9827","Transit","GO 4098",8,"Archived","NASA 6.5m James Webb Space Telescope (JWST)","NIRISS","SOSS","N/A",5.07,"Nov 16, 2023 10:52:19","Nov 16, 2023 15:46:02",351.7717763,-1.2853435,4236.00
+"GJ 9827 d","GJ 9827","Transit","GO 4098",7,"Archived","NASA 6.5m James Webb Space Telescope (JWST)","NIRISS","SOSS","N/A",5.07,"Nov 10, 2023 07:33:42","Nov 10, 2023 11:55:03",351.7717763,-1.2853435,4236.00
+"GJ 486 b","GJ 486","Transit","GO 5866",2,"Archived","NASA 6.5m James Webb Space Telescope (JWST)","NIRISS","SOSS","N/A",5.22,"May 28, 2025 02:02:18","May 28, 2025 07:13:06",191.9815310,9.7494181,3317.00
+"GJ 486 b","GJ 486","Transit","GO 5866",3,"Archived","NASA 6.5m James Webb Space Telescope (JWST)","NIRISS","SOSS","N/A",5.22,"Jun 2, 2025 23:51:27","Jun 3, 2025 04:04:26",191.9815310,9.7494181,3317.00
+"HAT-P-30 b","HAT-P-30","Transit","GO 5924",6,"Archived","NASA 6.5m James Webb Space Telescope (JWST)","NIRISS","SOSS","N/A",7.47,"Mar 30, 2025 23:48:53","Mar 31, 2025 06:57:48",123.9498431,5.8368669,6304.00
+"V1298 Tau d","V1298 Tau","Transit","GO 5959",4,"Archived","NASA 6.5m James Webb Space Telescope (JWST)","NIRISS","SOSS","N/A",13.90,"Oct 5, 2025 07:36:36","Oct 5, 2025 20:15:56",61.3316540,20.1570318,4970.00
+"V1298 Tau d","V1298 Tau","Transit","GO 5959",17,"Archived","NASA 6.5m James Webb Space Telescope (JWST)","NIRISS","SOSS","N/A",14.90,"Sep 10, 2025 14:40:27","Sep 11, 2025 03:20:28",61.3316540,20.1570318,4970.00
+"V1298 Tau c","V1298 Tau","Transit","GO 5959",2,"Archived","NASA 6.5m James Webb Space Telescope (JWST)","NIRISS","SOSS","N/A",12.28,"Sep 6, 2025 00:30:18","Sep 6, 2025 11:46:19",61.3316540,20.1570318,4970.00
+"Kepler-167 e","Kepler-167","Transit","GO 5531",1,"Withdrawn","NASA 6.5m James Webb Space Telescope (JWST)","NIRISS","SOSS","N/A",39.26,"N/A","N/A",292.6585253,38.3455558,4884.00
+"KELT-7 b","KELT-7","Transit","GO 5924",7,"Archived","NASA 6.5m James Webb Space Telescope (JWST)","NIRISS","SOSS","N/A",9.84,"Feb 15, 2025 21:56:11","Feb 16, 2025 06:56:44",78.2955912,33.3179532,6768.00
+"TOI-700 d","TOI-700","Transit","GO 6193",1,"Archived","NASA 6.5m James Webb Space Telescope (JWST)","NIRISS","SOSS","N/A",11.65,"Mar 28, 2025 06:35:47","Mar 28, 2025 16:56:36",97.0957165,-65.5786149,3459.00
+"TOI-700 e","TOI-700","Transit","GO 6193",2,"Archived","NASA 6.5m James Webb Space Telescope (JWST)","NIRISS","SOSS","N/A",10.81,"Apr 6, 2025 17:09:31","Apr 7, 2025 02:38:46",97.0957165,-65.5786149,3459.00
+"TOI-451 d","TOI-451","Transit","GO 5959",8,"Archived","NASA 6.5m James Webb Space Telescope (JWST)","NIRISS","SOSS","N/A",9.92,"Dec 30, 2024 06:14:42","Dec 30, 2024 15:28:30",62.9663850,-37.9397300,5490.00
+"TOI-4336 A b","TOI-4336 A","Transit","GO 4711",1,"Archived","NASA 6.5m James Webb Space Telescope (JWST)","NIRISS","SOSS","N/A",8.59,"Jun 28, 2025 03:57:34","Jun 28, 2025 11:24:50",206.1070129,-40.3373505,3307.00
+"TOI-451 c","TOI-451","Transit","GO 5959",6,"Archived","NASA 6.5m James Webb Space Telescope (JWST)","NIRISS","SOSS","N/A",9.00,"Jan 25, 2025 00:41:41","Jan 25, 2025 08:54:18",62.9663850,-37.9397300,5490.00
+"TOI-3884 b","TOI-3884","Transit","GO 5863",1,"Archived","NASA 6.5m James Webb Space Telescope (JWST)","NIRISS","SOSS","N/A",6.19,"Dec 16, 2024 03:30:48","Dec 16, 2024 09:31:52",181.5718341,12.5070258,3180.00
+"TOI-3884 b","TOI-3884","Transit","GO 5799",1,"Archived","NASA 6.5m James Webb Space Telescope (JWST)","NIRISS","SOSS","N/A",7.30,"Jun 2, 2025 06:45:50","Jun 2, 2025 13:43:39",181.5718341,12.5070258,3180.00
+"TOI-3884 b","TOI-3884","Transit","GO 5799",2,"Archived","NASA 6.5m James Webb Space Telescope (JWST)","NIRISS","SOSS","N/A",7.30,"Jun 15, 2025 22:11:04","Jun 16, 2025 04:58:13",181.5718341,12.5070258,3180.00
+"TOI-3884 b","TOI-3884","Transit","GO 5863",3,"Archived","NASA 6.5m James Webb Space Telescope (JWST)","NIRISS","SOSS","N/A",6.19,"Dec 25, 2024 06:48:03","Dec 25, 2024 12:26:52",181.5718341,12.5070258,3180.00
+"TOI-2076 b","TOI-2076","Transit","GO 5959",10,"Archived","NASA 6.5m James Webb Space Telescope (JWST)","NIRISS","SOSS","N/A",8.89,"Apr 17, 2025 23:17:04","Apr 18, 2025 07:37:46",217.3920159,39.7903991,5187.00
+"TOI-2076 c","TOI-2076","Transit","GO 5959",12,"Archived","NASA 6.5m James Webb Space Telescope (JWST)","NIRISS","SOSS","N/A",10.05,"Jun 23, 2025 11:51:23","Jun 23, 2025 20:53:57",217.3920159,39.7903991,5187.00
+"TOI-2076 d","TOI-2076","Transit","GO 5959",14,"Archived","NASA 6.5m James Webb Space Telescope (JWST)","NIRISS","SOSS","N/A",8.89,"Jan 18, 2025 20:04:38","Jan 19, 2025 04:25:28",217.3920159,39.7903991,5187.00
+"WASP-94 A b","WASP-94 A","Transit","GO 5924",4,"Archived","NASA 6.5m James Webb Space Telescope (JWST)","NIRISS","SOSS","N/A",11.51,"Oct 11, 2024 22:36:23","Oct 12, 2024 09:12:22",313.7832393,-34.1357512,6170.00
+"WASP-76 b","WASP-76","Transit","GO 5924",14,"Archived","NASA 6.5m James Webb Space Telescope (JWST)","NIRISS","SOSS","N/A",9.88,"Aug 21, 2025 17:22:40","Aug 22, 2025 02:35:06",26.6329360,2.7003890,6329.00
+"WASP-69 b","WASP-69","Transit","GO 5924",2,"Archived","NASA 6.5m James Webb Space Telescope (JWST)","NIRISS","SOSS","N/A",7.03,"May 4, 2025 22:24:35","May 5, 2025 05:09:17",315.0259661,-5.0948570,4792.00
+"NGTS-2 b","NGTS-2","Transit","GO 5924",5,"Archived","NASA 6.5m James Webb Space Telescope (JWST)","NIRISS","SOSS","N/A",11.86,"Jun 27, 2025 00:26:44","Jun 27, 2025 10:56:32",215.1227617,-31.2020698,6478.00
+"GJ 486 b","GJ 486","Transit","GO 5866",1,"Archived","NASA 6.5m James Webb Space Telescope (JWST)","NIRISS","SOSS","N/A",5.22,"Jun 1, 2025 12:29:38","Jun 1, 2025 16:52:12",191.9815310,9.7494181,3317.00
+"HAT-P-11 b","HAT-P-11","Transit","GO 5924",1,"Archived","NASA 6.5m James Webb Space Telescope (JWST)","NIRISS","SOSS","N/A",7.78,"Aug 8, 2025 18:53:57","Aug 9, 2025 02:17:28",297.7101763,48.0818635,4653.00
+"WASP-80 b","WASP-80","Transit","GO 5924",3,"Archived","NASA 6.5m James Webb Space Telescope (JWST)","NIRISS","SOSS","N/A",7.25,"Oct 20, 2024 19:27:30","Oct 21, 2024 01:51:39",303.1667996,-2.1444369,4143.00
+"LTT 1445 A b","LTT 1445 A","Transit","GO 7073",1,"Archived","NASA 6.5m James Webb Space Telescope (JWST)","NIRISS","SOSS","N/A",6.22,"Jan 24, 2026 14:54:59","Jan 24, 2026 20:58:14",45.4624781,-16.5944956,3562.00
+"LHS 1140 c","LHS 1140","Transit","GO 7073",31,"Archived","NASA 6.5m James Webb Space Telescope (JWST)","NIRISS","SOSS","N/A",6.00,"Jul 26, 2025 01:27:53","Jul 26, 2025 07:19:42",11.2486320,-15.2741085,3096.00
+"LTT 1445 A b","LTT 1445 A","Transit","GO 7073",2,"Archived","NASA 6.5m James Webb Space Telescope (JWST)","NIRISS","SOSS","N/A",6.22,"Jan 30, 2026 00:05:58","Jan 30, 2026 05:34:55",45.4624781,-16.5944956,3562.00
+"TOI-1801 b","TOI-1801","Transit","GO 6932",5,"Archived","NASA 6.5m James Webb Space Telescope (JWST)","NIRISS","SOSS","N/A",7.89,"May 10, 2026 00:05:00","May 10, 2026 07:21:18",175.5755995,23.0270335,3863.00
+"TOI-1801 b","TOI-1801","Transit","GO 6932",3,"Archived","NASA 6.5m James Webb Space Telescope (JWST)","NIRISS","SOSS","N/A",7.89,"Jan 12, 2026 21:38:33","Jan 13, 2026 04:55:55",175.5755995,23.0270335,3863.00
+"TOI-1801 b","TOI-1801","Transit","GO 6932",1,"Archived","NASA 6.5m James Webb Space Telescope (JWST)","NIRISS","SOSS","N/A",7.89,"Jan 23, 2026 13:16:32","Jan 23, 2026 20:45:06",175.5755995,23.0270335,3863.00
+"TOI-674 b","TOI-674","Transit","GO 9095",2,"Archived","NASA 6.5m James Webb Space Telescope (JWST)","NIRISS","SOSS","N/A",4.99,"May 9, 2026 13:48:57","May 9, 2026 18:12:19",164.5865592,-36.8581092,3514.00
+"LHS 1140 b","LHS 1140","Transit","GO 7073",22,"Archived","NASA 6.5m James Webb Space Telescope (JWST)","NIRISS","SOSS","N/A",7.05,"Jul 23, 2026 00:29:03","Jul 23, 2026 07:14:04",11.2486320,-15.2741085,3096.00
+"LHS 1140 b","LHS 1140","Transit","GO 7073",23,"Flight Ready","NASA 6.5m James Webb Space Telescope (JWST)","NIRISS","SOSS","N/A",7.05,"N/A","N/A",11.2486320,-15.2741085,3096.00
+"TOI-1420 b","TOI-1420","Transit","GO 9101",8,"Implementation","NASA 6.5m James Webb Space Telescope (JWST)","NIRISS","SOSS","N/A",10.32,"N/A","N/A",322.9418092,66.3490054,5510.00
+"HAT-P-13 b","HAT-P-13","Transit","GO 8233",1,"Archived","NASA 6.5m James Webb Space Telescope (JWST)","NIRISS","SOSS","N/A",9.81,"Mar 14, 2026 06:21:58","Mar 14, 2026 15:30:40",129.8823772,47.3519076,5653.00
+"KELT-9 b","KELT-9","PhaseC","GO 7255",2,"Flight Ready","NASA 6.5m James Webb Space Telescope (JWST)","NIRISS","SOSS","N/A",24.91,"N/A","N/A",307.8598998,39.9389161,9270.00
+"KELT-9 b","KELT-9","PhaseC","GO 7255",1,"Flight Ready","NASA 6.5m James Webb Space Telescope (JWST)","NIRISS","SOSS","N/A",27.25,"N/A","N/A",307.8598998,39.9389161,9270.00
+"IRAS 04125+2902 b","IRAS 04125+2902","Transit","GO 8597",1,"Implementation","NASA 6.5m James Webb Space Telescope (JWST)","NIRISS","SOSS","N/A",20.57,"N/A","N/A",63.9283394,29.1665420,4080.00

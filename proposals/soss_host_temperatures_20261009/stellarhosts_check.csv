@@ -1,0 +1,153 @@
+hostname,st_teff,st_tefferr1,st_tefferr2,st_refname,st_spectype
+"HAT-P-14",6727.61,149.37,-98.09,"<a refstr=STASSUN_ET_AL__2019 href=https://ui.adsabs.harvard.edu/abs/2019AJ....158..138S/abstract target=ref>TICv8</a>",
+"HAT-P-14",6383.00,276.90,-96.86,"<a refstr=GAIA_COLLABORATION_ET_AL__2018 href=https://ui.adsabs.harvard.edu/abs/2018A&A...616A...1G/abstract target=ref>Gaia DR2</a>",
+"HAT-P-14",6727.60,123.70,-123.70,"<a refstr=EXOFOP href=https://exofop.ipac.caltech.edu/tess/view_toi.php target=ref>ExoFOP</a>",
+"HAT-P-14",6845.00,108.00,-108.00,"<a refstr=SOUSA_ET_AL__2015 href=https://ui.adsabs.harvard.edu/abs/2015A&A...576A..94S/abstract target=ref>Sousa et al. 2015</a>",
+"HAT-P-14",6600.00,90.00,-90.00,"<a refstr=SOUTHWORTH_2012 href=https://ui.adsabs.harvard.edu/abs/2012MNRAS.426.1291S/abstract target=ref>Southworth 2012</a>",
+"HAT-P-14",6600.00,,,"<a refstr=NASCIMBENI_ET_AL__2011 href=https://ui.adsabs.harvard.edu/abs/2011A%26A...527A..85N/abstract target=ref> Nascimbeni et al. 2011 </a>",
+"HAT-P-14",6600.00,90.00,-90.00,"<a refstr=TORRES_ET_AL__2010 href=https://ui.adsabs.harvard.edu/abs/2010ApJ...715..458T/abstract target=ref> Torres et al. 2010 </a>","F"
+"HAT-P-14",6600.00,90.00,-90.00,"<a refstr=STASSUN_ET_AL__2017 href=https://ui.adsabs.harvard.edu/abs/2017AJ....153..136S/abstract target=ref>Stassun et al. 2017</a>",
+"HAT-P-14",6583.00,100.00,-100.00,"<a refstr=SIMPSON_ET_AL__2011 href=https://ui.adsabs.harvard.edu/abs/2011AJ....141..161S/abstract target=ref> Simpson et al. 2011 </a>","F5 V"
+"HAT-P-14",6600.00,90.00,-90.00,"<a refstr=BONOMO_ET_AL__2017 href=https://ui.adsabs.harvard.edu/abs/2017A&A...602A.107B/abstract target=ref>Bonomo et al. 2017</a>",
+"HAT-P-14",,,,"<a refstr=KNUTSON_ET_AL__2014 href=https://ui.adsabs.harvard.edu/abs/2014ApJ...785..126K/abstract target=ref> Knutson et al. 2014 </a>",
+"HAT-P-14",,,,"<a refstr=WINN_ET_AL__2011 href=https://ui.adsabs.harvard.edu/abs/2011AJ....141...63W/abstract target=ref>Winn et al. 2011</a>",
+"HAT-P-18",,,,"<a refstr=YEE__VISSAPRAGADA_2026 href=https://ui.adsabs.harvard.edu/abs/2026ApJ..1000L..54Y/abstract target=ref>Yee &amp; Vissapragada 2026</a>",
+"HAT-P-18",4803.00,80.00,-80.00,"<a refstr=BONOMO_ET_AL__2017 href=https://ui.adsabs.harvard.edu/abs/2017A&A...602A.107B/abstract target=ref>Bonomo et al. 2017</a>",
+"HAT-P-18",,,,"<a refstr=KNUTSON_ET_AL__2014 href=https://ui.adsabs.harvard.edu/abs/2014ApJ...785..126K/abstract target=ref> Knutson et al. 2014 </a>",
+"HAT-P-18",4803.00,80.00,-80.00,"<a refstr=HARTMAN_ET_AL__2011 href=https://ui.adsabs.harvard.edu/abs/2011ApJ...726...52H/abstract target=ref> Hartman et al. 2011 </a>","K2"
+"HAT-P-18",4790.00,107.64,-127.61,"<a refstr=STASSUN_ET_AL__2019 href=https://ui.adsabs.harvard.edu/abs/2019AJ....158..138S/abstract target=ref>TICv8</a>",
+"HAT-P-18",4790.00,117.62,-117.62,"<a refstr=EXOFOP href=https://exofop.ipac.caltech.edu/tess/view_toi.php target=ref>ExoFOP</a>",
+"HAT-P-18",4804.17,146.48,-49.11,"<a refstr=GAIA_COLLABORATION_ET_AL__2018 href=https://ui.adsabs.harvard.edu/abs/2018A&A...616A...1G/abstract target=ref>Gaia DR2</a>",
+"HAT-P-18",4870.00,50.00,-50.00,"<a refstr=ESPOSITO_ET_AL__2014 href=https://ui.adsabs.harvard.edu/abs/2014A&A...564L..13E/abstract target=ref>Esposito et al. 2014</a>",
+"HAT-P-26",,,,"<a refstr=KNUTSON_ET_AL__2014 href=https://ui.adsabs.harvard.edu/abs/2014ApJ...785..126K/abstract target=ref> Knutson et al. 2014 </a>",
+"HAT-P-26",5079.00,88.00,-88.00,"<a refstr=HARTMAN_ET_AL__2011 href=https://ui.adsabs.harvard.edu/abs/2011ApJ...728..138H/abstract target=ref>Hartman et al. 2011</a>","K1"
+"HAT-P-26",5061.90,137.56,-87.04,"<a refstr=STASSUN_ET_AL__2019 href=https://ui.adsabs.harvard.edu/abs/2019AJ....158..138S/abstract target=ref>TICv8</a>",
+"HAT-P-26",5046.65,66.92,-85.65,"<a refstr=GAIA_COLLABORATION_ET_AL__2018 href=https://ui.adsabs.harvard.edu/abs/2018A&A...616A...1G/abstract target=ref>Gaia DR2</a>",
+"HAT-P-26",5061.90,112.30,-112.30,"<a refstr=EXOFOP href=https://exofop.ipac.caltech.edu/tess/view_toi.php target=ref>ExoFOP</a>",
+"HAT-P-26",5100.00,20.00,-20.00,"<a refstr=MANCINI_ET_AL__2022 href=https://ui.adsabs.harvard.edu/abs/2022A&A...664A.162M/abstract target=ref>Mancini et al. 2022</a>",
+"HAT-P-26",5011.00,55.00,-55.00,"<a refstr=MORTIER_ET_AL__2013 href=https://ui.adsabs.harvard.edu/abs/2013A%26A...558A.106M/abstract target=ref> Mortier et al. 2013 </a>",
+"HAT-P-26",5079.00,88.00,-88.00,"<a refstr=STASSUN_ET_AL__2017 href=https://ui.adsabs.harvard.edu/abs/2017AJ....153..136S/abstract target=ref>Stassun et al. 2017</a>",
+"HIP 41378",6290.00,77.00,-77.00,"<a refstr=LUND_ET_AL_2019 href=https://ui.adsabs.harvard.edu/abs/2019AJ....158..248L/abstract target=ref>Lund et al. 2019</a>",
+"HIP 41378",6169.00,263.00,-159.17,"<a refstr=GAIA_COLLABORATION_ET_AL__2018 href=https://ui.adsabs.harvard.edu/abs/2018A&A...616A...1G/abstract target=ref>Gaia DR2</a>",
+"HIP 41378",6320.00,60.00,-30.00,"<a refstr=HOWARD_ET_AL__2025 href=https://ui.adsabs.harvard.edu/abs/2025ApJS..278...52H/abstract target=ref>Howard et al. 2025</a>",
+"HIP 41378",6199.00,50.00,-50.00,"<a refstr=VANDERBURG_ET_AL__2016 href=https://ui.adsabs.harvard.edu/abs/2016ApJ...827L..10V/abstract target=ref>Vanderburg et al. 2016</a>",
+"HIP 41378",,,,"<a refstr=GROUFFAL_ET_AL_2022 href=https://ui.adsabs.harvard.edu/abs/2022A&A...668A.172G/abstract target=ref>Grouffal et al. 2022</a>",
+"HIP 41378",,,,"<a refstr=LUO_ET_AL__2018 href=http://vizier.u-strasbg.fr/viz-bin/VizieR-3?-source=V/153/stellar4 target=ref>Luo et al. 2018</a>","F6"
+"HIP 41378",6226.00,43.00,-43.00,"<a refstr=BERARDO_ET_AL__2019 href=https://ui.adsabs.harvard.edu/abs/2019AJ....157..185B/abstract target=ref>Berardo et al. 2019</a>",
+"HIP 41378",6199.00,50.00,-50.00,"<a refstr=BECKER_ET_AL__2019 href=https://ui.adsabs.harvard.edu/abs/2019AJ....157...19B/abstract target=ref>Becker et al. 2019</a>",
+"HIP 41378",6371.00,65.00,-65.00,"<a refstr=LEONARDI_ET_AL_2025 href=https://ui.adsabs.harvard.edu/abs/2025A&A...702A.211L/abstract target=ref>Leonardi et al. 2025</a>",
+"HIP 41378",,,,"<a refstr=GROUFFAL_ET_AL_2025 href=https://ui.adsabs.harvard.edu/abs/2025A&A...701A.173G/abstract target=ref>Grouffal et al. 2025</a>",
+"HIP 41378",6352.33,149.65,-149.65,"<a refstr=EXOFOP href=https://exofop.ipac.caltech.edu/tess/view_toi.php target=ref>ExoFOP</a>",
+"HIP 41378",6352.33,163.20,-136.11,"<a refstr=STASSUN_ET_AL__2019 href=https://ui.adsabs.harvard.edu/abs/2019AJ....158..138S/abstract target=ref>TICv8</a>",
+"HIP 41378",6352.33,149.65,-149.65,"<a refstr=EXOFOP href=https://exofop.ipac.caltech.edu/tess/view_toi.php target=ref>ExoFOP</a>",
+"K2-18",3457.00,39.00,-39.00,"<a refstr=BENNEKE_ET_AL__2017 href=https://ui.adsabs.harvard.edu/abs/2017ApJ...834..187B/abstract target=ref>Benneke et al. 2017</a>","M2.5 V"
+"K2-18",,,,"<a refstr=KRUSE_ET_AL__2019 href=https://ui.adsabs.harvard.edu/abs/2019ApJS..244...11K/abstract target=ref>Kruse et al. 2019</a>",
+"K2-18",3856.18,289.60,-245.18,"<a refstr=GAIA_COLLABORATION_ET_AL__2018 href=https://ui.adsabs.harvard.edu/abs/2018A&A...616A...1G/abstract target=ref>Gaia DR2</a>",
+"K2-18",3457.00,39.00,-39.00,"<a refstr=CLOUTIER_ET_AL__2017 href=https://ui.adsabs.harvard.edu/abs/2017A&A...608A..35C/abstract target=ref>Cloutier et al. 2017</a>",
+"K2-18",3503.00,60.00,-60.00,"<a refstr=MONTET_ET_AL__2015 href=https://ui.adsabs.harvard.edu/abs/2015ApJ...809...25M/abstract target=ref>Montet et al. 2015</a>",
+"K2-18",3457.00,39.00,-39.00,"<a refstr=BENNEKE_ET_AL__2019 href=https://ui.adsabs.harvard.edu/abs/2019ApJ...887L..14B/abstract target=ref>Benneke et al. 2019</a>",
+"K2-18",3449.00,70.00,-70.00,"<a refstr=HOWARD_ET_AL__2025 href=https://ui.adsabs.harvard.edu/abs/2025ApJS..278...52H/abstract target=ref>Howard et al. 2025</a>",
+"K2-18",3464.00,157.00,-157.00,"<a refstr=STASSUN_ET_AL__2019 href=https://ui.adsabs.harvard.edu/abs/2019AJ....158..138S/abstract target=ref>TICv8</a>",
+"K2-18",3440.00,,,"<a refstr=VANDERBURG_ET_AL__2016 href=https://ui.adsabs.harvard.edu/abs/2016ApJS..222...14V/abstract target=ref>Vanderburg et al. 2016</a>",
+"K2-18",,,,"<a refstr=BARROS_ET_AL__2016 href=https://ui.adsabs.harvard.edu/abs/2016A&A...594A.100B/abstract target=ref>Barros et al. 2016</a>",
+"K2-18",3457.00,39.00,-39.00,"<a refstr=SARKIS_ET_AL__2018 href=https://ui.adsabs.harvard.edu/abs/2018AJ....155..257S/abstract target=ref>Sarkis et al. 2018</a>",
+"K2-18",3496.00,91.00,-91.00,"<a refstr=CROSSFIELD_ET_AL__2016 href=https://ui.adsabs.harvard.edu/abs/2016ApJS..226....7C/abstract target=ref>Crossfield et al. 2016</a>",
+"K2-18",3464.00,157.00,-157.00,"<a refstr=EXOFOP href=https://exofop.ipac.caltech.edu/tess/view_toi.php target=ref>ExoFOP</a>",
+"KELT-7",6789.00,50.00,-49.00,"<a refstr=BIERYLA_ET_AL__2015 href=https://ui.adsabs.harvard.edu/abs/2015AJ....150...12B/abstract target=ref>Bieryla et al. 2015</a>","F"
+"KELT-7",6768.00,7.00,-7.00,"<a refstr=STASSUN_ET_AL__2017 href=https://ui.adsabs.harvard.edu/abs/2017AJ....153..136S/abstract target=ref>Stassun et al. 2017</a>",
+"KELT-7",6767.90,115.70,-115.70,"<a refstr=EXOFOP href=https://exofop.ipac.caltech.edu/tess/view_toi.php target=ref>ExoFOP</a>",
+"KELT-7",6498.31,107.79,-60.64,"<a refstr=GAIA_COLLABORATION_ET_AL__2018 href=https://ui.adsabs.harvard.edu/abs/2018A&A...616A...1G/abstract target=ref>Gaia DR2</a>",
+"KELT-7",6513.00,49.00,-53.00,"<a refstr=ZHOU_ET_AL__2016 href=https://ui.adsabs.harvard.edu/abs/2016MNRAS.460.3376Z/abstract target=ref>Zhou et al. 2016</a>",
+"KELT-7",6767.92,106.80,-124.68,"<a refstr=STASSUN_ET_AL__2019 href=https://ui.adsabs.harvard.edu/abs/2019AJ....158..138S/abstract target=ref>TICv8</a>",
+"KELT-7",,,,"<a refstr=NORDSTROM_ET_AL__2004 href=https://ui.adsabs.harvard.edu/abs/2004A&A...418..989N/abstract target=ref> Nordstrom et al. 2004 </a>",
+"KELT-7",,,,"<a refstr=CANNON___PICKERING_1918 href=https://ui.adsabs.harvard.edu/abs/1918AnHar..91....1C/abstract target=ref> Cannon & Pickering 1918</a>","F2"
+"KELT-9",10170.00,450.00,-450.00,"<a refstr=GAUDI_ET_AL__2017 href=https://ui.adsabs.harvard.edu/abs/2017Natur.546..514G/abstract target=ref>Gaudi et al. 2017</a>","B9.5-A0"
+"KELT-9",,,,"<a refstr=HOEIJMAKERS_ET_AL__2019 href=https://ui.adsabs.harvard.edu/abs/2019A&A...627A.165H/abstract target=ref>Hoeijmakers et al. 2019</a>",
+"KELT-9",,,,"<a refstr=CANNON___PICKERING_1918 href=https://ui.adsabs.harvard.edu/abs/1918AnHar..91....1C/abstract target=ref> Cannon & Pickering 1918</a>","A0"
+"KELT-9",9270.00,240.00,-180.00,"<a refstr=BORSA_ET_AL_2019 href=https://ui.adsabs.harvard.edu/abs/2019A&A...631A..34B/abstract target=ref>Borsa et al. 2019</a>","A"
+"KELT-9",9550.00,193.70,-130.60,"<a refstr=STASSUN_ET_AL__2019 href=https://ui.adsabs.harvard.edu/abs/2019AJ....158..138S/abstract target=ref>TICv8</a>",
+"KELT-9",9435.00,174.10,-174.10,"<a refstr=EXOFOP href=https://exofop.ipac.caltech.edu/tess/view_toi.php target=ref>ExoFOP</a>",
+"KELT-9",9435.00,121.67,-249.00,"<a refstr=GAIA_COLLABORATION_ET_AL__2018 href=https://ui.adsabs.harvard.edu/abs/2018A&A...616A...1G/abstract target=ref>Gaia DR2</a>",
+"LTT 9779",5374.00,124.39,-124.39,"<a refstr=STASSUN_ET_AL__2019 href=https://ui.adsabs.harvard.edu/abs/2019AJ....158..138S/abstract target=ref>TICv8</a>",
+"LTT 9779",5339.00,137.00,-120.00,"<a refstr=GAIA_COLLABORATION_ET_AL__2018 href=https://ui.adsabs.harvard.edu/abs/2018A&A...616A...1G/abstract target=ref>Gaia DR2</a>",
+"LTT 9779",5480.00,42.00,-42.00,"<a refstr=EDWARDS_ET_AL_2023 href=https://ui.adsabs.harvard.edu/abs/2023AJ....166..158E/abstract target=ref>Edwards et al. 2023</a>",
+"LTT 9779",5422.00,185.00,-185.00,"<a refstr=EXOFOP href=https://exofop.ipac.caltech.edu/tess/view_toi.php target=ref>ExoFOP</a>",
+"LTT 9779",5443.00,14.00,-13.00,"<a refstr=JENKINS_ET_AL_2020 href=https://ui.adsabs.harvard.edu/abs/2020NatAs...4.1148J/abstract target=ref>Jenkins et al. 2020</a>","G7 V"
+"NGTS-11",5050.00,80.00,-80.00,"<a refstr=GILL_ET_AL__2020 href=https://ui.adsabs.harvard.edu/abs/2020ApJ...898L..11G/abstract target=ref>Gill et al. 2020</a>","K"
+"NGTS-11",5076.00,127.70,-127.70,"<a refstr=EXOFOP href=https://exofop.ipac.caltech.edu/tess/view_toi.php target=ref>ExoFOP</a>",
+"NGTS-11",5076.00,154.49,-100.98,"<a refstr=STASSUN_ET_AL__2019 href=https://ui.adsabs.harvard.edu/abs/2019AJ....158..138S/abstract target=ref>TICv8</a>",
+"NGTS-11",5076.00,127.70,-127.70,"<a refstr=EXOFOP href=https://exofop.ipac.caltech.edu/tess/view_toi.php target=ref>ExoFOP</a>",
+"NGTS-11",4983.50,92.70,-45.00,"<a refstr=GAIA_COLLABORATION_ET_AL__2018 href=https://ui.adsabs.harvard.edu/abs/2018A&A...616A...1G/abstract target=ref>Gaia DR2</a>",
+"TOI-1685",,,,"<a refstr=LUQUE_ET_AL__2025 href=https://ui.adsabs.harvard.edu/abs/2025AJ....170...49L/abstract target=ref>Luque et al. 2025</a>","M2.5 V"
+"TOI-1685",,,,"<a refstr=FISHER_ET_AL_2026 href=https://ui.adsabs.harvard.edu/abs/2026MNRAS.545f2187F/abstract target=ref>Fisher et al. 2026</a>","M2.5 V"
+"TOI-1685",3434.00,51.00,-51.00,"<a refstr=BLUHM_ET_AL__2021 href=https://ui.adsabs.harvard.edu/abs/2021A&A...650A..78B/abstract target=ref>Bluhm et al. 2021</a>","M3.0 V"
+"TOI-1685",3457.00,157.00,-157.00,"<a refstr=STASSUN_ET_AL__2019 href=https://ui.adsabs.harvard.edu/abs/2019AJ....158..138S/abstract target=ref>TICv8</a>",
+"TOI-1685",3457.00,157.00,-157.00,"<a refstr=EXOFOP href=https://exofop.ipac.caltech.edu/tess/view_toi.php target=ref>ExoFOP</a>",
+"TOI-1685",3461.00,70.00,-70.00,"<a refstr=HIRANO_ET_AL__2021 href=https://ui.adsabs.harvard.edu/abs/2021AJ....162..161H/abstract target=ref>Hirano et al. 2021</a>",
+"TOI-1685",3575.00,53.00,-53.00,"<a refstr=BURT_ET_AL_2024 href=https://ui.adsabs.harvard.edu/abs/2024ApJ...971L..12B/abstract target=ref>Burt et al. 2024</a>","M2.65 V"
+"TOI-1685",3470.00,102.00,-102.00,"<a refstr=EGGER_ET_AL__2025 href=https://ui.adsabs.harvard.edu/abs/2025A&A...696A..28E/abstract target=ref>Egger et al. 2025</a>","M3 V"
+"TOI-2076",5187.00,54.00,-53.00,"<a refstr=HEDGES_ET_AL__2021 href=https://ui.adsabs.harvard.edu/abs/2021AJ....162...54H/abstract target=ref>Hedges et al. 2021</a>","K"
+"TOI-2076",5201.00,66.00,-61.00,"<a refstr=FRAZIER_ET_AL__2023 href=https://ui.adsabs.harvard.edu/abs/2023ApJ...944L..41F/abstract target=ref>Frazier et al. 2023</a>",
+"TOI-2076",5200.00,70.00,-70.00,"<a refstr=OSBORN_ET_AL_2022 href=https://ui.adsabs.harvard.edu/abs/2022A&A...664A.156O/abstract target=ref>Osborn et al. 2022</a>",
+"TOI-2076",5192.00,61.00,-58.00,"<a refstr=BARBER_ET_AL_2025 href=https://ui.adsabs.harvard.edu/abs/2025AJ....170...32B/abstract target=ref>Barber et al. 2025</a>",
+"TOI-2076",5149.60,81.70,-81.70,"<a refstr=EXOFOP href=https://exofop.ipac.caltech.edu/tess/view_toi.php target=ref>ExoFOP</a>",
+"TOI-2076",,,,"<a refstr=WANG_ET_AL_2026 href=https://ui.adsabs.harvard.edu/abs/2026NatAs..10..818W/abstract target=ref>Wang et al. 2026</a>","K V"
+"TOI-2076",5163.00,132.46,-117.19,"<a refstr=STASSUN_ET_AL__2019 href=https://ui.adsabs.harvard.edu/abs/2019AJ....158..138S/abstract target=ref>TICv8</a>",
+"TOI-2076",5192.00,61.00,-58.00,"<a refstr=MACDOUGALL_ET_AL__2023 href=https://ui.adsabs.harvard.edu/abs/2023AJ....166...33M/abstract target=ref>MacDougall et al. 2023</a>",
+"TOI-3884",3180.00,88.00,-88.00,"<a refstr=LIBBY_ROBERTS_ET_AL__2023 href=https://ui.adsabs.harvard.edu/abs/2023AJ....165..249L/abstract target=ref>Libby-Roberts et al. 2023</a>",
+"TOI-3884",3192.00,157.00,-157.00,"<a refstr=STASSUN_ET_AL__2019 href=https://ui.adsabs.harvard.edu/abs/2019AJ....158..138S/abstract target=ref>TICv8</a>",
+"TOI-3884",3269.00,70.00,-70.00,"<a refstr=ALMENARA_ET_AL_2022 href=https://ui.adsabs.harvard.edu/abs/2022A&A...667L..11A/abstract target=ref>Almenara et al. 2022</a>","M4"
+"TOI-3884",3192.00,157.00,-157.00,"<a refstr=EXOFOP href=https://exofop.ipac.caltech.edu/tess/view_toi.php target=ref>ExoFOP</a>",
+"WASP-121",6628.00,66.00,-66.00,"<a refstr=SING_ET_AL__2024 href=https://ui.adsabs.harvard.edu/abs/2024AJ....168..231S/abstract target=ref>Sing et al. 2024</a>",
+"WASP-121",,,,"<a refstr=EVANS_ET_AL__2017 href=https://ui.adsabs.harvard.edu/abs/2017Natur.548...58E/abstract target=ref>Evans et al. 2017</a>",
+"WASP-121",6776.00,138.39,-128.73,"<a refstr=STASSUN_ET_AL__2019 href=https://ui.adsabs.harvard.edu/abs/2019AJ....158..138S/abstract target=ref>TICv8</a>",
+"WASP-121",,,,"<a refstr=MIKAL_EVANS_ET_AL__2019 href=https://ui.adsabs.harvard.edu/abs/2019MNRAS.488.2222M/abstract target=ref>Mikal-Evans et al. 2019</a>",
+"WASP-121",6396.07,121.33,-133.15,"<a refstr=GAIA_COLLABORATION_ET_AL__2018 href=https://ui.adsabs.harvard.edu/abs/2018A&A...616A...1G/abstract target=ref>Gaia DR2</a>",
+"WASP-121",6459.00,140.00,-140.00,"<a refstr=DELREZ_ET_AL__2016 href=https://ui.adsabs.harvard.edu/abs/2016MNRAS.458.4025D/abstract target=ref>Delrez et al. 2016</a>","F6 V"
+"WASP-121",6459.00,,,"<a refstr=EXOFOP href=https://exofop.ipac.caltech.edu/tess/view_toi.php target=ref>ExoFOP</a>",
+"WASP-121",,,,"<a refstr=BOURRIER_ET_AL__2020 href=https://ui.adsabs.harvard.edu/abs/2020A&A...635A.205B/abstract target=ref>Bourrier et al. 2020</a>",
+"WASP-17",6548.00,138.20,-142.29,"<a refstr=STASSUN_ET_AL__2019 href=https://ui.adsabs.harvard.edu/abs/2019AJ....158..138S/abstract target=ref>TICv8</a>",
+"WASP-17",6650.00,,,"<a refstr=EXOFOP href=https://exofop.ipac.caltech.edu/tess/view_toi.php target=ref>ExoFOP</a>",
+"WASP-17",6794.00,83.00,-83.00,"<a refstr=MORTIER_ET_AL__2013 href=https://ui.adsabs.harvard.edu/abs/2013A%26A...558A.106M/abstract target=ref> Mortier et al. 2013 </a>",
+"WASP-17",6666.00,30.00,-30.00,"<a refstr=TSANTAKI_ET_AL__2014 href=https://ui.adsabs.harvard.edu/abs/2014A&A...570A..80T/abstract target=ref>Tsantaki et al. 2014</a>",
+"WASP-17",6550.00,,,"<a refstr=GRANT_ET_AL__2023 href=https://ui.adsabs.harvard.edu/abs/2023ApJ...956L..29G/abstract target=ref>Grant et al. 2023</a>",
+"WASP-17",6650.00,80.00,-80.00,"<a refstr=BONOMO_ET_AL__2017 href=https://ui.adsabs.harvard.edu/abs/2017A&A...602A.107B/abstract target=ref>Bonomo et al. 2017</a>",
+"WASP-17",6650.00,80.00,-80.00,"<a refstr=ANDERSON_ET_AL__2011 href=https://ui.adsabs.harvard.edu/abs/2011MNRAS.416.2108A/abstract target=ref>Anderson et al. 2011</a>",
+"WASP-17",6218.00,317.67,-138.02,"<a refstr=GAIA_COLLABORATION_ET_AL__2018 href=https://ui.adsabs.harvard.edu/abs/2018A&A...616A...1G/abstract target=ref>Gaia DR2</a>",
+"WASP-17",,,,"<a refstr=SEDAGHATI_ET_AL__2016 href=https://ui.adsabs.harvard.edu/abs/2016A&A...596A..47S/abstract target=ref>Sedaghati et al. 2016</a>",
+"WASP-17",,,,"<a refstr=SOUTHWORTH_ET_AL__2012 href=https://ui.adsabs.harvard.edu/abs/2012MNRAS.426.1338S/abstract target=ref>Southworth et al. 2012</a>",
+"WASP-17",,,,"<a refstr=KNUTSON_ET_AL__2014 href=https://ui.adsabs.harvard.edu/abs/2014ApJ...785..126K/abstract target=ref> Knutson et al. 2014 </a>",
+"WASP-17",6550.00,100.00,,"<a refstr=ANDERSON_ET_AL__2010 href=https://ui.adsabs.harvard.edu/abs/2010ApJ...709..159A/abstract target=ref> Anderson et al. 2010 </a>",
+"WASP-17",6650.00,80.00,-80.00,"<a refstr=TRIAUD_ET_AL__2010 href=https://ui.adsabs.harvard.edu/abs/2010A&A...524A..25T/abstract target=ref>Triaud et al. 2010</a>","F4"
+"WASP-17",6550.00,100.00,-100.00,"<a refstr=STASSUN_ET_AL__2017 href=https://ui.adsabs.harvard.edu/abs/2017AJ....153..136S/abstract target=ref>Stassun et al. 2017</a>",
+"WASP-18",6400.00,100.00,-100.00,"<a refstr=BONOMO_ET_AL__2017 href=https://ui.adsabs.harvard.edu/abs/2017A&A...602A.107B/abstract target=ref>Bonomo et al. 2017</a>",
+"WASP-18",6455.00,70.00,-70.00,"<a refstr=SOUTHWORTH_2012 href=https://ui.adsabs.harvard.edu/abs/2012MNRAS.426.1291S/abstract target=ref>Southworth 2012</a>",
+"WASP-18",6400.00,100.00,-100.00,"<a refstr=SOUTHWORTH_ET_AL__2009 href=https://ui.adsabs.harvard.edu/abs/2009ApJ...707..167S/abstract target=ref> Southworth et al. 2009 </a>",
+"WASP-18",6400.00,,,"<a refstr=SALZ_ET_AL__2015 href=https://ui.adsabs.harvard.edu/abs/2015A&A...576A..42S/abstract target=ref>Salz et al. 2015</a>","F6 IV-V"
+"WASP-18",6226.00,162.25,-117.40,"<a refstr=STASSUN_ET_AL__2019 href=https://ui.adsabs.harvard.edu/abs/2019AJ....158..138S/abstract target=ref>TICv8</a>",
+"WASP-18",6400.00,100.00,-100.00,"<a refstr=TRIAUD_ET_AL__2010 href=https://ui.adsabs.harvard.edu/abs/2010A&A...524A..25T/abstract target=ref>Triaud et al. 2010</a>","F6"
+"WASP-18",6400.00,100.00,-100.00,"<a refstr=SOUTHWORTH_2010 href=https://ui.adsabs.harvard.edu/abs/2010MNRAS.408.1689S/abstract target=ref> Southworth 2010 </a>",
+"WASP-18",6431.00,48.00,-48.00,"<a refstr=STASSUN_ET_AL__2017 href=https://ui.adsabs.harvard.edu/abs/2017AJ....153..136S/abstract target=ref>Stassun et al. 2017</a>",
+"WASP-18",6400.00,,,"<a refstr=EXOFOP href=https://exofop.ipac.caltech.edu/tess/view_toi.php target=ref>ExoFOP</a>",
+"WASP-18",6462.01,338.22,-192.06,"<a refstr=GAIA_COLLABORATION_ET_AL__2018 href=https://ui.adsabs.harvard.edu/abs/2018A&A...616A...1G/abstract target=ref>Gaia DR2</a>",
+"WASP-18",6432.00,48.00,-48.00,"<a refstr=CORT_EACUTE_S_ZULETA_ET_AL__2020 href=https://ui.adsabs.harvard.edu/abs/2020A&A...636A..98C/abstract target=ref>Cort&eacute;s-Zuleta et al. 2020</a>",
+"WASP-18",6526.00,69.00,-69.00,"<a refstr=MORTIER_ET_AL__2013 href=https://ui.adsabs.harvard.edu/abs/2013A%26A...558A.106M/abstract target=ref> Mortier et al. 2013 </a>",
+"WASP-18",6332.00,60.00,-60.00,"<a refstr=DELINE_ET_AL_2025 href=https://ui.adsabs.harvard.edu/abs/2025A&A...699A.150D/abstract target=ref>Deline et al. 2025</a>",
+"WASP-18",6400.00,,,"<a refstr=PEARSON_2019 href=https://ui.adsabs.harvard.edu/abs/2019AJ....158..243P/abstract target=ref>Pearson 2019</a>",
+"WASP-18",6431.00,48.00,-48.00,"<a refstr=SHPORER_ET_AL__2019 href=https://ui.adsabs.harvard.edu/abs/2019AJ....157..178S/abstract target=ref>Shporer et al. 2019</a>",
+"WASP-18",6400.00,100.00,,"<a refstr=HELLIER_ET_AL__2009 href=https://ui.adsabs.harvard.edu/abs/2009Natur.460.1098H/abstract target=ref> Hellier et al. 2009 </a>",
+"WASP-18",,,,"<a refstr=KNUTSON_ET_AL__2014 href=https://ui.adsabs.harvard.edu/abs/2014ApJ...785..126K/abstract target=ref> Knutson et al. 2014 </a>",
+"WASP-18",,,,"<a refstr=CANNON___PICKERING_1918 href=https://ui.adsabs.harvard.edu/abs/1918AnHar..91....1C/abstract target=ref> Cannon & Pickering 1918</a>","F8"
+"WASP-18",,,,"<a refstr=MICHIGAN_CATALOG__VOL__2 href=https://ui.adsabs.harvard.edu/abs/1978MSS...C02....0H/abstract target=ref> Michigan Catalog, Vol. 2 </a>","F6 IV/V"
+"WASP-189",8000.00,80.00,-80.00,"<a refstr=DELINE_ET_AL_2022 href=https://ui.adsabs.harvard.edu/abs/2022A&A...659A..74D/abstract target=ref>Deline et al. 2022</a>",
+"WASP-189",7949.00,109.47,-148.46,"<a refstr=STASSUN_ET_AL__2019 href=https://ui.adsabs.harvard.edu/abs/2019AJ....158..138S/abstract target=ref>TICv8</a>",
+"WASP-189",8000.00,80.00,-80.00,"<a refstr=LENDL_ET_AL__2020 href=https://ui.adsabs.harvard.edu/abs/2020A&A...643A..94L/abstract target=ref>Lendl et al. 2020</a>",
+"WASP-80",4076.05,173.89,-52.79,"<a refstr=GAIA_COLLABORATION_ET_AL__2018 href=https://ui.adsabs.harvard.edu/abs/2018A&A...616A...1G/abstract target=ref>Gaia DR2</a>",
+"WASP-80",3965.00,157.00,-157.00,"<a refstr=EXOFOP href=https://exofop.ipac.caltech.edu/tess/view_toi.php target=ref>ExoFOP</a>",
+"WASP-80",4143.00,92.00,-94.00,"<a refstr=TRIAUD_ET_AL__2015 href=https://ui.adsabs.harvard.edu/abs/2015MNRAS.450.2279T/abstract target=ref>Triaud et al. 2015</a>",
+"WASP-80",4150.00,100.00,-100.00,"<a refstr=BONOMO_ET_AL__2017 href=https://ui.adsabs.harvard.edu/abs/2017A&A...602A.107B/abstract target=ref>Bonomo et al. 2017</a>",
+"WASP-80",,,,"<a refstr=MANCINI_ET_AL__2014 href=https://ui.adsabs.harvard.edu/abs/2014A&A...562A.126M/abstract target=ref>Mancini et al. 2014</a>",
+"WASP-80",4145.00,100.00,-100.00,"<a refstr=TRIAUD_ET_AL__2013 href=https://ui.adsabs.harvard.edu/abs/2013A%26A...551A..80T/abstract target=ref> Triaud et al. 2013 </a>","K7 V"
+"WASP-80",4150.00,,,"<a refstr=SALZ_ET_AL__2015 href=https://ui.adsabs.harvard.edu/abs/2015A&A...576A..42S/abstract target=ref>Salz et al. 2015</a>","K7-M0 V"
+"WASP-80",4100.00,,,"<a refstr=FUKUI_ET_AL__2014 href=https://ui.adsabs.harvard.edu/abs/2014ApJ...790..108F/abstract target=ref>Fukui et al. 2014</a>",
+"WASP-80",3965.00,157.00,-157.00,"<a refstr=STASSUN_ET_AL__2019 href=https://ui.adsabs.harvard.edu/abs/2019AJ....158..138S/abstract target=ref>TICv8</a>",

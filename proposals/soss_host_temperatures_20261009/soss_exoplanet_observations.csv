@@ -1,0 +1,142 @@
+host,program,observation,category,status,event,data_rights,start_utc_date,duration_h,title
+55 Cnc,12237,1,GO,planned,Transit,PUBLIC,,,A Definitive Transmission Survey of the Atmosphere of 55 Cnc e
+55 Cnc,9825,1,GO,planned,Eclipse,PUBLIC,,,What causes the infrared and optical variability of the hot rocky super-Earth 55 Cnc e?
+55 Cnc,9825,2,GO,planned,Eclipse,PUBLIC,,,What causes the infrared and optical variability of the hot rocky super-Earth 55 Cnc e?
+55 Cnc,9825,3,GO,planned,Eclipse,PUBLIC,,,What causes the infrared and optical variability of the hot rocky super-Earth 55 Cnc e?
+55 Cnc,9825,4,GO,planned,Eclipse,PUBLIC,,,What causes the infrared and optical variability of the hot rocky super-Earth 55 Cnc e?
+55 Cnc,9825,5,GO,planned,Eclipse,PUBLIC,,,What causes the infrared and optical variability of the hot rocky super-Earth 55 Cnc e?
+GJ 3090,4098,111,GO,executed,Transit,PUBLIC,2024-07-04,3.57,Exploring the existence and diversity of volatile-rich water worlds
+GJ 3090,4098,12,GO,executed,Transit,PUBLIC,2023-12-06,3.57,Exploring the existence and diversity of volatile-rich water worlds
+GJ 357,1201,201,GTO,executed,Transit,PUBLIC,2023-11-22,4.07,NIRISS Exploration of the Atmospheric diversity of Transiting exoplanets (NEAT)
+GJ 486,5866,1,GO,executed,Transit,PUBLIC,2025-06-01,3.61,Oceans of Uncertainty: A Veritable Waterworld or a Desolate Wasteland?
+GJ 486,5866,2,GO,executed,Transit,PUBLIC,2025-05-28,3.6,Oceans of Uncertainty: A Veritable Waterworld or a Desolate Wasteland?
+GJ 486,5866,3,GO,executed,Transit,PUBLIC,2025-06-03,3.61,Oceans of Uncertainty: A Veritable Waterworld or a Desolate Wasteland?
+GJ 9827,4098,7,GO,executed,Transit,PUBLIC,2023-11-10,3.47,Exploring the existence and diversity of volatile-rich water worlds
+GJ 9827,4098,8,GO,executed,Transit,PUBLIC,2023-11-16,3.47,Exploring the existence and diversity of volatile-rich water worlds
+HAT-P-1,1201,3,GTO,executed,Transit,PUBLIC,2023-07-20,6.39,NIRISS Exploration of the Atmospheric diversity of Transiting exoplanets (NEAT)
+HAT-P-1,1201,4,GTO,executed,Eclipse,PUBLIC,2022-07-12,6.39,NIRISS Exploration of the Atmospheric diversity of Transiting exoplanets (NEAT)
+HAT-P-11,5924,1,GO,executed,Transit,PUBLIC,2025-08-08,5.81,JWST's Exoplanet Grand Tour Spectroscopic Survey
+HAT-P-12,1281,3,GTO,executed,Transit,PUBLIC,2023-06-20,6.2,MIRI and NIRSPEC Transit Observations of HAT-P-12 b
+HAT-P-13,8233,1,GO,executed,Transit,EXCLUSIVE_ACCESS,2026-03-14,7.57,Mapping the Atmosphere and Interior of HAT-P-13b: The Next Benchmark for Exoplanetary Science
+HAT-P-14,1541,1,COM,executed,Transit,PUBLIC,2022-06-08,6.25,NIRISS Sensitivity and Stability for Transiting Exoplanet Observations
+HAT-P-18,2734,1,COM,executed,Transit,PUBLIC,2022-06-13,7.36,JWST Early Release Observation 8
+HAT-P-26,1312,1,GTO,executed,Transit,PUBLIC,2023-07-02,6.05,Transit and Eclipse Spectroscopy of a Warm Neptune
+HAT-P-30,5924,6,GO,executed,Transit,PUBLIC,2025-03-31,5.57,JWST's Exoplanet Grand Tour Spectroscopic Survey
+HD 106252,12568,4,CAL,planned,unclassified,PUBLIC,,,CAL-NIS-510:  Bright photometric standard observation for SOSS superstripe mode
+HD 106252,12568,5,CAL,planned,unclassified,PUBLIC,,,CAL-NIS-510:  Bright photometric standard observation for SOSS superstripe mode
+HD 106252,12568,6,CAL,planned,unclassified,PUBLIC,,,CAL-NIS-510:  Bright photometric standard observation for SOSS superstripe mode
+HD 110067,10047,11,GO,planned,Transit,PUBLIC,,,IN/AT-SYNC: INterior/ATmosphere SurveY of sub-Neptunes in Chains
+HD 110067,10047,13,GO,planned,Transit,PUBLIC,,,IN/AT-SYNC: INterior/ATmosphere SurveY of sub-Neptunes in Chains
+HD 110067,10047,9,GO,planned,Transit,PUBLIC,,,IN/AT-SYNC: INterior/ATmosphere SurveY of sub-Neptunes in Chains
+HD 209458,9709,13,GO,planned,Transit,PUBLIC,,,Parting the Clouds: An optimized limb-limb exoplanet survey to reveal diurnal cloud cycling and the mass-metalicity relation
+HD 63935,11962,3,GO,planned,Transit,PUBLIC,,,"Twinning: An Atmospheric Study of Twin Sub-Neptunes To Investigate Carbon Chemistry, Aerosol Formation, and Photochemistry"
+HD 63935,11962,4,GO,planned,Transit,PUBLIC,,,"Twinning: An Atmospheric Study of Twin Sub-Neptunes To Investigate Carbon Chemistry, Aerosol Formation, and Photochemistry"
+HIP 41378,11253,1,GO,planned,Transit,PUBLIC,,,Fluffy or Flashy? Resolving the Mystery of the Coldest-Known Super Puff
+HIP 41378,11253,2,GO,planned,unclassified,PUBLIC,,,Fluffy or Flashy? Resolving the Mystery of the Coldest-Known Super Puff
+HIP 41378,11253,3,GO,planned,unclassified,PUBLIC,,,Fluffy or Flashy? Resolving the Mystery of the Coldest-Known Super Puff
+HIP 41378,11253,4,GO,planned,unclassified,PUBLIC,,,Fluffy or Flashy? Resolving the Mystery of the Coldest-Known Super Puff
+HIP 41378,11253,5,GO,planned,unclassified,PUBLIC,,,Fluffy or Flashy? Resolving the Mystery of the Coldest-Known Super Puff
+HIP 41378,11253,6,GO,planned,unclassified,PUBLIC,,,Fluffy or Flashy? Resolving the Mystery of the Coldest-Known Super Puff
+HIP 41378,11253,7,GO,planned,unclassified,PUBLIC,,,Fluffy or Flashy? Resolving the Mystery of the Coldest-Known Super Puff
+HIP 41378,11253,8,GO,planned,unclassified,PUBLIC,,,Fluffy or Flashy? Resolving the Mystery of the Coldest-Known Super Puff
+IRAS 04125+2902,8597,1,GO,planned,Transit,PUBLIC,,,Measuring the Bulk Properties of a 3 Myr Transiting Exoplanet and its Original Protoplanetary Disk
+K2-18,2722,3,GO,executed,Transit,PUBLIC,2023-06-01,4.95,Chemical Disequilibrium in a Temperate sub-Neptune
+KELT-11,9709,8,GO,planned,Transit,PUBLIC,,,Parting the Clouds: An optimized limb-limb exoplanet survey to reveal diurnal cloud cycling and the mass-metalicity relation
+KELT-4 A,9709,14,GO,planned,Transit,PUBLIC,,,Parting the Clouds: An optimized limb-limb exoplanet survey to reveal diurnal cloud cycling and the mass-metalicity relation
+KELT-4 A,9709,17,GO,planned,unclassified,PUBLIC,,,Parting the Clouds: An optimized limb-limb exoplanet survey to reveal diurnal cloud cycling and the mass-metalicity relation
+KELT-7,5924,7,GO,executed,Transit,PUBLIC,2025-02-15,7.59,JWST's Exoplanet Grand Tour Spectroscopic Survey
+KELT-9,7255,1,GO,planned,PhaseC,PUBLIC,,,A Day In The Life of KELT-9b
+KELT-9,7255,2,GO,planned,PhaseC,PUBLIC,,,A Day In The Life of KELT-9b
+L 98-59,1201,302,GTO,executed,Transit,PUBLIC,2025-03-02,3.79,NIRISS Exploration of the Atmospheric diversity of Transiting exoplanets (NEAT)
+L 98-59,1201,311,GTO,executed,Transit,PUBLIC,2022-12-28,3.39,NIRISS Exploration of the Atmospheric diversity of Transiting exoplanets (NEAT)
+L 98-59,4098,1,GO,executed,Transit,PUBLIC,2023-12-28,3.39,Exploring the existence and diversity of volatile-rich water worlds
+LHS 1140,6543,1,DD,executed,Transit,PUBLIC,2023-12-01,5.89,Stellar Activity Characterization of LHS 1140 - Is LHS 1140 b a Mini-Neptune or a Water World?
+LHS 1140,6543,2,DD,executed,Transit,PUBLIC,2023-12-26,5.89,Stellar Activity Characterization of LHS 1140 - Is LHS 1140 b a Mini-Neptune or a Water World?
+LHS 1140,7073,21,GO,executed,Transit,PUBLIC,2025-08-10,5.17,Charting the Cosmic Shoreline
+LHS 1140,7073,22,GO,executed,Transit,PUBLIC,2026-07-23,5.17,Charting the Cosmic Shoreline
+LHS 1140,7073,31,GO,executed,Transit,PUBLIC,2025-07-26,4.29,Charting the Cosmic Shoreline
+LHS 1140,7073,23,GO,planned,Transit,PUBLIC,,,Charting the Cosmic Shoreline
+LTT 1445 A,7073,1,GO,executed,Transit,PUBLIC,2026-01-24,4.46,Charting the Cosmic Shoreline
+LTT 1445 A,7073,11,GO,executed,Transit,PUBLIC,2026-01-27,3.59,Charting the Cosmic Shoreline
+LTT 1445 A,7073,12,GO,executed,Transit,PUBLIC,2026-01-21,3.59,Charting the Cosmic Shoreline
+LTT 1445 A,7073,2,GO,executed,Transit,PUBLIC,2026-01-30,4.45,Charting the Cosmic Shoreline
+LTT 3780,3557,4,GO,executed,Transit,PUBLIC,2024-04-20,3.13,A JWST Search for Missing Methane
+LTT 9779,1201,2,GTO,executed,PhaseC,PUBLIC,2022-07-07,22.03,NIRISS Exploration of the Atmospheric diversity of Transiting exoplanets (NEAT)
+NGTS-11,7982,1,GO,executed,Transit,EXCLUSIVE_ACCESS,2026-08-09,7.53,Warm Jupiters: the next step in uncovering giant planet formation and migration
+NGTS-2,5924,5,GO,executed,Transit,PUBLIC,2025-06-27,9.33,JWST's Exoplanet Grand Tour Spectroscopic Survey
+TOI-1130,3385,3,GO,executed,Transit,PUBLIC,2024-09-07,5.77,The first comparative atmospheric study of a Jovian planet and a sub-Neptune in the TOI-1130 system
+TOI-1130,3385,4,GO,executed,Transit,PUBLIC,2024-08-24,6.05,The first comparative atmospheric study of a Jovian planet and a sub-Neptune in the TOI-1130 system
+TOI-1136,10047,5,GO,planned,Transit,PUBLIC,,,IN/AT-SYNC: INterior/ATmosphere SurveY of sub-Neptunes in Chains
+TOI-1136,10047,7,GO,planned,Transit,PUBLIC,,,IN/AT-SYNC: INterior/ATmosphere SurveY of sub-Neptunes in Chains
+TOI-1173,9709,2,GO,planned,Transit,PUBLIC,,,Parting the Clouds: An optimized limb-limb exoplanet survey to reveal diurnal cloud cycling and the mass-metalicity relation
+TOI-1231,3557,1,GO,executed,Transit,PUBLIC,2025-01-21,5.7,A JWST Search for Missing Methane
+TOI-1420,9101,8,GO,planned,Transit,PUBLIC,,,Unveiling the Nature of Super-Puffs: A Panchromatic Transmission Spectroscopy Survey
+TOI-1468,3557,7,GO,executed,Transit,PUBLIC,2024-12-01,3.8,A JWST Search for Missing Methane
+TOI-1685,4098,3,GO,executed,Transit,PUBLIC,2025-01-15,2.93,Exploring the existence and diversity of volatile-rich water worlds
+TOI-1685,4098,4,GO,executed,Transit,PUBLIC,2025-01-16,2.93,Exploring the existence and diversity of volatile-rich water worlds
+TOI-178,10047,15,GO,planned,Transit,PUBLIC,,,IN/AT-SYNC: INterior/ATmosphere SurveY of sub-Neptunes in Chains
+TOI-178,10047,16,GO,planned,Transit,PUBLIC,,,IN/AT-SYNC: INterior/ATmosphere SurveY of sub-Neptunes in Chains
+TOI-1801,6932,1,GO,executed,Transit,EXCLUSIVE_ACCESS,2026-01-23,5.9,"Bridging the generation gap with TOI-1801 b, a 700 Myr-old temperate sub-Neptune"
+TOI-1801,6932,3,GO,executed,Transit,EXCLUSIVE_ACCESS,2026-01-12,5.9,"Bridging the generation gap with TOI-1801 b, a 700 Myr-old temperate sub-Neptune"
+TOI-1801,6932,5,GO,executed,Transit,EXCLUSIVE_ACCESS,2026-05-10,5.9,"Bridging the generation gap with TOI-1801 b, a 700 Myr-old temperate sub-Neptune"
+TOI-181,11779,5,GO,planned,Transit,PUBLIC,,,Stalled Giants as a Key to Understanding Runaway Gas Accretion
+TOI-1823,11779,14,GO,planned,Transit,PUBLIC,,,Stalled Giants as a Key to Understanding Runaway Gas Accretion
+TOI-2076,5959,10,GO,executed,Transit,PUBLIC,2025-04-18,6.77,KRONOS: Keys to Revealing the Origin and Nature Of sub-neptune Systems
+TOI-2076,5959,12,GO,executed,Transit,PUBLIC,2025-06-23,7.77,KRONOS: Keys to Revealing the Origin and Nature Of sub-neptune Systems
+TOI-2076,5959,14,GO,executed,Transit,PUBLIC,2025-01-18,6.77,KRONOS: Keys to Revealing the Origin and Nature Of sub-neptune Systems
+TOI-2134,9709,4,GO,planned,Transit,PUBLIC,,,Parting the Clouds: An optimized limb-limb exoplanet survey to reveal diurnal cloud cycling and the mass-metalicity relation
+TOI-216,7982,2,GO,planned,unclassified,PUBLIC,,,Warm Jupiters: the next step in uncovering giant planet formation and migration
+TOI-2374,11779,7,GO,planned,Transit,PUBLIC,,,Stalled Giants as a Key to Understanding Runaway Gas Accretion
+TOI-270,2759,1,GTO,executed,Transit,PUBLIC,2024-08-06,6.45,NIRISS Exploration of the Atmospheric diversity of Transiting exoplanets (NEAT)
+TOI-270,4098,15,GO,executed,Transit,PUBLIC,2024-02-06,5.3,Exploring the existence and diversity of volatile-rich water worlds
+TOI-3884,5799,1,GO,executed,Transit,PUBLIC,2025-06-02,5.39,TOI-3884: A JWST Rosetta Stone for the study of M-dwarf stellar contamination
+TOI-3884,5799,2,GO,executed,Transit,PUBLIC,2025-06-15,5.39,TOI-3884: A JWST Rosetta Stone for the study of M-dwarf stellar contamination
+TOI-3884,5863,1,GO,executed,Transit,PUBLIC,2024-12-16,4.44,Shining a Spot-light on the Atmosphere of a Giant Planet around a Cool Star
+TOI-3884,5863,3,GO,executed,Transit,PUBLIC,2024-12-25,4.43,Shining a Spot-light on the Atmosphere of a Giant Planet around a Cool Star
+TOI-421,1935,1,GO,executed,Transit,PUBLIC,2023-11-06,3.93,Unshrouding the Sub-Neptune Population:  The Case of TOI-421b
+TOI-421,11672,1,GO,planned,Transit,PUBLIC,,,Greedy Big Brother: examining the atmosphere of a Neptune-sized outer companion to an unusual sub-Neptune
+TOI-4336 A,4711,1,GO,executed,Transit,PUBLIC,2025-06-28,6.52,Efficient and Detailed Characterization of a Temperate Water World Candidate
+TOI-451,5959,6,GO,executed,Transit,PUBLIC,2025-01-25,6.86,KRONOS: Keys to Revealing the Origin and Nature Of sub-neptune Systems
+TOI-451,5959,8,GO,executed,Transit,PUBLIC,2024-12-30,7.65,KRONOS: Keys to Revealing the Origin and Nature Of sub-neptune Systems
+TOI-6109,10047,1,GO,planned,Transit,PUBLIC,,,IN/AT-SYNC: INterior/ATmosphere SurveY of sub-Neptunes in Chains
+TOI-6109,10047,3,GO,planned,Transit,PUBLIC,,,IN/AT-SYNC: INterior/ATmosphere SurveY of sub-Neptunes in Chains
+TOI-674,9095,2,GO,executed,Transit,EXCLUSIVE_ACCESS,2026-05-09,3.41,"Combining Emission and Transmission Spectroscopy to reveal Exo-Neptune Aerosols, Chemistry, and Formation"
+TOI-700,6193,1,GO,executed,Transit,PUBLIC,2025-03-28,9.18,A Search for Exoplanet Satellites that are the Same Size as the Earth's Moon
+TOI-700,6193,2,GO,executed,Transit,PUBLIC,2025-04-06,8.43,A Search for Exoplanet Satellites that are the Same Size as the Earth's Moon
+TRAPPIST-1,1201,101,GTO,executed,Transit,PUBLIC,2022-10-28,3.51,NIRISS Exploration of the Atmospheric diversity of Transiting exoplanets (NEAT)
+TRAPPIST-1,1201,102,GTO,executed,Transit,PUBLIC,2023-07-03,3.51,NIRISS Exploration of the Atmospheric diversity of Transiting exoplanets (NEAT)
+TRAPPIST-1,1201,103,GTO,executed,Transit,PUBLIC,2023-07-22,3.51,NIRISS Exploration of the Atmospheric diversity of Transiting exoplanets (NEAT)
+TRAPPIST-1,1201,104,GTO,executed,Transit,PUBLIC,2023-06-24,3.51,NIRISS Exploration of the Atmospheric diversity of Transiting exoplanets (NEAT)
+TRAPPIST-1,1201,105,GTO,executed,Transit,PUBLIC,2023-06-15,3.51,NIRISS Exploration of the Atmospheric diversity of Transiting exoplanets (NEAT)
+TRAPPIST-1,2589,1,GO,executed,Transit,PUBLIC,2022-07-18,4.76,Atmospheric reconnaissance of the TRAPPIST-1 planets
+TRAPPIST-1,2589,2,GO,executed,Transit,PUBLIC,2022-07-20,4.76,Atmospheric reconnaissance of the TRAPPIST-1 planets
+TRAPPIST-1,2589,3,GO,executed,Transit,PUBLIC,2022-10-28,4.94,Atmospheric reconnaissance of the TRAPPIST-1 planets
+TRAPPIST-1,2589,4,GO,executed,Transit,PUBLIC,2023-10-31,4.93,Atmospheric reconnaissance of the TRAPPIST-1 planets
+V1298 Tau,11831,1,GO,executed,Transit,EXCLUSIVE_ACCESS,2026-09-07,13.41,FOURCAST: FOUR-planet Comparative AtmoSpheric Escape in a benchmark young multi-planet system
+V1298 Tau,5959,17,GO,executed,Transit,PUBLIC,2025-09-10,11.09,KRONOS: Keys to Revealing the Origin and Nature Of sub-neptune Systems
+V1298 Tau,5959,2,GO,executed,Transit,PUBLIC,2025-09-06,9.69,KRONOS: Keys to Revealing the Origin and Nature Of sub-neptune Systems
+V1298 Tau,5959,4,GO,executed,Transit,PUBLIC,2025-10-05,11.08,KRONOS: Keys to Revealing the Origin and Nature Of sub-neptune Systems
+V1298 Tau,11831,2,GO,planned,Transit,PUBLIC,,,FOURCAST: FOUR-planet Comparative AtmoSpheric Escape in a benchmark young multi-planet system
+WASP-107,1201,8,GTO,executed,Transit,PUBLIC,2023-06-11,6.21,NIRISS Exploration of the Atmospheric diversity of Transiting exoplanets (NEAT)
+WASP-121,1201,1,GTO,executed,PhaseC,PUBLIC,2023-10-26,36.9,NIRISS Exploration of the Atmospheric diversity of Transiting exoplanets (NEAT)
+WASP-127,1201,6,GTO,executed,Transit,PUBLIC,2023-12-03,8.62,NIRISS Exploration of the Atmospheric diversity of Transiting exoplanets (NEAT)
+WASP-131,9709,9,GO,planned,Transit,PUBLIC,,,Parting the Clouds: An optimized limb-limb exoplanet survey to reveal diurnal cloud cycling and the mass-metalicity relation
+WASP-139,11779,11,GO,planned,Transit,PUBLIC,,,Stalled Giants as a Key to Understanding Runaway Gas Accretion
+WASP-166,2062,4,GO,executed,Transit,PUBLIC,2023-12-31,9.02,Transmission Spectroscopy of the Super-Neptune WASP-166b
+WASP-17,1353,1,GTO,executed,Transit,PUBLIC,2023-02-18,10.06,Transit and Eclipse Spectroscopy of a Hot Jupiter
+WASP-17,1353,101,GTO,executed,Transit,PUBLIC,2023-03-20,10.06,Transit and Eclipse Spectroscopy of a Hot Jupiter
+WASP-17,1353,2,GTO,executed,Eclipse,PUBLIC,2023-03-22,10.09,Transit and Eclipse Spectroscopy of a Hot Jupiter
+WASP-18,12564,1,CAL,executed,Transit(ephem),PUBLIC,2026-07-29,5.29,CAL-NIS-506: NIRISS/SOSS Multistripe Time-Series Observation
+WASP-18,1366,21,ERS,executed,Eclipse,PUBLIC,2022-08-11,6.78,The Transiting Exoplanet Community Early Release Science Program
+WASP-189,3279,1,GO,executed,Transit,PUBLIC,2024-03-05,10.47,Calibrating NIRISS order 3 for very bright time-series observations with JWST
+WASP-193,9709,6,GO,planned,Transit,PUBLIC,,,Parting the Clouds: An optimized limb-limb exoplanet survey to reveal diurnal cloud cycling and the mass-metalicity relation
+WASP-20,9709,11,GO,planned,Transit,PUBLIC,,,Parting the Clouds: An optimized limb-limb exoplanet survey to reveal diurnal cloud cycling and the mass-metalicity relation
+WASP-39,1366,1,ERS,executed,Transit,PUBLIC,2022-07-26,8.38,The Transiting Exoplanet Community Early Release Science Program
+WASP-52,1201,501,GTO,executed,Transit,PUBLIC,2022-11-27,4.45,NIRISS Exploration of the Atmospheric diversity of Transiting exoplanets (NEAT)
+WASP-63,2113,5,GO,executed,Transit,PUBLIC,2023-09-28,11.6,Exploring the morning and evening limbs of a transiting exoplanet
+WASP-69,5924,2,GO,executed,Transit,PUBLIC,2025-05-04,5.17,JWST's Exoplanet Grand Tour Spectroscopic Survey
+WASP-76,5924,14,GO,executed,Transit,PUBLIC,2025-08-21,7.63,JWST's Exoplanet Grand Tour Spectroscopic Survey
+WASP-80,1201,7,GTO,executed,Eclipse,PUBLIC,2023-10-26,5.1,NIRISS Exploration of the Atmospheric diversity of Transiting exoplanets (NEAT)
+WASP-80,5924,3,GO,executed,Transit,PUBLIC,2024-10-20,5.35,JWST's Exoplanet Grand Tour Spectroscopic Survey
+WASP-94 A,5924,4,GO,executed,Transit,PUBLIC,2024-10-12,9.02,JWST's Exoplanet Grand Tour Spectroscopic Survey
+WASP-96,2734,2,COM,executed,Transit,PUBLIC,2022-06-21,6.69,JWST Early Release Observation 8

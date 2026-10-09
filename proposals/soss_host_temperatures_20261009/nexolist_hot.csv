@@ -1,0 +1,8 @@
+pl_name,hostname,event,program,observation_num,status,facility,instrument,observingmode,gratinggrism,observation_dur,starttime,st_teff
+"WASP-178 b","WASP-178","Transit","GO 10290",1,"Implementation","NASA 6.5m James Webb Space Telescope (JWST)","MIRI","LRS","N/A",9.67,"N/A",9360.00
+"WASP-178 b","WASP-178","Eclipse","GO 10786",8,"Archived","NASA 6.5m James Webb Space Telescope (JWST)","NIRSpec","BOTS","G395M",13.07,"Aug 17, 2026 12:33:43",9360.00
+"WASP-178 b","WASP-178","Transit","GO 2055",1,"Archived","NASA 6.5m James Webb Space Telescope (JWST)","NIRSpec","BOTS","G395H",9.11,"Mar 7, 2023 06:46:58",9360.00
+"WASP-189 b","WASP-189","Transit","GO 3279",1,"Archived","NASA 6.5m James Webb Space Telescope (JWST)","NIRISS","SOSS","N/A",13.19,"Mar 5, 2024 22:44:55",8000.00
+"KELT-9 b","KELT-9","PhaseC","GO 7255",2,"Flight Ready","NASA 6.5m James Webb Space Telescope (JWST)","NIRISS","SOSS","N/A",24.91,"N/A",9270.00
+"KELT-9 b","KELT-9","PhaseC","GO 7255",1,"Flight Ready","NASA 6.5m James Webb Space Telescope (JWST)","NIRISS","SOSS","N/A",27.25,"N/A",9270.00
+"KELT-20 b","KELT-20","Eclipse","GO 6978",1,"Archived","NASA 6.5m James Webb Space Telescope (JWST)","NIRSpec","BOTS","G395H",16.80,"Oct 19, 2025 15:59:09",8720.00
