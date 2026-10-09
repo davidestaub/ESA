@@ -97,7 +97,9 @@ belongs to which Gaia star, I held the stretch fixed and slid the whole
 predicted pattern across the image, within 300 pixels of the position given
 by the standard model of the ExoCTK contamination tool. At each position, I
 counted how many predicted images fell within 8 pixels of a detected source.
-At most positions none did, and at 99\% of them at most two did. At the best position, seven of the nine predicted images did, so this alignment stands out clearly from all others. I then fitted the six numbers in
+At most positions none did, and at 99\% of them at most two did, which is
+what chance alone gives. At the best position, seven of the nine predicted
+images did, so these matches are real. I then fitted the six numbers in
 $\mathbf{A}$ and $\mathbf{t}$ by least squares to the eight pairs found this
 way. The fitted mapping places these images to within 0.8 columns and 3.6 rows
 (rms), against 4.3 columns and 14.9 rows for the standard model. When each pair
@@ -209,7 +211,10 @@ with ATOCA \citep{DarveauBernierEtAl2022}, the public model built for this
 purpose. As a second case, I can instead measure the profile of each order on
 its side away from the other order, and assume the same shape on the side
 where they overlap. The limb darkening for these cases is still to be chosen:
-either one fixed pair of coefficients for all wavelengths, or coefficients that vary with wavelength. I have not yet built these spectral cases, and I will first test the benchmark with a grey transit, in which every pixel dims by the same fraction.
+either one fixed pair of coefficients for all wavelengths, as in the grey
+transit, or coefficients that vary with wavelength. I have not yet built these
+spectral cases. The first tests use a grey transit, in which every pixel dims
+by the same fraction.
 
 A raw integration is a ramp: charge builds up in each pixel and is read five
 times, every 10.7~s, without being reset. Light arrives as individual photons
@@ -231,7 +236,11 @@ not respond to light in the first exposure receive none.
 For every transit case, I also make a copy of the same data, with the same
 photons, but without the transit (Figure~\ref{fig:4476-construction}). The
 transit case is this copy with photons removed during the transit: where the
-light curve dips by 2\%, each photon has a 2\% chance of being removed. The two share the real exposure and every photon that the transit did not remove, so they differ only by the removed light, and the only noise left in their difference is the small photon noise of that light. Running a pipeline on both and subtracting its results at any step of the processing therefore shows the transit as that step passed it on. Comparing this with the injected transit shows whether and where the
+light curve dips by 2\%, each photon has a 2\% chance of being removed. The
+two therefore share all their noise, real and added, and differ only by the
+light that the transit removed. Running a pipeline on both and subtracting its
+results at any step of the processing leaves the transit as that step passed
+it on. Comparing this with the injected transit shows whether and where the
 pipeline distorts it. For example, comparing the two after the $1/f$
 correction shows directly whether that correction distorts the transit in
 NOVA's processing, as the comparison with the same data without the transit
@@ -242,7 +251,9 @@ The same construction can also inject a model image of the star in place of
 the measured one. Such a star has no noise and no field sources, and the
 wavelength at every pixel is known. Its wings, however, are those of the
 model, and a pipeline built on the same model would be favoured. I therefore
-plan to use it as a control. If a pipeline recovers the transit of the model star but not that of the measured one, this would point to differences between the two images of the star. Further tests would be needed to isolate the faint light.
+plan to use it as a control. If a pipeline recovers the transit of the model
+star but not that of the measured one, the cause lies in the image of the
+star, in particular its faint light.
 
 \begin{figure*}[t]
   \centering
@@ -285,7 +296,8 @@ compare the spectrum from each pipeline's own transit fit with the injected
 spectrum, which gives the total error that a user would get. To find where an
 error arises, I also run each pipeline on the copy without the transit and
 compare the two runs after every step that the pipeline saves, such as the
-$1/f$ correction or the extraction. Because the two runs differ only by the light that the transit removed, each comparison shows the transit as that step passed it on. Knowing
+$1/f$ correction or the extraction. Because the two runs share all their
+noise, each comparison shows the transit as that step passed it on. Knowing
 where a pipeline distorts the transit shows what a method must get right,
 which guides the development of NOVA.
 
@@ -297,7 +309,10 @@ WASP-17~b, in several ways.
 
 Firstly, it rests on one star, with its own brightness, temperature and sky,
 and these set how much each source of error matters. For a fainter star or a
-brighter sky, for example, errors in removing the sky would matter more. At 7,548~K, the star is also hotter than 50 of the 51 exoplanet hosts that SOSS had observed by October 2026, whose median temperature is 4,870~K. Its second and third orders are therefore brighter relative to the first than for a typical host, and the orders contaminate each other differently.
+brighter sky, for example, errors in removing the sky would matter more. The
+star is also of type A, hotter than most stars known to host transiting
+planets, so its second and third orders are brighter relative to the first
+than for a typical host, and the orders contaminate each other differently.
 
 Secondly, programme 4476 read the whole detector every 10.7~s, whereas a SOSS
 time series reads only the strip every 5.5~s. The light falls on the same
@@ -318,8 +333,13 @@ stretching the image of the star slightly in each integration, following the
 motion measured in a real time series.
 
 Fourthly, the injection adds light but no response of the detector's
-electronics to the change in light. If the detector itself reacts when the star dims, as the faint light outside the traces may suggest (Section~\ref{sec:real-data-test}), the benchmark does not contain this. In addition, the
-photon noise that I add lacks the slight coupling between neighbouring pixels that real detector data show. This could be added from the measured strength
+electronics to the change in light. If the detector itself reacts when the star
+dims, as the faint light outside the traces may suggest
+(Section~\ref{sec:real-data-test}), the benchmark does not contain this. Pixels
+that receive no light, such as the reference pixels at the edges of the
+detector, could reveal such a response during a real transit. In addition, the
+photon noise that I add lacks the slight sharing of charge between neighbouring
+pixels that real light shows. This could be added from the measured strength
 of that coupling.
 
 Fifthly, the exposure lasts only 2.68~h, so the injected transit lasts
@@ -331,7 +351,14 @@ fits the transit with a prior on the density of the star. None of the four
 pipelines, as set up for the benchmark, uses such a prior: each fits the shape
 of the transit freely.
 
-Finally, the injected limb darkening follows one quadratic law computed from PHOENIX models of the star. Using PHOENIX avoids sharing the stellar models of any pipeline, although each pipeline's errors can still depend on the injected law. The star is hotter than the STAGGER grid \citep{MagicEtAl2015}, which stops at 7,000~K. In their spectral fits, exoTEDRF uses fixed coefficients from a 7,000~K model, whereas NOVA, as currently set up, keeps its WASP-17 reference and allows deviations from it; I still need to give NOVA a reference suited to this star. Both fit the limb darkening freely in the white-light curves. In a control, every pipeline will use the injected coefficients in both fits, to show how its recovered spectrum changes when the limb darkening is matched.
+Finally, the injected limb darkening follows one quadratic law computed from
+PHOENIX models of the star. None of the pipelines uses these models, so none is
+favoured. The star is, however, hotter than the STAGGER models
+\citep{MagicEtAl2015} from which NOVA and exoTEDRF take their limb darkening,
+so both must fall back on a model of a cooler star. exoTEDRF fixes its limb
+darkening to that model, whereas NOVA allows deviations from it. In a control,
+every pipeline will use the injected coefficients, which shows how much of its
+error comes from limb darkening.
 
 With the existing data, this is as close to a real observation as I can make
 the benchmark, and it rests on a single star. It would improve if JWST

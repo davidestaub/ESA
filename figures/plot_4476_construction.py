@@ -1,7 +1,7 @@
 """Schematic of the 4476 benchmark construction (Section 4, Eq. 4476), drawn with thumbnails of the real
 images: normal exposure N minus moved exposure O gives, after cleaning, the declared image of the star S;
 photon arrivals from S are drawn for successive time intervals and added to the raw reads of O; the
-transit case keeps a fraction r(t) of the arrivals, the twin keeps them all. The light curve is schematic.
+transit case keeps a fraction r(t) of the photons, the copy without the transit keeps them all. The light curve is schematic.
 Inputs (local): pid4476_testcase_20260930/inputs/*_rate.fits, checks/E_template/S_clean.npy."""
 import numpy as np, matplotlib
 matplotlib.use('Agg')
@@ -22,15 +22,15 @@ for x, lab, img in boxes:
     ax.set_xticks([]); ax.set_yticks([]); ax.set_title(lab, fontsize=7, pad=2)
 fig.text(0.233, y0 + H / 2, '$-$', fontsize=12, ha='center', va='center')
 fig.text(0.498, y0 + H / 2, '$\\rightarrow$', fontsize=12, ha='center', va='center')
-fig.text(0.875, y0 + H / 2 + 0.05, 'one set of photon\narrivals from $S$,\ndrawn for each\ntime interval', fontsize=6.6, ha='center', va='center')
-fig.text(0.875, y0 + H / 2 - 0.17, 'accumulated into reads\nin the linear domain,\nadded to the reads of $O(t)$', fontsize=6.6, ha='center', va='center')
+fig.text(0.875, y0 + H / 2 + 0.05, 'photons drawn\nfrom $S$ for each\ninterval between\ntwo reads', fontsize=6.6, ha='center', va='center')
+fig.text(0.875, y0 + H / 2 - 0.17, 'added as charge\nto the reads of $O(t)$', fontsize=6.6, ha='center', va='center')
 fig.text(0.768, y0 + H / 2, '$\\rightarrow$', fontsize=12, ha='center', va='center')
 # light curves
 ax = fig.add_axes([0.08, 0.06, 0.86, 0.26])
 t = np.linspace(-1, 1, 400)
 r = np.where(np.abs(t) < 0.35, 1 - 0.015 * np.clip((0.35 - np.abs(t)) / 0.07, 0, 1), 1.0)
-ax.plot(t, np.ones_like(t), color='#eb6834', lw=1.4, label='twin: keeps all arrivals ($r=1$)')
-ax.plot(t, r, color='#2a78d6', lw=1.4, label='transit case: keeps a fraction $r(t)$ of the same arrivals')
+ax.plot(t, np.ones_like(t), color='#eb6834', lw=1.4, label='copy without the transit: keeps all photons ($r=1$)')
+ax.plot(t, r, color='#2a78d6', lw=1.4, label='transit case: keeps a fraction $r(t)$ of the same photons')
 ax.axvspan(-1, -0.35, color='#f0f0f0', zorder=0); ax.axvspan(0.35, 1, color='#f0f0f0', zorder=0)
 ax.text(-0.67, 0.9915, '$r=1$', fontsize=6.8, ha='center', color='#555555'); ax.text(0.67, 0.9915, '$r=1$', fontsize=6.8, ha='center', color='#555555')
 ax.set_ylim(0.982, 1.004); ax.set_xlim(-1, 1); ax.set_yticks([]); ax.set_xticks([])
