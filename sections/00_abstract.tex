@@ -1,29 +1,29 @@
 \begin{abstract}
-The transmission spectrum of an exoplanet, its transit depth as a function of
-wavelength, reveals what its atmosphere is made of. In existing reduction
-pipelines, the raw data are corrected for known detector effects, a background is subtracted from each
-image, a spectrum is extracted from each image, and then a light curve is
-fitted at each wavelength. Different pipelines can produce different spectra
-from the same dataset. Even when pipelines agree, this does not show that
-their result is right, because the true spectrum of a real planet is unknown.
-I focus on two steps of this process that could bias the spectrum. Firstly, the background is subtracted, and any background that remains is not modelled when the transit is fitted. Secondly, each image is compressed into
-a one-dimensional spectrum. In this project, I ask how accurately a
-transmission spectrum can be recovered from data taken with the NIRISS/SOSS mode of the James Webb Space Telescope (JWST), and whether fitting the background and the transit together at
-the pixel level makes the recovered spectrum more accurate. To explore this, I have developed a
-method called Nonlinear Order-coupled Variable-projection Analysis (NOVA).
-NOVA takes a trial spectrum, shared by both spectral orders, and uses a model
-of the instrument to predict the count rate in each pixel, including any background left after the subtraction. It then refines the spectrum until this prediction agrees with
-the data. Applied to the hot Jupiter WASP-17~b, NOVA produced a spectrum
-broadly similar to the published spectra but deeper than the published Ahsoka spectrum at all wavelengths,
-especially at longer wavelengths. Its uncertainties are not yet validated.
-Because real data cannot show which spectrum is correct, I performed tests in
-which I added a known transit to real SOSS data. For one model atmosphere,
-which of NOVA and a published pipeline came closer to the truth depended on how much of the
-faint observed light I assumed to come from the star, and the WASP-17~b data
-cannot constrain this fraction. I am now using data from JWST calibration programme 4476. In this programme, a star was observed at its usual position on the detector and again
-with the telescope moved so that the star no longer fell on the strip normally used for SOSS time series. Subtracting the two exposures directly measures the light of the star in each pixel. From this difference I have made a first cleaned image of the star. I dim this image with a known transit, add photon noise, and add the result to the raw data of the moved exposure. The injected transit is then known exactly for the image I construct, whilst how faithfully that image represents the real star is a separate question. Over the rest of my
-PhD, I plan to compare NOVA with published pipelines using this benchmark,
-use it to test improvements to NOVA,
-apply NOVA to five other SOSS visits and to repeated observations of the same
-planets, and adapt it to secondary eclipses and observations with NIRSpec.
+The transmission spectrum of an exoplanet, the fraction of starlight it blocks
+at each wavelength, reveals what its atmosphere is made of. Existing pipelines
+subtract the background and extract a spectrum from each image before fitting
+the transit. They can disagree, and agreement cannot establish accuracy because
+the true spectrum of a real planet is unknown. I ask whether fitting the
+background and the transit together, on detector pixels, gives a more accurate
+spectrum. I use the Single Object Slitless Spectroscopy (SOSS) mode of the
+James Webb Space Telescope (JWST). My method, Nonlinear Order-coupled
+Variable-projection Analysis (NOVA), predicts every pixel as starlight dimmed
+by the transit plus the remaining background. It refines one spectrum, shared
+by both orders, until the prediction matches the data. NOVA's first spectrum of
+WASP-17~b resembles the published Ahsoka spectrum below about
+$1.8\,\mu\mathrm{m}$, but is deeper at every wavelength, most in the red. Its
+uncertainty is not yet validated. An injection test adds a known transit to
+real data, but must decide which of the observed light belongs to the star.
+For one injected atmosphere, the ranking of NOVA and exoTEDRF reversed with the
+share of faint light taken to be starlight, which the WASP-17~b data cannot
+determine. I am therefore building a benchmark from JWST calibration programme
+4476. It observed a star at its usual position and again moved off the SOSS
+strip, so the difference between the exposures measures the light of the star
+directly. I will dim a cleaned image of the star with a known transit and add
+it to the moved exposure's raw reads. The injected transit is known exactly
+even where the image is imperfect. My first paper will use this benchmark to
+improve NOVA, compare it with other pipelines and refit WASP-17~b. Four more
+will cover five further SOSS visits, repeated transits and stellar
+variability, the Near Infrared Spectrograph and, if time allows, secondary
+eclipses.
 \end{abstract}
