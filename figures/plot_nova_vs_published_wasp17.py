@@ -28,12 +28,12 @@ for lo, hi in [(0.63, 1.0), (1.0, 1.6), (1.6, 1.8), (1.8, 2.3), (2.3, 2.81), (0.
     s = (nl >= lo) & (nl < hi) & np.isfinite(interp)
     print(f'{lo:.2f}-{hi:.2f} um: n={s.sum():3d}  mean NOVA-Ahsoka = {np.mean(nd[s]-interp[s]):+7.0f} ppm')
 
-for lo, hi in [(0.63, 1.6), (1.8, 2.3), (2.3, 2.81)]:
+for lo, hi in [(0.63, 1.8), (1.8, 2.3), (2.3, 2.81)]:
     s_ = (nl >= lo) & (nl < hi) & np.isfinite(interp)
     print(f'{lo:.2f}-{hi:.2f} um: median NOVA-Ahsoka = {np.median(nd[s_]-interp[s_]):+7.0f} ppm')
 
 plt.rcParams.update({'font.family': 'serif', 'font.size': 7.5, 'axes.linewidth': 0.6})
-fig, ax = plt.subplots(1, 1, figsize=(6.3, 2.5))
+fig, ax = plt.subplots(1, 1, figsize=(6.3, 2.0))
 for o, mk in ((1, 'o'), (2, 's')):
     ax.errorbar(A[o][:, 0], A[o][:, 1], yerr=A[o][:, 2], fmt=mk, ms=2.2, lw=0.6, color='#eb6834',
                 label=f'Ahsoka, published (order {o})', zorder=2, alpha=0.9)

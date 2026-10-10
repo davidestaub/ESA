@@ -50,10 +50,10 @@ im = ax.imshow(np.clip(img, 0.3, None), origin='lower', aspect='auto', cmap='Gre
                norm=LogNorm(vmin=0.3, vmax=300), extent=(-0.5, 2047.5, Y0 - 0.5, Y0 + 255.5),
                interpolation='nearest')
 ax.scatter(det[:, 0], Y0 + det[:, 1], s=70, facecolors='none', edgecolors='#eb6834', linewidths=0.8,
-           label='compact sources', zorder=3)
+           label='compact blobs', zorder=3)
 m = on(std)
 ax.scatter(std[m, 0], Y0 + std[m, 1], s=28, marker='+', color='#2a78d6', linewidths=1.0,
-           label='Gaia, standard model', zorder=4)
+           label='Gaia, default ExoCTK mapping', zorder=4)
 m = on(fit)
 ax.scatter(fit[m, 0], Y0 + fit[m, 1], s=24, marker='x', color='#d62728', linewidths=1.1,
            label='Gaia, fitted mapping', zorder=5)

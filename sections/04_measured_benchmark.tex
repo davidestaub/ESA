@@ -2,23 +2,26 @@
 \label{sec:measured-benchmark}
 
 The benchmark I am now building uses a calibration programme that observed a
-star twice: once at its usual position on the detector, and once moved away
-from the strip that SOSS time series read out. The difference between the two
+star twice: once at its usual position on the detector, and once moved off
+the strip that SOSS time series read out. The difference between the two
 exposures measures the light of the star directly, so the injector depends
-much less on a fitted split between starlight and background.
+much less on a fitted split between starlight and background. In this
+section, I describe how I turn this difference into a cleaned image of the
+star and inject it with a known transit, how I will test the injector and the
+pipelines, and the limitations of the benchmark.
 
 \subsection{Measuring the star}
 \label{sec:measuring-star}
 
 On 26 March 2024, programme 4476 \citep{VolkEspinoza2023} observed
-TYC 4213-1116-1, an
-A-type star that gives about 1.6 times as much light per detector column as
-WASP-17, in two full-frame exposures taken about 25 minutes apart. In the
-first, with ten integrations of five groups, the star is at its usual
+TYC~4213-1116-1 in two full-frame exposures taken about 25 minutes apart.
+This A-type star gives about 1.6 times as much light per detector column as
+WASP-17. In the
+first, with ten integrations of five reads, the star is at its usual
 position. For the second, the telescope moved by $67.1''$, placing the traces
 1,026 rows lower. The SOSS strip then received no light from the star except
-its faint far halo. This second exposure has 150 integrations covering
-2.68~h, and it is the one into which I inject the star.
+its faint far halo. This second exposure, which I call the moved exposure, has 150 integrations
+covering 2.68~h. It is the one into which I inject the star.
 
 On the SOSS strip, the first exposure contains the star, the sky, the field
 sources of the first pointing and the signal of the detector itself. The
@@ -29,48 +32,46 @@ which the grism spreads into a pattern fixed on the detector, and the static
 signal of the detector, such as its dark current and bias. The estimated
 levels of the zodiacal background in the two exposures agree to within about
 1\%. The read noise and the offsets that vary in time, such as the $1/f$
-stripes, do not cancel, because they change from moment to moment.
+stripes, do not cancel.
 
 The difference is not yet a clean image of the star, for three reasons.
 Firstly, the far tail of the moved star's halo still reaches the strip in the
-second exposure as a faint, smooth glow of about
+moved exposure as a faint, smooth glow of about
 0.05~DN\,s$^{-1}$ per pixel, so the difference subtracts it from the image of
-the star. The benchmark keeps this glow, because it is built on the second
-exposure, so the total light out of transit is right, but the glow does not
+the star. The benchmark keeps this glow, because it is built on the moved exposure.
+The total light out of transit is therefore right, but the glow does not
 dim during the transit. For a 1.5\% transit in a 40-row extraction box with
-ideal sky subtraction, this makes the depth 2 to 19~ppm shallower, depending
+ideal sky subtraction, the undimmed glow makes the depth 2 to 19~ppm shallower, depending
 on wavelength. The full frames show this halo at 700 to 800 rows from the
-moved star, and with its measured fall-off it can be extrapolated to the
-strip, so I can correct the image of the star by adding this model of the
-halo.
+moved star. Extrapolating its measured fall-off to the strip gives a model of
+the halo there, and I can correct the image of the star by adding this model.
 
-Secondly, field sources do not cancel, because they moved with the telescope
+Secondly, field sources do not cancel, because their positions on the detector changed when the telescope moved
 (Figure~\ref{fig:4476}). They appear as compact blobs, which look like
 undispersed images of faint field objects, and as faint spectra of field
 stars crossing the strip. The difference contains the field sources of the
 first pointing as bright spots and those of the second as dark, negative ones.
 A bright spot would become part of the injected star and dim during the
 transit, so I replace its pixels by the light of the star estimated from the
-neighbouring columns. A dark spot would cancel the field source in the
-benchmark out of transit and let part of it reappear during the transit, so
-at its pixels I subtract an estimate of the sky alone instead of the second
-exposure. The field sources of the second pointing then stay in the benchmark
+neighbouring columns. A dark spot in the injected star would cancel the field source in the
+benchmark out of transit, and part of the source would reappear during the
+transit. At its pixels, I therefore subtract an estimate of the sky alone
+instead of the moved exposure. The field sources of the second pointing then stay in the benchmark
 as real light that does not transit, and the pipelines must handle them as
 they would in real data. Field sources lying exactly under the traces move
 with the star, so the two exposures cannot separate them, and their light
 becomes part of the injected star.
 
-I find the dark spots in the second exposure, where the star is not in the
-way, and the bright spots as compact bumps that the neighbouring columns of
-the trace do not have. Most field sources, including all compact blobs of the
+I find the dark spots in the moved exposure, where the star is not in the
+way. The bright spots show up as compact blobs that the neighbouring columns
+of the trace do not have. Most field sources, including all compact blobs of the
 first pointing, have no secure counterpart in Gaia DR3 \citep{GaiaDR3}, so the
 images themselves are needed to find them. Gaia, however, also tells me where
-the spectra of known stars fall, which a search for compact spots cannot
-find, even for stars that lie off the strip. I move each star's catalogue
+the spectra of known stars fall, even for stars that lie off the strip. A
+search for compact blobs cannot find these spectra. I update each star's catalogue
 position to the date of the observation, and use the recorded pointing of the
 telescope to find where it would appear on the detector without the grism.
-The grism slightly rotates and stretches this pattern, and each field star's
-spectra are those of the target, moved by the star's offset from it.
+The grism slightly rotates and stretches this pattern of positions.
 
 I fitted this rotation and stretch on the WASP-17~b data
 (Figure~\ref{fig:w17-gaia}). For a Gaia star $i$, let
@@ -83,83 +84,46 @@ the grism, in pixels. Its undispersed image then lands at
 where $\mathbf{A}$ is a $2\times2$ matrix that rotates and stretches the
 offsets, and $\mathbf{t}$ is the position of the target's own undispersed
 image, which lies off the strip. The spectra of star $i$ are those of the
-target, moved by $\mathbf{A}\,\boldsymbol{\Delta}_i$. To locate the compact
-sources, I first removed everything that is smooth along the rows, such as
-the traces and the sky, by subtracting from each row a running median over 51
-columns, and removed the $1/f$ stripes by subtracting the median of each
-column. I then smoothed the result slightly, with a Gaussian of 1.5 pixels,
+target, shifted by $\mathbf{A}\,\boldsymbol{\Delta}_i$.
+
+To locate the compact blobs, I first subtracted a running median over 51 columns from each row.
+This removed everything that is smooth along the rows, such as the traces and
+the sky. I then removed the $1/f$ stripes by subtracting the median of each
+column, smoothed the result slightly with a Gaussian of 1.5 pixels,
 and flagged groups of at least 12 touching pixels that lie more than five
 times the noise above zero. Many of these detections lie along the traces and
-are left over from their removal; a source counts as real if it also appears
-in an exposure through the F277W filter, in which the traces of WASP-17
-almost vanish, or if it matches a Gaia star. To find which detected source
+are left over from their removal. A source counts as real if it also appears
+in the F277W exposure (Section~\ref{sec:detector-processing}), or if it matches a Gaia star.
+
+To find which detected source
 belongs to which Gaia star, I held the stretch fixed and slid the whole
 predicted pattern across the image, within 300 pixels of the position given
-by the standard model of the ExoCTK contamination tool. At each position, I
+by the default mapping of the ExoCTK contamination tool \citep{BourqueEtAl2021}. At each position, I
 counted how many predicted images fell within 8 pixels of a detected source.
 At most positions none did, and at 99\% of them at most two did. At the best position, seven of the nine predicted images did, so this alignment stands out clearly from all others. I then fitted the six numbers in
-$\mathbf{A}$ and $\mathbf{t}$ by least squares to the eight pairs found this
-way. The fitted mapping places these images to within 0.8 columns and 3.6 rows
-(rms), against 4.3 columns and 14.9 rows for the standard model. When each pair
+$\mathbf{A}$ and $\mathbf{t}$ by least squares, matching the pairs again after each fit, which added an eighth pair. The fitted mapping places these eight images to within 0.8 columns and 3.6 rows
+(rms), against 4.3 columns and 14.9 rows for the default mapping. When each pair
 is left out of the fit and predicted from the other seven, the errors are 1.5
-columns and 7.8 rows. Programme 4476 cannot provide such a fit: its field is
+columns and 7.8 rows.
+
+Programme 4476 cannot provide such a fit. Its field is
 sparse, with 208 Gaia stars within $5.4'$ of the target against 1,455 around
-WASP-17, and its strip contains the undispersed image of at most one, very
-faint Gaia star. Both observations used the same instrument setting, so I use
-the WASP-17~b fit for programme 4476, and I will check the faint spectra that it predicts in both pointings. The injector finds field sources from the images, with Gaia guiding the search. Because NOVA may later use the same predictions, agreement between the two would not by itself show that the field-star light was separated correctly.
+WASP-17. Its strip contains the undispersed image of at most one Gaia star,
+which is very faint. Both observations used the same instrument setting, so I use
+the WASP-17~b fit for programme 4476. I will check the faint spectra that this fit predicts in both pointings. The injector finds field sources from the images, with Gaia guiding the search. Because NOVA may later use the same Gaia predictions, agreement between NOVA and the injector would not by itself show that the field-star light was separated correctly.
 
 \begin{figure*}[t]
   \centering
-  \includegraphics[width=\textwidth]{figures/w17_gaia_mapping.pdf}
-  \caption{The SOSS strip of the WASP-17~b observation (median of the
-  out-of-transit images). Orange circles mark the real compact sources: the
-  eight matched to Gaia stars, and 19 others without a Gaia counterpart that
-  also appear in an exposure through the F277W filter. Red crosses mark the
-  undispersed images of Gaia DR3 stars predicted with the fitted mapping, and
-  blue plus signs those predicted with the standard model. The two red
-  crosses without a circle belong to a faint star ($G=21.0$) and to a star at
-  the edge of the strip. The grey scale is logarithmic.}
-  \label{fig:w17-gaia}
-\end{figure*}
-
-Thirdly, the far wings are noisy. The subtraction removes the sky, so the
-image shows the light of the star far from the traces, where it is fainter
-than the sky (Figure~\ref{fig:4476-profiles}). The first exposure, however,
-has only ten integrations. I estimate the uncertainty of each pixel by
-combining the pipeline's error estimates for the two exposures, which agree
-with the actual scatter between neighbouring pixels to within 10\%. Dividing
-each pixel by its uncertainty gives a signal-to-noise ratio of 112 to 675 in
-the cores of the traces, 10 to 73 at 20 to 40 rows from them, and only 2 to 3
-at 40 to 200 rows from order~1 in the red. Injected as it is, this noise would
-become a fixed pattern in the star. The shape of the wings is set by the
-optics and changes only slowly with wavelength, so beyond 40 rows from the
-nearest trace I replace each pixel by the median of the pixels at the same
-distance from the trace in the 61 neighbouring columns, which span about
-$0.06\,\mu\mathrm{m}$ in order~1. Where the wings of several orders overlap,
-the nearest order dominates this estimate. This lowers the noise per pixel
-from about 0.10 to about 0.017~DN\,s$^{-1}$, and it also removes the $1/f$
-stripes left in the difference. Between 30 and 40 rows, the weight of this
-model rises linearly from zero to one, so that the image passes smoothly from
-the data to the model. Nearer the traces, I keep the measured light, with its
-noise and stripes. These are fixed in the image of the star, whereas the real,
-changing $1/f$ noise of the benchmark comes from the reads of the second
-exposure across the whole strip. On average, the model differs from the
-measured pixels by only about 0.16\% at 40 to 100 rows, so the wings change
-slowly enough for this. The result is the cleaned image of the star, $S$, a
-count rate per pixel (Figure~\ref{fig:4476}c).
-
-\begin{figure*}[t]
-  \centering
-  \includegraphics[width=0.92\textwidth]{figures/pid4476_star_and_carrier.pdf}
+  \includegraphics[width=0.82\textwidth]{figures/pid4476_star_and_carrier.pdf}
   \caption{The SOSS strip in programme 4476. (a) The exposure with the star at
   its usual position. (b) The exposure with the star moved 1,026 rows lower,
   into which the star is injected. (c) The cleaned image of the star, given by
   the difference between (a) and (b) with the field sources removed and the
-  far wings smoothed (a preliminary version, made before the corrections for
-  the sky and the halo of the moved star). Orange outlines mark the field
+  far wings smoothed. It is a preliminary version, made before the corrections
+  for the sky and the halo of the moved star. Orange outlines mark the field
   sources found in each exposure. Blue dashed lines are the spectra of Gaia
   DR3 stars with $G\leq20.5$ predicted on the strip
-  (Section~\ref{sec:measuring-star}). In (b), the predictions are moved by 10
+  (Section~\ref{sec:measuring-star}). In (b), the predictions are shifted by 10
   rows so that the target falls at its measured position. The grey scale is
   logarithmic.}
   \label{fig:4476}
@@ -167,16 +131,56 @@ count rate per pixel (Figure~\ref{fig:4476}c).
 
 \begin{figure*}[t]
   \centering
-  \includegraphics[width=\textwidth]{figures/pid4476_profiles.pdf}
+  \includegraphics[width=\textwidth]{figures/w17_gaia_mapping.pdf}
+  \caption{The SOSS strip of the WASP-17~b observation (median of the
+  out-of-transit images). Orange circles mark the real compact blobs: the
+  eight matched to Gaia stars, and 19 others without a Gaia counterpart that
+  also appear in the F277W exposure. Red crosses mark the
+  undispersed images of Gaia DR3 stars predicted with the fitted mapping, and
+  blue plus signs those predicted with the default ExoCTK mapping. The two red
+  crosses without a circle belong to a faint star ($G=21.0$) and to a star at
+  the edge of the strip. The grey scale is logarithmic.}
+  \label{fig:w17-gaia}
+\end{figure*}
+
+Thirdly, the far wings of the difference are noisy. The subtraction removes the sky, so the
+image shows the light of the star far from the traces, where it is fainter
+than the sky (Figure~\ref{fig:4476-profiles}). The first exposure, however,
+has only ten integrations. I estimate the uncertainty of each pixel by
+combining the pipeline's error estimates for the two exposures. These
+estimates agree with the actual scatter between neighbouring pixels to within
+10\%. Dividing
+each pixel's count rate by its uncertainty gives a signal-to-noise ratio of 112 to 675 in
+the cores of the traces, 10 to 73 at 20 to 40 rows from them, and only 2 to 3
+at 40 to 200 rows from order~1 in the red. Injected as it is, this noise would
+become a fixed pattern in the star.
+
+The shape of the wings is set by the
+optics and changes only slowly with wavelength. Beyond 40 rows from the
+nearest trace, I therefore replace each pixel by the median of the pixels at the same
+distance from the trace in the 61 neighbouring columns, which span about
+$0.06\,\mu\mathrm{m}$ in order~1. On average, this far-wing model differs from the measured pixels by only about 0.16\% at 40 to 100 rows, so the wings change slowly enough across the 61 columns for the median to stand in for each pixel. Where the wings of several orders overlap,
+the nearest order dominates this estimate. This lowers the noise per pixel
+from about 0.10 to about 0.017~DN\,s$^{-1}$, and it also removes the $1/f$
+stripes left in the difference. Between 30 and 40 rows, the weight of this
+far-wing model rises linearly from zero to one, so that the image passes smoothly from
+the data to the model. Nearer the traces, I keep the measured light, with its
+noise and stripes. These are fixed in the image of the star, whereas the real,
+changing $1/f$ noise of the benchmark comes from the reads of the moved
+exposure across the whole strip. The result is the cleaned image of the star, $S$, a
+count rate per pixel (Figure~\ref{fig:4476}c).
+
+\begin{figure*}[t]
+  \centering
+  \includegraphics[width=0.92\textwidth]{figures/pid4476_profiles.pdf}
   \caption{Median profiles across the trace of order 1 in three wavelength
   bands: the exposure with the star at its usual position (grey), the moved
   exposure, which provides the background at the same pixels (orange), their
-  measured difference (black), and the cleaned image of the star (blue;
-  dashed where the far-wing model is used, which depends on the distance from
-  the nearest trace). The further peaks are order 2 in the left and middle
+  measured difference (black), and the cleaned image of the star (blue). The blue curve is dashed where the
+  far-wing model is used. Where it is used depends on the distance from the
+  nearest trace. The further peaks are order 2 in the left and middle
   panels, and order 3 and a faint band that is probably order 4 in the right
-  panel. The vertical scale is linear near zero and logarithmic above, so that
-  negative values are kept. The cleaned image is a preliminary version, made
+  panel. The vertical scale is linear near zero and logarithmic above, so that negative values, which a logarithmic axis cannot show, still appear. The cleaned image is a preliminary version, made
   before the corrections for the sky and the halo of the moved star.}
   \label{fig:4476-profiles}
 \end{figure*}
@@ -185,13 +189,13 @@ count rate per pixel (Figure~\ref{fig:4476}c).
 \label{sec:injecting-star}
 
 I add the cleaned image of the star, with a known transit, to the raw reads of
-the second exposure. The count rate of each pixel $p$ of the benchmark data
+the moved exposure. The count rate of each pixel $p$ of the benchmark data
 is then
 \begin{equation}
   Y_p(t) = O_p(t) + S_p\,r_p(t) + n_p(t),
   \label{eq:4476}
 \end{equation}
-where $O_p(t)$ is the count rate of the second exposure, $S_p$ is the cleaned
+where $O_p(t)$ is the count rate of the moved exposure, $S_p$ is the cleaned
 image of the star, $r_p(t)$ is the fraction of the star's light that remains
 at time $t$, equal to one out of transit, and $n_p(t)$ is the photon noise of
 the added light, which averages to zero. Everything in $O_p(t)$ is real,
@@ -201,10 +205,9 @@ and none of it transits.
 In an atmosphere with spectral features, the transit is deeper at some
 wavelengths than at others, so each pixel must dim by the depth at the
 wavelengths of its light. Where two orders overlap, a pixel holds light of two
-different wavelengths, and a model must split it between them. I take the
-wavelength at each position along each order from PASTASOSS
-\citep{BainesEtAl2023Wavelength}, and split the light where the orders overlap
-with ATOCA \citep{DarveauBernierEtAl2022}, the public model built for this
+different wavelengths, and a model must split it between them. I will take the wavelength at each position along each order from PASTASOSS
+\citep{BainesEtAl2023Wavelength} and, where the orders overlap, split the
+light with ATOCA \citep{DarveauBernierEtAl2022}, the public model built for this
 purpose. As a second case, I can instead measure the profile of each order on
 its side away from the other order, and assume the same shape on the side
 where they overlap. The limb darkening for these cases is still to be chosen:
@@ -217,35 +220,35 @@ average, following a Poisson distribution. This is the photon noise of real
 light. For each pixel and each interval between two reads, I therefore draw
 the number of photons from a Poisson distribution whose average is the light
 of the star in that interval, and add them up to give the extra charge at each
-read. The detector does not record charge in proportion: as a pixel fills,
-each additional electron raises the recorded value a little less. The
+read. The recorded value is not proportional to the charge. As a pixel fills,
+each additional electron raises it a little less. The
 pipelines undo this with a standard calibration curve. So that the added light
-behaves as real light, I convert each real read into charge with this curve,
+behaves like real light, I convert each real read into charge with this curve,
 add the star's charge, and write the value that the curve gives for the new
 total. A pipeline that uses the same curve then recovers the added charge, to
-within the rounding of the raw values. Nothing else is added: the bias, read
+within the rounding of the raw values. Nothing else is added. The bias, read
 noise and $1/f$ noise of the real exposure stay as they are. Pixels that did
 not respond to light in the first exposure receive none.
 
 For every transit case, I also make a copy of the same data, with the same
 photons, but without the transit (Figure~\ref{fig:4476-construction}). The
 transit case is this copy with photons removed during the transit: where the
-light curve dips by 2\%, each photon has a 2\% chance of being removed. The two share the real exposure and every photon that the transit did not remove, so they differ only by the removed light, and the only noise left in their difference is the small photon noise of that light. Running a pipeline on both and subtracting its results at any step of the processing therefore shows the transit as that step passed it on. Comparing this with the injected transit shows whether and where the
+light curve dips by 2\%, each photon has a 2\% chance of being removed. The two share the real exposure and every photon that the transit did not remove. They differ only by the removed light, so the only noise left in their difference is the small photon noise of that light. Running a pipeline on both and subtracting its results at any step of the processing therefore shows the transit as that step passed it on. Comparing this with the injected transit reveals whether and where the
 pipeline distorts it. For example, comparing the two after the $1/f$
 correction shows directly whether that correction distorts the transit in
 NOVA's processing, as the comparison with the same data without the transit
-did in Section~\ref{sec:raw-injection}. A single dataset with a transit gives
+did in Section~\ref{sec:raw-injection}. A single data set with a transit gives
 only the total error at the end, with the noise included.
 
 The same construction can also inject a model image of the star in place of
 the measured one. Such a star has no noise and no field sources, and the
 wavelength at every pixel is known. Its wings, however, are those of the
 model, and a pipeline built on the same model would be favoured. I therefore
-plan to use it as a control. If a pipeline recovers the transit of the model star but not that of the measured one, this would point to differences between the two images of the star. Further tests would be needed to isolate the faint light.
+plan to use it as a control. If a pipeline recovers the transit of the model star but not that of the measured one, this would point to differences between the two images of the star. Further tests would then be needed to find out whether the faint light is the cause.
 
 \begin{figure*}[t]
   \centering
-  \includegraphics[width=\textwidth]{figures/pid4476_construction.pdf}
+  \includegraphics[width=0.92\textwidth]{figures/pid4476_construction.pdf}
   \caption{Construction of the benchmark data. Photons are drawn from the
   cleaned image of the star for each interval between two reads and added as
   charge to the reads of the moved exposure. The copy without the transit
@@ -253,7 +256,7 @@ plan to use it as a control. If a pipeline recovers the transit of the model sta
   same photons, so the two are identical in every integration that has lost
   no light to the transit since its reset. The lower panel shows the stellar
   factor $r(t)$, not the total flux, which also contains light that does not
-  transit. Field sources in the moved exposure stay there and do not transit.
+  transit. Field sources in the moved exposure stay in the data and do not transit.
   The injected light curve is known exactly, whereas how faithfully the
   cleaned image represents the real star is a separate question
   (Section~\ref{sec:benchmark-limits}). The light curve is schematic.}
@@ -265,26 +268,26 @@ plan to use it as a control. If a pipeline recovers the transit of the model sta
 
 I test the injector in two ways. Firstly, simple checks of the code confirm
 that it adds exactly the light I intend and nothing else. Secondly, out of
-transit, the injected data, made of the moved exposure plus the injected star,
-should look like the real exposure with the star at its usual position. Apart
+transit, the moved exposure plus the injected star should look like the first
+exposure, in which the star was at its usual position. Apart
 from the field sources, which differ between the two pointings, and the noise,
 their images agree by construction. The comparison therefore tests whether the
 injected light builds up in the detector as real light does. Pixel by pixel,
 the charge should rise from read to read in the same way, and a pipeline should
 flag the same pixels as close to saturation. Where they differ, the difference
 is a limitation of the benchmark (Section~\ref{sec:benchmark-limits}). Neither
-comparison can show that the cleaned image is the true star; that rests on the
+test can show that the cleaned image is the true star. That rests on the
 cleaning described in Section~\ref{sec:measuring-star}.
 
-Each pipeline runs its own workflow on the same raw files, set up without
-knowledge of the injected transit. Because the strip was read as part of a
+Each pipeline is set up without knowledge of the injected transit and runs
+its own workflow on the same raw files. Because the strip was read as part of a
 full frame, the only reference file that differs from each pipeline's usual
 choice is the bias reference, which must be that of the full-frame readout. I
 compare the spectrum from each pipeline's own transit fit with the injected
-spectrum, which gives the total error that a user would get. To find where an
-error arises, I also run each pipeline on the copy without the transit and
+spectrum. This comparison gives the total error that a user would get. To find where an
+error arises, I also run each pipeline on the copy without the transit (Section~\ref{sec:injecting-star}) and
 compare the two runs after every step that the pipeline saves, such as the
-$1/f$ correction or the extraction. Because the two runs differ only by the light that the transit removed, each comparison shows the transit as that step passed it on. Knowing
+$1/f$ correction or the extraction. Knowing
 where a pipeline distorts the transit shows what a method must get right,
 which guides the development of NOVA.
 
@@ -296,7 +299,7 @@ WASP-17~b, in several ways.
 
 Firstly, it rests on one star, with its own brightness, temperature and sky,
 and these set how much each source of error matters. For a fainter star or a
-brighter sky, for example, errors in removing the sky would matter more. At 7,548~K, the star is also hotter than 50 of the 51 exoplanet hosts that SOSS had observed by October 2026, whose median temperature is 4,870~K. Its second and third orders are therefore brighter relative to the first than for a typical host, and the orders contaminate each other differently.
+brighter sky, for example, errors in removing the sky would matter more. At 7,548~K, the star is also hotter than 50 of the 51 exoplanet hosts that SOSS had observed by October 2026. The median temperature of these hosts is 4,870~K. The star's second and third orders are therefore brighter relative to the first than for a typical host, and the orders contaminate each other differently.
 
 Secondly, programme 4476 read the whole detector every 10.7~s, whereas a SOSS
 time series reads only the strip every 5.5~s. The light falls on the same
@@ -307,35 +310,33 @@ realistic test of how the pipelines treat the light, and a close but not exact
 test of how they treat the noise of a time series. Because the star is bright,
 its brightest pixels come close to saturation after five reads, and the
 saturation rule of exoTEDRF then flags about a quarter of the star's light in
-its box. I will therefore also make versions with only the first four and the
+the exoTEDRF extraction box. I will therefore also make versions with only the first four and the
 first three reads.
 
 Thirdly, the injected star does not move or change shape, whereas a real
 trace shifts and changes slightly during a visit, so the benchmark does not
-test how the pipelines correct for this. It could be added by shifting and
+test how the pipelines correct for this. Such motion could be added by shifting and
 stretching the image of the star slightly in each integration, following the
 motion measured in a real time series.
 
-Fourthly, the injection adds light but no response of the detector's
-electronics to the change in light. If the detector itself reacts when the star dims, as the faint light outside the traces may suggest (Section~\ref{sec:real-data-test}), the benchmark does not contain this. In addition, the
+The injection also adds light, but it does not add any response of the
+detector's electronics to the change in light. If the detector itself reacts when the star dims, as the faint light outside the traces may suggest (Section~\ref{sec:real-data-test}), the benchmark does not contain this reaction. In addition, the
 photon noise that I add lacks the slight coupling between neighbouring pixels that real detector data show. This could be added from the measured strength
 of that coupling.
 
-Fifthly, the exposure lasts only 2.68~h, so the injected transit lasts
-51.5~minutes, to leave time before and after it. A planet crossing the centre
-of this star would take hours, so with the one-day orbit that I chose, the
+The exposure also lasts only 2.68~h, so the injected transit is
+51.5~minutes long, to leave time before and after it. A planet crossing the
+centre of this star would take hours. With the one-day orbit that I chose, the
 shape of this short transit corresponds to an unphysical star, about a hundred
 times denser than this one. The benchmark therefore cannot test a pipeline that
-fits the transit with a prior on the density of the star. None of the four
-pipelines, as set up for the benchmark, uses such a prior: each fits the shape
+fits the transit with a prior on the density of the star. None of the four pipelines that I will run on the benchmark (Section~\ref{sec:plan}) uses such a prior. Each fits the shape
 of the transit freely.
 
-Finally, the injected limb darkening follows one quadratic law computed from PHOENIX models of the star. Using PHOENIX avoids sharing the stellar models of any pipeline, although each pipeline's errors can still depend on the injected law. The star is hotter than the STAGGER grid \citep{MagicEtAl2015}, which stops at 7,000~K. In their spectral fits, exoTEDRF uses fixed coefficients from a 7,000~K model, whereas NOVA, as currently set up, keeps its WASP-17 reference and allows deviations from it; I still need to give NOVA a reference suited to this star. Both fit the limb darkening freely in the white-light curves. In a control, every pipeline will use the injected coefficients in both fits, to show how its recovered spectrum changes when the limb darkening is matched.
+Finally, in the grey case, the injected limb darkening follows one quadratic law computed from PHOENIX models of the star \citep{HusserEtAl2013}. Using PHOENIX avoids sharing the stellar models of any pipeline, although each pipeline's errors can still depend on the injected law. The star is hotter than the STAGGER grid \citep{MagicEtAl2015}, which stops at 7,000~K. In their spectral fits, exoTEDRF uses fixed coefficients from a 7,000~K model, whereas NOVA, as currently set up, keeps its WASP-17 reference and allows deviations from it. Both fit the limb darkening freely in the white-light curves. I still need to give NOVA a reference suited to this star. In a control, every pipeline will use the injected coefficients in both fits, to show how its recovered spectrum changes when the limb darkening is matched.
 
 With the existing data, this is as close to a real observation as I can make
-the benchmark, and it rests on a single star. It would improve if JWST
-repeated programme 4476 for several stars of different temperatures and
-brightness, like the hosts of the planets that SOSS usually observes. Each
+the benchmark. It would improve if JWST
+repeated programme 4476 for several cooler stars of different brightness, like the hosts of the planets that SOSS usually observes. Each
 observation could be read out as a SOSS time series, so that the noise
 matches. More integrations with the star at its usual position would make the
 image of the star less noisy. A longer exposure with the star moved away would

@@ -27,8 +27,8 @@ gtr = np.load(gdir + 'i04_predicted_field_traces.npz'); gmeta = json.load(open(g
 plt.rcParams.update({'font.family': 'serif', 'font.size': 8.5})
 fig, axs = plt.subplots(3, 1, figsize=(6.3, 3.5), sharex=True)
 norm = LogNorm(vmin=0.3, vmax=300)
-panels = [(N, normal_src, '(a) Star at the normal position'),
-          (O, offset_src, '(b) Star moved 1,026 rows away'),
+panels = [(N, normal_src, '(a) Star at the usual position'),
+          (O, offset_src, '(b) Star moved 1,026 rows lower'),
           (S, None, '(c) Cleaned image of the star')]
 for ax, (img, mask, title) in zip(axs, panels):
     im = ax.imshow(np.clip(img, 0.3, None), origin='lower', aspect='auto', cmap='Greys', norm=norm,

@@ -24,7 +24,7 @@ ax.annotate('one group $g$: the pixels $P_g$\nof one order in one column', xy=(x
             fontsize=6.8, arrowprops=dict(arrowstyle='->', lw=0.6, color='#333333'))
 ax.set_xlim(0, 10); ax.set_ylim(0, 7.8); ax.set_xticks([]); ax.set_yticks([])
 ax.set_xlabel('detector column', fontsize=7); ax.set_ylabel('row', fontsize=7)
-ax.set_title('(a) retained pixels, grouped by order and column (sketch)', fontsize=7.2, loc='left', pad=2)
+ax.set_title('(a) fitted pixels, grouped by order and column (sketch)', fontsize=7.2, loc='left', pad=2)
 # (b) model terms
 bx = fig.add_axes([0.0, 0.0, 1.0, 0.54]); bx.set_xlim(0, 10); bx.set_ylim(0, 6); bx.axis('off')
 bx.text(0.15, 5.7, '(b) model of each pixel (schematic)', fontsize=7.2, va='top')
@@ -38,7 +38,7 @@ box((0.6, 1.2), 8.8, 1.5, r'$\widehat Y_{tp} = \gamma_t\, C_{tg}\, \bar{\mathcal
     'starlight, dimmed by the transit  +  background, not dimmed', '#fff6ee', fs=6.6)
 for x0 in (1.7, 5.0, 8.3):
     bx.annotate('', xy=(min(max(x0, 2.0), 8.0), 2.75), xytext=(x0, 3.55), arrowprops=dict(arrowstyle='->', lw=0.6, color='#333333'))
-bx.text(5.0, 0.55, 'fitted to the count rate $Y_{tp}$ of every retained pixel', ha='center', fontsize=6.8)
+bx.text(5.0, 0.55, 'fitted to the count rate $Y_{tp}$ of every fitted pixel', ha='center', fontsize=6.8)
 fig.savefig('nova_schematic.pdf', bbox_inches='tight', pad_inches=0.02)
 fig.savefig('/private/tmp/claude-501/-Users-davidestaub-Desktop-ICL-PHD/3826395b-face-443e-b4ef-9d4376b4a9cf/scratchpad/nova_schematic_preview.png', dpi=200, bbox_inches='tight')
 print('saved')

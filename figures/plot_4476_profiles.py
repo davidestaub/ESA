@@ -31,11 +31,11 @@ for ax, ((c0, c1), lab) in zip(axs, bands):
             v = np.full(d.size, np.nan); v[ok] = img[rows[ok], c]; prof[k].append(v)
     med = {k: np.nanmedian(np.array(v), axis=0) for k, v in prof.items()}
     model = med['W'] > 0.5
-    ax.plot(d, med['N'], color='#888888', lw=1.0, label='normal exposure')
+    ax.plot(d, med['N'], color='#888888', lw=1.0, label='exposure at the usual position')
     ax.plot(d, med['T'], color='#222222', lw=0.6, label='difference (measured)')
     ax.plot(d, med['O'], color='#eb6834', lw=1.0, label='moved exposure (background)')
-    ax.plot(d, np.where(~model, med['S'], np.nan), color='#2a78d6', lw=1.4, label='cleaned source')
-    ax.plot(d, np.where(model, med['S'], np.nan), color='#2a78d6', lw=1.4, ls=(0, (3, 1.5)), label='cleaned source, far-wing model')
+    ax.plot(d, np.where(~model, med['S'], np.nan), color='#2a78d6', lw=1.4, label='cleaned image of the star')
+    ax.plot(d, np.where(model, med['S'], np.nan), color='#2a78d6', lw=1.4, ls=(0, (3, 1.5)), label='cleaned image of the star, far-wing model')
     ax.set_yscale('asinh', linear_width=0.3); ax.set_ylim(-0.5, 2000)
     ax.set_yticks([0, 1, 10, 100, 1000]); ax.set_yticklabels(['0', '1', '10', '100', '1000']); ax.minorticks_off(); ax.set_xlim(-50, 200); ax.set_xticks([0, 50, 100, 150])
     ax.set_title(lab, fontsize=7.5, pad=2)
@@ -44,7 +44,7 @@ for ax, ((c0, c1), lab) in zip(axs, bands):
     for s in ['top', 'right']:
         ax.spines[s].set_visible(False)
 axs[0].set_ylabel('Count rate (DN s$^{-1}$)')
-axs[0].legend(frameon=False, fontsize=6.2, loc='lower left', bbox_to_anchor=(0.0, 1.08), ncol=5, columnspacing=0.8, handlelength=1.8)
+axs[0].legend(frameon=False, fontsize=6.2, loc='lower left', bbox_to_anchor=(0.0, 1.08), ncol=3, columnspacing=0.8, handlelength=1.8)
 for ax, pk in zip(axs, [[(165, 'order 2')], [(90, 'order 2')], [(65, 'order 3'), (148, 'order-4 band')]]):
     for x_, t_ in pk:
         ax.text(x_, 1300, t_, fontsize=6.3, ha='center', color='#444444')

@@ -5,22 +5,22 @@
 \label{sec:discussion}
 
 The main lesson of the first year concerns the benchmark rather than any one
-pipeline. Every injection test on real SOSS data has to decide which light
-belongs to the star, stated or not, and its verdict holds only under that
+pipeline. Every injection test on real SOSS data has to decide, whether it says so or not, which light
+belongs to the star. Its verdict holds only under that
 decision. For one atmosphere injected into the WASP-17~b data, this decision
 reversed the ranking of the two pipelines I tested
 (Section~\ref{sec:which-light}). The benchmark of
 Section~\ref{sec:measured-benchmark} constrains this decision with a separate
-measurement of the star. The price is a different star, field and readout. It
-is designed to measure which kinds of error each method makes when the
-injected light curve is known, and where in its processing they arise.
+measurement of the star. The price is a different star, field and readout. The
+benchmark is designed to measure, against a known injected light curve, which
+kinds of error each method makes and where in its processing they arise.
 
 This lesson sets the order of the work. NOVA's first spectrum of the real
 WASP-17~b visit is deeper than the published Ahsoka spectrum at every
-wavelength, and most in the red (Section~\ref{sec:nova-real}), and its
-uncertainty is not yet validated. An injection test shows how accurately each method recovers a known spectrum, which is the best guide to which real spectrum to trust, and an injector built from the WASP-17~b data alone cannot provide it. I am therefore
+wavelength, most in the red (Section~\ref{sec:nova-real}). Its
+uncertainty is not yet validated. An injection test shows how accurately each method recovers a known spectrum. This is the best guide to which real spectrum to trust, but an injector built from the WASP-17~b data alone cannot provide it. I am therefore
 finishing the benchmark first. I will then use it to test NOVA and the other
-pipelines and to improve NOVA, and only then refit WASP-17~b.
+pipelines, improve NOVA, and only then refit WASP-17~b.
 
 \subsection{Research plan}
 \label{sec:plan}
@@ -33,66 +33,64 @@ NOVA to NIRSpec and to secondary eclipses.
 
 \paragraph{Paper 1: NOVA, the benchmark and WASP-17~b.} The aim is to measure
 how accurately NOVA and the extraction-first pipelines recover a known
-transmission spectrum, and whether NOVA changes the conclusions about
+transmission spectrum, and to test whether NOVA changes the conclusions about
 WASP-17~b. Firstly, I will finish the benchmark of
 Section~\ref{sec:measured-benchmark} and run NOVA and exoTEDRF on it, together
 with Ahsoka and \texttt{transitspectroscopy} where they run end to end.
 Secondly, I will improve NOVA on one set of injected atmospheres, and then
-score all pipelines on a second set, held back until NOVA is fixed. Thirdly, I
-will refit NOVA's spectrum of the real WASP-17~b visit, with uncertainties
-from an ensemble of simulated observations, and compare it with the three
+score all pipelines on a second set, held back until the improvements to NOVA are complete. Thirdly, I
+will refit the real WASP-17~b visit with NOVA, estimate the uncertainties
+from an ensemble of simulated observations, and compare the spectrum with the three
 published reductions. Because the benchmark rests on a single star, I will
-also propose that JWST repeat programme 4476 for several cooler stars, read
-out as a SOSS time series and with more integrations at the usual position. I
+also propose that JWST repeat programme 4476 for several cooler stars (Section~\ref{sec:benchmark-limits}). I
 aim to finish this paper before the HWO2026 conference in Paris at the end of
 November 2026, where I will present this work.
 
 \paragraph{Paper 2: Five further SOSS visits.} The aim is to find out whether
 NOVA changes the atmospheric conclusions for other SOSS targets, and if so,
 why. I will analyse five SOSS visits as real data. As in Paper~1, I will run
-NOVA together with those pipelines of each visit's published reductions that
-are publicly available, and run each of them on the benchmark as well, so that its errors on the same known case can be measured. Each visit was chosen for its own reason. WASP-39~b has
+NOVA together with the publicly available pipelines used in each visit's
+published reductions. I will also run each of these pipelines on the benchmark, so that its errors on the same known case can be measured. Each visit was chosen for its own reason. WASP-39~b has
 the best-studied SOSS spectrum, with six independent reductions of the same
-visit, including supreme-SPOON, now exoTEDRF, and \texttt{transitspectroscopy},
+visit, including supreme-SPOON (now exoTEDRF) and \texttt{transitspectroscopy},
 and a joint analysis with three other JWST modes
-\citep{FeinsteinEtAl2023,CarterEtAl2024}. Its metallicity is constrained by the water bands across the spectrum, while the fall in depth between 2 and $2.3\,\mu\mathrm{m}$ favours patchy, non-grey clouds. This is in the red range where NOVA's spectrum of WASP-17~b differs most from Ahsoka's, so the question is whether NOVA reproduces these conclusions. For WASP-96~b, published
+\citep{FeinsteinEtAl2023,CarterEtAl2024}. Its metallicity is constrained by the water bands across the spectrum, while the fall in depth between 2 and $2.3\,\mu\mathrm{m}$ favours patchy, non-grey clouds. This fall lies in the red, where NOVA's spectrum of WASP-17~b differs most from Ahsoka's, so the question is whether NOVA reproduces these conclusions. For WASP-96~b, published
 analyses of the same visit disagree on whether the spectrum rises towards the
 blue. Some find such a slope \citep{RadicaEtAl2023,TaylorEtAl2023,RadicaEtAl2026}
 and favour an explanation involving small particles high in the atmosphere
-\citep{TaylorEtAl2023,RadicaEtAl2026}, while another analysis does not
-\citep{WangEtAl2026}. Both sides suggest differences in reduction as possible causes, and NOVA's reduction will show which of the two its spectrum supports.
-The HAT-P-18~b visit contains a spot crossed by the planet during the transit
-and a field star on the order-1 trace whose brightness changes, probably an
-eclipsing binary \citep{FuEtAl2022}. It therefore tests how NOVA handles light
-that its transit model does not describe, and Paper~3 returns to this visit
+\citep{TaylorEtAl2023,RadicaEtAl2026}, while another analysis finds none
+\citep{WangEtAl2026}. Both sides suggest differences in reduction as possible causes of the disagreement, and I will test which side NOVA's spectrum supports.
+The HAT-P-18~b visit contains a spot that the planet crosses during the
+transit, and a variable field star on the order-1 trace, probably an
+eclipsing binary \citep{FuEtAl2022}. This visit therefore tests how NOVA handles light
+that its transit model does not describe, and Paper~3 returns to it
 with a model of the star. HAT-P-26~b has the shallowest transit of the five,
-with features of only a few hundred ppm, so it tests whether NOVA's
-differences still matter for such small signals. HST and NIRSpec spectra exist
+with features of only a few hundred ppm, so it tests whether the differences between NOVA and the other pipelines
+still matter for such small signals. HST and NIRSpec spectra exist
 for comparison \citep{WakefordEtAl2017,GressierEtAl2025}. For WASP-80~b, NIRCam
-has measured methane between 2.4 and $4\,\mu\mathrm{m}$ \citep{BellEtAl2023},
-overlapping the red end of SOSS, where NOVA differs most for WASP-17~b, which
-gives an independent check of NOVA's red end. I will analyse all five visits
-with the same version of NOVA, fixed before the spectra are compared. Anything
-learnt from them, such as a better treatment of field stars, will go into a
-later version, which is again tested on the benchmark before it is used. Since
-the errors measured in Paper~1 come from a hotter star, a repeat of programme
-4476 on cooler stars would make this comparison firmer.
+has measured methane between 2.4 and $4\,\mu\mathrm{m}$ \citep{BellEtAl2023}.
+This range overlaps the red end of SOSS, where NOVA differs most for
+WASP-17~b, so it gives an independent check of NOVA's spectrum there. 
+
+I will analyse all five visits
+with the same version of NOVA, fixed before the spectra are compared. Anything learned from them, such as a better treatment of field stars, will go into a
+later version, which will again be tested on the benchmark before it is used.
 
 \paragraph{Paper 3: Repeated visits and stellar variability.} The aim is to
-test whether repeated visits of the same planet give the same spectrum once instrumental and stellar effects are accounted for, and whether stellar effects explain features that have been attributed to planets. This matters most for
+test whether repeated visits of the same planet give the same spectrum once instrumental and stellar effects are accounted for, and whether stellar effects explain features that have been attributed to planets. These questions matter most for
 small planets around cool stars. Spots and bright regions on the star that the
 planet does not cross can put false features into the spectrum
-\citep{RackhamEtAl2018}, and they change, as do flares, from one visit to the
-next. Comparing visits therefore tests which features persist as stellar activity changes. I will start with the two SOSS transits of GJ~9827~d
+\citep{RackhamEtAl2018}. These regions change from one visit to the next, and so
+do flares. Comparing visits therefore tests which features persist as stellar activity changes. I will start with the two SOSS transits of GJ~9827~d
 \citep{PiauletGhorayebEtAl2024}, then turn to the four of LHS~1140~b
 \citep{CadieuxEtAl2024,GressierEtAl2026} and the five of TRAPPIST-1~f, each of
-which contains a flare \citep{LimEtAl2026}. I will also return to HAT-P-18~b, whose spectrum rises towards the blue, to test whether spots on the star that the planet does not cross explain this rise, as \citet{FournierTondreauEtAl2024} propose, rather than a haze \citep{FuEtAl2022}. This requires building two models
+which contains a flare \citep{LimEtAl2026}. I will also return to HAT-P-18~b, whose spectrum rises towards the blue, to test whether this rise comes from spots on the star that the planet does not cross, as \citet{FournierTondreauEtAl2024} propose, or from a haze \citep{FuEtAl2022}. This requires building two models
 into NOVA: one for flares, with their timing shared across wavelengths and
 their brightness fitted at each wavelength, and one for the spots and bright
 regions that the planet does not cross. I will test both models by injecting
-flares and such stellar signals into the benchmark before applying them to the
+flares and the signals of such spots and bright regions into the benchmark before applying them to the
 real visits. Two planned MRes projects, starting in January 2027, will study
-stellar variability and flares in the out-of-transit SOSS data, which would
+stellar variability and flares in the out-of-transit SOSS data, and their results would
 feed directly into this paper.
 
 \paragraph{Paper 4: Joint NIRISS and NIRSpec analysis.} The aim is to test
@@ -100,18 +98,14 @@ whether observations of the same planet with both instruments can be explained
 by one transmission spectrum. NIRSpec extends the spectrum to longer
 wavelengths, and where the two instruments overlap in wavelength, as with
 NIRSpec's PRISM mode, their depths should agree. To test this, I will extend
-NOVA and the benchmark to NIRSpec, and validate each on injected data before
-comparing the real spectra. I will start with WASP-39~b and LHS~1140~b, which
+NOVA and the benchmark to NIRSpec, and use the benchmark to validate NOVA and the other pipelines before comparing the real spectra. I will start with WASP-39~b and LHS~1140~b, which
 have both been observed with SOSS and with NIRSpec modes that overlap it.
-WASP-39~b is a well-studied gas giant with strong features \citep{CarterEtAl2024}, whereas LHS~1140~b is a small, temperate planet whose low density and lack of the strong features expected from a hydrogen-rich atmosphere favour a possible water world \citep{DamianoEtAl2024}. The benchmark needs a NIRSpec observation in which the
+WASP-39~b is a well-studied gas giant with strong features \citep{CarterEtAl2024}, whereas LHS~1140~b is a small, temperate planet whose low density and lack of the strong features expected from a hydrogen-rich atmosphere favour a water world \citep{DamianoEtAl2024}. The benchmark needs a NIRSpec observation in which the
 star is measured on its own, as programme 4476 does for SOSS. As far as I can
 find, none exists yet, and I plan to propose one.
 
 \paragraph{Paper 5: Secondary eclipses.} If time allows, I will extend NOVA
-from transits to secondary eclipses, when the planet passes behind the star
-and its own light briefly disappears. These signals are weak, and it would be
-interesting to see whether a detector-level analysis also makes them more
-reliable. The SOSS eclipse of WASP-17~b \citep{GressierEtAl2024} would be the
+from transits to secondary eclipses. These signals are weak, and I would test whether a detector-level analysis makes them more reliable. The SOSS eclipse of WASP-17~b \citep{GressierEtAl2024} would be the
 natural starting point.
 
 \begin{figure*}[t]
@@ -121,8 +115,8 @@ natural starting point.
   hgrid,
   vgrid,
   x unit=0.84cm,
-  y unit title=0.42cm,
-  y unit chart=0.36cm,
+  y unit title=0.38cm,
+  y unit chart=0.25cm,
   title/.style={fill=black!6,draw=black!25},
   title label font=\bfseries\scriptsize,
   bar label font=\scriptsize,
@@ -151,7 +145,7 @@ natural starting point.
 \ganttmilestone[milestone/.append style={fill=ganttsoss,draw=ganttsoss}]
   {SOSS analyses complete}{7}\\
 \ganttgroup[group/.append style={fill=ganttgeneral!35,draw=ganttgeneral}]
-  {Instrument and geometry extensions}{7}{10}\\
+  {Extensions to NIRSpec and eclipses}{7}{10}\\
 \ganttbar[bar/.append style={fill=ganttgeneral!70,draw=ganttgeneral}]
   {Paper 4: NIRISS and NIRSpec}{7}{9}\\
 \ganttbar[bar/.append style={fill=ganttgeneral!70,draw=ganttgeneral}]
@@ -161,7 +155,7 @@ natural starting point.
 \ganttgroup[group/.append style={fill=ganttwrite!35,draw=ganttwrite}]
   {Thesis}{2}{13}\\
 \ganttbar[bar/.append style={fill=ganttwrite!70,draw=ganttwrite}]
-  {Thesis integration}{2}{10}\\
+  {Thesis chapters from papers}{2}{10}\\
 \ganttbar[bar/.append style={fill=ganttwrite!70,draw=ganttwrite}]
   {Formal writing-up period}{11}{13}\\
 \ganttmilestone[milestone/.append style={fill=ganttwrite,draw=ganttwrite}]
@@ -169,7 +163,7 @@ natural starting point.
 \end{ganttchart}%
 }
 \caption{Publication and thesis plan in quarters, starting after this
-assessment. The research phase ends on approximately 27 April
+assessment. The research phase ends around 27 April
 2029, and
 the formal writing-up period runs to 28 October 2029.}
 \label{fig:gantt}

@@ -4,19 +4,19 @@
 \subsection{What a benchmark needs}
 \label{sec:benchmark-needs}
 
-For a real planet the true spectrum is unknown. An injection test supplies a
-truth: a known transmission spectrum is added to detector data, and the
-spectrum that each method recovers is compared with it.
+For a real planet the true spectrum is unknown, so an injection test supplies
+one. It adds a known transmission spectrum to detector data and compares it
+with the spectrum that each method recovers.
 Section~\ref{sec:validation-problem} listed what such a test needs for SOSS: a
-real exposure, a measured image of the star, injection into the raw reads,
+real exposure, a measured image of the star, injection into the raw reads
 and several pipelines that run without knowing the truth. The image of the star matters because only starlight dims during a
-transit, so the injector has to decide which of the observed light is
+transit, so the injector has to decide which part of the observed light is
 starlight. If it decides this with the same kind of model that a pipeline uses
 to separate starlight from background, the errors of that model are hidden and
 the pipeline is favoured, a problem known as an inverse crime
 \citep{KaipioSomersalo2007}. A measured image of the star avoids this
 particular risk. My first
-injectors were built from the WASP-17~b data alone, and this section describes
+injectors were built from the WASP-17~b data alone, and in this section I describe
 what they taught me.
 
 \subsection{Injecting into the raw reads}
@@ -29,7 +29,7 @@ way. To make the test fair to every pipeline, I therefore moved the injection
 to the raw reads, so that each pipeline runs all of its own steps on the
 injected data.
 
-On the same data, NOVA's root-mean-square error for the reference atmosphere
+On the same data, NOVA's root-mean-square error for one injected atmosphere, which I call the reference atmosphere,
 then rose from 125 to 182~ppm, and its spectrum was about 90~ppm too deep. The main reason was the correction of the $1/f$ noise
 (Section~\ref{sec:detector-to-spectrum}). In each column, this correction
 estimates the stripe from the light left in the pixels outside the traces
@@ -38,17 +38,15 @@ correction NOVA also uses (Section~\ref{sec:detector-processing}), this
 median image is scaled by the measured light curve, so that it dims during the
 transit.
 
-My injector, however, dimmed only its model of the star. Near the traces, this model matched the real images, but outside them, at 0.85 to $1.75\,\mu\mathrm{m}$ in order~1, it held only about a third of the light that the correction expects to dim. In the real data, the dimming there was consistent with what the correction assumes, so much of this faint light seems to behave like starlight. During the transit, the correction therefore found too
+My injector, however, dimmed only its model of the star. Near the traces, this model matched the real images. Outside them, at 0.85 to $1.75\,\mu\mathrm{m}$ in order~1, it held only about a third of the light that the correction expects to dim. During the transit, the correction therefore found too
 much light left outside the traces, mistook it for $1/f$ noise and removed it
-from the whole column, so the transit became about 1 to 2\% too deep. To
-confirm this, I subtracted from the injected data the $1/f$ correction
-calculated from the same data without the transit. There, the light curve is
+from the whole column, so the transit in the data was already about 1 to 2\% deeper than injected before NOVA's fit. To
+confirm this, I calculated the $1/f$ correction from the same data without
+the transit and subtracted it from the injected data. Without the transit, the light curve is
 flat, so the correction removes the same stripes but has no transit to react
-to. NOVA's error then fell to 150~ppm, so the correction caused about half of
-the increase.
+to. NOVA's error then fell to 150~ppm, so the correction caused about half of the increase. In the real data, the dimming outside the traces at these wavelengths was consistent with what the correction assumes (Section~\ref{sec:real-data-test}), so much of this faint light seems to behave like starlight.
 
-How much of the faint light outside the traces dims therefore matters.
-To inject a transit correctly, I would need to know how much of the light is
+To inject a transit correctly, I would therefore need to know how much of the light is
 starlight, near the traces, in their wings and far from them, and dim exactly
 that.
 
@@ -56,18 +54,18 @@ that.
 \label{sec:which-light}
 
 The WASP-17~b data alone cannot say how much of this light is starlight, not
-even inside the extraction box. To see how much this matters, I made three
+even inside the extraction box. To see how strongly the recovered spectra depend on this, I made three
 injections. All three dim the measured light in the wings, 16 to 80 pixels
-from the traces. The lower estimate counts as starlight near the traces only
-the light explained by a model of the star. I made this model by fitting the
+from the traces. In the first, the lower estimate, only the light that a model of the star
+explains counts as starlight near the traces. I made this model by fitting the
 star's spectrum, with a slow change in time, to the out-of-transit images
-through ATOCA's model of the detector, together with a smooth background made
-of four of NOVA's eight background maps and held in place by the same
-off-trace pixels (Section~\ref{sec:continuum}). In exoTEDRF's 40-row extraction box, this estimate leaves typically 0.4, 2.2 and 4.0\% of the light undimmed at 1.0 to 1.8, 1.8 to 2.3 and 2.3 to $2.8\,\mu\mathrm{m}$. The lower estimate also leaves the faint light beyond 80
+through ATOCA's model of the detector. The fit also included a smooth
+background, made of four of NOVA's eight background maps and held in place by
+the off-trace pixels that NOVA uses (Section~\ref{sec:fit}). In exoTEDRF's 40-row extraction box, this estimate typically leaves 0.4\% of the light undimmed at 1.0 to $1.8\,\mu\mathrm{m}$, 2.2\% at 1.8 to $2.3\,\mu\mathrm{m}$ and 4.0\% at 2.3 to $2.8\,\mu\mathrm{m}$. The lower estimate also leaves the faint light beyond 80
 pixels undimmed. The second injection is the same, except that it also dims
-this faint light; it changed NOVA's spectrum by about 40~ppm. The upper
-estimate instead counts all the light in the box as starlight and dims it,
-and leaves the faint light beyond 80 pixels undimmed, like the lower estimate.
+this faint light. Dimming this light changed NOVA's spectrum by about 40~ppm. The third, the upper
+estimate, instead counts all the light in the box as starlight and dims it.
+Like the lower estimate, it leaves the faint light beyond 80 pixels undimmed.
 
 \begin{figure}[t]
   \centering
@@ -85,15 +83,14 @@ and leaves the faint light beyond 80 pixels undimmed, like the lower estimate.
 \end{figure}
 
 Under the lower estimate, NOVA recovered the reference atmosphere with an
-error of 124~ppm and exoTEDRF with 319~ppm. Under the upper estimate the order
+error of 124~ppm and exoTEDRF with 319~ppm. Under the upper estimate, the ranking
 reversed, with 358~ppm for NOVA and 150~ppm for exoTEDRF
 (Figure~\ref{fig:flip}). Each pipeline did best under the estimate that matches
-how it treats the faint light. exoTEDRF counts all the light left in its box
-after background subtraction as starlight, like the upper estimate, whereas
-the lower estimate split the light much as NOVA does, with part of NOVA's own
+how it treats the faint light. Like the upper estimate, exoTEDRF counts as starlight all the light left in
+its box after background subtraction, whereas the lower estimate splits the light much as NOVA does, with part of NOVA's own
 background model.
 
-Neither estimate is the truth. The upper estimate assumes that all the light
+Neither estimate is known to be right. The upper estimate assumes that all the light
 in the box is starlight, which may not be so. The lower estimate depends on
 how its fit split the light between the star and a smooth background, a split
 that the out-of-transit data could not determine. Between the two estimates,
@@ -103,15 +100,15 @@ built from the WASP-17~b data alone cannot say which method is more accurate.
 \subsection{The real data cannot decide}
 \label{sec:real-data-test}
 
-I also tried to measure the share of starlight directly from the real data.
-If the bright centre of the trace is almost pure starlight, and all the light in the extraction box is starlight too, the box dims during the transit by the same fraction as the centre; if part of it is background, the box dims less. In the red part of order~1, the two typically agreed to within about 1\%, which would favour the upper estimate. To check how reliable this comparison is, I
-repeated it on stretches without a transit: I fitted the same transit shape,
-at a time when no transit happens, to the box and to the bright centre. Both
-fitted depths should be zero. Instead, they differed by up to about 11\% of the
+I also tried to measure the share of starlight in the box directly from the real data.
+If the bright centre of the trace is almost pure starlight, and all the light in the extraction box is starlight too, the box dims during the transit by the same fraction as the centre. If part of the light in the box is background, the box dims less. In the red part of order~1, the two fractions typically agreed to within about 1\%, which would favour the upper estimate. To check how reliable this comparison is, I
+repeated it on stretches without a transit. I fitted the same transit shape to
+the box and to the bright centre, at a time when no transit happens. Both
+fitted depths should be zero, so they should agree. Instead, they differed by up to about 11\% of the
 real transit depth, ten times more than the 1\% needed to tell the two
 estimates apart. The real data therefore cannot decide.
 
-I also measured how much the faint light outside the traces dims during the real transit, on the pixels that the $1/f$ correction uses. At 0.85 to $1.75\,\mu\mathrm{m}$ in order~1, it dimmed by $0.033\pm0.007$~DN\,s$^{-1}$ per pixel, as much as if all the light left there after background subtraction were starlight. This suggests that most of this light behaves like starlight, but it cannot tell the injector how much of it to dim. Only this range gives a clear answer: at 1.75 to $2.1\,\mu\mathrm{m}$ the measurement is too noisy to tell the cases apart, and at 2.1 to $2.8\,\mu\mathrm{m}$ the light appears to dim about four times more than even starlight would, which I cannot explain. Even where the answer is clear, it depends on how the detector behaves: if the fit allows the detector's level to change during the transit, the share of this light that dims like starlight ranges from about half to all of it.
+I then measured how much the faint light outside the traces dims during the real transit, on the pixels that the $1/f$ correction uses. At 0.85 to $1.75\,\mu\mathrm{m}$ in order~1, it dimmed by $0.033\pm0.007$~DN\,s$^{-1}$ per pixel, as much as if all the light left there after background subtraction were starlight. This suggests that most of this light behaves like starlight. Only this range gives a clear answer, however. At 1.75 to $2.1\,\mu\mathrm{m}$, the measurement is too noisy to tell whether this light dims like starlight or as little as my first injector assumed. At 2.1 to $2.8\,\mu\mathrm{m}$, the light appears to dim about four times more than even starlight would, which I cannot explain. Even where the answer is clear, it depends on how the detector behaves. If the fit allows the detector's level to change during the transit, the share of this light that dims like starlight ranges from about half to all of it. The measurement cannot tell the injector how much of this light to dim.
 
 Separating starlight
 from background needs extra information, such as exposures in which the star

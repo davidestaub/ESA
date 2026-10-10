@@ -1,0 +1,1531 @@
+diff --git a/figures/conventional_reduction_workflow.tex b/figures/conventional_reduction_workflow.tex
+index 2972f55..083a889 100644
+--- a/figures/conventional_reduction_workflow.tex
++++ b/figures/conventional_reduction_workflow.tex
+@@ -45,7 +45,7 @@
+  \draw[->,transitatmos!75!black,line width=0.7pt]
+    (2.70,1.64) -- (2.18,2.03);
+  \node[anchor=west,text=transitatmos!75!black,align=left,font=\scriptsize]
+    at (2.78,1.38) [-{fit clean slopes\\to retain rate};-]{+{rate fitted on\\either side};+}
+
+  % Clockwise conceptual flow. Exact implementations and ordering within a
+  % stage vary between pipelines.
+diff --git a/figures/plot_4476_construction.py b/figures/plot_4476_construction.py
+index 90382b5..be8b723 100644
+--- a/figures/plot_4476_construction.py
++++ b/figures/plot_4476_construction.py
+@@ -16,7 +16,7 @@ norm = LogNorm(vmin=0.5, vmax=300)
+plt.rcParams.update({'font.family': 'serif', 'font.size': 7.5})
+fig = plt.figure(figsize=(6.3, 2.05))
+W, H, y0 = 0.205, 0.30, 0.55
+boxes = [(0.0, [-'normal exposure-]{+'exposure at the usual position+} $N$\n(star + background)', N), (0.265, 'moved exposure $O$\n(background and field stars)', O), (0.53, [-'cleaned, smoothed-]{+'cleaned image of the+} star $S$\n($N-O$, field sources removed)', S)]
+for x, lab, img in boxes:
+    ax = fig.add_axes([x, y0, W, H]); ax.imshow(np.clip(img, 0.5, None), origin='lower', aspect='auto', cmap='Greys', norm=norm)
+    ax.set_xticks([]); ax.set_yticks([]); ax.set_title(lab, fontsize=7, pad=2)
+diff --git a/figures/plot_4476_profiles.py b/figures/plot_4476_profiles.py
+index e43e5f6..cf84f8f 100644
+--- a/figures/plot_4476_profiles.py
++++ b/figures/plot_4476_profiles.py
+@@ -31,11 +31,11 @@ for ax, ((c0, c1), lab) in zip(axs, bands):
+            v = np.full(d.size, np.nan); v[ok] = img[rows[ok], c]; prof[k].append(v)
+    med = {k: np.nanmedian(np.array(v), axis=0) for k, v in prof.items()}
+    model = med['W'] > 0.5
+    ax.plot(d, med['N'], color='#888888', lw=1.0, [-label='normal exposure')-]{+label='exposure at the usual position')+}
+    ax.plot(d, med['T'], color='#222222', lw=0.6, label='difference (measured)')
+    ax.plot(d, med['O'], color='#eb6834', lw=1.0, label='moved exposure (background)')
+    ax.plot(d, np.where(~model, med['S'], np.nan), color='#2a78d6', lw=1.4, label='cleaned [-source')-]{+image of the star')+}
+    ax.plot(d, np.where(model, med['S'], np.nan), color='#2a78d6', lw=1.4, ls=(0, (3, 1.5)), label='cleaned [-source,-]{+image of the star,+} far-wing model')
+    ax.set_yscale('asinh', linear_width=0.3); ax.set_ylim(-0.5, 2000)
+    ax.set_yticks([0, 1, 10, 100, 1000]); ax.set_yticklabels(['0', '1', '10', '100', '1000']); ax.minorticks_off(); ax.set_xlim(-50, 200); ax.set_xticks([0, 50, 100, 150])
+    ax.set_title(lab, fontsize=7.5, pad=2)
+@@ -44,7 +44,7 @@ for ax, ((c0, c1), lab) in zip(axs, bands):
+    for s in ['top', 'right']:
+        ax.spines[s].set_visible(False)
+axs[0].set_ylabel('Count rate (DN s$^{-1}$)')
+axs[0].legend(frameon=False, fontsize=6.2, loc='lower left', bbox_to_anchor=(0.0, 1.08), [-ncol=5,-]{+ncol=3,+} columnspacing=0.8, handlelength=1.8)
+for ax, pk in zip(axs, [[(165, 'order 2')], [(90, 'order 2')], [(65, 'order 3'), (148, 'order-4 band')]]):
+    for x_, t_ in pk:
+        ax.text(x_, 1300, t_, fontsize=6.3, ha='center', color='#444444')
+diff --git a/figures/plot_4476_star_and_carrier.py b/figures/plot_4476_star_and_carrier.py
+index fe83956..afb0929 100644
+--- a/figures/plot_4476_star_and_carrier.py
++++ b/figures/plot_4476_star_and_carrier.py
+@@ -27,8 +27,8 @@ gtr = np.load(gdir + 'i04_predicted_field_traces.npz'); gmeta = json.load(open(g
+plt.rcParams.update({'font.family': 'serif', 'font.size': 8.5})
+fig, axs = plt.subplots(3, 1, figsize=(6.3, 3.5), sharex=True)
+norm = LogNorm(vmin=0.3, vmax=300)
+panels = [(N, normal_src, '(a) Star at the [-normal-]{+usual+} position'),
+          (O, offset_src, '(b) Star moved 1,026 rows [-away'),-]{+lower'),+}
+          (S, None, '(c) Cleaned image of the star')]
+for ax, (img, mask, title) in zip(axs, panels):
+    im = ax.imshow(np.clip(img, 0.3, None), origin='lower', aspect='auto', cmap='Greys', norm=norm,
+diff --git a/figures/plot_nova_schematic.py b/figures/plot_nova_schematic.py
+index c2dde95..85bed49 100644
+--- a/figures/plot_nova_schematic.py
++++ b/figures/plot_nova_schematic.py
+@@ -24,7 +24,7 @@ ax.annotate('one group $g$: the pixels $P_g$\nof one order in one column', xy=(x
+            fontsize=6.8, arrowprops=dict(arrowstyle='->', lw=0.6, color='#333333'))
+ax.set_xlim(0, 10); ax.set_ylim(0, 7.8); ax.set_xticks([]); ax.set_yticks([])
+ax.set_xlabel('detector column', fontsize=7); ax.set_ylabel('row', fontsize=7)
+ax.set_title('(a) [-retained-]{+fitted+} pixels, grouped by order and column (sketch)', fontsize=7.2, loc='left', pad=2)
+# (b) model terms
+bx = fig.add_axes([0.0, 0.0, 1.0, 0.54]); bx.set_xlim(0, 10); bx.set_ylim(0, 6); bx.axis('off')
+bx.text(0.15, 5.7, '(b) model of each pixel (schematic)', fontsize=7.2, va='top')
+@@ -38,7 +38,7 @@ box((0.6, 1.2), 8.8, 1.5, r'$\widehat Y_{tp} = \gamma_t\, C_{tg}\, \bar{\mathcal
+    'starlight, dimmed by the transit  +  background, not dimmed', '#fff6ee', fs=6.6)
+for x0 in (1.7, 5.0, 8.3):
+    bx.annotate('', xy=(min(max(x0, 2.0), 8.0), 2.75), xytext=(x0, 3.55), arrowprops=dict(arrowstyle='->', lw=0.6, color='#333333'))
+bx.text(5.0, 0.55, 'fitted to the count rate $Y_{tp}$ of every [-retained-]{+fitted+} pixel', ha='center', fontsize=6.8)
+fig.savefig('nova_schematic.pdf', bbox_inches='tight', pad_inches=0.02)
+fig.savefig('/private/tmp/claude-501/-Users-davidestaub-Desktop-ICL-PHD/3826395b-face-443e-b4ef-9d4376b4a9cf/scratchpad/nova_schematic_preview.png', dpi=200, bbox_inches='tight')
+print('saved')
+diff --git a/figures/plot_nova_vs_published_wasp17.py b/figures/plot_nova_vs_published_wasp17.py
+index 496430e..f54ef75 100644
+--- a/figures/plot_nova_vs_published_wasp17.py
++++ b/figures/plot_nova_vs_published_wasp17.py
+@@ -28,7 +28,7 @@ for lo, hi in [(0.63, 1.0), (1.0, 1.6), (1.6, 1.8), (1.8, 2.3), (2.3, 2.81), (0.
+    s = (nl >= lo) & (nl < hi) & np.isfinite(interp)
+    print(f'{lo:.2f}-{hi:.2f} um: n={s.sum():3d}  mean NOVA-Ahsoka = {np.mean(nd[s]-interp[s]):+7.0f} ppm')
+
+for lo, hi in [(0.63, [-1.6),-]{+1.8),+} (1.8, 2.3), (2.3, 2.81)]:
+    s_ = (nl >= lo) & (nl < hi) & np.isfinite(interp)
+    print(f'{lo:.2f}-{hi:.2f} um: median NOVA-Ahsoka = {np.median(nd[s_]-interp[s_]):+7.0f} ppm')
+
+diff --git a/figures/plot_w17_gaia_mapping.py b/figures/plot_w17_gaia_mapping.py
+index d3f937c..e2bf251 100644
+--- a/figures/plot_w17_gaia_mapping.py
++++ b/figures/plot_w17_gaia_mapping.py
+@@ -50,10 +50,10 @@ im = ax.imshow(np.clip(img, 0.3, None), origin='lower', aspect='auto', cmap='Gre
+               norm=LogNorm(vmin=0.3, vmax=300), extent=(-0.5, 2047.5, Y0 - 0.5, Y0 + 255.5),
+               interpolation='nearest')
+ax.scatter(det[:, 0], Y0 + det[:, 1], s=70, facecolors='none', edgecolors='#eb6834', linewidths=0.8,
+           label='compact [-sources',-]{+blobs',+} zorder=3)
+m = on(std)
+ax.scatter(std[m, 0], Y0 + std[m, 1], s=28, marker='+', color='#2a78d6', linewidths=1.0,
+           label='Gaia, [-standard model',-]{+default ExoCTK mapping',+} zorder=4)
+m = on(fit)
+ax.scatter(fit[m, 0], Y0 + fit[m, 1], s=24, marker='x', color='#d62728', linewidths=1.1,
+           label='Gaia, fitted mapping', zorder=5)
+diff --git a/preamble.tex b/preamble.tex
+index a584471..2fda4e1 100644
+--- a/preamble.tex
++++ b/preamble.tex
+@@ -17,6 +17,7 @@
+\usepackage{balance}
+\usepackage{titlesec}
+\usepackage{pgfgantt}
+{+\usepackage{xurl}+}
+\usepackage[colorlinks=true,allcolors=blue!55!black]{hyperref}
+\usepackage[nameinlink,capitalise]{cleveref}
+
+diff --git a/references.bib b/references.bib
+index 48590b0..88a5d8a 100644
+--- a/references.bib
++++ b/references.bib
+@@ -1020,3 +1020,33 @@
+  pages   = {709--712},
+  doi     = {10.1038/s41586-023-06687-0}
+}
+
+{+@misc{BourqueEtAl2021,+}
+{+  author    = {Bourque, Matthew and Espinoza, N{\'e}stor and Filippazzo, Joseph and others},+}
+{+  title     = {The Exoplanet Characterization Toolkit ({ExoCTK})},+}
+{+  year      = {2021},+}
+{+  publisher = {Zenodo},+}
+{+  note      = {Version 1.0.0},+}
+{+  doi       = {10.5281/zenodo.4556063}+}
+{+}+}
+
+{+@article{HusserEtAl2013,+}
+{+  author  = {Husser, T.-O. and Wende-von Berg, S. and Dreizler, S. and Homeier, D. and Reiners, A. and Barman, T. and Hauschildt, P. H.},+}
+{+  title   = {A new extensive library of {PHOENIX} stellar atmospheres and synthetic spectra},+}
+{+  journal = {A\&A},+}
+{+  year    = {2013},+}
+{+  volume  = {553},+}
+{+  pages   = {A6},+}
+{+  doi     = {10.1051/0004-6361/201219058}+}
+{+}+}
+
+{+@article{Eilers2003,+}
+{+  author  = {Eilers, Paul H. C.},+}
+{+  title   = {A Perfect Smoother},+}
+{+  journal = {Analytical Chemistry},+}
+{+  year    = {2003},+}
+{+  volume  = {75},+}
+{+  number  = {14},+}
+{+  pages   = {3631--3636},+}
+{+  doi     = {10.1021/ac034173t}+}
+{+}+}
+diff --git a/sections/00_abstract.tex b/sections/00_abstract.tex
+index d6fe79b..a45bd60 100644
+--- a/sections/00_abstract.tex
++++ b/sections/00_abstract.tex
+@@ -7,17 +7,16 @@ the true spectrum of a real planet is unknown. I ask whether fitting the
+background and the transit together, on detector pixels, gives a more accurate
+spectrum. I use the Single Object Slitless Spectroscopy (SOSS) mode of the
+James Webb Space Telescope (JWST). My method, Nonlinear Order-coupled
+Variable-projection Analysis (NOVA), predicts every pixel {+inside its two apertures+} as starlight dimmed by the transit plus the remaining background. It refines one spectrum, shared
+by both orders, until the prediction matches the data. NOVA's first spectrum of
+WASP-17~b resembles the published Ahsoka spectrum below about
+$1.8\,\mu\mathrm{m}$, but is deeper at every wavelength, most in the red. Its
+uncertainty is not yet validated. An injection test adds a known transit to
+real data, but must decide which {+part+} of the observed light belongs to the star.
+For one injected atmosphere, the ranking of NOVA and exoTEDRF reversed [-with-]{+when I changed+} the
+share of faint light taken to be starlight, which the WASP-17~b data cannot
+determine. I am therefore building a benchmark from JWST calibration programme
+4476. It observed a star at its usual position and again {+with the star+} moved off the SOSS
+strip, so the difference between the exposures measures the light of the star
+directly. I will dim a cleaned image of the star with a known transit and add
+it to the moved exposure's raw reads. The injected transit is known exactly
+diff --git a/sections/01_introduction.tex b/sections/01_introduction.tex
+index 83949d0..fa87f5b 100644
+--- a/sections/01_introduction.tex
++++ b/sections/01_introduction.tex
+@@ -4,36 +4,47 @@
+The transmission spectrum of an exoplanet is the depth of its transit, the
+fraction of starlight that the planet blocks, at each wavelength. It is
+obtained from a time series of detector images through a chain of processing
+steps. Errors could enter at many points in this chain, and I focus on two of them. [-Firstly,-]{+The first is the subtraction of+} the background [-light is subtracted, and any-]{+light. Any+} background that remains is not modelled when the transit is fitted. An error in that subtraction can bias the fitted transit depth, even when the transit model fits the data well. [-Secondly,-]{+The second is the compression of+} each image[-is compressed-] into a one-dimensional [-spectrum, which-]{+spectrum. This compression+} can lose information that the later steps cannot recover.
+
+I have therefore developed {+a method called+} Nonlinear Order-coupled Variable-projection Analysis (NOVA). NOVA does not
+compress the images into spectra. It fits the transit to the detector pixels
+themselves, and[-in-] the same fit [-it fits-]{+includes+} whatever background the earlier
+subtraction has left behind. [-Whether-]{+Real data cannot decide whether+} NOVA or the established methods give the more accurate [-spectrum cannot be decided from real data,-]{+spectrum,+} because the true spectrum of a real planet is unknown. I am therefore building a benchmark in
+which a known transit is added to the raw data of a real observation from the
+James Webb Space Telescope (JWST). The error of each method, NOVA included, can then be measured against a known truth.
+
+\subsection{Exoplanet atmospheres and transmission spectroscopy}
+\label{sec:atmospheres-transmission}
+
+[-Exoplanets-]{+Before the atmosphere of a planet can be studied, the planet has to be found.+}
+{+The first exoplanets were detected around a pulsar in 1992+}
+{+\citep{WolszczanFrail1992}, and the first planet around a Sun-like star+}
+{+followed in 1995 \citep{MayorQueloz1995}. Since then, transit surveys such as+}
+{+Kepler and the Transiting Exoplanet Survey Satellite (TESS)+}
+{+\citep{BoruckiEtAl2010,RickerEtAl2015} have helped to raise the number of+}
+{+confirmed exoplanets to more than 6,000 \citep{NASAExoplanetArchive2026}.+}
+{+Many of these planets orbit bright nearby stars, the most favourable targets+}
+{+for follow-up observations. A detection alone, however, reveals little about+}
+{+what a planet is like. It gives the orbit of the planet and its radius or its+}
+{+mass, depending on the method. Measuring the properties of a+}
+{+known planet and its atmosphere is called characterisation.+}
+
+{+The planets found so far+} span a wide range of sizes, temperatures and orbits, {+and+} many [-with-]{+have+} no
+counterpart in the Solar System \citep{WinnFabrycky2015}. Their mass and
+radius give their mean density, but planets with similar masses and radii can
+be made of different mixtures of rock, ice and gas \citep{RogersSeager2010}.
+The atmosphere helps to distinguish between these [-possible compositions,-]{+possibilities,+} and its composition can also hint at where and how the planet formed \citep{Madhusudhan2019}.[-Some planets are also observed to lose gas from their upper atmosphere \citep{VidalMadjarEtAl2003}.-]
+
+The atmosphere can be studied when the planet transits, that is, passes in front of its star, because part of the starlight then passes through the atmosphere. Measuring the transit at many wavelengths is called
+transmission spectroscopy. [-If the-]{+The+} stellar disc[-were uniformly bright (in reality it-] dims towards its edge, an effect called limb [-darkening),-]{+darkening. If the disc were instead uniformly bright,+} the depth of a transit would be approximately
+\begin{equation}
+  \delta(\lambda) \simeq
+  \left[\frac{R_{\mathrm p}(\lambda)}{R_\star}\right]^2 ,
+  \label{eq:transit-depth}
+\end{equation}
+where $\delta(\lambda)$ is the fractional drop in stellar flux during transit,
+$R_{\mathrm p}(\lambda)$ the [-effective-]{+apparent+} radius of the planet at wavelength
+$\lambda$ and $R_\star$ the radius of the star. The [-effective-]{+apparent+} radius is larger
+at wavelengths where the atmosphere absorbs more strongly, because the
+atmosphere then becomes opaque at a higher altitude. Absorption and scattering by atoms, molecules, clouds and aerosols therefore make the transit depth vary with
+wavelength \citep{SeagerSasselov2000,Brown2001}, as
+@@ -51,7 +62,7 @@ Figure~\ref{fig:transmission-spectroscopy} illustrates.
+  \label{fig:transmission-spectroscopy}
+\end{figure*}
+
+{+The atmospheric signal is the part of the transit depth that changes with wavelength.+} Only a thin ring of atmosphere around the planet filters the starlight, so [-the atmospheric signal, the part of the transit depth that changes with wavelength,-]{+this signal+} is a small fraction of the stellar flux. The signal is
+largest for planets that are large relative to their star and whose
+atmospheres are hot, rich in hydrogen and held by weak gravity, because such
+atmospheres extend further above the planet
+@@ -63,41 +74,28 @@ HD~209458~b \citep{CharbonneauEtAl2002}, belonged to a hot Jupiter. I therefore
+
+Transmission spectroscopy is one of three ways to observe an atmosphere as the
+planet moves along its orbit. In a secondary eclipse, the planet passes behind
+the star, and the drop in [-light-]{+brightness+} isolates the light emitted or reflected by the dayside of the planet \citep{DemingEtAl2005,CoulombeEtAl2023,GressierEtAl2024}. A phase
+curve follows the brightness of the planet around its orbit. It constrains the
+temperature contrast between the day and night sides, how heat is carried
+around the planet and how the atmosphere varies with longitude
+\citep{KnutsonEtAl2007,MikalEvansEtAl2023,KemptonEtAl2023,SplinterEtAl2025}.
+I start with transmission [-because a transit has-]{+spectroscopy, whose transits have+} a well-defined geometry that repeats with every orbit, [-making it-]{+and for which three independent reductions of the same visit of WASP-17~b can be compared (Section~\ref{sec:jwst-soss-wasp17}). This makes a transit+} a convenient {+way to+} test[-case of-] how the processing of the data affects the recovered spectrum. Secondary
+eclipses are a possible later application of my methods
+(Section~\ref{sec:plan}).
+
+Whichever technique is used, the properties of the atmosphere are then
+inferred from the measured spectrum by a statistical fit called a retrieval
+\citep{BarstowHeng2020}. Inferring the atmosphere from its spectrum is an inverse [-problem, and it-]{+problem that+} does not always have a unique [-answer, because different-]{+answer. Different+} combinations of abundances, temperature, clouds, hazes and uneven brightness of the stellar surface can produce similar spectra \citep{RackhamEtAl2018,Madhusudhan2019}. The retrieval also takes the measured
+spectrum as given, so a bias in the spectrum can propagate into the retrieved atmosphere, however precise the retrieval. This project therefore mainly
+concerns the step before the retrieval, namely how accurately the spectrum
+itself is recovered from the detector data. Objective~4
+(Section~\ref{sec:research-question}) also asks how errors in the spectrum
+[-propagate-]{+carry over+} into the [-retrieval.-]{+retrieved atmosphere.+} To test how accurately the spectrum is recovered, I first need an instrument that can measure small changes in transit depth, and a planet whose
+signal is strong. 
+
+\subsection{JWST, NIRISS/SOSS and WASP-17~b}
+\label{sec:jwst-soss-wasp17}
+
+[-Before the atmosphere of a planet can be studied, the planet has to be found.-]
+[-The first exoplanets were detected around a pulsar in 1992-]
+[-\citep{WolszczanFrail1992}, and the first planet around a Sun-like star-]
+[-followed in 1995 \citep{MayorQueloz1995}. Since then, transit surveys such as-]
+[-Kepler and the Transiting Exoplanet Survey Satellite (TESS)-]
+[-\citep{BoruckiEtAl2010,RickerEtAl2015} have helped to raise the number of-]
+[-confirmed exoplanets to more than 6,000 \citep{NASAExoplanetArchive2026}.-]
+[-Many of these planets orbit bright nearby stars, the most favourable targets-]
+[-for follow-up observations. A detection alone, however, reveals little about-]
+[-what a planet is like. It gives the orbit of the planet and its radius or its-]
+[-mass, depending on the method.  Measuring the properties of a-]
+[-known planet and its atmosphere is called characterisation.-]
+
+The first characterisations of exoplanet atmospheres were made with the Hubble
+Space Telescope (HST) and the Spitzer Space Telescope, several years before
+Kepler was launched in 2009 \citep{BoruckiEtAl2010}. In 2002, HST found
+@@ -106,13 +104,11 @@ sodium in the atmosphere of HD~209458~b \citep{CharbonneauEtAl2002}. In 2005, Sp
+establish the techniques for studying exoplanet atmospheres
+\citep{KnutsonEtAl2007,SingEtAl2016}. For transmission spectroscopy, however,
+each HST instrument recorded a spectrum over only a narrow range of
+wavelengths, such as [-$1.1$-$1.7\,\mu\mathrm{m}$-]{+1.1 to $1.7\,\mu\mathrm{m}$+} \citep{SingEtAl2016}. A broad
+spectrum, such as one over [-$0.3$-$5\,\mu\mathrm{m}$,-]{+0.3 to $5\,\mu\mathrm{m}$,+} therefore had to be
+combined from observations {+made at different times+} with several instruments [-of-]{+on+} HST and [-Spitzer, made-]
+[-at different times-]{+Spitzer+} \citep{SingEtAl2016,AldersonEtAl2022}.
+
+JWST was launched in December 2021 \citep{RigbyEtAl2023}. Like HST, it is used [-for exoplanets-]{+in exoplanet science+} mainly to characterise planets that are already known. For transmission spectroscopy,
+JWST has two main advantages over HST. Firstly, it collects more light. Its
+primary mirror is about 6.6~m across \citep{GardnerEtAl2006,RigbyEtAl2023},
+compared with 2.4~m for HST \citep{NASAHubbleDesign2026}. With more light, the
+@@ -120,7 +116,7 @@ brightness of the star is measured with less noise, so smaller changes in
+transit depth can be detected. Secondly, a single instrument mode of JWST can
+cover a wide range of wavelengths. For example, the Near Infrared Imager and
+Slitless Spectrograph (NIRISS), one of the four science instruments of JWST,
+has a mode that covers [-$0.6$-$2.8\,\mu\mathrm{m}$-]{+0.6 to $2.8\,\mu\mathrm{m}$+} in one observation
+\citep{AlbertEtAl2023}. This range contains several water bands, the two
+potassium lines and regions sensitive to other absorbers and to clouds and
+hazes \citep{AlbertEtAl2023,HolmbergMadhusudhan2023,LouieEtAl2025}. A spectrum covering several absorption bands can therefore come from one transit observed with one instrument,
+@@ -130,22 +126,19 @@ times.
+In this project, I use a mode of NIRISS, called Single Object Slitless
+Spectroscopy (SOSS) \citep{AlbertEtAl2023}.
+Figure~\ref{fig:soss-detector-orders} shows how the light of a star falls on
+the SOSS detector. An optical element called [-GR700XD, a grism (a prism carrying a diffraction grating) combined with a prism,-]{+GR700XD+} spreads the light into several copies of the spectrum, called orders \citep{AlbertEtAl2023}. {+It combines a grism, a prism carrying a diffraction grating, with a second prism.+} Orders 1 and 2 together give the[-$0.6$-$2.8\,\mu\mathrm{m}$-]
+range {+of 0.6 to $2.8\,\mu\mathrm{m}$+} mentioned above. The resolving power
+$\lambda/\Delta\lambda$ of the first order is about 650 at
+$1.25\,\mu\mathrm{m}$ \citep{AlbertEtAl2023}, where $\Delta\lambda$ is the
+smallest difference in wavelength that SOSS can separate. On the detector,
+each order forms a curved stripe of light, called its trace. A weak
+cylindrical lens spreads the light over about 23 detector [-rows, so that bright-]{+rows. Bright+} stars can {+then+} be observed without saturating the pixels, and[-so that-] small pointing jitter and errors in the flat field, the map of each pixel's sensitivity, matter less \citep{AlbertEtAl2023,JDoxNIRISSSOSS2026}.
+
+\begin{figure*}[t]
+  \centering
+  \includegraphics[width=\textwidth]{figures/niriss_soss_detector_scene.pdf}
+  \caption{Out-of-transit median image of the WASP-17~b SOSS visit, in count [-rates-]{+rates,+} before the background and the $1/f$ noise of the readout[-(Section~\ref{sec:detector-to-spectrum})-] are [-removed.-]{+removed (Section~\ref{sec:detector-to-spectrum}).+} The traces of orders 1, 2
+  and 3 are labelled. [-The arrows mark-]{+One arrow marks+} a field star whose light falls on the edge of the order-1 [-trace, and-]{+trace. The other marks+} the step in the zodiacal background near column 700, to the right of which the background is brighter. Flagged pixels
+  are filled with the mean of their neighbours for display, and an inverse
+  hyperbolic sine (\(\operatorname{asinh}\)) stretch keeps both the bright
+  cores of the traces and their faint wings visible.}
+@@ -153,68 +146,55 @@ cylindrical lens spreads the light over about 23 detector rows, so that bright s
+\end{figure*}
+
+SOSS measures the total light of a star very precisely. This precision was
+[-tested-]{+measured+} during commissioning, the test period before science operations, on
+the A-type standard star BD$+$60$^{\circ}$1753 \citep{AlbertEtAl2023}. The
+light of all wavelengths was summed into a white-light curve, which gives the
+brightness of the star as a function of time. A slow trend was subtracted
+from this curve, and the remaining points were averaged in 40-minute bins.
+The binned points then scattered by only about 20 parts per million (ppm)
+\citep{AlbertEtAl2023}. [-The spectrum, in contrast to-]{+Unlike+} the white-light curve, {+the spectrum+}
+is measured in channels, each a narrow range of wavelengths. A channel
+receives far fewer photons than the white-light curve, so the transit depth in
+each channel is less precise than the white-light depth.
+
+[-However, whilst-]{+Although+} SOSS measures light precisely, its data are difficult to
+analyse for three reasons. Firstly, orders 1 and 2 partly overlap on the
+detector, because limited mechanical clearance restricted the angles of the
+grism and the prism \citep{AlbertEtAl2023}. Where the two orders overlap,
+their light must be separated before either spectrum can be measured.
+Secondly, the mode has no slit to block the light of other stars. [-The spectra of other-]{+Other+} stars in the field of view, called field stars, therefore also [-fall-]{+form spectra+} on the detector, and some of [-them-]{+these spectra+} land on the traces of the target (Figure~\ref{fig:soss-detector-orders}). SOSS is slitless out of [-necessity, not by choice.-]{+necessity.+} A slit must sit where the optics form an image of the sky before the light is dispersed, and when SOSS was developed, NIRISS had no optics that form such an image \citep{AlbertEtAl2023}. Being slitless also helps transit observations, because a narrow slit would clip a varying fraction of the starlight as the pointing jitters. For the same reason, the Near Infrared Spectrograph (NIRSpec) of JWST observes transits through a wide aperture \citep{JDoxNIRSpecBOTS2026}.
+
+Finally, the zodiacal background, which is sunlight scattered by dust in the
+Solar System, is not smooth across the detector. [-Its-]{+As Figure~\ref{fig:soss-detector-orders} shows, its+} level changes abruptly near detector column 700[-(Figure~\ref{fig:soss-detector-orders}),-] \citep{AlbertEtAl2023,LouieEtAl2025}, at about $2.15\,\mu\mathrm{m}$ in order 1 \citep{AlbertEtAl2023}.
+\citet{AlbertEtAl2023} traced this step to the pick-off mirror, the mirror
+that directs the light from the telescope into NIRISS. Because there is no
+slit, zodiacal light from the whole patch of sky seen by this mirror reaches
+GR700XD, which spreads it into orders in the same way as the light of the
+star. The step lies where the zeroth order of the background, the light that
+GR700XD leaves almost undispersed, is cut off by the edge of the pick-off
+mirror. To the left of the step, the background is therefore almost [-only-]{+entirely+}
+first-order light. To the right, zeroth-order and first-order light add, and
+the background is about twice as bright \citep{AlbertEtAl2023}.
+
+{+Because of this structure, subtracting one constant level everywhere would leave a background that differs from column to column, and would bias the transit depths by an amount that changes with wavelength \citep{RadicaEtAl2023}. Pipelines therefore subtract a model of the background, scaled to the observed level.+} The [-levels on-]{+brightness of the background, however, changes from one pointing to another, and+} the two sides of the step [-also vary independently,-]{+do not change by the same factor,+} so[-a model-]
+[-of-] the [-background-]{+model+} should be scaled separately on each side \citep{AlbertEtAl2023,LouieEtAl2025}.[-Subtracting a single constant level-]
+[-instead would bias the transit depths by an amount that changes with-]
+[-wavelength \citep{RadicaEtAl2023}.-] 
+
+Despite these difficulties, SOSS has delivered detailed spectra. For example,
+one of the first SOSS analyses recovered the water bands, potassium absorption
+and clouds of the Saturn-mass gas giant WASP-39~b \citep{FeinsteinEtAl2023}.
+
+I focus on [-a-]{+the+} hot [-Jupiter,-]{+Jupiter+} WASP-17~b. Its low density and low gravity give it
+an extended atmosphere \citep{AndersonEtAl2010}. HST and Spitzer had already
+measured [-the-]{+its+} transmission spectrum[-of WASP-17~b-] over [-$0.3$-$5\,\mu\mathrm{m}$,-]{+0.3 to $5\,\mu\mathrm{m}$,+} by combining
+observations made with several instruments between 2012 and 2017
+\citep{AldersonEtAl2022}. However, that spectrum [-could-]{+did+} not [-constrain-]{+settle+} how much water the atmosphere[-of-]
+[-WASP-17~b-] contains \citep{LouieEtAl2025}. Depending on the
+atmospheric model assumed in the retrieval, the HST and Spitzer data were
+consistent with a water abundance below the solar value, with one above it, or
+with two separate solutions, one below and one above
+\citep{AldersonEtAl2022,LouieEtAl2025}.
+
+\citet{LouieEtAl2025} then analysed one SOSS [-transit-]{+visit+} of [-WASP-17~b-]{+WASP-17~b, that is, one observation of one transit,+} with three independent data reductions. A data reduction is the [-chain of software-]{+processing+} that turns the detector data into a [-spectrum. The three reductions were-]{+spectrum, and the software that performs it is called a pipeline. One reduction used+} Ahsoka, which Louie et al.\ [-introduced,-]{+introduced. Another used+} \texttt{transitspectroscopy} \citep{Espinoza2022TransitSpectroscopy} with the transit-fitting code \texttt{juliet} [-\citep{EspinozaEtAl2019}, and-]{+\citep{EspinozaEtAl2019}. The third used+} supreme-SPOON \citep{RadicaEtAl2023}, now distributed as exoTEDRF \citep{Radica2024}. The
+three spectra agreed within their uncertainties over a large part of the
+wavelength range. The SOSS data also [-tightened the constraint on-]{+constrained+} the water [-abundance, compared with-]{+abundance more tightly than+} the HST and Spitzer data, and placed [-the abundance-]{+it+} above the solar value \citep{LouieEtAl2025}.
+
+Each reduction gave its own uncertainty for the transit depth in every
+spectral channel. For spectra binned to a resolving power of 100, the median
+@@ -233,12 +213,10 @@ published reductions of the same SOSS transit can be compared with each other.
+\begin{figure*}[t]
+  \centering
+  \input{figures/conventional_reduction_workflow}
+  \caption{Chain of steps shared by extraction-first [-reductions,-]{+reductions (schematic),+} which extract
+  a spectrum from each image before fitting the transit. (a) Within an
+  integration, the detector is read nondestructively several times, and each
+  read (group) samples the accumulated charge. [-A-]{+Because there are several groups, a+} cosmic ray [-adds-]{+shows up as+} a jump, [-which-]
+[-  the several groups make visible, so-]{+and+} the count rate can be fitted from the unaffected differences between reads. (b) After the background has been
+  subtracted and the $1/f$ noise removed, extraction compresses each
+  count-rate image into a one-dimensional spectrum. Each spectral channel, a
+  single detector column in the three reductions of WASP-17~b, gives one light
+@@ -247,7 +225,7 @@ published reductions of the same SOSS transit can be compared with each other.
+  \label{fig:extraction-first-workflow}
+\end{figure*}
+
+All three reductions [-used for-]{+of+} WASP-17~b turned the raw detector data into a
+transmission spectrum through the same basic chain of steps
+\citep{LouieEtAl2025}. The SOSS detector records a transit observation as a
+long sequence of short exposures, called integrations. During each
+@@ -263,13 +241,13 @@ count rates, so an observation produces a time series of count-rate images.
+Before the ramps are fitted, the groups are corrected for the known behaviour
+of the detector, usually with the JWST calibration pipeline
+\citep{JWSTPipeline2025} or a variant of it. These corrections flag pixels
+that saturate and subtract the electronic offset of each pixel. They also remove slow drifts in the readings. These drifts are measured with reference pixels, [-pixels that-]{+which+} receive no light. Further corrections account for the nonlinear response
+of the pixels and subtract the dark current, the charge that collects without
+light. A cosmic ray that hits a pixel adds a sudden jump to the ramp of that
+pixel. Jumps larger than a chosen threshold are flagged as cosmic-ray hits,
+and the count rate is fitted from the unaffected differences between groups.
+
+The readout also adds[-a-] correlated noise called $1/f$ noise. The detector
+reads its pixels one at a time, at about $10\,\mu\mathrm{s}$ per pixel, and measures
+each pixel against a reference voltage \citep{AlbertEtAl2023}. This reference
+voltage fluctuates in time, and the fluctuations are strongest at low
+@@ -301,17 +279,12 @@ wavelength \citep{RadicaEtAl2023}. Light from field stars that are not masked
+biases the estimate in a similar way.
+
+Figure~\ref{fig:extraction-first-workflow}b shows the steps that turn the
+count-rate images into a transmission spectrum. In Ahsoka and supreme-SPOON, the {+count-rate+} images [-are then-]{+were first+} flat-field corrected with the JWST [-pipeline.-]{+pipeline \citep{RadicaEtAl2023,LouieEtAl2025}.+} The flat field is a reference image of how sensitive
+each pixel is relative to the others, and dividing each image by it removes
+these differences in sensitivity [-\citep{JWSTPipeline2025,LouieEtAl2025}.-]{+\citep{JWSTPipeline2025}. \citet{LouieEtAl2025} do not mention a flat-field correction for \texttt{transitspectroscopy}.+} The
+background is removed by subtracting a model of the zodiacal background,
+scaled to match the observed images \citep{LouieEtAl2025}. Bad pixels are
+then flagged and [-replaced. -]
+[-Ahsoka, for example, used the bad-pixel step of supreme-SPOON. This step-]
+[-flags a pixel of the median out-of-transit image if its value is negative or-]
+[-undefined. It also flags a pixel that differs from the nearby pixels in its-]
+[-column by more than five standard deviations. Each flagged pixel is given the-]
+[-median value of the surrounding pixels-]{+replaced+} \citep{LouieEtAl2025}. The light of
+field stars is masked or corrected, before or after extraction.
+
+Extraction then compresses each count-rate image into a one-dimensional
+@@ -340,18 +313,16 @@ choice is the model of slow instrumental trends in the light curves, meaning
+changes in brightness caused by the instrument rather than by the planet. The
+three reductions of WASP-17~b differ in several of these choices
+\citep{LouieEtAl2025}. Ahsoka and supreme-SPOON removed the $1/f$ noise from
+each group. To estimate the stripes, they subtracted the background model from each group and added it back once the stripes had been removed. The background itself was subtracted later, from the count-rate images. Both {+reductions+} scaled the background model separately on the two sides of the
+step in the background near column 700. The \texttt{transitspectroscopy}
+reduction instead [-used a single scale factor for-]{+scaled+} the {+whole+} background {+model by a single factor,+} and removed
+the $1/f$ noise from the count-rate images. Ahsoka and
+\texttt{transitspectroscopy} did not correct for the light of field stars and
+excluded the affected wavelengths, whilst supreme-SPOON corrected the
+extracted spectra for several of these stars.
+
+The three reductions also modelled the slow instrumental trends in their light
+curves differently \citep{LouieEtAl2025}. [-Ahsoka, which-]{+Ahsoka+} used Eureka! \citep{BellEtAl2022} [-for its light-curve fits, fitted a linear trend in time together-]{+to fit each light curve+} with the transit model [-for each light curve,-]{+and a linear trend in time,+} and scaled the expected noise by a fitted factor. The \texttt{transitspectroscopy} reduction used a
+Mat\'ern-$3/2$ Gaussian process, a flexible statistical model of noise that is
+correlated in time. The supreme-SPOON reduction fitted no trend, only an extra
+term added to the uncertainties. These models describe trends and noise in
+@@ -362,23 +333,20 @@ already subtracted the background from the images.
+Whatever their differences, the three reductions follow the same order. Each
+subtracts the background from the detector images, extracts a one-dimensional
+spectrum from each image, and only then fits the transit. I call analyses that
+follow this order extraction-first. The subtracted background and the extracted spectra are therefore both fixed before the transit fit [-begins, and the transit fit does not model any background that remains.-]{+begins.+} The treatment of the background and the extraction are the two steps on which this project focuses.
+
+\subsection{Two steps where errors could enter}
+\label{sec:structural-limitations}
+
+The first step is the treatment of the background. Any background that remains after the subtraction is not modelled in the transit fit, so it could bias the transit depth. The background adds light to the image, whereas the
+transit dims only the starlight. Suppose that some steady residual background
+remains in the [-data after the subtraction.-]{+data.+} If [-the residual-]{+this+} background is
+counted as starlight, the star appears brighter than it is. The light blocked
+by the planet is then a smaller fraction of the total, and the transit comes
+out too shallow. Removing too much light as background has the opposite
+effect and makes the transit too deep. An error that varies across the
+detector changes the depth by different amounts at different wavelengths, and
+so changes the shape of the spectrum. In all three reductions of WASP-17~b, the[-background was subtracted before the light curves were fitted, and the-] transit fit held the subtracted background fixed [-\citep{LouieEtAl2025}. The-]
+[-transit fit therefore-]{+\citep{LouieEtAl2025}, so it+} could not correct an error in the subtraction. The
+reductions also report one uncertainty per wavelength channel. A single
+number per channel cannot describe how one background error moves
+neighbouring channels up or down together.
+@@ -410,26 +378,22 @@ Two SOSS methods already improve these steps, each in a different way. The
+first is the JExoRES pipeline \citep{HolmbergMadhusudhan2023}, which
+addresses the background. During the extraction, JExoRES fits the level of
+the residual background together with the fluxes of the overlapping orders.
+However, the extraction still comes before the transit fit.[-The transit-]
+[-therefore cannot help JExoRES to decide how much of the light is starlight-]
+[-and how much is background.-]
+
+The second method, ATOCA, addresses the overlap of the orders. [-ATOCA-]{+It+} models
+every pixel as the sum of the light of both orders. Because the two orders
+are copies of the same stellar spectrum, one spectrum has to explain both.
+ATOCA can therefore separate the two orders during the extraction
+\citep{DarveauBernierEtAl2022}. [-ATOCA-]{+It+} needs the profile of each order across
+the detector, and the APPLESOSS package can estimate these profiles from the
+observation itself \citep{RadicaEtAl2022}. Like JExoRES, however, ATOCA still
+extracts the spectrum before the transit is fitted. In the supreme-SPOON
+reduction of WASP-17~b, for example, the background was subtracted before the
+ATOCA extraction, and the transit was fitted to the extracted light curves
+afterwards \citep{LouieEtAl2025}.[-The transit therefore could not help to-]
+[-separate the starlight from the background.-]
+
+Neither JExoRES nor ATOCA, nor any of the three reductions of WASP-17~b, fits
+the background and the transit together in one fit to the detector pixels \citep{DarveauBernierEtAl2022,RadicaEtAl2023,HolmbergMadhusudhan2023,LouieEtAl2025}. {+In all of them, the transit therefore cannot help to separate the starlight from the background.+}
+Modelling the background on the original detector pixels has a precedent
+outside SOSS. \citet{Kelson2003} showed that the sky background of a
+spectrograph can be modelled on the original pixels, before the images are
+@@ -465,8 +429,7 @@ Three of the steps taken before NOVA's spectral fit could each bias the NOVA spe
+scaled model of the zodiacal background before the fit, as in the other
+pipelines. NOVA then fits only the residual background that the subtraction
+leaves behind. If the model is scaled wrongly, the scaling error becomes part
+of the residual background that NOVA must fit, and could bias the[-NOVA-] spectrum. Secondly, NOVA needs a spatial profile, which describes how the
+starlight of each order in a column is spread over the pixels of that column.
+The spatial profile plays the same role as the profile of the trace in an
+extraction. NOVA estimates the spatial profile from the observation being analysed,
+@@ -487,16 +450,14 @@ separated the starlight from the background correctly.
+For a real planet, the true spectrum is unknown, so no recovered spectrum can
+be scored against it. A common check is therefore to compare independent
+reductions of the same observation. When the reductions disagree, the
+spectrum is shown to depend on the analysis. For example, NIRSpec measured the [-$3$-$5\,\mu\mathrm{m}$-]{+3 to $5\,\mu\mathrm{m}$+} spectrum of
+WASP-39~b. [-For these data, differences-]{+Differences+} between reductions {+of these data+} changed the
+retrieved abundances by up to about an order of magnitude
+\citep{ConstantinouEtAl2023}.
+
+Small differences between reductions can also change what is concluded about
+a planet. For the sub-Earth GJ~341~b, \citet{KirkEtAl2024} reduced the same data from the Near Infrared Camera (NIRCam) of JWST with three
+independent pipelines. None found evidence of an [-atmosphere, but two-]{+atmosphere. Two, however,+} showed weak candidate absorption features at different wavelengths, which retrievals assigned to different [-gases, and the-]{+gases. The+} authors concluded that [-the-]{+these+} features were not real astrophysical signals. A
+disagreement of this kind shows that a result depends on the reduction. It
+does not show which reduction, if any, recovered the true spectrum.
+
+@@ -504,8 +465,7 @@ When the reductions agree, as the three reductions of WASP-17~b do over a
+large part of the wavelength range \citep{LouieEtAl2025}, the spectrum is
+shown to be reproducible. However, neither outcome establishes absolute
+accuracy. Although they differ in many details, the three reductions of WASP-17~b follow the same extraction-first order
+(Section~\ref{sec:detector-to-spectrum}).[-Each subtracted the background from-]
+[-the images and extracted a spectrum before it fitted the transit.-] They also
+share part of their software. All three used steps of the JWST calibration
+pipeline for the detector corrections
+\citep{JWSTPipeline2025,RadicaEtAl2023,LouieEtAl2025}. Ahsoka and supreme-SPOON ran these steps themselves, whilst \texttt{transitspectroscopy} started from count-rate files that
+@@ -517,17 +477,17 @@ supreme-SPOON, and a slightly modified version of the supreme-SPOON background
+subtraction. The extraction, in contrast, was done with different code in
+each reduction. For the transit fits, Ahsoka used Eureka!, whilst
+\texttt{transitspectroscopy} and supreme-SPOON both used \texttt{juliet}
+\citep{LouieEtAl2025}. Because the three reductions share their order of steps and some of their software, they could also share an [-error. Their-]{+error, and their+} agreement could not reveal [-an error common to all three.-]{+it.+} Leaving any remaining background out of the transit fit could cause[-exactly-] such a shared error.
+
+Crucially, a good fit to the extracted light curves does not show that the
+background was subtracted correctly. Steady background left in a light curve
+makes the transit shallower (Section~\ref{sec:structural-limitations}). The
+light curve, however, [-still has-]{+keeps+} the shape of a transit, so it can still be
+fitted well. The same holds for NOVA's fit to the pixels. To measure the error
+in a recovered transit depth, I therefore need a test signal whose depth is
+known.
+
+[-Historically,-]{+Earlier studies have supplied+} known test signals[-have been supplied-] in two ways. The first is
+simulation, in which the whole observation is computed from a model. For
+example, ATOCA, introduced above, was tested on simulated SOSS images
+\citep{DarveauBernierEtAl2022}. In this test, ATOCA was given correct
+@@ -535,7 +495,7 @@ calibration inputs, such as the shape of each trace and the wavelength of each
+pixel. With these inputs, the spectrum that ATOCA extracted matched the
+spectrum used to make the images to within 10~ppm. A simulation, however,
+contains only the noise and background that its authors put in.
+\citet{CarterEtAl2025} also used simulated [-data,-]{+data+} to study how the steps that
+flag cosmic-ray hits and fit the ramps affect SOSS spectra. The raw data files
+of a real WASP-39~b observation served only as a template. Carter et al.\
+replaced the reads in these files with simulated reads of a transit. The
+@@ -560,7 +520,9 @@ transits to a time series of these lamp-lit images and recovered the injected
+spectra with one analysis. The lamp light and the detector noise were real,
+but there was no sky. The transits were also added after the ramps had been
+fitted, so they did not pass through the steps that turn the reads into count
+rates.
+
+Measured light has also been injected into real observations in a
+different field, the direct imaging of exoplanets. There, a planet appears as
+a faint point of light beside its much brighter star, and the analysis must
+remove the light of the star to reveal the planet. To test whether an
+@@ -570,15 +532,14 @@ fake planet is a faint, scaled copy of the star's own image
+star, as in the benchmark described below. The signal, however, is a point of
+light beside the star, whereas a transit dims the star itself.
+
+Data challenges[-go one step further and-] score the methods of several teams against the same known signal. The Spitzer data challenge compared seven
+methods of analysing eclipse observations of the planet XO-3~b
+\citep{IngallsEtAl2016}. The accuracy of the methods was measured on ten
+simulated eclipse observations, whose eclipse depth the organisers had set.
+Ten real eclipses were analysed as well. Because their depth was not known,
+the real eclipses could only show whether each method gave repeatable
+results. In direct imaging, the Exoplanet Imaging Data Challenge added fake
+planets to eight real [-datasets-]{+data sets+} from two instruments
+\citep{CantalloubeEtAl2024}. The participants, who did not know the injected
+values, estimated the positions and spectra of these planets. Their estimates
+were then scored against the injected values.
+@@ -589,37 +550,33 @@ background and the field stars are real. Secondly, the transit should dim a
+measured image of the star on the detector, including the faint wings of the
+traces. Thirdly, the transit should be added to the raw reads, so that each
+pipeline runs its own detector steps on the injected data. Finally, several
+complete pipelines should recover the spectrum,[-and-] each [-should learn-]{+without knowing+} the injected truth [-only after-]{+until+} it has delivered its final result. None of the
+studies above combines [-these four things.-]{+all four.+} The simulations lack real noise and
+background. The Kepler and NIRCam injections used modelled light, the NIRSpec
+lamp test had no sky, and the fake planets of direct imaging do not transit.
+The two data challenges scored several methods, but neither scored a known
+transit or eclipse added to real data. The benchmark that I am building is
+designed to meet all four needs.
+
+The second need is difficult to meet. [-A-]{+Because a+} transit dims only the [-starlight. An-]{+starlight, an+} injector, the tool that adds the transit to the data, must[-therefore-] know
+which part of the recorded light belongs to the star. For this, the injector
+needs an image of the star on the detector. My first injectors took this image
+from the WASP-17~b data themselves. These data, however, cannot show how much
+of the faint light in the wings of the traces comes from the star
+(Section~\ref{sec:benchmark}). The commissioning study of SOSS met a related
+limit. That study could not determine how much of the light of a star falls
+outside the extraction [-aperture,-]{+box,+} the band of pixels that is combined into the [-spectrum, also called the extraction box.-]{+spectrum.+} Neither the commissioning data nor WebbPSF, the software that models
+how JWST images a star, could provide this fraction \citep{AlbertEtAl2023}.
+
+Calibration programme 4476 was designed to measure the light outside the
+[-aperture-]{+extraction box+} \citep{VolkEspinoza2023}. In a SOSS time series, only a strip of the
+detector is read out. Programme 4476 observed a star at its usual position on
+this strip, and then again with the star moved off the strip. On the strip,
+the difference between the two exposures measures the light of the star. This [-difference-]{+measurement+} greatly reduces the need to split the observed light into
+starlight and background with a fit. I [-will build-]{+am building+} the benchmark from this difference (Section~\ref{sec:measured-benchmark}). I first turn the difference into a [-clean-]{+cleaned+} image of the star, by removing the field sources (field stars and any other objects in the field) and smoothing the faint [-outer-]{+far+} wings. I then dim this image with a known
+transit and add it to the raw reads of the exposure in which the star was
+moved off the strip. The noise, the background and the field stars of that
+exposure are real. Because I apply the transit to the [-constructed-]{+cleaned+} image
+myself, the injected signal will be known exactly for that image. The
+benchmark is designed to show whether the established pipelines recover a
+known transit without a detectable bias, and whether NOVA improves on them.
+@@ -633,7 +590,7 @@ The central research question of this project is:
+How accurately can a transmission spectrum be recovered from the detector
+images of a JWST NIRISS/SOSS transit observation, and does fitting the
+transit and the background together, directly on the pixels, reduce the
+biases that {+can arise from+} fitting the transit without a background [-term,-]{+term+} and {+from+} extracting a spectrum [-first, can cause?-]{+first?+}
+\end{quote}
+
+To make this question testable, I divide it into four objectives.
+@@ -641,7 +598,7 @@ To make this question testable, I divide it into four objectives.
+  \item Develop NOVA, a method that fits the transmission spectrum and the
+  background together, directly to the detector pixels of NIRISS/SOSS
+  observations.
+  \item Develop a benchmark that adds a known transit to the [-detector-]{+raw+} reads of
+  real NIRISS/SOSS exposures and is built independently of the methods it
+  tests.
+  \item Use the benchmark to compare the accuracy of NOVA with that of the
+@@ -650,9 +607,7 @@ To make this question testable, I divide it into four objectives.
+  \item Identify which assumptions limit the accuracy of the recovered
+  spectrum, and determine how the resulting errors carry over into the
+  atmospheric properties that a retrieval infers. If NOVA recovers spectra
+  more accurately, I will [-switch off-]{+find out which of+} its parts {+are needed for an accurate spectrum, by switching them off+} one at a time and [-measure-]{+measuring+} how the recovery [-changes, to find out which of them an accurate spectrum-]
+[-  needs.-]{+changes.+}
+\end{enumerate}
+
+Section~\ref{sec:nova} describes NOVA as it is currently implemented and ends
+diff --git a/sections/02_nova.tex b/sections/02_nova.tex
+index 4e9037a..2e9e34c 100644
+--- a/sections/02_nova.tex
++++ b/sections/02_nova.tex
+@@ -4,15 +4,15 @@
+NOVA fits the transmission spectrum directly to the detector pixels. Its
+model describes every fitted pixel as starlight, dimmed by the transit, plus
+background, so the split between the two is decided in the same fit as the
+transit. The fit estimates the spectrum, the limb darkening, the brightness of the star in each column {+of each order+} and the background together. Everything else is held
+fixed during the fit. Some of these fixed quantities are estimated beforehand
+from each data set: the spatial profile, the stellar spectrum, the curvature
+of the baseline, the time pattern of the background, a noise [-scale-]{+factor+} for each
+pixel and the orbital geometry. The others are the same for every data set:
+the depth bins, the limb-darkening reference, the apertures, the background
+maps and [-two-]{+a+} noise [-scales.-]{+factor for each order.+} In this section, I describe NOVA as it is currently
+[-implemented,-]{+implemented+} and [-end with a-]{+compare its+} first, preliminary spectrum of [-WASP-17~b.-]{+WASP-17~b with the+}
+{+published Ahsoka spectrum.+}
+
+\subsection{Detector processing}
+\label{sec:detector-processing}
+@@ -20,12 +20,12 @@ implemented, and end with a first, preliminary spectrum of WASP-17~b.
+NOVA's input is prepared from the raw ramps with the JWST calibration pipeline
+\citep{JWSTPipeline2025} and exoTEDRF \citep{Radica2024}. After the
+reference-pixel correction, exoTEDRF removes the $1/f$ noise from each group.
+To estimate [-it, the step-]{+this noise, it+} subtracts from the group the median out-of-transit
+image, scaled by a light curve measured from the [-data, and-]{+data. It then+} takes the median
+of what is left in each column outside the trace cores, leaving out field stars
+found in a separate exposure through the F277W [-filter. It then subtracts this-]{+filter, in which the traces of WASP-17 almost vanish. This+} column offset {+is+}
+{+subtracted+} from the original group. For this step only,[-it subtracts-] a scaled background
+model {+is subtracted+} beforehand and [-adds it-]{+added+} back afterwards. The remaining
+steps of the JWST pipeline give count rates. Stage~2 of exoTEDRF then applies
+the flat field, subtracts the scaled zodiacal background and corrects bad
+pixels.
+@@ -37,7 +37,7 @@ pixels.
+  \centering
+  \includegraphics[width=\columnwidth]{figures/nova_schematic.pdf}
+  \caption{Schematic of the detector model of \nova{}. (a) The fitted pixels
+  are grouped by order and column (a sketch, not [-data); the-]{+data). The+} fitted apertures
+  of the two orders do not overlap. (b) The count rate of each pixel is modelled as starlight,
+  dimmed by the transit, plus a background that is not dimmed. The spectrum is
+  shared by both orders, whilst the limb darkening is fitted for each order as
+@@ -45,23 +45,22 @@ pixels.
+  \label{fig:nova-schematic}
+\end{figure}
+
+Within one detector column, the pixels of a trace see nearly the same [-wavelength.-]{+range of wavelengths.+} NOVA therefore groups the pixels by order and column: a group $g$
+holds the pixels $P_g$ of one order in one column
+(Figure~\ref{fig:nova-schematic}). The fitted pixels lie in two fixed
+apertures along the traces. [-Four-]{+I leave out four+} edge columns, the 51 reddest columns of [-order~1 (Section~\ref{sec:transit})-]{+order~1, beyond $2.758\,\mu\mathrm{m}$ (Section~\ref{sec:transit}),+} and flagged [-samples are left out.-]{+samples, where a sample is one+}
+{+pixel in one integration.+} For the count rate $Y_{tp}$ of pixel
+$p$ in integration $t$, NOVA predicts
+\begin{equation}
+ \widehat Y_{tp}
+ = \gamma_t\, C_{tg}\, \bar{\mathcal{T}}_{tg}\, q^\star_{pg} + B_{tp},
+ \label{eq:nova-forward}
+\end{equation}
+where $C_{tg}$ is the brightness of the star in the group $g$ [-of-]{+that contains+} pixel $p$,
+$q^\star_{pg}$ is the share of that light that falls on pixel $p$
+(Section~\ref{sec:response}), $\bar{\mathcal{T}}_{tg}$ is the [-dimming-]{+fraction+} of
+the group's light [-by-]{+that remains during+} the transit (Section~\ref{sec:transit}), $\gamma_t$ is a[-small,-] fixed {+factor,+}
+{+close to one, that describes a slight+} curvature of the baseline and $B_{tp}$ is the background left after
+Stage~2 (Section~\ref{sec:continuum}).
+
+\subsection{The spatial profile}
+@@ -85,11 +84,11 @@ $t$, and $\varepsilon_{tp}$ is the residual. The profile is $q^\star_{pg}=A_{pg}
+which the depth cancels.
+
+The planet blocks only about 1.5 to 2\% of the starlight. A pixel that
+receives, for example, [-100~DN/s-]{+100~DN\,s$^{-1}$+} of starlight[-therefore-] dims by only about 1.5
+to [-2~DN/s-]{+2~DN\,s$^{-1}$+} during the transit, which is comparable to its noise in a single
+integration. The measured $A_{pg}$, and so $q^\star_{pg}$, is therefore
+noisy. Because the profile changes only slowly from one column to the next, I
+smooth it across neighbouring [-columns, like-]{+columns with+} a [-running average.-]{+Whittaker smoother \citep{Eilers2003}, which follows the measured values but is penalised for bending, and gives less weight to outlying values.+} The strength of
+the smoothing is chosen so that the profile smoothed from one half of the
+integrations best predicts the unsmoothed profile from the other half.
+
+@@ -99,16 +98,17 @@ integrations best predicts the unsmoothed profile from the other half.
+Each column records light from a range of wavelengths. For each group $g$ and
+wavelength $\lambda$, $K_{g\lambda}$ is how much of the star's light at
+$\lambda$ is recorded in the column. It combines three public calibration
+[-products: the-]{+products. The+} PASTASOSS trace and wavelength [-calibration, which-]{+calibration+} says where
+each wavelength falls on the detector
+[-\citep{BainesEtAl2023Trace,BainesEtAl2023Wavelength}; the-]{+\citep{BainesEtAl2023Trace,BainesEtAl2023Wavelength}. The+} line-spread [-kernel,-]
+[-which spreads-]{+kernel+}
+{+describes how+} the light of one wavelength {+spreads+} over a few neighbouring
+[-columns;-]{+columns,+} and the [-throughput, which-]{+throughput+} says how much of the light at each wavelength is
+detected. NOVA [-combines them-]{+builds $K_{g\lambda}$ from these products+} with ATOCA, the SOSS extraction code of the JWST
+pipeline \citep{DarveauBernierEtAl2022,JWSTPipeline2025}. In this
+calibration, all pixels of a column see the same wavelengths, and only the
+light of each group's own order is modelled. The [-group-]{+fraction of a group's light that remains during the transit+} is therefore
+[-dimmed by-]{+the mean of+} the transit [-at-]{+light curve over+} the wavelengths of its column,
+{+weighted by the light that each wavelength contributes,+}
+\begin{equation}
+ \bar{\mathcal{T}}_{tg}
+ = \frac{\sum_{\lambda} K_{g\lambda}\, s_\lambda\, \mathcal{T}_t(\lambda)}
+@@ -120,14 +120,13 @@ $\lambda$, whose depth is $D(\lambda)$, and $s_\lambda$ is the spectrum of the
+star, fitted to the out-of-transit data of each data set and then held
+fixed.
+
+A planet has one transmission spectrum, so both orders share $D(\lambda)$. [-It-]{+The spectrum+}
+is represented by 160 top-hat bins from 0.62 to $2.84\,\mu\mathrm{m}$. [-Below-]
+[-$2\,\mu\mathrm{m}$ the-]{+The+} bins
+are about $0.01\,\mu\mathrm{m}$ wide {+below $2\,\mu\mathrm{m}$+} and
+{+$0.038\,\mu\mathrm{m}$ wide+} above [-it-]
+[-$0.038\,\mu\mathrm{m}$,-]{+it. They are+} wider in the red, where the
+signal-to-noise ratio is lower. The bluest bin is twice as wide, because no fitted column reaches its
+bluer half. The two reddest bins receive no light in the [-model:-]{+model, because+} order~2 does
+not reach [-them,-]{+them+} and order~1 is cut at $2.758\,\mu\mathrm{m}$, beyond which [-this-]{+the PASTASOSS+} calibration would have to be extrapolated. They are held at
+the white-light depth and not reported. The other 158 depths are written as an
+overall level times a shape,
+\begin{equation}
+@@ -135,7 +134,7 @@ overall level times a shape,
+  \frac{\exp(h_j)}{\sum_{k} w_k \exp(h_k)}, \qquad \bm{h}=\bm{H}\bm{z},
+  \label{eq:depth-basis}
+\end{equation}
+where {+$D_j$ is the depth in bin $j$,+} $\bar D$ is the overall, achromatic depth and $w_k$ are the bin widths,
+normalised to sum to one, so that $\bar D$ is the width-weighted mean of the
+depths. The exponential keeps every depth positive. Adding the same constant to
+every $h_j$ would not change the spectrum, so the fixed $158\times157$ matrix
+@@ -147,43 +146,42 @@ grid of 147 bins between 0.63 and $2.74\,\mu\mathrm{m}$, at a resolving power
+of about 100. Each reporting bin takes the mean of the fitted depths that
+overlap it, weighted by the overlap in wavelength.
+
+The orbit is circular, with the period of [-\citet{LouieEtAl2025} and with the-]{+\citet{LouieEtAl2025}. The+}
+mid-transit time $t_0$, scaled semi-major axis $a/R_\star$ and impact
+parameter [-$b$,-]{+$b$ are+} all computed from NOVA's white-light fit
+(Section~\ref{sec:own-white}). The
+transit {+light curve+} is [-computed-]{+evaluated+} with jaxoplanet \citep{Jaxoplanet2025} and averaged over
+each integration.
+
+The limb darkening follows the quadratic law \citep{MandelAgol2002}, in the
+coordinates $q_1,q_2\in[0,1]$ of \citet{Kipping2013},
+\begin{equation}
+ u_1=2\sqrt{q_1}\,q_2, \qquad
+ [-u_2=\sqrt{q_1}\,(1-2q_2).-]{+u_2=\sqrt{q_1}\,(1-2q_2),+}
+ \label{eq:kipping-coordinates}
+\end{equation}
+{+where $u_1$ and $u_2$ are the coefficients of the quadratic law.+} Limb darkening and depth are partly degenerate, so the spectral fit lets the
+limb darkening deviate only smoothly from a reference computed from STAGGER
+model intensities \citep{MagicEtAl2015}. In order $o$, the logit of each
+coordinate $q_c$ is its reference value plus a deviation
+$\delta_{oc}(\lambda)=a_{oc}+b_{oc}\,\ell_o(\lambda)$, {+with+} an offset {+$a_{oc}$+}
+and a slope [-in-]
+[-$\ell_o$,-]{+$b_{oc}$. Here $\ell_o$ is+} the logarithm of [-wavelength-]{+wavelength,+} centred on
+the order and scaled [-to a-]{+so that its+} largest magnitude [-of-]{+is+} one.
+
+\subsection{The continuum, the background and the noise}
+\label{sec:continuum}
+
+The {+continuum, the+} brightness of the star in each [-group-]{+group,+} is a straight line in time,
+$C_{tg}=\beta_{0g}+\beta_{1g}\tau_t$. Its level differs between columns
+because each column sees a different wavelength. It is fitted together with
+the transit, but in practice it is set by the integrations before and after
+the transit. The baseline may also curve slightly. [-A-]{+From these integrations, a+} curvature is harder
+{+to measure+} than a straight [-line to measure from the integrations before and after the-]
+[-transit,-]{+line,+} and in a single column it would trade against the depth. I therefore
+measure one curvature from all columns together, using the out-of-transit data
+only, and hold it fixed. For each order, I sum the background-subtracted light
+of all trace pixels, fit it with a parabola and with a straight line in time,
+and divide the parabola by the line. This leaves only the curvature of that
+order, as a factor close to one. {+In the detector model,+} $\gamma_t$ is the geometric mean of the two
+orders' curvature factors, normalised to one out of transit. This assumes that the curvature is the same, as a fraction of
+the light, in every column.
+
+@@ -191,23 +189,30 @@ The background left after Stage~2 is modelled with eight fixed spatial maps:
+the zodiacal-light model that Stage~2 subtracted, and seven smooth polynomials
+in detector position ($1$, $y$, $x$, $xy$, $y^2$, $x^2$ and $xy^2$). Each map
+$\Phi_{pk}$ has a constant amplitude and an amplitude that follows one time
+pattern $G(t)$, {+shared by all maps,+}
+\begin{equation}
+ B_{tp}=\sum_{k=1}^{8}\Phi_{pk}
+ \left[\alpha_{k0}+\alpha_{k1}\,G(t)\right].
+ \label{eq:background-model}
+\end{equation}
+The 244,657 off-trace [-pixels,-]{+pixels lie+} away from the traces, field stars and bad [-pixels,-]{+pixels. They+} are assumed to see only background, although some starlight from the faint wings of the traces may reach them (Section~\ref{sec:which-light}).[-Field stars are also left out of the $1/f$ correction (Section~\ref{sec:detector-processing}), but NOVA does not yet treat field-star light that falls on the traces, which it cannot tell apart from the light of the target. A treatment of such light, for example with the positions of field-star spectra that Gaia predicts (Section~\ref{sec:measuring-star}), is future work, needed for both the benchmark and the WASP-17~b visit.-] The
+maps are made orthonormal over these pixels. The maps and these pixels were
+chosen once from the [-WASP-17-]{+WASP-17~b+} visit, where eight maps predicted held-out strips
+of the off-trace image better than two or four. [-How-]{+I have not yet tested how+} well
+the maps describe the background under the traces, [-and-]{+or+} how much an error [-of-]{+in+} the
+maps there [-changes-]{+would change the depths.+}
+
+{+Field stars are left out of the off-trace pixels and of+} the [-depths, has-]{+$1/f$ correction+}
+{+(Section~\ref{sec:detector-processing}), but NOVA does+} not yet [-been tested.-]{+treat+}
+{+field-star light that falls on the traces, which it cannot tell apart from the+}
+{+light of the target. A treatment of such light, for example with the positions+}
+{+of field-star spectra that Gaia predicts (Section~\ref{sec:measuring-star}),+}
+{+is future work, needed for both the benchmark and the WASP-17~b visit.+}
+
+The time pattern is learned from each data set. Fitting the maps to the
+off-trace pixels of every integration gives eight amplitude series, and $G$
+is [-their-]{+the+} strongest {+of their+} principal [-component that does not look like the transit,-]
+[-with an-]{+components whose+} absolute correlation
+[-of-]{+with the transit is+} at most 0.25. On the real {+WASP-17~b+} visit, the strongest component
+does look like the transit, with a correlation of 0.95, and is therefore left
+out. Whether that signal is starlight is still open
+(Section~\ref{sec:real-data-test}).
+@@ -215,15 +220,16 @@ out. Whether that signal is starlight is still open
+The pipeline uncertainty ERR underestimates the scatter of the trace pixels,
+so each sample has the uncertainty
+$\sigma_{tp}=\mathrm{ERR}_{tp}\,N_{p}\,s_{p}$. The factor $N_p$ is 3.07 for
+order~1 and 4.19 for order~2. It was measured once on the [-WASP-17-]{+WASP-17~b+} visit, from
+how well the model predicted[-held-out-] out-of-transit [-integrations,-]{+integrations held out of the fit,+}
+so it also covers part of the model mismatch, treated as random noise. [-Measuring-]{+I still+}
+{+need to measure+} it again with the current model, and for each data [-set, is future work.-]{+set.+} The factor
+$s_p\geq1$ is measured on each data set in a similar way, with a straight line
+in [-time, and-]{+time. It+} inflates {+the uncertainty of+} single pixels that are noisier than the
+rest of their order.
+
+\subsection{The fit}
+{+\label{sec:fit}+}
+
+NOVA fits the spectrum, the limb-darkening offsets and slopes, the continuum
+coefficients $\bm{\beta}$ and the background amplitudes $\bm{\alpha}$ by
+@@ -234,36 +240,36 @@ minimising
+ &+\frac{1}{2}(\bm{\alpha}-\bm{\alpha}_{\mathrm{off}})^{\mathsf T}
+   \bm{N}_{\mathrm{off}}(\bm{\alpha}-\bm{\alpha}_{\mathrm{off}}) \\
+ &+\frac{1}{2}\sum_{o,c}\left[\left\langle\left(\frac{\delta_{oc}}{0.5}\right)^{2}\right\rangle_{o}
+ [-+\left\langle\left(\frac{\delta''_{oc}}{2\,\mu\mathrm{m}^{-2}}\right)^{2}\right\rangle_{o}\right],-]{++\left\langle\left(\frac{\delta''_{oc}}{2\,\mu\mathrm{m}^{-2}}\right)^{2}\right\rangle_{o}\right].+}
+\end{split}
+ \label{eq:objective}
+\end{equation}
+The first term compares the model with the data. For every fitted sample, the
+bracket is the standardised residual $r_{tp}$, the difference between data and
+model in units of the uncertainty. The Huber loss {+\citep{Huber1964}+} is $\rho(r)=r^2/2$ for
+$|r|\leq1.345$ and $1.345\,|r|-1.345^2/2$ beyond, so it is quadratic for small
+residuals and grows only linearly for outliers, which therefore do not
+[-dominate.-]{+dominate the fit.+} The second term [-is a-]{+ties the+} background [-anchor.-]{+to the off-trace pixels.+} Here $\bm{\alpha}$ holds the
+sixteen background amplitudes, and $\bm{\alpha}_{\mathrm{off}}$ and
+$\bm{N}_{\mathrm{off}}$ are the amplitudes and precision matrix of a fit of
+the background model to the off-trace pixels alone. The term is half the
+increase [-of-]{+in+} the $\chi^2$ of those pixels above their own best fit, so it keeps
+the background close to what they show.
+The last term penalises the limb-darkening deviations $\delta_{oc}$ of the two
+coordinates $c$ in the two orders $o$, where $\langle\cdot\rangle_o$ is the
+average over the wavelengths of order $o$. It acts as a Gaussian prior with
+two parts. The first keeps the deviation close to the reference, with a
+standard deviation of 0.5 in the logit. The second limits the curvature {+$\delta''_{oc}$+} of the
+deviation in wavelength, with a standard deviation of $2\,\mu\mathrm{m}^{-2}$.
+
+The model is linear in the continuum and background coefficients and
+nonlinear in 166 [-numbers:-]{+parameters:+} $\bar D$, the 157 shape coordinates and the eight
+limb-darkening offsets and slopes. [-At every step, NOVA solves for the linear-]
+[-coefficients exactly, by variable projection \citep{GolubPereyra1973}, and-]
+[-the-]{+The+} trust-region reflective method \citep{BranchColemanLi1999} adjusts the
+nonlinear [-ones, with-]{+parameters, using+} exact derivatives that[-use-] JAX {+computes+} for the transit
+model. {+At every step of this method, NOVA solves for the linear coefficients+}
+{+exactly, by variable projection \citep{GolubPereyra1973}.+} The
+Huber loss is minimised by {+repeated+} reweighting. {+Each sample is given the weight+}
+{+$w_{tp}=\min(1,\,1.345/|r_{tp}|)$.+} The weights[-$w_{tp}=\min(1,\,1.345/|r_{tp}|)$-] depend on the residuals, so they are
+recomputed after each fit, and the cycle repeats until the weights, the
+objective and the spectrum stop changing within fixed tolerances.
+
+@@ -271,10 +277,10 @@ objective and the spectrum stop changing within fixed tolerances.
+\label{sec:own-white}
+
+The orbital geometry comes from a joint fit to the white-light curves of the
+two [-orders of-]{+orders, from+} the same data [-set.-]{+set as the spectral fit.+} Each curve is the light of all fitted columns
+in each integration, combined by optimal extraction \citep{Horne1986} with
+the median out-of-transit image as the profile. [-Whether-]{+I have not tested whether+} using
+$q^\star_{pg}$ [-here-]{+as the profile+} instead would change the [-geometry has not been tested.-]{+geometry.+} The
+fit is made with Eureka! \citep{BellEtAl2022} and sampled with dynesty
+\citep{Speagle2020}. The two orders share $t_0$, $a/R_\star$ and the
+inclination $i$, and each has its own radius ratio, limb darkening,
+@@ -283,14 +289,14 @@ within the observed window, $a/R_\star$ from 1.01 to 100, $i$ from $0^\circ$
+to $90^\circ$ and $u_1,u_2$ from 0 to 1.
+
+NOVA currently works only for transits that are not grazing. A white-light
+fit is therefore accepted only if [-it-]{+its posterior+} gives little weight to orbits that graze
+the stellar limb, for which depth and geometry are hard to separate.
+
+\subsection{Uncertainties}
+\label{sec:ensemble}
+
+I plan to {+use an ensemble of simulated observations to+} estimate the uncertainty
+[-from-]{+that+} the calibration products and the geometry [-with an ensemble of simulated observations.-]{+contribute to the spectrum.+} Until then, the error
+bars of NOVA are conditional on the quantities held fixed in the fit,
+including the geometry.
+
+@@ -309,19 +315,15 @@ including the geometry.
+\end{figure*}
+
+Figure~\ref{fig:nova-real} compares a preliminary NOVA spectrum of the real
+WASP-17~b [-visit, from a reduction of 18 September 2026,-]{+visit+} with the published
+Ahsoka spectrum of \citet{LouieEtAl2025}.[-This reduction used NOVA's own-]
+[-white-light geometry.-] Below about $1.8\,\mu\mathrm{m}$ the
+two spectra show similar features, such as the water bands, but the NOVA
+spectrum is deeper [-throughout. After interpolating-]{+at every wavelength. With+} the published spectrum {+interpolated+}
+to the NOVA bins, {+the+} NOVA {+spectrum+} is deeper by a median of about [-230~ppm-]{+250~ppm+} below [-$1.6\,\mu\mathrm{m}$,-]{+$1.8\,\mu\mathrm{m}$,+} 550~ppm between 1.8 and $2.3\,\mu\mathrm{m}$, and
+490~ppm above $2.3\,\mu\mathrm{m}$.
+
+The two reductions treat the geometry, the limb darkening and the background
+differently, and this comparison does not separate these effects. The larger difference in the red matters [-most,-]{+most for deciding which reduction is right,+} because there the starlight is faintest and the [-background has-]{+recovered depth depends most on how much of+} the [-largest effect.-]{+faint light is taken to be starlight (Section~\ref{sec:which-light}).+} The real data cannot tell which
+reduction is closer to the truth. This is why I [-build-]{+am building+} the benchmark of the
+next two sections, which [-measures-]{+is designed to measure+} the errors of each method
+against a known, injected truth.
+diff --git a/sections/03_benchmark.tex b/sections/03_benchmark.tex
+index 5f4338d..a1b7a43 100644
+--- a/sections/03_benchmark.tex
++++ b/sections/03_benchmark.tex
+@@ -4,19 +4,19 @@
+\subsection{What a benchmark needs}
+\label{sec:benchmark-needs}
+
+For a real planet the true spectrum is [-unknown. An-]{+unknown, so an+} injection test supplies
+[-a-]
+[-truth:-]{+one. It adds+} a known transmission spectrum[-is added-] to detector [-data,-]{+data+} and {+compares it+}
+{+with+} the spectrum that each method [-recovers is compared with it.-]{+recovers.+}
+Section~\ref{sec:validation-problem} listed what such a test needs for SOSS: a
+real exposure, a measured image of the star, injection into the raw [-reads,-]{+reads+}
+and several pipelines that run without knowing the truth. The image of the star matters because only starlight dims during a
+transit, so the injector has to decide which {+part+} of the observed light is
+starlight. If it decides this with the same kind of model that a pipeline uses
+to separate starlight from background, the errors of that model are hidden and
+the pipeline is favoured, a problem known as an inverse crime
+\citep{KaipioSomersalo2007}. A measured image of the star avoids this
+particular risk. My first
+injectors were built from the WASP-17~b data alone, and {+in+} this section [-describes-]{+I describe+}
+what they taught me.
+
+\subsection{Injecting into the raw reads}
+@@ -29,7 +29,7 @@ way. To make the test fair to every pipeline, I therefore moved the injection
+to the raw reads, so that each pipeline runs all of its own steps on the
+injected data.
+
+On the same data, NOVA's root-mean-square error for {+one injected atmosphere, which I call+} the reference [-atmosphere-]{+atmosphere,+}
+then rose from 125 to 182~ppm, and its spectrum was about 90~ppm too deep. The main reason was the correction of the $1/f$ noise
+(Section~\ref{sec:detector-to-spectrum}). In each column, this correction
+estimates the stripe from the light left in the pixels outside the traces
+@@ -38,17 +38,15 @@ correction NOVA also uses (Section~\ref{sec:detector-processing}), this
+median image is scaled by the measured light curve, so that it dims during the
+transit.
+
+My injector, however, dimmed only its model of the star. Near the traces, this model matched the real [-images, but outside-]{+images. Outside+} them, at 0.85 to $1.75\,\mu\mathrm{m}$ in order~1, it held only about a third of the light that the correction expects to dim.[-In the real data, the dimming there was consistent with what the correction assumes, so much of this faint light seems to behave like starlight.-] During the transit, the correction therefore found too
+much light left outside the traces, mistook it for $1/f$ noise and removed it
+from the whole column, so the transit [-became-]{+in the data was already+} about 1 to 2\% [-too deep.-]{+deeper than injected before NOVA's fit.+} To
+confirm this, I [-subtracted from the injected data-]{+calculated+} the $1/f$ correction[-calculated-] from the same data without
+the [-transit. There,-]{+transit and subtracted it from the injected data. Without the transit,+} the light curve is
+flat, so the correction removes the same stripes but has no transit to react
+to. NOVA's error then fell to 150~ppm, so the correction caused about half of the increase. {+In the real data, the dimming outside the traces at these wavelengths was consistent with what the correction assumes (Section~\ref{sec:real-data-test}), so much of this faint light seems to behave like starlight.+}
+
+[-How much of the faint light outside the traces dims therefore matters.-]To inject a transit correctly, I would {+therefore+} need to know how much of the light is
+starlight, near the traces, in their wings and far from them, and dim exactly
+that.
+
+@@ -56,18 +54,18 @@ that.
+\label{sec:which-light}
+
+The WASP-17~b data alone cannot say how much of this light is starlight, not
+even inside the extraction box. To see how [-much this matters,-]{+strongly the recovered spectra depend on this,+} I made three
+injections. All three dim the measured light in the wings, 16 to 80 pixels
+from the traces. [-The lower estimate counts as starlight near-]{+In the first,+} the [-traces-]{+lower estimate,+} only the light [-explained by-]{+that+} a model of the [-star.-]{+star+}
+{+explains counts as starlight near the traces.+} I made this model by fitting the
+star's spectrum, with a slow change in time, to the out-of-transit images
+through ATOCA's model of the [-detector, together with-]{+detector. The fit also included+} a smooth
+[-background-]{+background,+} made of four of NOVA's eight background maps and held in place by
+the[-same-] off-trace pixels [-(Section~\ref{sec:continuum}).-]{+that NOVA uses (Section~\ref{sec:fit}).+} In exoTEDRF's 40-row extraction box, this estimate[-leaves-] typically [-0.4, 2.2 and 4.0\%-]{+leaves 0.4\%+} of the light undimmed at 1.0 to [-1.8,-]{+$1.8\,\mu\mathrm{m}$, 2.2\% at+} 1.8 to [-2.3-]{+$2.3\,\mu\mathrm{m}$+} and {+4.0\% at+} 2.3 to $2.8\,\mu\mathrm{m}$. The lower estimate also leaves the faint light beyond 80
+pixels undimmed. The second injection is the same, except that it also dims
+this faint [-light; it-]{+light. Dimming this light+} changed NOVA's spectrum by about 40~ppm. The {+third, the+} upper
+[-estimate-]{+estimate,+} instead counts all the light in the box as starlight and dims [-it,-]
+[-and-]{+it.+}
+{+Like the lower estimate, it+} leaves the faint light beyond 80 pixels [-undimmed, like the lower estimate.-]{+undimmed.+}
+
+\begin{figure}[t]
+  \centering
+@@ -85,15 +83,14 @@ and leaves the faint light beyond 80 pixels undimmed, like the lower estimate.
+\end{figure}
+
+Under the lower estimate, NOVA recovered the reference atmosphere with an
+error of 124~ppm and exoTEDRF with 319~ppm. Under the upper [-estimate-]{+estimate,+} the [-order-]{+ranking+}
+reversed, with 358~ppm for NOVA and 150~ppm for exoTEDRF
+(Figure~\ref{fig:flip}). Each pipeline did best under the estimate that matches
+how it treats the faint light. {+Like the upper estimate,+} exoTEDRF counts {+as starlight+} all the light left in
+its box after background [-subtraction as starlight, like the upper estimate,-]{+subtraction,+} whereas the lower estimate [-split-]{+splits+} the light much as NOVA does, with part of NOVA's own
+background model.
+
+Neither estimate is [-the truth.-]{+known to be right.+} The upper estimate assumes that all the light
+in the box is starlight, which may not be so. The lower estimate depends on
+how its fit split the light between the star and a smooth background, a split
+that the out-of-transit data could not determine. Between the two estimates,
+@@ -103,15 +100,15 @@ built from the WASP-17~b data alone cannot say which method is more accurate.
+\subsection{The real data cannot decide}
+\label{sec:real-data-test}
+
+I also tried to measure the share of starlight {+in the box+} directly from the real data.
+If the bright centre of the trace is almost pure starlight, and all the light in the extraction box is starlight too, the box dims during the transit by the same fraction as the [-centre; if-]{+centre. If+} part of [-it-]{+the light in the box+} is background, the box dims less. In the red part of order~1, the two {+fractions+} typically agreed to within about 1\%, which would favour the upper estimate. To check how reliable this comparison is, I
+repeated it on stretches without a [-transit:-]{+transit.+} I fitted the same transit [-shape,-]
+[-at a time when no transit happens,-]{+shape+} to
+the box and to the bright [-centre.-]{+centre, at a time when no transit happens.+} Both
+fitted depths should be [-zero.-]{+zero, so they should agree.+} Instead, they differed by up to about 11\% of the
+real transit depth, ten times more than the 1\% needed to tell the two
+estimates apart. The real data therefore cannot decide.
+
+I [-also-]{+then+} measured how much the faint light outside the traces dims during the real transit, on the pixels that the $1/f$ correction uses. At 0.85 to $1.75\,\mu\mathrm{m}$ in order~1, it dimmed by $0.033\pm0.007$~DN\,s$^{-1}$ per pixel, as much as if all the light left there after background subtraction were starlight. This suggests that most of this light behaves like [-starlight, but it cannot tell the injector how much of it to dim.-]{+starlight.+} Only this range gives a clear [-answer: at-]{+answer, however. At+} 1.75 to [-$2.1\,\mu\mathrm{m}$-]{+$2.1\,\mu\mathrm{m}$,+} the measurement is too noisy to tell [-the cases apart, and at-]{+whether this light dims like starlight or as little as my first injector assumed. At+} 2.1 to [-$2.8\,\mu\mathrm{m}$-]{+$2.8\,\mu\mathrm{m}$,+} the light appears to dim about four times more than even starlight would, which I cannot explain. Even where the answer is clear, it depends on how the detector [-behaves: if-]{+behaves. If+} the fit allows the detector's level to change during the transit, the share of this light that dims like starlight ranges from about half to all of it. {+The measurement cannot tell the injector how much of this light to dim.+}
+
+Separating starlight
+from background needs extra information, such as exposures in which the star
+diff --git a/sections/04_measured_benchmark.tex b/sections/04_measured_benchmark.tex
+index a473d39..77f9026 100644
+--- a/sections/04_measured_benchmark.tex
++++ b/sections/04_measured_benchmark.tex
+@@ -2,23 +2,26 @@
+\label{sec:measured-benchmark}
+
+The benchmark I am now building uses a calibration programme that observed a
+star twice: once at its usual position on the detector, and once moved [-away-]
+[-from-]{+off+}
+the strip that SOSS time series read out. The difference between the two
+exposures measures the light of the star directly, so the injector depends
+much less on a fitted split between starlight and background. {+In this+}
+{+section, I describe how I turn this difference into a cleaned image of the+}
+{+star and inject it with a known transit, how I will test the injector and the+}
+{+pipelines, and the limitations of the benchmark.+}
+
+\subsection{Measuring the star}
+\label{sec:measuring-star}
+
+On 26 March 2024, programme 4476 \citep{VolkEspinoza2023} observed
+[-TYC 4213-1116-1, an-]{+TYC~4213-1116-1 in two full-frame exposures taken about 25 minutes apart.+}
+{+This+} A-type star[-that-] gives about 1.6 times as much light per detector column as
+[-WASP-17, in two full-frame exposures taken about 25 minutes apart.-]{+WASP-17.+} In the
+first, with ten integrations of five [-groups,-]{+reads,+} the star is at its usual
+position. For the second, the telescope moved by $67.1''$, placing the traces
+1,026 rows lower. The SOSS strip then received no light from the star except
+its faint far halo. This second [-exposure-]{+exposure, which I call the moved exposure,+} has 150 integrations
+covering [-2.68~h, and it-]{+2.68~h. It+} is the one into which I inject the star.
+
+On the SOSS strip, the first exposure contains the star, the sky, the field
+sources of the first pointing and the signal of the detector itself. The
+@@ -29,48 +32,46 @@ which the grism spreads into a pattern fixed on the detector, and the static
+signal of the detector, such as its dark current and bias. The estimated
+levels of the zodiacal background in the two exposures agree to within about
+1\%. The read noise and the offsets that vary in time, such as the $1/f$
+stripes, do not [-cancel, because they change from moment to moment.-]{+cancel.+}
+
+The difference is not yet a clean image of the star, for three reasons.
+Firstly, the far tail of the moved star's halo still reaches the strip in the
+[-second-]{+moved+} exposure as a faint, smooth glow of about
+0.05~DN\,s$^{-1}$ per pixel, so the difference subtracts it from the image of
+the star. The benchmark keeps this glow, because it is built on the [-second-]
+[-exposure, so the-]{+moved exposure.+}
+{+The+} total light out of transit is {+therefore+} right, but the glow does not
+dim during the transit. For a 1.5\% transit in a 40-row extraction box with
+ideal sky subtraction, [-this-]{+the undimmed glow+} makes the depth 2 to 19~ppm shallower, depending
+on wavelength. The full frames show this halo at 700 to 800 rows from the
+moved [-star, and with-]{+star. Extrapolating+} its measured fall-off[-it can be extrapolated-] to the [-strip, so-]{+strip gives a model of+}
+{+the halo there, and+} I can correct the image of the star by adding this [-model of the-]
+[-halo.-]{+model.+}
+
+Secondly, field sources do not cancel, because [-they moved with-]{+their positions on the detector changed when+} the telescope {+moved+}
+(Figure~\ref{fig:4476}). They appear as compact blobs, which look like
+undispersed images of faint field objects, and as faint spectra of field
+stars crossing the strip. The difference contains the field sources of the
+first pointing as bright spots and those of the second as dark, negative ones.
+A bright spot would become part of the injected star and dim during the
+transit, so I replace its pixels by the light of the star estimated from the
+neighbouring columns. A dark spot {+in the injected star+} would cancel the field source in the
+benchmark out of [-transit-]{+transit,+} and[-let-] part of [-it-]{+the source would+} reappear during the
+[-transit, so-]
+[-at-]{+transit. At+} its [-pixels-]{+pixels,+} I {+therefore+} subtract an estimate of the sky alone
+instead of the [-second-]{+moved+} exposure. The field sources of the second pointing then stay in the benchmark
+as real light that does not transit, and the pipelines must handle them as
+they would in real data. Field sources lying exactly under the traces move
+with the star, so the two exposures cannot separate them, and their light
+becomes part of the injected star.
+
+I find the dark spots in the [-second-]{+moved+} exposure, where the star is not in the
+[-way, and the-]{+way. The+} bright spots {+show up+} as compact bumps that the neighbouring columns
+of the trace do not have. Most field sources, including all compact blobs of the
+first pointing, have no secure counterpart in Gaia DR3 \citep{GaiaDR3}, so the
+images themselves are needed to find them. Gaia, however, also tells me where
+the spectra of known stars fall,[-which a search for compact spots cannot-]
+[-find,-] even for stars that lie off the strip. {+A+}
+{+search for compact blobs cannot find these spectra.+} I [-move-]{+update+} each star's catalogue
+position to the date of the observation, and use the recorded pointing of the
+telescope to find where it would appear on the detector without the grism.
+The grism slightly rotates and stretches this [-pattern, and each field star's-]
+[-spectra are those-]{+pattern+} of [-the target, moved by the star's offset from it.-]{+positions.+}
+
+I fitted this rotation and stretch on the WASP-17~b data
+(Figure~\ref{fig:w17-gaia}). For a Gaia star $i$, let
+@@ -83,100 +84,103 @@ the grism, in pixels. Its undispersed image then lands at
+where $\mathbf{A}$ is a $2\times2$ matrix that rotates and stretches the
+offsets, and $\mathbf{t}$ is the position of the target's own undispersed
+image, which lies off the strip. The spectra of star $i$ are those of the
+target, [-moved-]{+shifted+} by $\mathbf{A}\,\boldsymbol{\Delta}_i$.
+
+To locate the compact [-sources,-]{+blobs,+} I first {+subtracted a running median over 51 columns from each row.+}
+{+This+} removed everything that is smooth along the rows, such as the traces and
+the [-sky, by subtracting from each row a running median over 51-]
+[-columns, and-]{+sky. I then+} removed the $1/f$ stripes by subtracting the median of each
+[-column. I then-]{+column,+} smoothed the result [-slightly,-]{+slightly+} with a Gaussian of 1.5 pixels,
+and flagged groups of at least 12 touching pixels that lie more than five
+times the noise above zero. Many of these detections lie along the traces and
+are left over from their [-removal; a-]{+removal. A+} source counts as real if it also appears
+in[-an exposure through-] the F277W [-filter, in which the traces of WASP-17-]
+[-almost vanish,-]{+exposure (Section~\ref{sec:detector-processing}),+} or if it matches a Gaia star.
+
+To find which detected source
+belongs to which Gaia star, I held the stretch fixed and slid the whole
+predicted pattern across the image, within 300 pixels of the position given
+by the [-standard model-]{+default mapping+} of the ExoCTK contamination [-tool.-]{+tool \citep{BourqueEtAl2021}.+} At each position, I
+counted how many predicted images fell within 8 pixels of a detected source.
+At most positions none did, and at 99\% of them at most two did. At the best position, seven of the nine predicted images did, so this alignment stands out clearly from all others. I then fitted the six numbers in
+$\mathbf{A}$ and $\mathbf{t}$ by least [-squares to-]{+squares, matching+} the[-eight-] pairs [-found this-]
+[-way.-]{+again after each fit, which added an eighth pair.+} The fitted mapping places these {+eight+} images to within 0.8 columns and 3.6 rows
+(rms), against 4.3 columns and 14.9 rows for the [-standard model.-]{+default mapping.+} When each pair
+is left out of the fit and predicted from the other seven, the errors are 1.5
+columns and 7.8 rows.
+
+Programme 4476 cannot provide such a [-fit: its-]{+fit. Its+} field is
+sparse, with 208 Gaia stars within $5.4'$ of the target against 1,455 around
+[-WASP-17, and its-]{+WASP-17. Its+} strip contains the undispersed image of at most [-one, very-]
+[-faint-]{+one+} Gaia [-star.-]{+star,+}
+{+which is very faint.+} Both observations used the same instrument setting, so I use
+the WASP-17~b fit for programme [-4476, and-]{+4476.+} I will check the faint spectra that [-it-]{+this fit+} predicts in both pointings. The injector finds field sources from the images, with Gaia guiding the search. Because NOVA may later use the same {+Gaia+} predictions, agreement between {+NOVA and+} the [-two-]{+injector+} would not by itself show that the field-star light was separated correctly.
+
+{+\begin{figure*}[t]+}
+{+  \centering+}
+{+  \includegraphics[width=0.92\textwidth]{figures/pid4476_star_and_carrier.pdf}+}
+{+  \caption{The SOSS strip in programme 4476. (a) The exposure with the star at+}
+{+  its usual position. (b) The exposure with the star moved 1,026 rows lower,+}
+{+  into which the star is injected. (c) The cleaned image of the star, given by+}
+{+  the difference between (a) and (b) with the field sources removed and the+}
+{+  far wings smoothed. It is a preliminary version, made before the corrections+}
+{+  for the sky and the halo of the moved star. Orange outlines mark the field+}
+{+  sources found in each exposure. Blue dashed lines are the spectra of Gaia+}
+{+  DR3 stars with $G\leq20.5$ predicted on the strip+}
+{+  (Section~\ref{sec:measuring-star}). In (b), the predictions are shifted by 10+}
+{+  rows so that the target falls at its measured position. The grey scale is+}
+{+  logarithmic.}+}
+{+  \label{fig:4476}+}
+{+\end{figure*}+}
+
+\begin{figure*}[t]
+  \centering
+  \includegraphics[width=\textwidth]{figures/w17_gaia_mapping.pdf}
+  \caption{The SOSS strip of the WASP-17~b observation (median of the
+  out-of-transit images). Orange circles mark the real compact [-sources:-]{+blobs:+} the
+  eight matched to Gaia stars, and 19 others without a Gaia counterpart that
+  also appear in[-an exposure through-] the F277W [-filter.-]{+exposure.+} Red crosses mark the
+  undispersed images of Gaia DR3 stars predicted with the fitted mapping, and
+  blue plus signs those predicted with the [-standard model.-]{+default ExoCTK mapping.+} The two red
+  crosses without a circle belong to a faint star ($G=21.0$) and to a star at
+  the edge of the strip. The grey scale is logarithmic.}
+  \label{fig:w17-gaia}
+\end{figure*}
+
+Thirdly, the far wings {+of the difference+} are noisy. The subtraction removes the sky, so the
+image shows the light of the star far from the traces, where it is fainter
+than the sky (Figure~\ref{fig:4476-profiles}). The first exposure, however,
+has only ten integrations. I estimate the uncertainty of each pixel by
+combining the pipeline's error estimates for the two [-exposures, which-]{+exposures. These+}
+{+estimates+} agree with the actual scatter between neighbouring pixels to within
+10\%. Dividing
+each [-pixel-]{+pixel's count rate+} by its uncertainty gives a signal-to-noise ratio of 112 to 675 in
+the cores of the traces, 10 to 73 at 20 to 40 rows from them, and only 2 to 3
+at 40 to 200 rows from order~1 in the red. Injected as it is, this noise would
+become a fixed pattern in the star.
+
+The shape of the wings is set by the
+optics and changes only slowly with [-wavelength, so beyond-]{+wavelength. Beyond+} 40 rows from the
+nearest [-trace-]{+trace,+} I {+therefore+} replace each pixel by the median of the pixels at the same
+distance from the trace in the 61 neighbouring columns, which span about
+$0.06\,\mu\mathrm{m}$ in order~1. {+On average, this far-wing model differs from the measured pixels by only about 0.16\% at 40 to 100 rows, so the wings change slowly enough across the 61 columns for the median to stand in for each pixel.+} Where the wings of several orders overlap,
+the nearest order dominates this estimate. This lowers the noise per pixel
+from about 0.10 to about 0.017~DN\,s$^{-1}$, and it also removes the $1/f$
+stripes left in the difference. Between 30 and 40 rows, the weight of this
+{+far-wing+} model rises linearly from zero to one, so that the image passes smoothly from
+the data to the model. Nearer the traces, I keep the measured light, with its
+noise and stripes. These are fixed in the image of the star, whereas the real,
+changing $1/f$ noise of the benchmark comes from the reads of the [-second-]{+moved+}
+exposure across the whole strip.[-On average, the model differs from the-]
+[-measured pixels by only about 0.16\% at 40 to 100 rows, so the wings change-]
+[-slowly enough for this.-] The result is the cleaned image of the star, $S$, a
+count rate per pixel (Figure~\ref{fig:4476}c).
+
+[-\begin{figure*}[t]-]
+[-  \centering-]
+[-  \includegraphics[width=0.92\textwidth]{figures/pid4476_star_and_carrier.pdf}-]
+[-  \caption{The SOSS strip in programme 4476. (a) The exposure with the star at-]
+[-  its usual position. (b) The exposure with the star moved 1,026 rows lower,-]
+[-  into which the star is injected. (c) The cleaned image of the star, given by-]
+[-  the difference between (a) and (b) with the field sources removed and the-]
+[-  far wings smoothed (a preliminary version, made before the corrections for-]
+[-  the sky and the halo of the moved star). Orange outlines mark the field-]
+[-  sources found in each exposure. Blue dashed lines are the spectra of Gaia-]
+[-  DR3 stars with $G\leq20.5$ predicted on the strip-]
+[-  (Section~\ref{sec:measuring-star}). In (b), the predictions are moved by 10-]
+[-  rows so that the target falls at its measured position. The grey scale is-]
+[-  logarithmic.}-]
+[-  \label{fig:4476}-]
+[-\end{figure*}-]
+
+\begin{figure*}[t]
+  \centering
+  \includegraphics[width=\textwidth]{figures/pid4476_profiles.pdf}
+  \caption{Median profiles across the trace of order 1 in three wavelength
+  bands: the exposure with the star at its usual position (grey), the moved
+  exposure, which provides the background at the same pixels (orange), their
+  measured difference (black), and the cleaned image of the star [-(blue;-]{+(blue). The blue curve is+} dashed where the
+  far-wing model is [-used, which-]{+used. Where it is used+} depends on the distance from the
+  nearest [-trace).-]{+trace.+} The further peaks are order 2 in the left and middle
+  panels, and order 3 and a faint band that is probably order 4 in the right
+  panel. The vertical scale is linear near zero and logarithmic above, so that negative [-values are kept.-]{+values, which a logarithmic axis cannot show, still appear.+} The cleaned image is a preliminary version, made
+  before the corrections for the sky and the halo of the moved star.}
+  \label{fig:4476-profiles}
+\end{figure*}
+@@ -185,13 +189,13 @@ count rate per pixel (Figure~\ref{fig:4476}c).
+\label{sec:injecting-star}
+
+I add the cleaned image of the star, with a known transit, to the raw reads of
+the [-second-]{+moved+} exposure. The count rate of each pixel $p$ of the benchmark data
+is then
+\begin{equation}
+  Y_p(t) = O_p(t) + S_p\,r_p(t) + n_p(t),
+  \label{eq:4476}
+\end{equation}
+where $O_p(t)$ is the count rate of the [-second-]{+moved+} exposure, $S_p$ is the cleaned
+image of the star, $r_p(t)$ is the fraction of the star's light that remains
+at time $t$, equal to one out of transit, and $n_p(t)$ is the photon noise of
+the added light, which averages to zero. Everything in $O_p(t)$ is real,
+@@ -201,10 +205,9 @@ and none of it transits.
+In an atmosphere with spectral features, the transit is deeper at some
+wavelengths than at others, so each pixel must dim by the depth at the
+wavelengths of its light. Where two orders overlap, a pixel holds light of two
+different wavelengths, and a model must split it between them. I {+will+} take the wavelength at each position along each order from PASTASOSS
+[-\citep{BainesEtAl2023Wavelength}, and split the light-]{+\citep{BainesEtAl2023Wavelength} and,+} where the orders [-overlap-]{+overlap, split the+}
+{+light+} with ATOCA \citep{DarveauBernierEtAl2022}, the public model built for this
+purpose. As a second case, I can instead measure the profile of each order on
+its side away from the other order, and assume the same shape on the side
+where they overlap. The limb darkening for these cases is still to be chosen:
+@@ -217,31 +220,31 @@ average, following a Poisson distribution. This is the photon noise of real
+light. For each pixel and each interval between two reads, I therefore draw
+the number of photons from a Poisson distribution whose average is the light
+of the star in that interval, and add them up to give the extra charge at each
+read. The [-detector does-]{+recorded value is+} not [-record charge in proportion: as-]{+proportional to the charge. As+} a pixel fills,
+each additional electron raises [-the recorded value-]{+it+} a little less. The
+pipelines undo this with a standard calibration curve. So that the added light
+behaves [-as-]{+like+} real light, I convert each real read into charge with this curve,
+add the star's charge, and write the value that the curve gives for the new
+total. A pipeline that uses the same curve then recovers the added charge, to
+within the rounding of the raw values. Nothing else is [-added: the-]{+added. The+} bias, read
+noise and $1/f$ noise of the real exposure stay as they are. Pixels that did
+not respond to light in the first exposure receive none.
+
+For every transit case, I also make a copy of the same data, with the same
+photons, but without the transit (Figure~\ref{fig:4476-construction}). The
+transit case is this copy with photons removed during the transit: where the
+light curve dips by 2\%, each photon has a 2\% chance of being removed. The two share the real exposure and every photon that the transit did not [-remove, so they-]{+remove. They+} differ only by the removed light, [-and-]{+so+} the only noise left in their difference is the small photon noise of that light. Running a pipeline on both and subtracting its results at any step of the processing therefore shows the transit as that step passed it on. Comparing this with the injected transit [-shows-]{+reveals+} whether and where the
+pipeline distorts it. For example, comparing the two after the $1/f$
+correction shows directly whether that correction distorts the transit in
+NOVA's processing, as the comparison with the same data without the transit
+did in Section~\ref{sec:raw-injection}. A single [-dataset-]{+data set+} with a transit gives
+only the total error at the end, with the noise included.
+
+The same construction can also inject a model image of the star in place of
+the measured one. Such a star has no noise and no field sources, and the
+wavelength at every pixel is known. Its wings, however, are those of the
+model, and a pipeline built on the same model would be favoured. I therefore
+plan to use it as a control. If a pipeline recovers the transit of the model star but not that of the measured one, this would point to differences between the two images of the star. Further tests would {+then+} be needed to [-isolate-]{+find out whether+} the faint [-light.-]{+light is the cause.+}
+
+\begin{figure*}[t]
+  \centering
+@@ -253,7 +256,7 @@ plan to use it as a control. If a pipeline recovers the transit of the model sta
+  same photons, so the two are identical in every integration that has lost
+  no light to the transit since its reset. The lower panel shows the stellar
+  factor $r(t)$, not the total flux, which also contains light that does not
+  transit. Field sources in the moved exposure stay [-there-]{+in the data+} and do not transit.
+  The injected light curve is known exactly, whereas how faithfully the
+  cleaned image represents the real star is a separate question
+  (Section~\ref{sec:benchmark-limits}). The light curve is schematic.}
+@@ -265,26 +268,26 @@ plan to use it as a control. If a pipeline recovers the transit of the model sta
+
+I test the injector in two ways. Firstly, simple checks of the code confirm
+that it adds exactly the light I intend and nothing else. Secondly, out of
+transit, the[-injected data, made of the-] moved exposure plus the injected [-star,-]{+star+} should look like the [-real exposure with-]{+first+}
+{+exposure, in which+} the star {+was+} at its usual position. Apart
+from the field sources, which differ between the two pointings, and the noise,
+their images agree by construction. The comparison therefore tests whether the
+injected light builds up in the detector as real light does. Pixel by pixel,
+the charge should rise from read to read in the same way, and a pipeline should
+flag the same pixels as close to saturation. Where they differ, the difference
+is a limitation of the benchmark (Section~\ref{sec:benchmark-limits}). Neither
+[-comparison-]{+test+} can show that the cleaned image is the true [-star; that-]{+star. That+} rests on the
+cleaning described in Section~\ref{sec:measuring-star}.
+
+Each pipeline {+is set up without knowledge of the injected transit and+} runs
+its own workflow on the same raw [-files, set up without-]
+[-knowledge of the injected transit.-]{+files.+} Because the strip was read as part of a
+full frame, the only reference file that differs from each pipeline's usual
+choice is the bias reference, which must be that of the full-frame readout. I
+compare the spectrum from each pipeline's own transit fit with the injected
+[-spectrum, which-]{+spectrum. This comparison+} gives the total error that a user would get. To find where an
+error arises, I also run each pipeline on the copy without the transit {+(Section~\ref{sec:injecting-star})+} and
+compare the two runs after every step that the pipeline saves, such as the
+$1/f$ correction or the extraction.[-Because the two runs differ only by the light that the transit removed, each comparison shows the transit as that step passed it on.-] Knowing
+where a pipeline distorts the transit shows what a method must get right,
+which guides the development of NOVA.
+
+@@ -296,7 +299,7 @@ WASP-17~b, in several ways.
+
+Firstly, it rests on one star, with its own brightness, temperature and sky,
+and these set how much each source of error matters. For a fainter star or a
+brighter sky, for example, errors in removing the sky would matter more. At 7,548~K, the star is also hotter than 50 of the 51 exoplanet hosts that SOSS had observed by October [-2026, whose-]{+2026. The+} median temperature {+of these hosts+} is 4,870~K. Its second and third orders are therefore brighter relative to the first than for a typical host, and the orders contaminate each other differently.
+
+Secondly, programme 4476 read the whole detector every 10.7~s, whereas a SOSS
+time series reads only the strip every 5.5~s. The light falls on the same
+@@ -307,35 +310,33 @@ realistic test of how the pipelines treat the light, and a close but not exact
+test of how they treat the noise of a time series. Because the star is bright,
+its brightest pixels come close to saturation after five reads, and the
+saturation rule of exoTEDRF then flags about a quarter of the star's light in
+[-its-]{+the exoTEDRF extraction+} box. I will therefore also make versions with only the first four and the
+first three reads.
+
+Thirdly, the injected star does not move or change shape, whereas a real
+trace shifts and changes slightly during a visit, so the benchmark does not
+test how the pipelines correct for this. [-It-]{+Such motion+} could be added by shifting and
+stretching the image of the star slightly in each integration, following the
+motion measured in a real time series.
+
+[-Fourthly, the-]{+The+} injection {+also+} adds [-light-]{+light,+} but [-no-]{+it does not add any+} response of the
+detector's electronics to the change in light. If the detector itself reacts when the star dims, as the faint light outside the traces may suggest (Section~\ref{sec:real-data-test}), the benchmark does not contain [-this.-]{+this reaction.+} In addition, the
+photon noise that I add lacks the slight coupling between neighbouring pixels that real detector data show. This could be added from the measured strength
+of that coupling.
+
+[-Fifthly, the-]{+The+} exposure {+also+} lasts only 2.68~h, so the injected transit [-lasts-]
+[-51.5~minutes,-]{+is+}
+{+51.5~minutes long,+} to leave time before and after it. A planet crossing the
+centre of this star would take [-hours, so with-]{+hours. With+} the one-day orbit that I chose, the
+shape of this short transit corresponds to an unphysical star, about a hundred
+times denser than this one. The benchmark therefore cannot test a pipeline that
+fits the transit with a prior on the density of the star. None of the four [-pipelines, as set up for-]{+pipelines that I will run on+} the [-benchmark,-]{+benchmark (Section~\ref{sec:plan})+} uses such a [-prior: each-]{+prior. Each+} fits the shape
+of the transit freely.
+
+Finally, {+in the grey case,+} the injected limb darkening follows one quadratic law computed from PHOENIX models of the [-star.-]{+star \citep{HusserEtAl2013}.+} Using PHOENIX avoids sharing the stellar models of any pipeline, although each pipeline's errors can still depend on the injected law. The star is hotter than the STAGGER grid \citep{MagicEtAl2015}, which stops at 7,000~K. In their spectral fits, exoTEDRF uses fixed coefficients from a 7,000~K model, whereas NOVA, as currently set up, keeps its WASP-17 reference and allows deviations from [-it;-]{+it. Both fit the limb darkening freely in the white-light curves.+} I still need to give NOVA a reference suited to this star.[-Both fit the limb darkening freely in the white-light curves.-] In a control, every pipeline will use the injected coefficients in both fits, to show how its recovered spectrum changes when the limb darkening is matched.
+
+With the existing data, this is as close to a real observation as I can make
+the [-benchmark, and it rests on a single star.-]{+benchmark.+} It would improve if JWST
+repeated programme 4476 for several {+cooler+} stars of different[-temperatures and-] brightness, like the hosts of the planets that SOSS usually observes. Each
+observation could be read out as a SOSS time series, so that the noise
+matches. More integrations with the star at its usual position would make the
+image of the star less noisy. A longer exposure with the star moved away would
+diff --git a/sections/05_discussion_plan.tex b/sections/05_discussion_plan.tex
+index 733962e..195f4cf 100644
+--- a/sections/05_discussion_plan.tex
++++ b/sections/05_discussion_plan.tex
+@@ -5,22 +5,22 @@
+\label{sec:discussion}
+
+The main lesson of the first year concerns the benchmark rather than any one
+pipeline. Every injection test on real SOSS data has to [-decide-]{+decide, whether it says so or not,+} which light
+belongs to the [-star, stated or not, and its-]{+star. Its+} verdict holds only under that
+decision. For one atmosphere injected into the WASP-17~b data, this decision
+reversed the ranking of the two pipelines I tested
+(Section~\ref{sec:which-light}). The benchmark of
+Section~\ref{sec:measured-benchmark} constrains this decision with a separate
+measurement of the star. The price is a different star, field and readout. [-It-]{+The+}
+{+benchmark+} is designed to [-measure-]{+measure, against a known injected light curve,+} which
+kinds of error each method makes[-when the-]
+[-injected light curve is known,-] and where in its processing they arise.
+
+This lesson sets the order of the work. NOVA's first spectrum of the real
+WASP-17~b visit is deeper than the published Ahsoka spectrum at every
+wavelength,[-and-] most in the red [-(Section~\ref{sec:nova-real}), and its-]{+(Section~\ref{sec:nova-real}). Its+}
+uncertainty is not yet validated. An injection test shows how accurately each method recovers a known [-spectrum, which-]{+spectrum. This+} is the best guide to which real spectrum to trust, [-and-]{+but+} an injector built from the WASP-17~b data alone cannot provide it. I am therefore
+finishing the benchmark first. I will then use it to test NOVA and the other
+[-pipelines and to-]{+pipelines,+} improve NOVA, and only then refit WASP-17~b.
+
+\subsection{Research plan}
+\label{sec:plan}
+@@ -33,66 +33,66 @@ NOVA to NIRSpec and to secondary eclipses.
+
+\paragraph{Paper 1: NOVA, the benchmark and WASP-17~b.} The aim is to measure
+how accurately NOVA and the extraction-first pipelines recover a known
+transmission spectrum, and {+to test+} whether NOVA changes the conclusions about
+WASP-17~b. Firstly, I will finish the benchmark of
+Section~\ref{sec:measured-benchmark} and run NOVA and exoTEDRF on it, together
+with Ahsoka and \texttt{transitspectroscopy} where they run end to end.
+Secondly, I will improve NOVA on one set of injected atmospheres, and then
+score all pipelines on a second set, held back until {+the improvements to+} NOVA [-is fixed.-]{+are complete.+} Thirdly, I
+will refit[-NOVA's spectrum of-] the real WASP-17~b [-visit,-]{+visit+} with {+NOVA, estimate the+} uncertainties
+from an ensemble of simulated observations, and compare [-it-]{+the spectrum+} with the three
+published reductions. Because the benchmark rests on a single star, I will
+also propose that JWST repeat programme 4476 for several cooler [-stars, read-]
+[-out as a SOSS time series and with more integrations at the usual position.-]{+stars (Section~\ref{sec:benchmark-limits}).+} I
+aim to finish this paper before the HWO2026 conference in Paris at the end of
+November 2026, where I will present this work.
+
+\paragraph{Paper 2: Five further SOSS visits.} The aim is to find out whether
+NOVA changes the atmospheric conclusions for other SOSS targets, and if so,
+why. I will analyse five SOSS visits as real data. As in Paper~1, I will run
+NOVA together with [-those-]{+the publicly available+} pipelines [-of-]{+used in+} each visit's
+published [-reductions that-]
+[-are publicly available, and-]{+reductions. I will also+} run each of [-them-]{+these pipelines+} on the [-benchmark as well,-]{+benchmark,+} so that its errors on the same known case can be measured. Each visit was chosen for its own reason. WASP-39~b has
+the best-studied SOSS spectrum, with six independent reductions of the same
+visit, including [-supreme-SPOON, now exoTEDRF,-]{+supreme-SPOON (now exoTEDRF)+} and \texttt{transitspectroscopy},
+and a joint analysis with three other JWST modes
+\citep{FeinsteinEtAl2023,CarterEtAl2024}. Its metallicity is constrained by the water bands across the spectrum, while the fall in depth between 2 and $2.3\,\mu\mathrm{m}$ favours patchy, non-grey clouds. This [-is-]{+fall lies+} in the [-red range-]{+red,+} where NOVA's spectrum of WASP-17~b differs most from Ahsoka's, so the question is whether NOVA reproduces these conclusions. For WASP-96~b, published
+analyses of the same visit disagree on whether the spectrum rises towards the
+blue. Some find such a slope \citep{RadicaEtAl2023,TaylorEtAl2023,RadicaEtAl2026}
+and favour an explanation involving small particles high in the atmosphere
+\citep{TaylorEtAl2023,RadicaEtAl2026}, while another analysis [-does not-]{+finds none+}
+\citep{WangEtAl2026}. Both sides suggest differences in reduction as possible [-causes,-]{+causes of the disagreement,+} and [-NOVA's reduction-]{+I+} will [-show-]{+test+} which [-of the two its-]{+side NOVA's+} spectrum supports.
+The HAT-P-18~b visit contains a spot [-crossed by-]{+that+} the planet {+crosses+} during the
+[-transit-]{+transit,+} and a {+variable+} field star on the order-1 [-trace whose brightness changes,-]{+trace,+} probably an
+eclipsing binary \citep{FuEtAl2022}. [-It-]{+This visit+} therefore tests how NOVA handles light
+that its transit model does not describe, and Paper~3 returns to [-this visit-]{+it+}
+with a model of the star. HAT-P-26~b has the shallowest transit of the five,
+with features of only a few hundred ppm, so it tests whether [-NOVA's-]{+the+} differences {+between NOVA and the other pipelines+}
+still matter for such small signals. HST and NIRSpec spectra exist
+for comparison \citep{WakefordEtAl2017,GressierEtAl2025}. For WASP-80~b, NIRCam
+has measured methane between 2.4 and $4\,\mu\mathrm{m}$ [-\citep{BellEtAl2023},-]
+[-overlapping-]{+\citep{BellEtAl2023}.+}
+{+This range overlaps+} the red end of SOSS, where NOVA differs most for
+WASP-17~b, [-which-]{+so it+} gives an independent check of NOVA's [-red end.-]{+spectrum there.+} 
+
+I will analyse all five visits
+with the same version of NOVA, fixed before the spectra are compared. Anything [-learnt-]{+learned+} from them, such as a better treatment of field stars, will go into a
+later version, which [-is-]{+will+} again {+be+} tested on the benchmark before it is used. Since
+the errors measured in Paper~1 come from a hotter star, a repeat of programme
+4476 on cooler stars would make this comparison firmer.
+
+\paragraph{Paper 3: Repeated visits and stellar variability.} The aim is to
+test whether repeated visits of the same planet give the same spectrum once instrumental and stellar effects are accounted for, and whether stellar effects explain features that have been attributed to planets. [-This matters-]{+These questions matter+} most for
+small planets around cool stars. Spots and bright regions on the star that the
+planet does not cross can put false features into the spectrum
+[-\citep{RackhamEtAl2018}, and they change, as do flares,-]{+\citep{RackhamEtAl2018}. These regions change+} from one visit to the [-next.-]{+next, and so+}
+{+do flares.+} Comparing visits therefore tests which features persist as stellar activity changes. I will start with the two SOSS transits of GJ~9827~d
+\citep{PiauletGhorayebEtAl2024}, then turn to the four of LHS~1140~b
+\citep{CadieuxEtAl2024,GressierEtAl2026} and the five of TRAPPIST-1~f, each of
+which contains a flare \citep{LimEtAl2026}. I will also return to HAT-P-18~b, whose spectrum rises towards the blue, to test whether {+this rise comes from+} spots on the star that the planet does not [-cross explain this rise,-]{+cross,+} as \citet{FournierTondreauEtAl2024} propose, [-rather than-]{+or from+} a haze \citep{FuEtAl2022}. This requires building two models
+into NOVA: one for flares, with their timing shared across wavelengths and
+their brightness fitted at each wavelength, and one for the spots and bright
+regions that the planet does not cross. I will test both models by injecting
+flares and [-such stellar-]{+the+} signals {+of such spots and bright regions+} into the benchmark before applying them to the
+real visits. Two planned MRes projects, starting in January 2027, will study
+stellar variability and flares in the out-of-transit SOSS data, [-which-]{+and their results+} would
+feed directly into this paper.
+
+\paragraph{Paper 4: Joint NIRISS and NIRSpec analysis.} The aim is to test
+@@ -100,18 +100,15 @@ whether observations of the same planet with both instruments can be explained
+by one transmission spectrum. NIRSpec extends the spectrum to longer
+wavelengths, and where the two instruments overlap in wavelength, as with
+NIRSpec's PRISM mode, their depths should agree. To test this, I will extend
+NOVA and the benchmark to NIRSpec, and {+use the benchmark to+} validate [-each on injected data-]{+NOVA and the other pipelines+} before comparing the real spectra. I will start with WASP-39~b and LHS~1140~b, which
+have both been observed with SOSS and with NIRSpec modes that overlap it.
+WASP-39~b is a well-studied gas giant with strong features \citep{CarterEtAl2024}, whereas LHS~1140~b is a small, temperate planet whose low density and lack of the strong features expected from a hydrogen-rich atmosphere favour a[-possible-] water world \citep{DamianoEtAl2024}. The benchmark needs a NIRSpec observation in which the
+star is measured on its own, as programme 4476 does for SOSS. As far as I can
+find, none exists yet, and I plan to propose one.
+
+\paragraph{Paper 5: Secondary eclipses.} If time allows, I will extend NOVA
+from transits to secondary eclipses, when the planet passes behind the star
+and its own light briefly disappears. These signals are weak, and [-it-]{+I+} would [-be-]
+[-interesting to see-]{+test+} whether a detector-level analysis[-also-] makes them more reliable. The SOSS eclipse of WASP-17~b \citep{GressierEtAl2024} would be the
+natural starting point.
+
+\begin{figure*}[t]
+@@ -151,7 +148,7 @@ natural starting point.
+\ganttmilestone[milestone/.append style={fill=ganttsoss,draw=ganttsoss}]
+  {SOSS analyses complete}{7}\\
+\ganttgroup[group/.append style={fill=ganttgeneral!35,draw=ganttgeneral}]
+  [-{Instrument-]{+{Extensions to NIRSpec+} and [-geometry extensions}{7}{10}\\-]{+eclipses}{7}{10}\\+}
+\ganttbar[bar/.append style={fill=ganttgeneral!70,draw=ganttgeneral}]
+  {Paper 4: NIRISS and NIRSpec}{7}{9}\\
+\ganttbar[bar/.append style={fill=ganttgeneral!70,draw=ganttgeneral}]
+@@ -161,7 +158,7 @@ natural starting point.
+\ganttgroup[group/.append style={fill=ganttwrite!35,draw=ganttwrite}]
+  {Thesis}{2}{13}\\
+\ganttbar[bar/.append style={fill=ganttwrite!70,draw=ganttwrite}]
+  {Thesis [-integration}{2}{10}\\-]{+chapters from papers}{2}{10}\\+}
+\ganttbar[bar/.append style={fill=ganttwrite!70,draw=ganttwrite}]
+  {Formal writing-up period}{11}{13}\\
+\ganttmilestone[milestone/.append style={fill=ganttwrite,draw=ganttwrite}]
+@@ -169,7 +166,7 @@ natural starting point.
+\end{ganttchart}%
+}
+\caption{Publication and thesis plan in quarters, starting after this
+assessment. The research phase ends [-on approximately-]{+around+} 27 April
+2029, and
+the formal writing-up period runs to 28 October 2029.}
+\label{fig:gantt}
+diff --git a/sections/06_ai_use.tex b/sections/06_ai_use.tex
+index cc0da6b..f2837a3 100644
+--- a/sections/06_ai_use.tex
++++ b/sections/06_ai_use.tex
+@@ -1,4 +1,4 @@
+\section*{Use of [-generative-]{+Generative+} AI}
+I used Anthropic's Claude (Opus 5.5 and Fable 5.1) and OpenAI's ChatGPT
+(Astra 6) to help with literature searches and summaries, [-coding,-]{+coding+} and
+wording.

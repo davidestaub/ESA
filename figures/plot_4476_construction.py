@@ -16,7 +16,7 @@ norm = LogNorm(vmin=0.5, vmax=300)
 plt.rcParams.update({'font.family': 'serif', 'font.size': 7.5})
 fig = plt.figure(figsize=(6.3, 2.05))
 W, H, y0 = 0.205, 0.30, 0.55
-boxes = [(0.0, 'normal exposure $N$\n(star + background)', N), (0.265, 'moved exposure $O$\n(background and field stars)', O), (0.53, 'cleaned, smoothed star $S$\n($N-O$, field sources removed)', S)]
+boxes = [(0.0, 'exposure at the usual position $N$\n(star + background)', N), (0.265, 'moved exposure $O$\n(background and field stars)', O), (0.53, 'cleaned image of the star $S$\n($N-O$, field sources removed)', S)]
 for x, lab, img in boxes:
     ax = fig.add_axes([x, y0, W, H]); ax.imshow(np.clip(img, 0.5, None), origin='lower', aspect='auto', cmap='Greys', norm=norm)
     ax.set_xticks([]); ax.set_yticks([]); ax.set_title(lab, fontsize=7, pad=2)
